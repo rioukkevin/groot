@@ -1,0 +1,35 @@
+@import "../../../styles/styles";
+
+.container {
+  position: absolute;
+  top: 120px;
+  right: 0;
+}
+
+.inset {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  .name {
+    z-index: 2;
+    font-size: 120px;
+    padding: 20px 130px 20px 0;
+    text-shadow: 0 0 7px #{$moon}80;
+    font-weight: bolder;
+  }
+
+  .underline {
+    content: "";
+    height: 20px;
+    background: $sealk;
+    z-index: 2;
+    margin-top: 2px;
+  }
+}

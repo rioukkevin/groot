@@ -1,0 +1,11 @@
+@import "../styles/styles";
+
+.container {
+  position: relative;
+  background: $moon;
+  color: $sealk;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

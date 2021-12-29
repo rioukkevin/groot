@@ -1,0 +1,36 @@
+// Utils
+
+// Colors
+$pinky: #fde7f9;
+$lye: #d2d8d6;
+$moon: #2b3a48;
+$sealk: #f9fcff;
+$greag: #dbe1e8;
+
+// Gradients
+// Mono
+@function aluminiumBase($rotation) {
+  @return linear-gradient(
+    $rotation,
+    rgba(249, 252, 255, 1) 0%,
+    rgba(219, 225, 232, 1) 100%
+  );
+}
+
+@function aluminiumOverlay($rotation) {
+  @if var(--is-dark) {
+    @return linear-gradient(
+      $rotation,
+      rgba(210, 216, 214, 0.22) 0%,
+      rgba(43, 58, 72, 1) 42%,
+      rgba(43, 58, 72, 1) 59%,
+      rgba(210, 216, 214, 0.38) 100%
+    );
+  }
+  @return linear-gradient(
+    $rotation,
+    rgba(253, 231, 249, 0.23) 0%,
+    rgba(253, 231, 249, 1) 50%,
+    rgba(253, 231, 249, 0) 100%
+  );
+}
