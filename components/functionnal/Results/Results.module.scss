@@ -5,4 +5,7 @@
   max-width: 60vw;
   min-width: 600px;
   color: $moon;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }

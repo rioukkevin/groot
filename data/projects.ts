@@ -1,5 +1,7 @@
-import { IProject, ISearchElement, TSearch } from "../typings/Data";
-import { Document } from "flexsearch";
+import { IProject } from "../typings/Data";
+// import { Document } from "flexsearch";
+
+const INC = 1000;
 
 export const datas: IProject[] = [
   {
@@ -19,39 +21,39 @@ export const datas: IProject[] = [
     roles: [],
     images: ["/assets/projects/vscodeGitCommit/wall.png"],
   },
-].map((a, i) => ({ ...a, type: "project" }));
+].map((a, i) => ({ ...a, type: "project", id: i + INC }));
 
-const document = new Document<ISearchElement>({
-  // @ts-ignore
-  encoder: "extra",
-  preset: "match",
-  tokenize: "full",
-  matcher: "simple",
-  language: "fr",
-  cache: true,
-  document: {
-    id: "slug",
-    tag: "type",
-    field: ["name", "shortDescription", "roles", "type"],
-  },
-});
+// const document = new Document<ISearchElement>({
+//   // @ts-ignore
+//   encoder: "extra",
+//   preset: "match",
+//   tokenize: "full",
+//   matcher: "simple",
+//   language: "fr",
+//   cache: true,
+//   document: {
+//     id: "slug",
+//     tag: "type",
+//     field: ["name", "shortDescription", "roles", "type"],
+//   },
+// });
 
-datas.forEach((p) => {
-  document.add(p);
-});
+// datas.forEach((p) => {
+//   document.add(p);
+// });
 
-export const search: TSearch<IProject> = (query) => {
-  const res = document.search(query, { enrich: true });
-  const fieldsResult = res.map((r) => r.result);
-  const idsResult =
-    fieldsResult.length > 1
-      ? fieldsResult.reduce((a = [], b = []) => a.concat(b))
-      : fieldsResult[0];
-  const flattenResult = (idsResult ?? []).filter(
-    (a, i) => idsResult.indexOf(a) === i
-  );
-  const populatedResult = flattenResult.map((s) =>
-    datas.find((d) => d.slug === s)
-  );
-  return populatedResult as IProject[];
-};
+// export const search: TSearch<IProject> = (query) => {
+//   const res = document.search(query, { enrich: true });
+//   const fieldsResult = res.map((r) => r.result);
+//   const idsResult =
+//     fieldsResult.length > 1
+//       ? fieldsResult.reduce((a = [], b = []) => a.concat(b))
+//       : fieldsResult[0];
+//   const flattenResult = (idsResult ?? []).filter(
+//     (a, i) => idsResult.indexOf(a) === i
+//   );
+//   const populatedResult = flattenResult.map((s) =>
+//     datas.find((d) => d.slug === s)
+//   );
+//   return populatedResult as IProject[];
+// };

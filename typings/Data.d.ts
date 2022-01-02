@@ -10,4 +10,11 @@ export interface IProject {
   type: "project";
 }
 
-export type ISearchElement = IProject;
+export interface IInfo {
+  keywords: string[];
+  key: string;
+  value: string;
+  type: "info";
+}
+
+export type ISearchElement = IProject | IInfo;
