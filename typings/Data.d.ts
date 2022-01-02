@@ -17,4 +17,12 @@ export interface IInfo {
   type: "info";
 }
 
-export type ISearchElement = IProject | IInfo;
+export interface IAction {
+  keywords: string[];
+  key: string;
+  icon?: string;
+  value: string;
+  type: "action";
+}
+
+export type ISearchElement = IAction | IProject | IInfo;

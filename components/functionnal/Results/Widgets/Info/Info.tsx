@@ -12,7 +12,7 @@ export const Info: FC<IProps> = (props) => {
   const { data } = props;
 
   return (
-    <Container height={0.5} width={2}>
+    <Container height={1} width={4}>
       <div className={styles.container}>
         <div className={styles.key}>{data.key}</div>
         <div className={styles.value}>{data.value}</div>

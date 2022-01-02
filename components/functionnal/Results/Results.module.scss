@@ -2,8 +2,10 @@
 
 .container {
   backdrop-filter: blur(6px);
+  width: calc(100% + 20px);
   max-width: 60vw;
   min-width: 600px;
+  margin: -10px;
   color: $moon;
   display: flex;
   flex-direction: row;

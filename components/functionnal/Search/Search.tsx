@@ -26,8 +26,8 @@ export const Search: FC<IProps> = (props) => {
           value={query}
           onChange={({ target }) => setQuery(target.value)}
         />
+        <Results query={query} />
       </div>
-      <Results query={query} />
     </>
   );
 };

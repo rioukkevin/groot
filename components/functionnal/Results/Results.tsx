@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useSearch } from "../../../hooks/useSearch";
 
 import styles from "./Results.module.scss";
+import Action from "./Widgets/Action";
 import Info from "./Widgets/Info";
 import Project from "./Widgets/Project";
 
@@ -19,6 +20,7 @@ export const Results: FC<IProps> = (props) => {
       {results.map((r, i) => {
         if (r.type === "project") return <Project key={i} data={r} />;
         if (r.type === "info") return <Info key={i} data={r} />;
+        if (r.type === "action") return <Action key={i} data={r} />;
         return <></>;
       })}
     </div>

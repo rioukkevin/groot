@@ -13,7 +13,7 @@ export const Project: FC<IProps> = (props) => {
   const { data } = props;
 
   return (
-    <Container height={2} width={4}>
+    <Container height={4} width={8}>
       <div className={styles.container}>
         <Image
           alt=""
