@@ -1,0 +1,8 @@
+@import "../../../styles/styles";
+
+.container {
+  backdrop-filter: blur(6px);
+  max-width: 60vw;
+  min-width: 600px;
+  color: $moon;
+}
