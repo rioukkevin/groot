@@ -2,6 +2,7 @@ import Head from "next/head";
 import React, { CSSProperties } from "react";
 import Me from "../components/functionnal/Me";
 import Search from "../components/functionnal/Search";
+import { Overlay } from "../components/graphics/Overlay/Overlay";
 import styles from "./index.module.scss";
 
 export interface VariableCSS extends CSSProperties {

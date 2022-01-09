@@ -8,12 +8,13 @@ import Project from "./Widgets/Project";
 
 interface IProps {
   query: string;
+  filter: string | null;
 }
 
 export const Results: FC<IProps> = (props) => {
-  const { query } = props;
+  const { query, filter } = props;
 
-  const results = useSearch({ query });
+  const results = useSearch({ query, filter });
 
   return (
     <div className={styles.container}>

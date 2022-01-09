@@ -14,6 +14,26 @@ export const datas: IProject[] = [
     images: ["/assets/projects/portfolio/wall.png"],
   },
   {
+    slug: "theStudentLab",
+    name: "The Student Lab",
+    shortDescription:
+      "Site web de mise en avant des concours réalisés au sein des écoles MyDigitalSchool...",
+    fullDescription:
+      "Site web de mise en avant des concours réalisés au sein des écoles MyDigitalSchool, comprenant un site vitrine et le back office des gestion des informations...",
+    roles: [],
+    images: ["/assets/projects/theStudentLab/wall.png"],
+  },
+  {
+    slug: "vscodeGitButtons",
+    name: "VSCode Git buttons",
+    shortDescription:
+      "Extension VScode d'ajout de boutons pour éviter un click lors de pull et push avec git...",
+    fullDescription:
+      "Extension VScode d'ajout de boutons pour éviter un click lors de pull et push avec git",
+    roles: [],
+    images: ["/assets/projects/vscodeGitCommit/wall.png"],
+  },
+  {
     slug: "vscodeGitCommit",
     name: "VSCode Git commit message",
     shortDescription: "Extension VScode de templating ",

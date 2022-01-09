@@ -1,0 +1,22 @@
+@import "../../../styles/styles";
+
+.container {
+  height: 70vh;
+  width: 400px;
+  border-radius: $radius;
+  background-color: $sealk;
+  color: $moon;
+  overflow: hidden;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .profile {
+    width: 300px;
+    height: 300px;
+    border-radius: $infinite;
+    background-color: black;
+  }
+}

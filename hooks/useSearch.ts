@@ -2,17 +2,28 @@ import { useEffect } from "react";
 import * as Projects from "../data/projects";
 import * as Infos from "../data/infos";
 import * as Actions from "../data/actions";
-import { ISearchElement } from "../typings/Data";
+import { ISearchElement, TDataTypes } from "../typings/Data";
 import { useMiniSearch } from "react-minisearch";
 
 interface IProps {
   query: string;
+  filter: string | null;
 }
 
-const datas = [...Infos.datas, ...Actions.datas, ...Projects.datas];
+const organizedDatas = {
+  info: Infos.datas,
+  action: Actions.datas,
+  project: Projects.datas,
+};
+
+const datas = [
+  ...organizedDatas["info"],
+  ...organizedDatas["action"],
+  ...organizedDatas["project"],
+];
 
 export const useSearch = (props: IProps): ISearchElement[] => {
-  const { query } = props;
+  const { query, filter } = props;
 
   const { search, searchResults, removeAll } = useMiniSearch(datas, {
     fields: [
@@ -24,12 +35,10 @@ export const useSearch = (props: IProps): ISearchElement[] => {
       "keywords",
     ],
     searchOptions: {
-      fuzzy: 0.4,
+      fuzzy: 0.3,
       prefix: true,
     },
   });
-
-  // const [results, setResults] = useState<any[]>([]);
 
   console.log(searchResults);
 
@@ -43,5 +52,7 @@ export const useSearch = (props: IProps): ISearchElement[] => {
     };
   }, []);
 
-  return query.length === 0 ? datas : searchResults ?? [];
+  if (!!filter) return organizedDatas[filter as TDataTypes] ?? [];
+
+  return query.length === 0 ? [] : searchResults ?? [];
 };

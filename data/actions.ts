@@ -1,7 +1,7 @@
 import { IAction } from "../typings/Data";
 // import { Document } from "flexsearch";
 
-const INC = 2000;
+const INC = 3000;
 
 export const datas: IAction[] = [
   {

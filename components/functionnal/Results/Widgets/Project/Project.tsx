@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { IProject } from "../../../../../typings/Data";
 import Container from "../../Container";
 import Image from "next/image";

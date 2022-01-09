@@ -1,5 +1,7 @@
 export type TSearch<T> = (query: string) => T[];
 
+export type TDataTypes = "project" | "info" | "action";
+
 export interface IProject {
   name: string;
   slug: string;
