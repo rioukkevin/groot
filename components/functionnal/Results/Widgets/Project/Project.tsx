@@ -8,9 +8,10 @@ import styles from "./Project.module.scss";
 import portfolioWall from "../../../../../assets/projects/portfolio/wall.png?lqip&blur";
 import theStudentLabWall from "../../../../../assets/projects/theStudentLab/wall.png?lqip&blur";
 import vscodeGitCommitWall from "../../../../../assets/projects/vscodeGitCommit/wall.png?lqip&blur";
+import { LqipImageL } from "../../../../../typings/LqipImage";
 
 interface image {
-  wall: { [key: string]: LqipImage };
+  wall: { [key: string]: LqipImageL };
 }
 
 const images: image = {
