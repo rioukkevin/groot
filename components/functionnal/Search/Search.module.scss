@@ -25,31 +25,22 @@
     margin: 0 -10px;
 
     .filter {
-      background-color: $sealk;
-      color: $moon;
+      color: $sealk;
+      text-decoration: underline;
       padding: 10px 20px;
-      margin: 10px;
       border-radius: $radius;
       cursor: pointer;
       transition-duration: 200ms;
-      box-shadow: inset 0 0 0px 0px $pinky;
+      text-decoration-thickness: 1px;
 
       &:hover {
-        box-shadow: inset 0 0 0px 3px $pinky;
+        text-decoration-thickness: 3px;
       }
 
       &.selected {
-        animation: fillShadow 300ms forwards;
+        color: $pinky;
+        text-decoration-thickness: 3px;
       }
     }
-  }
-}
-
-@keyframes fillShadow {
-  from {
-    box-shadow: inset 0 0 0 3px $pinky;
-  }
-  to {
-    box-shadow: inset 0 0 0 50px $pinky;
   }
 }

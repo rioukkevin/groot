@@ -1,3 +1,5 @@
+import { FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
+
 export type TSearch<T> = (query: string) => T[];
 
 export type TDataTypes = "project" | "info" | "action";
@@ -8,7 +10,6 @@ export interface IProject {
   shortDescription: string;
   fullDescription: string;
   roles: string[];
-  images: string[];
   type: "project";
 }
 
@@ -22,7 +23,7 @@ export interface IInfo {
 export interface IAction {
   keywords: string[];
   key: string;
-  icon?: string;
+  icon?: FontAwesomeIconProps.icon;
   value: string;
   type: "action";
 }

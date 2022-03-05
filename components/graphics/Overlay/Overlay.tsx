@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, MouseEventHandler, useState } from "react";
 import Portal from "../../functionnal/Portal/Portal";
 import styles from "./Overlay.module.scss";
 
@@ -9,6 +9,10 @@ interface IProps {
 
 const _Overlay: FC<IProps> = (props) => {
   const { open = false, onClose, children } = props;
+
+  const handleChildClick: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.stopPropagation();
+  };
 
   return (
     <div
@@ -30,6 +34,7 @@ const _Overlay: FC<IProps> = (props) => {
       <div
         className={styles.content}
         style={{ marginRight: open ? 0 : "-500px" }}
+        onClick={handleChildClick}
       >
         {children}
       </div>

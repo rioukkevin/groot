@@ -15,10 +15,10 @@ import Identity from "../Identity";
 interface IProps {}
 
 const FILTERS: { name: string; value: string }[] = [
-  { name: "Projets", value: "project" },
-  { name: "Identité", value: "identity" },
-  { name: "Contact", value: "info" },
-  { name: "Réseaux", value: "action" },
+  { name: "Mes projets", value: "project" },
+  { name: "Qui suis je ?", value: "identity" },
+  { name: "Comment me contacter ?", value: "info" },
+  { name: "Ou suis je ?", value: "action" },
 ];
 
 export const Search: FC<IProps> = (props) => {

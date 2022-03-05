@@ -7,6 +7,16 @@
   border-radius: $radius;
   overflow: hidden;
 
+  & > span {
+    width: 100% !important;
+    height: 100% !important;
+
+    & img {
+      transition-duration: 500ms;
+      filter: blur(0px);
+    }
+  }
+
   .img {
     position: absolute;
     top: 0;
@@ -23,6 +33,8 @@
     width: 100%;
     transition-duration: 300ms;
     color: white;
+    top: 0;
+    left: 0;
 
     $overlayPadding: 20px;
 

@@ -23,6 +23,7 @@
 
   .reset {
     position: relative;
+    pointer-events: all;
 
     .blurred {
       position: absolute;

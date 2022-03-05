@@ -1,15 +1,24 @@
 // Utils
 
 // Colors
-$pinky: #fde7f9;
+$pinky: #83d8f3;
 $lye: #d2d8d6;
-$moon: #2b3a48;
+$moon: #1a232c;
 $sealk: #f9fcff;
 $greag: #dbe1e8;
 
 // Radius
 $radius: 5px;
 $infinite: 1000px;
+
+// Fonts
+// TODO import font
+$fonts_folder: "./fonts";
+
+@font-face {
+  font-family: "Brush";
+  src: url("#{$fonts_folder}/Painted_Brush.otf");
+}
 
 // Gradients
 // Mono

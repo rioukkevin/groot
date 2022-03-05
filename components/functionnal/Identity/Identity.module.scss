@@ -10,13 +10,46 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  padding-top: 60px;
 
   .profile {
     width: 300px;
     height: 300px;
+    margin-top: 40px;
     border-radius: $infinite;
     background-color: black;
+  }
+
+  .name {
+    font-size: 3em;
+    margin-top: 15px;
+    margin-bottom: 0;
+    font-family: "Brush", Roboto;
+  }
+
+  .description {
+    text-align: justify;
+    padding: 20px;
+  }
+
+  .socials {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+
+    & svg {
+      margin: 20px;
+      cursor: pointer;
+
+      & path {
+        fill: $moon;
+      }
+
+      &:hover path {
+        fill: $pinky;
+      }
+    }
   }
 }
