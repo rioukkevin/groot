@@ -36,12 +36,12 @@ export const Project: FC<IProps> = (props) => {
       <div className={styles.container}>
         <Image
           alt=""
-          className={styles.img}
-          width={1200}
-          height={600}
           blurDataURL={image.dataURI}
+          className={styles.img}
+          height={600}
           placeholder="blur"
           src={image.src}
+          width={1200}
         />
         <div className={styles.overlay}>
           <div className={styles.name}>{data.name}</div>
