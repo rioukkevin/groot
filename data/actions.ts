@@ -1,15 +1,6 @@
-import {
-  faFly,
-  faGithub,
-  faLinkedin,
-} from "@fortawesome/free-brands-svg-icons";
-import {
-  faEnvelope,
-  faMailBulk,
-  faPhone,
-} from "@fortawesome/free-solid-svg-icons";
+import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { IAction } from "../typings/Data";
-// import { Document } from "flexsearch";
 
 const INC = 3000;
 

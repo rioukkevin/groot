@@ -4,6 +4,10 @@ export type TSearch<T> = (query: string) => T[];
 
 export type TDataTypes = "project" | "info" | "action";
 
+type TImages = {
+  [key: string]: LqipImage;
+};
+
 export interface IProject {
   name: string;
   slug: string;
@@ -11,6 +15,7 @@ export interface IProject {
   fullDescription: string;
   roles: string[];
   type: "project";
+  images: TImages;
 }
 
 export interface IInfo {

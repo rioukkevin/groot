@@ -5,23 +5,6 @@ import Image from "next/image";
 
 import styles from "./Project.module.scss";
 
-import portfolioWall from "../../../../../assets/projects/portfolio/wall.png?lqip&blur";
-import theStudentLabWall from "../../../../../assets/projects/theStudentLab/wall.png?lqip&blur";
-import vscodeGitCommitWall from "../../../../../assets/projects/vscodeGitCommit/wall.png?lqip&blur";
-
-interface image {
-  wall: { [key: string]: LqipImage };
-}
-
-const images: image = {
-  wall: {
-    portfolio: portfolioWall,
-    theStudentLab: theStudentLabWall,
-    vscodeGitButtons: vscodeGitCommitWall,
-    vscodeGitCommit: vscodeGitCommitWall,
-  },
-};
-
 interface IProps {
   data: IProject;
 }
@@ -29,7 +12,7 @@ interface IProps {
 export const Project: FC<IProps> = (props) => {
   const { data } = props;
 
-  const image = images.wall[data.slug];
+  const image = data.images.wall;
 
   return (
     <Container height={4} width={8}>

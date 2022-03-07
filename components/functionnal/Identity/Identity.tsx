@@ -4,7 +4,8 @@ import Image from "next/image";
 import styles from "./Identity.module.scss";
 import { datas } from "../../../data/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
+
+import profilePic from "../../../assets/me.png?lqip&blur";
 
 interface IProps {}
 
@@ -17,9 +18,11 @@ export const Identity: FC<IProps> = (props) => {
     <div className={styles.container}>
       <Image
         alt=""
+        blurDataURL={profilePic.dataURI}
         className={styles.profile}
         height={250}
-        src={"/assets/me.png"}
+        placeholder="blur"
+        src={profilePic.src}
         width={250}
       />
       <p className={styles.name}>Riou Kevin</p>

@@ -17,8 +17,7 @@ interface IProps {}
 const FILTERS: { name: string; value: string }[] = [
   { name: "Mes projets", value: "project" },
   { name: "Qui suis je ?", value: "identity" },
-  { name: "Comment me contacter ?", value: "info" },
-  { name: "Ou suis je ?", value: "action" },
+  { name: "Comment me contacter ?", value: "action" },
 ];
 
 export const Search: FC<IProps> = (props) => {

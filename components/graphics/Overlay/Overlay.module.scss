@@ -15,10 +15,12 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  cursor: pointer;
 
   .content {
     transition-duration: 1000ms;
     padding: 50px;
+    cursor: default;
   }
 
   .reset {
