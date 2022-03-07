@@ -4,6 +4,7 @@ $background_base64: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAA
 
 .container {
   position: relative;
+  background-color: $pinky;
   background-image: url(#{$background_base64});
   background-repeat: repeat;
   color: $sealk;

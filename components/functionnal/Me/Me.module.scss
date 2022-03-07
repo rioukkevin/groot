@@ -23,20 +23,45 @@ $mee_size: 500;
     top: #{$mee_size / 6}px;
   }
 
+  &.isLoading {
+    & > span > span::before {
+      top: 0;
+    }
+
+    & > span > span::after {
+      opacity: 0;
+    }
+  }
+
   & > span {
     margin: -#{$mee_size / 2}px 0 !important;
+
+    & > span::before {
+      z-index: 2;
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      top: 100%;
+      right: 0;
+      content: "";
+      background-color: $pinky;
+      transition-duration: 1000ms;
+    }
 
     & > span::after {
       z-index: 1;
       display: block;
       position: absolute;
       bottom: 0;
-      left: 0;
+      left: 30%;
       top: 50%;
-      right: 0;
+      right: 25%;
       content: "";
+      opacity: 1;
+      transition-delay: 400ms;
+      transition-duration: 500ms;
       box-shadow: inset 0px -#{$mee_size / 2}px 100px -#{$mee_size / 4}px $moon;
-      border-radius: 500px;
     }
   }
 
