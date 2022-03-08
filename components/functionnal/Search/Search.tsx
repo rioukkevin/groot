@@ -11,6 +11,7 @@ const Overlay = dynamic(
 
 import styles from "./Search.module.scss";
 import Identity from "../Identity";
+import { useLoader } from "../../../hooks/useTrigger";
 
 interface IProps {}
 
@@ -28,6 +29,8 @@ export const Search: FC<IProps> = (props) => {
   const [filter, setFilter] = useState<string | null>(null);
 
   const [isIdentityVisible, setIsIdentityVisible] = useState<boolean>(false);
+
+  const { isLoading } = useLoader();
 
   useHotkeys("cmd+f", (e) => {
     e.preventDefault();
@@ -52,7 +55,12 @@ export const Search: FC<IProps> = (props) => {
 
   return (
     <>
-      <div ref={searchContainer} className={styles.searchContainer}>
+      <div
+        ref={searchContainer}
+        className={`${styles.searchContainer} ${
+          isLoading ? styles.loading : ""
+        }`}
+      >
         <input
           ref={searchInput}
           placeholder="Search"

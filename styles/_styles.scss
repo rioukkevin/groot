@@ -1,4 +1,13 @@
 // Utils
+@mixin hider {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
 
 // Colors
 $pinky: #eeff07;
@@ -12,7 +21,6 @@ $radius: 5px;
 $infinite: 1000px;
 
 // Fonts
-// TODO import font
 $fonts_folder: "./fonts";
 
 @font-face {

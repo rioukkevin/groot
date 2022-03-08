@@ -25,7 +25,7 @@ $mee_size: 500;
 
   &.isLoading {
     & > span > span::before {
-      top: 0;
+      right: 0;
     }
 
     & > span > span::after {
@@ -42,8 +42,8 @@ $mee_size: 500;
       position: absolute;
       bottom: 0;
       left: 0;
-      top: 100%;
-      right: 0;
+      top: 0;
+      right: 100%;
       content: "";
       background-color: $pinky;
       transition-duration: 1000ms;

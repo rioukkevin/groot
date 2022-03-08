@@ -1,11 +1,2 @@
-firebase:
-  config: |-
-    {
-      apiKey: "AIzaSyB5j0yZPDJKNuQEXE40QTvY-syOoSVKhKI",
-      authDomain: "portfolio-riou.firebaseapp.com",
-      projectId: "portfolio-riou",
-      storageBucket: "portfolio-riou.appspot.com",
-      messagingSenderId: "521333643636",
-      appId: "1:521333643636:web:6daa28b5ed34b69fe8b421",
-      measurementId: "G-R7FVX5X82N"
-    }
+timing:
+  minimalTimeBeforeAnimation: 1500
