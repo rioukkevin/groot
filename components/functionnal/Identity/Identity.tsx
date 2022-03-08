@@ -37,7 +37,7 @@ export const Identity: FC<IProps> = (props) => {
             <FontAwesomeIcon
               key={a.key}
               icon={a.icon}
-              size="2x"
+              size="lg"
               onClick={() => handleSocial(a.value)}
             />
           ) : (

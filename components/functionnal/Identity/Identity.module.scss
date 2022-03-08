@@ -1,18 +1,19 @@
 @import "../../../styles/styles";
 
 .container {
-  height: 70vh;
+  height: calc(70vh - 100px);
   width: 400px;
   border-radius: $radius;
   background-color: $sealk;
   color: $moon;
-  overflow: hidden;
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding-top: 60px;
+  position: relative;
+  margin-bottom: 100px;
 
   .profile {
     width: 300px;
@@ -38,17 +39,27 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
+    position: absolute;
+    bottom: -100px;
 
     & svg {
       margin: 20px;
       cursor: pointer;
+      border: 1px solid;
+      border-color: $sealk;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: $infinite;
 
       & path {
-        fill: $moon;
+        fill: $sealk;
       }
 
-      &:hover path {
-        fill: $pinky;
+      &:hover {
+        border-color: $pinky;
+        & path {
+          fill: $pinky;
+        }
       }
     }
   }

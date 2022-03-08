@@ -4,6 +4,8 @@ import Container from "../../Container";
 import Image from "next/image";
 
 import styles from "./Project.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faEye } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {
   data: IProject;
@@ -29,6 +31,9 @@ export const Project: FC<IProps> = (props) => {
         <div className={styles.overlay}>
           <div className={styles.name}>{data.name}</div>
           <div className={styles.description}>{data.shortDescription}</div>
+          <div className={styles.link}>
+            <FontAwesomeIcon icon={faArrowRight} size="lg" />
+          </div>
         </div>
       </div>
     </Container>
