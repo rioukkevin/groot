@@ -1,8 +1,9 @@
 import Head from "next/head";
+import Script from "next/script";
 import React, { CSSProperties } from "react";
 import Me from "../components/functionnal/Me";
 import Search from "../components/functionnal/Search";
-import { Overlay } from "../components/graphics/Overlay/Overlay";
+import { TRACKING_SCRIPT } from "../config/config";
 import styles from "./index.module.scss";
 
 export interface VariableCSS extends CSSProperties {
@@ -22,6 +23,13 @@ export default function Home() {
         <Me />
         <Search />
       </main>
+      <Script
+        dangerouslySetInnerHTML={{
+          __html: TRACKING_SCRIPT,
+        }}
+        id="track"
+        strategy="afterInteractive"
+      />
     </div>
   );
 }
