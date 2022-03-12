@@ -2,6 +2,64 @@
 # yarn lockfile v1
 
 
+"@analytics/cookie-utils@^0.2.9":
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/@analytics/cookie-utils/-/cookie-utils-0.2.9.tgz#ec506dbd9dd79c17a56c6b7903206b90b2384fca"
+  integrity sha512-n864WRTvO/vFXbKkPaHgCh3LXL0Xbesc6bnhbgcE4LDLJIvDX/wIblzHvLr47ePaaFJvOljqQyeY4TZBWWdaWA==
+  dependencies:
+    "@analytics/global-storage-utils" "^0.1.4"
+
+"@analytics/core@^0.11.0":
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/@analytics/core/-/core-0.11.0.tgz#a564a29976db56b64188e00cf236d9a64c59fea5"
+  integrity sha512-5Waj+Ca8bvCwqI/4/BKi/9hwV8FuQAW9PGgFUQcDbdWcEzmXp0SzzhTuP2mpO9oR4RquxqqGkU3d9zgulZa4Hg==
+  dependencies:
+    "@analytics/global-storage-utils" "^0.1.4"
+    "@analytics/type-utils" "^0.5.4"
+    analytics-utils "^1.0.9"
+
+"@analytics/global-storage-utils@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@analytics/global-storage-utils/-/global-storage-utils-0.1.4.tgz#69ca586fcea4b717063e865d126d6561cc3adc05"
+  integrity sha512-9qd2OOvhL8kN5oUpVZ6tdCveYT9s+iXwkkQFOHjO+5ezFeVtrsfbaBHQe4sPquEroH0KmfY8PBMWIDCcc8FVvg==
+  dependencies:
+    "@analytics/type-utils" "^0.5.4"
+
+"@analytics/localstorage-utils@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@analytics/localstorage-utils/-/localstorage-utils-0.1.7.tgz#1723e43cd8286007bc47940f8a7c79a241a3f54c"
+  integrity sha512-1nji7Bxb0nA9T5S+fCPigsBzFKkCnJAMN08APKtcdzgn+QaDFpmZg2dA15LERc7dhK3qTI7HXj4s1VhJeBGikQ==
+  dependencies:
+    "@analytics/global-storage-utils" "^0.1.4"
+
+"@analytics/mixpanel@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@analytics/mixpanel/-/mixpanel-0.4.0.tgz#ef2c4a48aaa013d963ee0604500d9988da64ca9c"
+  integrity sha512-0+mTpLEHVsNPPQI3hK3c6QAHVlVFVBOWOL6eXF+DZEvhgCpDA7f0jSRG8TRsvKU2PSpeTpFhee5x+tlP4rHvMA==
+
+"@analytics/session-storage-utils@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@analytics/session-storage-utils/-/session-storage-utils-0.0.4.tgz#6aefe0eb012038f3722433c411485a2b7f540a15"
+  integrity sha512-HPVIUMpL9ua8uBj5kLsTOLbxUNP0GVYQowC9AwX1S/T39Eg8RKwbV/GYaDAqeCjEi8BGYOEguqI9kFGqxIt1iA==
+  dependencies:
+    "@analytics/global-storage-utils" "^0.1.4"
+
+"@analytics/storage-utils@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@analytics/storage-utils/-/storage-utils-0.3.0.tgz#7a9795af6b73e13194edb03eb27402c4877d9d96"
+  integrity sha512-uxOz5wdZkuxc7RaWlNsj/7iFr0GkkFqmxyIYY4oFk91E3/hyosny59lb8DEC/MpdUUAoNI+clU+I/PYcv3p1WA==
+  dependencies:
+    "@analytics/cookie-utils" "^0.2.9"
+    "@analytics/global-storage-utils" "^0.1.4"
+    "@analytics/localstorage-utils" "^0.1.7"
+    "@analytics/session-storage-utils" "^0.0.4"
+    "@analytics/type-utils" "^0.5.4"
+
+"@analytics/type-utils@^0.5.4":
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@analytics/type-utils/-/type-utils-0.5.4.tgz#1fcaa6d1d557c0377d1fbd8615624ac918d1727d"
+  integrity sha512-2CT5YTsvif3gYPYp5hPIhh66mUo/Cu+k5OiHbX3k5p+YsZ5Bggcp/wLEFnrdKG4tKgGn5SOKkEtL63VYhGXX7g==
+
 "@babel/code-frame@7.12.11":
   version "7.12.11"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.12.11.tgz#f4ad435aa263db935b8f10f2c552d23fb716a63f"
@@ -682,6 +740,22 @@ ajv@^8.0.1:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
+analytics-utils@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/analytics-utils/-/analytics-utils-1.0.9.tgz#e37667321f53ac0d346777d3c31a4df1124ef2d4"
+  integrity sha512-X1Vy4/iWer8ebdJ4p6rAAyFxa2NOgRI7wvge2x3K2gj++Ubb1YucfYC4pWVlPWLA2KZD8KVTHqPvoHOi2QjhWg==
+  dependencies:
+    "@analytics/type-utils" "^0.5.4"
+    dlv "^1.1.3"
+
+analytics@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/analytics/-/analytics-0.8.0.tgz#b47c5e5b6a11652cb865232bbee77e19b3d2f472"
+  integrity sha512-ycDNi0xrlFOxi9mtFIsP3QAOfWZ6hzuetL82Dhfq4MGOqJMPkoWG0mDEEHYbbFlLsu3WQRlcLF2VU3K/qZP3Zw==
+  dependencies:
+    "@analytics/core" "^0.11.0"
+    "@analytics/storage-utils" "^0.3.0"
+
 animejs@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/animejs/-/animejs-3.2.1.tgz#de9fe2e792f44a777a7fdf6ae160e26604b0cdda"
@@ -1231,6 +1305,11 @@ dir-glob@^3.0.1:
   integrity sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==
   dependencies:
     path-type "^4.0.0"
+
+dlv@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/dlv/-/dlv-1.1.3.tgz#5c198a8a11453596e751494d49874bc7732f2e79"
+  integrity sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==
 
 doctrine@^2.1.0:
   version "2.1.0"

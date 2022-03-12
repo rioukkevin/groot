@@ -1,0 +1,11 @@
+@import "../../../../styles/styles";
+
+.element {
+  position: fixed;
+  top: 40vh;
+  left: 60vw;
+  height: 50px;
+  width: 0;
+  background-color: $pinky;
+  pointer-events: all;
+}

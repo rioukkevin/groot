@@ -37,7 +37,7 @@ $mee_size: 500;
     margin: -#{$mee_size / 2}px 0 !important;
 
     & > span::before {
-      z-index: 2;
+      z-index: 3;
       display: block;
       position: absolute;
       bottom: 0;
@@ -66,6 +66,7 @@ $mee_size: 500;
   }
 
   .surname {
+    z-index: 2;
     font-family: Brush;
     font-size: #{$mee_size / 3}px;
     color: $pinky;

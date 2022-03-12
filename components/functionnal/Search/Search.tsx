@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, useRef, useState } from "react";
+import { ChangeEventHandler, FC, useContext, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import Results from "../Results";
 import dynamic from "next/dynamic";
@@ -12,6 +12,9 @@ const Overlay = dynamic(
 import styles from "./Search.module.scss";
 import Identity from "../Identity";
 import { useLoader } from "../../../hooks/useTrigger";
+import { analytics } from "../../../services/analytics";
+import Router, { useRouter } from "next/router";
+import { TransitionContext } from "../../graphics/Transition/TransitionContext";
 
 interface IProps {}
 
@@ -19,6 +22,7 @@ const FILTERS: { name: string; value: string }[] = [
   { name: "Mes projets", value: "project" },
   { name: "Qui suis je ?", value: "identity" },
   { name: "Comment me contacter ?", value: "action" },
+  { name: "Tester c'est douter", value: "test" },
 ];
 
 export const Search: FC<IProps> = (props) => {
@@ -43,6 +47,9 @@ export const Search: FC<IProps> = (props) => {
   };
 
   const handleFilter = (value: string) => {
+    if (value === "test") {
+      return;
+    }
     if (value === "identity") setIsIdentityVisible(true);
     setFilter(value);
     setQuery("");
@@ -51,6 +58,12 @@ export const Search: FC<IProps> = (props) => {
   const handleCloseIdentity = () => {
     setIsIdentityVisible(false);
     setFilter(null);
+  };
+
+  const handleBlur = () => {
+    analytics.track("Search", {
+      query,
+    });
   };
 
   return (
@@ -65,6 +78,7 @@ export const Search: FC<IProps> = (props) => {
           ref={searchInput}
           placeholder="Search"
           value={query}
+          onBlur={handleBlur}
           onChange={handleSearch}
         />
         <div className={styles.filters}>

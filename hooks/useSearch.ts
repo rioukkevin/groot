@@ -40,8 +40,6 @@ export const useSearch = (props: IProps): ISearchElement[] => {
     },
   });
 
-  console.log(searchResults);
-
   useEffect(() => {
     search(query);
   }, [query]);
