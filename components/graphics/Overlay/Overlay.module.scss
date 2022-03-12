@@ -16,6 +16,7 @@
   justify-content: flex-end;
   align-items: center;
   cursor: pointer;
+  z-index: 50;
 
   .content {
     transition-duration: 1000ms;

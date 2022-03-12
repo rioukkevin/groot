@@ -12,7 +12,7 @@ export default function Home() {
       <Head>
         <title>Riou Kévin</title>
         <meta content="I am groot" name="description" />
-        <link href="/favicon.ico" rel="icon" />
+        <link href="/favicon.png" rel="icon" />
       </Head>
 
       <main suppressHydrationWarning className={styles.container}>

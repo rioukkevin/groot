@@ -33,7 +33,7 @@ export const Project: FC<IProps> = (props) => {
   };
 
   return (
-    <Container height={4} width={8}>
+    <Container height={2} width={4}>
       <div className={styles.container}>
         <Image
           alt=""

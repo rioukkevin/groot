@@ -8,7 +8,7 @@ export default function Home() {
       <Head>
         <title>Riou Kévin - Test</title>
         <meta content="I am groot" name="description" />
-        <link href="/favicon.ico" rel="icon" />
+        <link href="/favicon.png" rel="icon" />
       </Head>
 
       <main suppressHydrationWarning>{"TOTO"}</main>

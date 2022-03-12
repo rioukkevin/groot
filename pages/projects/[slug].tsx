@@ -12,7 +12,7 @@ export default function Project() {
       <Head>
         <title>Riou Kévin | Project</title>
         <meta content="I am groot" name="description" />
-        <link href="/favicon.ico" rel="icon" />
+        <link href="/favicon.png" rel="icon" />
       </Head>
 
       <main suppressHydrationWarning>{router.pathname}</main>

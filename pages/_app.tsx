@@ -19,6 +19,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     analytics.track("Page", {
       path: router.pathname,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

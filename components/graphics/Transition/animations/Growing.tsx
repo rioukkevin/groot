@@ -60,6 +60,7 @@ export const Growing: FC<IAnimatedProps> = (props) => {
       if (!reference || !callback) return;
       animation([element.current, reference], onEnd, callback);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animate]);
 
   return <div ref={element} className={styles.element} />;

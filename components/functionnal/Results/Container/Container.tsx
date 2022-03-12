@@ -5,7 +5,7 @@ interface IProps {
   height: number;
 }
 
-const SQUARE_SIZE = 12.5;
+// const SQUARE_SIZE = 12.5;
 
 export const Container: FC<IProps> = (props) => {
   const { width, height, children } = props;
@@ -13,10 +13,10 @@ export const Container: FC<IProps> = (props) => {
   return (
     <div
       style={{
-        width: `${width * SQUARE_SIZE}%`,
-        maxWidth: `${width * SQUARE_SIZE}%`,
+        gridColumn: `auto / span ${width}`,
+        gridRow: `auto / span ${height}`,
         aspectRatio: `${width} / ${height}`,
-        padding: "10px",
+        padding: 10,
       }}
     >
       {children}

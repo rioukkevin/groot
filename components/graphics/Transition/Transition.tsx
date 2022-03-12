@@ -22,6 +22,7 @@ export const Transition: FC<IProps> = (props) => {
 
   useEffect(() => {
     transitions.registerTrigger(anim);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (params.type === "animation") return <></>;

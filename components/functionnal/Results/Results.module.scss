@@ -3,11 +3,17 @@
 .container {
   width: calc(100% + 20px);
   max-width: 60vw;
-  min-width: 600px;
+  min-width: 500px;
   margin: -10px;
-  margin-top: 100px;
+  margin-top: 30px;
   color: $moon;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: [c1] 25% [c2] 25% [c3] 25% [c4] 25%;
+  grid-auto-rows: auto;
+  grid-gap: 0 0;
+  justify-items: stretch;
+  align-items: stretch;
+  justify-content: stretch;
+  align-content: start;
+  grid-auto-flow: row dense;
 }

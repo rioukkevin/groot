@@ -14,7 +14,7 @@ export const Action: FC<IProps> = (props) => {
   const { data } = props;
 
   return (
-    <Container height={1} width={2}>
+    <Container height={1} width={1}>
       <a
         className={styles.container}
         href={data.value}
