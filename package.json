@@ -22,6 +22,7 @@
     "@mantine/hooks": "^4.0.4",
     "@mantine/next": "^4.0.4",
     "@mantine/rte": "^4.0.4",
+    "@sendgrid/mail": "^7.6.2",
     "analytics": "^0.8.0",
     "animejs": "^3.2.1",
     "config": "^3.3.7",

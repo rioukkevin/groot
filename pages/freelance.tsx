@@ -1,7 +1,6 @@
-import { useForm } from "@formspree/react";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MenuLabel, TextInput } from "@mantine/core";
+import { TextInput } from "@mantine/core";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -24,7 +23,6 @@ export default function Freelance() {
     subject: "",
     content: "",
     coordinates: "",
-    attachments: [],
   });
 
   const handleBack = () => router.push(`/`);
@@ -33,18 +31,30 @@ export default function Freelance() {
     setFormContent((oldValue) => ({ ...oldValue, [property]: v }));
   };
 
-  // TODO remove formspree from code
-  // TODO serverless nextjs function to send mail
-  // TODO file handling in string into attachments on sending mail
-  const [state, handleSubmit] = useForm(
-    process.env.NEXT_PUBLIC_FORM_FREELANCE ?? "",
-    {
-      data: { ...formContent, attachments: "" },
-    }
-  );
+  const toBase64 = (file: File) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
 
-  const handleLocalSubmit = () => {
-    handleSubmit({});
+  const handleLocalSubmit = async () => {
+    const attachments = await Promise.all(
+      (formContent.attachments ?? []).map(async (a) => ({
+        name: a.name,
+        type: a.type,
+        base64: await toBase64(a),
+      }))
+    );
+    await await fetch("/api/freelance", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        ...formContent,
+        attachments,
+      }),
+    });
   };
 
   return (
@@ -66,7 +76,7 @@ export default function Freelance() {
               "Je suis ouvert aux missions de Freelance, si vous souhaitez que nous travaillons ensemble sur votre projet, n'hésitez pas à me contacter avec le formulaire ci-dessous"
             }
           </p>
-          {!state.succeeded && (
+          {true && (
             <div className={styles.form}>
               <h3>Coordonnées</h3>
               <TextInput
