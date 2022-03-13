@@ -10,5 +10,48 @@
     "activityBarBadge.foreground": "#e7e7e7",
     "sash.hoverBorder": "#867ccf"
   },
-  "peacock.color": "#6457c1"
+  "peacock.color": "#6457c1",
+  "vscodeGitCommit.template": ["{feat}({scope}): {message} "],
+  "vscodeGitCommit.variables": {
+    "feat": [
+      {
+        "label": "🎓 Functional"
+      },
+      {
+        "label": "🌈 Graphics"
+      },
+      {
+        "label": "🚀 Deploy"
+      },
+      {
+        "label": "🔐 Security"
+      },
+      {
+        "label": "🧹 WIP"
+      },
+      {
+        "label": "🪲 Bug"
+      }
+    ],
+    "scope": [
+      {
+        "label": "Component"
+      },
+      {
+        "label": "Page"
+      },
+      {
+        "label": "Utils"
+      },
+      {
+        "label": "Infra"
+      },
+      {
+        "label": "Config"
+      },
+      {
+        "label": ""
+      }
+    ]
+  }
 }
