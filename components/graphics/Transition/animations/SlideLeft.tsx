@@ -2,11 +2,13 @@ import anime, { AnimeParams } from "animejs";
 import { FC, LegacyRef, useEffect, useRef } from "react";
 import { IAnimatedProps } from "./type";
 
-import styles from "./Growing.module.scss";
+import styles from "./SlideLeft.module.scss";
+
+const DURATION = 500;
 
 const OPTIONS: AnimeParams = {
   easing: "easeInOutQuad",
-  duration: 500,
+  duration: DURATION,
 };
 
 const PAGE_TRANSITION_DURATION = 200;
@@ -24,33 +26,33 @@ const animation = (
   });
   timeline.add({
     targets: element,
-    // @ts-ignore
-    left: reference.getBoundingClientRect().left,
-    // @ts-ignore
-    top: reference.getBoundingClientRect().top,
+    left: 0,
+    top: 0,
+    width: 0,
+    height: "100vh",
     duration: 1,
   });
   timeline.add({
     targets: element,
     width: "100vw",
-    left: 0,
-  });
-  timeline.add({
-    targets: element,
-    height: "100vh",
-    top: 0,
     complete: callback,
   });
+  timeline.add(
+    {
+      targets: reference,
+      transform: "translateX(100vw)",
+    },
+    `-=${DURATION}`
+  );
   timeline.add({
     targets: element,
     height: 0,
-    top: "100vh",
     delay: PAGE_TRANSITION_DURATION,
     complete,
   });
 };
 
-export const Growing: FC<IAnimatedProps> = (props) => {
+export const SlideLeft: FC<IAnimatedProps> = (props) => {
   const { animate, reference, callback, onEnd } = props;
 
   const element = useRef(null);

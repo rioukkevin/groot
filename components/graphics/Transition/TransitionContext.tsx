@@ -1,7 +1,7 @@
 import { createContext, FC, LegacyRef, useState } from "react";
 import * as animations from "./animations";
 
-type TTypes = keyof typeof animations;
+type TTypes = keyof typeof animations | "animation";
 
 export interface ITriggerParams {
   type: TTypes;

@@ -10,6 +10,8 @@ import { analytics } from "../services/analytics";
 import { useRouter } from "next/router";
 import Transition from "../components/graphics/Transition";
 import { TransitionProvider } from "../components/graphics/Transition/TransitionContext";
+import { MantineProvider } from "@mantine/core";
+import { theme } from "../services/theme";
 config.autoAddCss = false;
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
@@ -23,10 +25,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   return (
-    <TransitionProvider>
-      <Component {...pageProps} />
-      <Transition />
-    </TransitionProvider>
+    <MantineProvider theme={theme}>
+      <TransitionProvider>
+        <Component {...pageProps} />
+        <Transition />
+      </TransitionProvider>
+    </MantineProvider>
   );
 };
 export default MyApp;

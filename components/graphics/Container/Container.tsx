@@ -1,8 +1,14 @@
-import { FC } from "react";
+import { FC, LegacyRef } from "react";
 import styles from "./Container.module.scss";
 
-interface IProps {}
+interface IProps {
+  reff: LegacyRef<HTMLDivElement> | undefined;
+}
 
 export const Container: FC<IProps> = (props) => {
-  return <div className={`${styles.container}`}>{props.children}</div>;
+  return (
+    <div ref={props.reff} className={`${styles.container}`}>
+      {props.children}
+    </div>
+  );
 };

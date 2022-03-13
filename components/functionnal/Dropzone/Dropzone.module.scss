@@ -1,0 +1,54 @@
+@import "../../../styles/styles";
+
+.outerContent {
+  border-width: 2px;
+  border-color: transparent;
+  background-color: #2c2e33 !important;
+  margin-bottom: 10px !important;
+
+  &:hover {
+    border-color: #5c5f66;
+  }
+
+  .innerContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: #2c2e33;
+    border-radius: $radius;
+
+    .indicator {
+      color: #5c5f66;
+      margin: 10px 0 0 0;
+    }
+  }
+}
+
+.fileList {
+  margin: 0px -5px !important;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  position: relative;
+
+  & > div {
+    border-radius: $radius;
+    padding: 15px;
+    margin: 0 5px;
+    background-color: #2c2e33;
+
+    & > span {
+      margin-right: 20px;
+    }
+    & > svg {
+      cursor: pointer;
+      transition-duration: 200ms;
+
+      &:hover {
+        transform: scale(1.3);
+      }
+    }
+  }
+}

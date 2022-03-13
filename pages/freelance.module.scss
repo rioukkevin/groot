@@ -1,0 +1,99 @@
+@import "../styles/styles";
+
+.container {
+  position: relative;
+  background-color: $pinky;
+  background-image: url(#{$background_base64});
+  background-repeat: repeat;
+  color: $sealk;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+
+  .backButton {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #{$sealk}33;
+    cursor: pointer;
+    transition-duration: 200ms;
+    border: 1px solid;
+    border-color: #{$moon}00;
+    border-radius: $infinite;
+
+    & svg {
+      transition-duration: 200ms;
+    }
+
+    &:hover {
+      background-color: #{$pinky} !important;
+
+      & svg path {
+        fill: $moon;
+      }
+    }
+  }
+
+  .form {
+    & > div {
+      margin: 20px 0;
+    }
+
+    .rte {
+      border-width: 0;
+      background-color: transparent;
+
+      & > div:first-child {
+        background-color: transparent;
+        border-width: 0;
+        padding: 0 0 20px 0;
+      }
+
+      & > div:last-child {
+        background-color: #2c2e33;
+        border-radius: $radius;
+
+        // Custom style
+        & a[target="_blank"] {
+          color: $pinky;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .ql-active svg > path {
+      fill: $pinky !important;
+    }
+
+    .submitButton {
+      height: 50px;
+      width: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #{$pinky};
+      color: $moon;
+      cursor: pointer;
+      transition-duration: 200ms;
+      border: 1px solid;
+      border-color: #{$moon}00;
+      border-radius: $infinite;
+      margin-left: auto;
+
+      &:hover {
+        background-color: #{$sealk}33 !important;
+        color: $sealk;
+      }
+    }
+  }
+}
