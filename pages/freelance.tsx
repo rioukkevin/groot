@@ -1,4 +1,4 @@
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TextInput } from "@mantine/core";
 import Head from "next/head";
@@ -19,6 +19,8 @@ interface IForm {
 export default function Freelance() {
   const router = useRouter();
 
+  const [isSended, setIsSended] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formContent, setFormContent] = useState<IForm>({
     subject: "",
     content: "",
@@ -40,6 +42,8 @@ export default function Freelance() {
     });
 
   const handleLocalSubmit = async () => {
+    if (isLoading || isSended) return;
+    setIsLoading(true);
     const attachments = await Promise.all(
       (formContent.attachments ?? []).map(async (a) => ({
         name: a.name,
@@ -55,6 +59,8 @@ export default function Freelance() {
         attachments,
       }),
     });
+    setIsLoading(false);
+    setIsSended(true);
   };
 
   return (
@@ -82,6 +88,7 @@ export default function Freelance() {
               <TextInput
                 required
                 autoComplete="email"
+                disabled={isLoading || isSended}
                 placeholder="Téléphone, Email..."
                 value={formContent.coordinates}
                 variant="filled"
@@ -91,6 +98,7 @@ export default function Freelance() {
               <TextInput
                 required
                 autoComplete="none"
+                disabled={isLoading || isSended}
                 placeholder="Demande de prestation pour..."
                 value={formContent.subject}
                 variant="filled"
@@ -98,7 +106,9 @@ export default function Freelance() {
               />
               <h3>Contenu</h3>
               <RTE
-                className={styles.rte}
+                className={`${styles.rte} ${
+                  isLoading || isSended ? styles.rteDisabled : ""
+                }`}
                 controls={[
                   ["bold", "italic", "underline", "strike"],
                   ["orderedList", "unorderedList"],
@@ -106,16 +116,20 @@ export default function Freelance() {
                   ["alignLeft", "alignCenter", "alignRight"],
                   ["link"],
                 ]}
+                readOnly={isLoading || isSended}
                 value={formContent.content}
                 onChange={handleChange("content")}
               />
               <h3>Pièces jointes</h3>
               <Dropzone
+                disabled={isLoading || isSended}
                 value={formContent.attachments ?? []}
                 onChange={handleChange("attachments")}
               />
               <div className={styles.submitButton} onClick={handleLocalSubmit}>
-                Envoyer
+                {isLoading && <FontAwesomeIcon icon={faSpinner} spin={true} />}
+                {!isLoading && !isSended && "Envoyer"}
+                {isSended && !isLoading && "Merci !"}
               </div>
             </div>
           )}

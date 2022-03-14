@@ -6,6 +6,26 @@
   background-color: #2c2e33 !important;
   margin-bottom: 10px !important;
 
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #25262b !important;
+    color: #909296 !important;
+
+    &:hover {
+      border-color: transparent;
+    }
+
+    .innerContent {
+      background-color: #25262b !important;
+      color: #909296 !important;
+
+      .indicator {
+        color: #909296 !important;
+      }
+    }
+  }
+
   &:hover {
     border-color: #5c5f66;
   }
@@ -32,6 +52,19 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   position: relative;
+
+  &.disabled {
+    & > div {
+      background-color: #25262b !important;
+      color: #909296 !important;
+      opacity: 0.6;
+      cursor: not-allowed;
+
+      & > span {
+        margin-right: 0;
+      }
+    }
+  }
 
   & > div {
     border-radius: $radius;
