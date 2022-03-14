@@ -3,12 +3,18 @@
 .outerContent {
   border-width: 2px;
   border-color: transparent;
-  background-color: #2c2e33 !important;
+  background-color: transparent !important;
   margin-bottom: 10px !important;
+  border: solid 2px #2c2e33;
+
+  &.dragging {
+    border: solid 2px $pinky;
+  }
 
   &.disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    border: solid 2px #25262b;
     background-color: #25262b !important;
     color: #909296 !important;
 
@@ -17,7 +23,7 @@
     }
 
     .innerContent {
-      background-color: #25262b !important;
+      background-color: transparent !important;
       color: #909296 !important;
 
       .indicator {
@@ -36,7 +42,7 @@
     align-items: center;
     justify-content: center;
     padding: 10px;
-    background-color: #2c2e33;
+    background-color: transparent;
     border-radius: $radius;
 
     .indicator {

@@ -27,10 +27,6 @@ $mee_size: 500;
     & > span > span::before {
       right: 0;
     }
-
-    & > span > span::after {
-      opacity: 0;
-    }
   }
 
   & > span {
@@ -47,21 +43,6 @@ $mee_size: 500;
       content: "";
       background-color: $pinky;
       transition-duration: 1000ms;
-    }
-
-    & > span::after {
-      z-index: 1;
-      display: block;
-      position: absolute;
-      bottom: 0;
-      left: 30%;
-      top: 50%;
-      right: 25%;
-      content: "";
-      opacity: 1;
-      transition-delay: 400ms;
-      transition-duration: 500ms;
-      box-shadow: inset 0px -#{$mee_size / 2}px 100px -#{$mee_size / 4}px $moon;
     }
   }
 

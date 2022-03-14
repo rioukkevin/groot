@@ -10,6 +10,7 @@ import Container from "../components/graphics/Container";
 import styles from "./freelance.module.scss";
 
 interface IForm {
+  name: string;
   subject: string;
   content: string;
   coordinates: string;
@@ -22,6 +23,7 @@ export default function Freelance() {
   const [isSended, setIsSended] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formContent, setFormContent] = useState<IForm>({
+    name: "",
     subject: "",
     content: "",
     coordinates: "",
@@ -42,6 +44,10 @@ export default function Freelance() {
     });
 
   const handleLocalSubmit = async () => {
+    // TODO add file size test
+    // TODO handle errors
+    // TODO handle max files
+
     if (isLoading || isSended) return;
     setIsLoading(true);
     const attachments = await Promise.all(
@@ -76,35 +82,52 @@ export default function Freelance() {
           <FontAwesomeIcon icon={faArrowLeft} />
         </div>
         <Container reff={null}>
-          <h1>Demande de Freelance</h1>
-          <p>
-            {
-              "Je suis ouvert aux missions de Freelance, si vous souhaitez que nous travaillons ensemble sur votre projet, n'hésitez pas à me contacter avec le formulaire ci-dessous"
-            }
-          </p>
+          <h1 className={styles.title}>
+            {"Demande de contrat Freelance".split(" ").map((t) => (
+              <span key={t}>{t}&nbsp;</span>
+            ))}
+          </h1>
           {true && (
             <div className={styles.form}>
-              <h3>Coordonnées</h3>
-              <TextInput
-                required
-                autoComplete="email"
-                disabled={isLoading || isSended}
-                placeholder="Téléphone, Email..."
-                value={formContent.coordinates}
-                variant="filled"
-                onChange={(e) => handleChange("coordinates")(e.target.value)}
-              />
-              <h3>Sujet</h3>
-              <TextInput
-                required
-                autoComplete="none"
-                disabled={isLoading || isSended}
-                placeholder="Demande de prestation pour..."
-                value={formContent.subject}
-                variant="filled"
-                onChange={(e) => handleChange("subject")(e.target.value)}
-              />
-              <h3>Contenu</h3>
+              <div className={styles.paragraph}>
+                <span>{"Salut, je m'appelle"}</span>
+                <span
+                  className={`${styles.input} ${
+                    isLoading || isSended ? styles.lock : ""
+                  }`}
+                  contentEditable={!isLoading && !isSended}
+                  role="textbox"
+                  style={{
+                    display:
+                      formContent.name.length < 1 ? "inline-block" : "inline",
+                  }}
+                  onInput={(e) =>
+                    handleChange("name")(e.currentTarget.innerText)
+                  }
+                ></span>
+                <span>
+                  {
+                    "je cherche un freelance pour une mission. L'objectif de cette mission est"
+                  }
+                </span>
+                <span
+                  className={`${styles.input} ${
+                    isLoading || isSended ? styles.lock : ""
+                  }`}
+                  contentEditable={!isLoading && !isSended}
+                  role="textbox"
+                  style={{
+                    display:
+                      formContent.subject.length < 1
+                        ? "inline-block"
+                        : "inline",
+                  }}
+                  onInput={(e) =>
+                    handleChange("subject")(e.currentTarget.innerText)
+                  }
+                ></span>
+                <span>{". Voici un peu plus de détails :"}</span>
+              </div>
               <RTE
                 className={`${styles.rte} ${
                   isLoading || isSended ? styles.rteDisabled : ""
@@ -120,12 +143,38 @@ export default function Freelance() {
                 value={formContent.content}
                 onChange={handleChange("content")}
               />
-              <h3>Pièces jointes</h3>
+              <div className={styles.paragraph}>
+                <span>{"Ainsi que quelques pièces jointes :"}</span>
+              </div>
               <Dropzone
                 disabled={isLoading || isSended}
                 value={formContent.attachments ?? []}
                 onChange={handleChange("attachments")}
               />
+              <div className={styles.paragraph}>
+                <span>{"Et mon email + téléphone pour me recontacter"}</span>
+                <span
+                  className={`${styles.input} ${
+                    isLoading || isSended ? styles.lock : ""
+                  }`}
+                  contentEditable={!isLoading && !isSended}
+                  role="textbox"
+                  style={{
+                    display:
+                      formContent.coordinates.length < 1
+                        ? "inline-block"
+                        : "inline",
+                  }}
+                  onInput={(e) =>
+                    handleChange("coordinates")(e.currentTarget.innerText)
+                  }
+                ></span>
+                <br />
+                <br />
+                <span>{"Je te souhaite une bonne journée,"}</span>
+                <br />
+                <span>{formContent.name}</span>
+              </div>
               <div className={styles.submitButton} onClick={handleLocalSubmit}>
                 {isLoading && <FontAwesomeIcon icon={faSpinner} spin={true} />}
                 {!isLoading && !isSended && "Envoyer"}

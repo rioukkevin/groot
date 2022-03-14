@@ -15,6 +15,40 @@
   align-items: center;
   padding-top: 100px;
 
+  $font_size: 30;
+
+  .title {
+    font-size: 50px;
+
+    & span:nth-child(2n) {
+      font-family: "Brush";
+    }
+  }
+
+  .paragraph {
+    font-size: #{$font_size}px;
+    text-align: justify;
+    line-height: #{$font_size + 20}px;
+
+    .input {
+      text-transform: none;
+      color: $pinky;
+      min-width: 100px;
+      border-bottom: 2px solid #{$pinky};
+      box-sizing: border-box;
+      margin: 0 10px;
+
+      &.lock {
+        color: #{$pinky}BB;
+        border-bottom: 2px solid #{$pinky}BB;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
   .backButton {
     position: fixed;
     left: 20px;

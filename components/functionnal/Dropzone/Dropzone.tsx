@@ -15,6 +15,8 @@ interface IProps {
 export const Dropzone: FC<IProps> = (props) => {
   const { value = [], onChange, disabled } = props;
 
+  const [dragging, setDragging] = useState(false);
+
   const handleAdd = (files: File[]) => {
     onChange([...value, ...files]);
   };
@@ -33,11 +35,16 @@ export const Dropzone: FC<IProps> = (props) => {
   };
 
   return (
-    <>
+    <div
+      onDragEnter={() => setDragging(true)}
+      onDragLeave={() => setDragging(false)}
+    >
       {" "}
       <DP
         accept={IMAGE_MIME_TYPE}
-        className={`${styles.outerContent} ${disabled ? styles.disabled : ""}`}
+        className={`${styles.outerContent} ${disabled ? styles.disabled : ""} ${
+          dragging ? styles.dragging : ""
+        }`}
         disabled={disabled}
         maxSize={3 * 1024 ** 2}
         onDrop={handleAdd}
@@ -58,6 +65,6 @@ export const Dropzone: FC<IProps> = (props) => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
