@@ -14,8 +14,9 @@
   flex-direction: column;
   align-items: center;
   padding-top: 100px;
+  text-align: justify;
 
-  $font_size: 30;
+  $font_size: 50;
 
   .title {
     font-size: 50px;
@@ -29,23 +30,34 @@
     font-size: #{$font_size}px;
     text-align: justify;
     line-height: #{$font_size + 20}px;
+  }
 
-    .input {
-      text-transform: none;
-      color: $pinky;
-      min-width: 100px;
-      border-bottom: 2px solid #{$pinky};
-      box-sizing: border-box;
-      margin: 0 10px;
+  & > * > * > * > span {
+    font-size: #{$font_size}px;
+    line-height: #{$font_size + 20}px;
+  }
 
-      &.lock {
-        color: #{$pinky}BB;
-        border-bottom: 2px solid #{$pinky}BB;
-      }
+  .input {
+    text-transform: none;
+    color: $pinky;
+    min-width: 100px;
+    border-bottom: 2px solid #{$pinky};
+    box-sizing: border-box;
+    margin: 0 10px;
 
-      &:focus {
-        outline: none;
-      }
+    &.lock {
+      color: #{$pinky}BB;
+      border-bottom: 2px solid #{$pinky}BB;
+    }
+
+    &.block {
+      display: inline-block;
+      width: 100px;
+      height: #{$font_size + 16}px;
+    }
+
+    &:focus {
+      outline: none;
     }
   }
 
@@ -78,42 +90,36 @@
     }
   }
 
-  .form {
-    & > div {
-      margin: 20px 0;
+  .rte {
+    border-width: 0;
+    background-color: transparent;
+
+    &.rteDisabled {
+      & > div:last-child {
+        background-color: #25262b;
+        opacity: 0.6;
+        cursor: not-allowed;
+
+        & * {
+          color: #909296 !important;
+        }
+      }
     }
 
-    .rte {
-      border-width: 0;
+    & > div:first-child {
       background-color: transparent;
+      border-width: 0;
+      padding: 0 0 20px 0;
+    }
 
-      &.rteDisabled {
-        & > div:last-child {
-          background-color: #25262b;
-          opacity: 0.6;
-          cursor: not-allowed;
+    & > div:last-child {
+      background-color: #2c2e33;
+      border-radius: $radius;
 
-          & * {
-            color: #909296 !important;
-          }
-        }
-      }
-
-      & > div:first-child {
-        background-color: transparent;
-        border-width: 0;
-        padding: 0 0 20px 0;
-      }
-
-      & > div:last-child {
-        background-color: #2c2e33;
-        border-radius: $radius;
-
-        // Custom style
-        & a[target="_blank"] {
-          color: $pinky;
-          text-decoration: underline;
-        }
+      // Custom style
+      & a[target="_blank"] {
+        color: $pinky;
+        text-decoration: underline;
       }
     }
 

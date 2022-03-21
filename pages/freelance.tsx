@@ -1,9 +1,10 @@
 import { faArrowLeft, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { TextInput } from "@mantine/core";
+import { Button, Group, Stepper, TextInput } from "@mantine/core";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import ContentEditable from "react-contenteditable";
 import { Dropzone } from "../components/functionnal/Dropzone/Dropzone";
 import RTE from "../components/functionnal/RTE/RTE";
 import Container from "../components/graphics/Container";
@@ -69,6 +70,12 @@ export default function Freelance() {
     setIsSended(true);
   };
 
+  const [active, setActive] = useState(0);
+  const nextStep = () =>
+    setActive((current) => (current < 5 ? current + 1 : current));
+  const prevStep = () =>
+    setActive((current) => (current > 0 ? current - 1 : current));
+
   return (
     <div>
       <Head>
@@ -82,51 +89,46 @@ export default function Freelance() {
           <FontAwesomeIcon icon={faArrowLeft} />
         </div>
         <Container reff={null}>
-          <h1 className={styles.title}>
-            {"Demande de contrat Freelance".split(" ").map((t) => (
-              <span key={t}>{t}&nbsp;</span>
-            ))}
-          </h1>
-          {true && (
-            <div className={styles.form}>
+          <Stepper
+            active={active}
+            breakpoint="sm"
+            radius="xs"
+            size="xs"
+            onStepClick={setActive}
+          >
+            <Stepper.Step label="Nom">
+              <span>{"Je m'appelle"}</span>
+              <ContentEditable
+                className={`${styles.input} ${
+                  isLoading || isSended ? styles.lock : ""
+                } ${formContent.name.length < 3 ? styles.block : ""}`}
+                disabled={isLoading || isSended}
+                html={formContent.name}
+                tagName="span"
+                onChange={(e) =>
+                  handleChange("name")(e.currentTarget.innerText)
+                }
+              />
+            </Stepper.Step>
+            <Stepper.Step label="Sujet">
+              <span>
+                {"je cherche un freelance pour une mission dont l'objectif est"}
+              </span>
+              <ContentEditable
+                className={`${styles.input} ${
+                  isLoading || isSended ? styles.lock : ""
+                } ${formContent.subject.length < 3 ? styles.block : ""}`}
+                disabled={isLoading || isSended}
+                html={formContent.subject}
+                tagName="span"
+                onChange={(e) =>
+                  handleChange("subject")(e.currentTarget.innerText)
+                }
+              />
+            </Stepper.Step>
+            <Stepper.Step label="Détails">
               <div className={styles.paragraph}>
-                <span>{"Salut, je m'appelle"}</span>
-                <span
-                  className={`${styles.input} ${
-                    isLoading || isSended ? styles.lock : ""
-                  }`}
-                  contentEditable={!isLoading && !isSended}
-                  role="textbox"
-                  style={{
-                    display:
-                      formContent.name.length < 1 ? "inline-block" : "inline",
-                  }}
-                  onInput={(e) =>
-                    handleChange("name")(e.currentTarget.innerText)
-                  }
-                ></span>
-                <span>
-                  {
-                    "je cherche un freelance pour une mission. L'objectif de cette mission est"
-                  }
-                </span>
-                <span
-                  className={`${styles.input} ${
-                    isLoading || isSended ? styles.lock : ""
-                  }`}
-                  contentEditable={!isLoading && !isSended}
-                  role="textbox"
-                  style={{
-                    display:
-                      formContent.subject.length < 1
-                        ? "inline-block"
-                        : "inline",
-                  }}
-                  onInput={(e) =>
-                    handleChange("subject")(e.currentTarget.innerText)
-                  }
-                ></span>
-                <span>{". Voici un peu plus de détails :"}</span>
+                <span>{"En détail celà donne: "}</span>
               </div>
               <RTE
                 className={`${styles.rte} ${
@@ -143,45 +145,58 @@ export default function Freelance() {
                 value={formContent.content}
                 onChange={handleChange("content")}
               />
+            </Stepper.Step>
+            <Stepper.Step label="Pièces jointes">
               <div className={styles.paragraph}>
-                <span>{"Ainsi que quelques pièces jointes :"}</span>
+                <span>{"Quelques pièces jointes: "}</span>
               </div>
               <Dropzone
                 disabled={isLoading || isSended}
                 value={formContent.attachments ?? []}
                 onChange={handleChange("attachments")}
               />
-              <div className={styles.paragraph}>
-                <span>{"Et mon email + téléphone pour me recontacter"}</span>
-                <span
-                  className={`${styles.input} ${
-                    isLoading || isSended ? styles.lock : ""
-                  }`}
-                  contentEditable={!isLoading && !isSended}
-                  role="textbox"
-                  style={{
-                    display:
-                      formContent.coordinates.length < 1
-                        ? "inline-block"
-                        : "inline",
-                  }}
-                  onInput={(e) =>
-                    handleChange("coordinates")(e.currentTarget.innerText)
-                  }
-                ></span>
-                <br />
-                <br />
-                <span>{"Je te souhaite une bonne journée,"}</span>
-                <br />
-                <span>{formContent.name}</span>
-              </div>
+            </Stepper.Step>
+            <Stepper.Step label="Coordonnées">
+              <span>{"Recontacte moi ici"}</span>
+              <span
+                className={`${styles.input} ${
+                  isLoading || isSended ? styles.lock : ""
+                }`}
+                contentEditable={!isLoading && !isSended}
+                role="textbox"
+                style={{
+                  display:
+                    formContent.coordinates.length < 1
+                      ? "inline-block"
+                      : "inline",
+                }}
+                onInput={(e) =>
+                  handleChange("coordinates")(e.currentTarget.innerText)
+                }
+              ></span>
+            </Stepper.Step>
+          </Stepper>
+
+          <Group mt="xl" position="center">
+            <Button variant="default" onClick={prevStep}>
+              Back
+            </Button>
+            <Button onClick={nextStep}>Next step</Button>
+          </Group>
+          {/* <h1 className={styles.title}>
+            {"Demande de contrat Freelance".split(" ").map((t) => (
+              <span key={t}>{t}&nbsp;</span>
+            ))}
+          </h1> */}
+          {/* {true && (
+            <div className={styles.form}>
               <div className={styles.submitButton} onClick={handleLocalSubmit}>
                 {isLoading && <FontAwesomeIcon icon={faSpinner} spin={true} />}
                 {!isLoading && !isSended && "Envoyer"}
                 {isSended && !isLoading && "Merci !"}
               </div>
             </div>
-          )}
+          )} */}
         </Container>
       </main>
     </div>
