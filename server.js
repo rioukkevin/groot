@@ -72,7 +72,7 @@ app
     console.log(req.body);
     var send = require("gmail-send")({
       user: "riou.kkevin@gmail.com",
-      pass: "rcockhrqspsooslu",
+      pass: "",
       to: "riou.kkevin@gmail.com",
       replyTo: req.body.mail,
       subject: req.body.subject,
