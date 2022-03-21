@@ -1,0 +1,36 @@
+body{
+    background-color: var(--second-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100mm;
+}
+#main{
+    position: relative;
+    background-color: white;
+    width: 132mm;
+    height: 194mm;
+    padding: 8mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'rg';
+    letter-spacing: 5px;
+}
+img{
+    width: 50mm;
+    height: 50mm;
+}
+#name{
+    font-size: 14mm;
+}
+#url{
+    font-size: 7mm;
+    margin: 5mm 0;
+}
+#slogan{
+    letter-spacing: 3px;
+}

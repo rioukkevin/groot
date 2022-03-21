@@ -1,0 +1,41 @@
+#main{
+    overflow-y: scroll;
+    width: calc(100vw + 25px);
+    padding-right: 25px;
+    height: 100%;
+}
+#who{
+    margin: 15vh 10vw;
+    width: 80vw;
+    color: white;
+    font-size: 4vh;
+    font-family: "rg";
+    letter-spacing: 5px;
+    text-align: justify;
+}
+@media screen and (min-width: 745px){
+    #who{
+        font-size: 7vh;
+        width: 60vw;
+        margin: 5vw 20vw;
+    }
+}
+.em{
+    height: 1em;
+    width: 1em;
+}
+.curs{
+    border-left: 5px solid white;
+    animation: cursor 800ms infinite;
+}
+@keyframes cursor{
+    from,49%{
+        border-left: 5px solid white;
+    }
+    to,50%{
+        border-left: 0px solid white;
+    }
+}
+#who a{
+    color: var(--third-color);
+}

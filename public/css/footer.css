@@ -1,0 +1,13 @@
+/*FOOTER*/
+
+footer{
+    position: fixed;
+    bottom: 0;
+    right: 2vw;
+    z-index: 150;
+    height: 3vh;
+    font-size: 1vh;
+    line-height: 3vh;
+    text-align: right;
+    color: var(--text-color);
+}

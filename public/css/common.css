@@ -1,0 +1,475 @@
+@font-face{
+    font-family: "el";
+    src: url("../font/built titling el.ttf")
+}
+@font-face{
+    font-family: "lt";
+    src: url("../font/built titling lt.ttf")
+}
+@font-face{
+    font-family: "rg";
+    src: url("../font/built titling rg.ttf")
+}
+@font-face{
+    font-family: "sb";
+    src: url("../font/built titling sb.ttf")
+}
+@font-face{
+    font-family: "bd";
+    src: url("../font/built titling bd.ttf")
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    overflow-x: hidden;
+    overflow-y: hidden;
+    min-height: 100vh;
+    padding-right: 25px;
+
+    --image-effect-color : rgba(28, 49, 0, 1);
+
+    --main-color : rgba(97, 15, 129, 1);
+    --main-color-9 : rgba(97, 15, 129, 0.9);
+    --main-color-8 : rgba(97, 15, 129, 0.8);
+    --main-color-7 : rgba(97, 15, 129, 0.7);
+    --main-color-6 : rgba(97, 15, 129, 0.6);
+    --main-color-5 : rgba(97, 15, 129, 0.5);
+    --main-color-4 : rgba(97, 15, 129, 0.4);
+    --main-color-3 : rgba(97, 15, 129, 0.3);
+    --main-color-2 : rgba(97, 15, 129, 0.2);
+    --main-color-1 : rgba(97, 15, 129, 0.1);
+
+    --second-color : rgba(0,27,50, 1);
+    --second-color-9 : rgba(0,27,50, 0.9);
+    --second-color-8 : rgba(0,27,50, 0.8);
+    --second-color-7 : rgba(0,27,50, 0.7);
+    --second-color-6 : rgba(0,27,50, 0.6);
+    --second-color-5 : rgba(0,27,50, 0.5);
+    --second-color-4 : rgba(0,27,50, 0.4);
+    --second-color-3 : rgba(0,27,50, 0.3);
+    --second-color-2 : rgba(0,27,50, 0.2);
+    --second-color-1 : rgba(0,27,50, 0.1);
+    
+    --third-color : rgba(3, 140, 219, 1);
+    --third-color-9 : rgba(3, 140, 219, 0.9);
+    --third-color-8 : rgba(3, 140, 219, 0.8);
+    --third-color-7 : rgba(3, 140, 219, 0.7);
+    --third-color-6 : rgba(3, 140, 219, 0.6);
+    --third-color-5 : rgba(3, 140, 219, 0.5);
+    --third-color-4 : rgba(3, 140, 219, 0.4);
+    --third-color-3 : rgba(3, 140, 219, 0.3);
+    --third-color-2 : rgba(3, 140, 219, 0.2);
+    --third-color-1 : rgba(3, 140, 219, 0.1);
+
+    --clear-color : rgba(255, 255, 255, 1);
+    --clear-color-9 : rgba(255, 255, 255, 0.9);
+    --clear-color-8 : rgba(255, 255, 255, 0.8);
+    --clear-color-7 : rgba(255, 255, 255, 0.7);
+    --clear-color-6 : rgba(255, 255, 255, 0.6);
+    --clear-color-5 : rgba(255, 255, 255, 0.5);
+    --clear-color-4 : rgba(255, 255, 255, 0.4);
+    --clear-color-3 : rgba(255, 255, 255, 0.3);
+    --clear-color-2 : rgba(255, 255, 255, 0.2);
+    --clear-color-1 : rgba(255, 255, 255, 0.1);
+
+    --background-color : rgb(30,30,30);
+    --text-color : rgb(255,255,255);
+
+    --gradient-color : linear-gradient(-45deg, rgba(0,27,50,1) 25%,rgba(97, 15, 129,1) 100% );
+    --gradient-color-2: linear-gradient(-90deg, rgba(0,0,0,0.7) 20%,rgba(0,0,0, 1) 100%);
+
+    background-image: var(--gradient-color);
+}
+::selection{
+    background-color: var(--third-color-6);
+    color: rgba(200,200,200, 1);
+}
+main section{
+    width: 100vw;
+    height: calc(100vh - 56px);
+    list-style-type: none;
+    color: var(--text-color);
+}
+@media screen and (min-width: 745px){
+    #main section{
+        height: 100vh;
+    }
+}
+
+#main{
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 56px);
+    overflow: hidden;
+}
+@media screen and (min-width: 745px){
+    #main{
+        height: 100vh;
+    }
+}
+
+.stroke{
+    text-decoration: line-through;
+}
+.highlight{
+    background-color: var(--third-color-6);
+    font-weight: 700;
+}
+
+button{
+    border: 0px;
+    background-color: var(--third-color-6);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 3vh;
+    color: var(--text-color);
+    margin: 20px 0;
+    width: 20vw;
+    min-width: 230px;
+    font-family: 'rg';
+    letter-spacing: 2px;
+    outline: none;
+}
+button:hover{
+    background-color: var(--third-color);
+    cursor: pointer;
+}
+.separator{
+    width: 20vw;
+    height: 0.5vh;
+    background-color: var(--third-color);
+    border-radius: 1vh;
+    margin: 30px 0;
+}
+
+
+/*LOADING SCREEN*/
+#loading{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 250;
+    background-image: var(--gradient-color);
+    transition-duration: 600ms;
+}
+#loading svg{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: calc(50vw - 50px);
+    top: calc(50vh - 50px);
+    transition-duration: 600ms;
+}
+#loading svg path:nth-child(2){
+    animation: logobuildR 3s infinite;
+    stroke-dashoffset: 250;
+    stroke-dasharray: 250;
+}
+@keyframes logobuildR {
+    from{
+        stroke-dashoffset: 250;
+    }
+    70%{
+        stroke-dashoffset: 0;
+    }
+    90%{
+        stroke-dashoffset: 250;
+    }
+    to{
+        stroke-dashoffset: 250;
+    }
+}
+#loading svg path:first-child, #loading svg path:last-child{
+    animation: logobuildK 3s infinite;
+    stroke-dashoffset: 120;
+    stroke-dasharray: 120;
+}
+@keyframes logobuildK {
+    from{
+        stroke-dashoffset: 120;
+    }
+    70%{
+        stroke-dashoffset: 0;
+    }
+    90%{
+        stroke-dashoffset: 120;
+    }
+    to{
+        stroke-dashoffset: 120;
+    }
+}
+
+
+.loaded #loading{
+    height: 0;
+}
+.loaded #loading svg{
+    top: -100px;
+}
+
+/*INCOMPATIBLE*/
+#incompatible{
+    display: none;
+}
+.mz #incompatible{
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    background-image: var(--gradient-color);
+    text-align: center;
+    font-size: 2vh;
+    color: var(--clear-color);
+    line-height: 4vh;
+    font-family: 'bd';
+    letter-spacing: 2px;
+    padding: 40vh 0;
+}
+
+/* NAVBTN */
+#navbtn{
+    position: fixed;
+    top: 2vh;
+    right: 2vh;
+    z-index: 230;
+    width: 10vh;
+    height: 4vh;
+    padding: 10px 2vh;
+    color: var(--clear-color);
+    font-family: 'bd', cursive;
+    font-size: 4vh;
+}
+#navbtn:hover{
+    cursor: pointer;
+}
+#navbtn span{
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+#navbtn span:after{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 10vh;
+    height: 1vh;
+    left:-10vh;
+    top: 1.5vh;
+    background-color: var(--clear-color);
+    transition-duration: 500ms;
+}
+.nav-open #navbtn span:after{
+    left: 10vh;
+}
+#navbtn:hover span:after{
+    width: 10vh;
+    left: 0vh;
+}
+#navbtn span:before{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 8vh;
+    height: 3vh;
+    left: 2vh;
+    top: -1.5vh;
+    background-color: var(--third-color-7);
+    transition-duration: 500ms;
+    z-index: -1;
+}
+.nav-open #navbtn span:before{
+    left: -2vh;
+    top: 2.5vh;
+}
+#navbtn:hover span:before{
+    width: 14vh;
+    left: -2vh;
+    top: 0;
+    height: 4vh;
+}
+
+
+/* NAV */
+nav{
+    width: 100vw;
+    height: 100%;
+    background: var(--gradient-color-2);
+    position: fixed;
+    z-index: 200;
+    top: 0;
+    transition-duration: 700ms;
+}
+@media screen and (min-width: 745px){
+    nav{
+        height: 100vh;
+    }
+}
+.nav-close nav{
+    left: 105vw;
+}
+.nav-open nav{
+    left: 0;
+}
+nav ul{
+    width: calc(100% - 40px);
+    height: calc(100% - 10vh);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+nav ul li{
+    list-style-type: none;
+    text-indent: 20px;
+    font-size: 7vh;
+    font-family: 'sb';
+    color: var(--clear-color-6);
+    letter-spacing: 10px;
+    text-decoration: none;
+    text-align:center;
+    transition-duration: 500ms;
+    margin-right: 0vw;
+    display: relative;
+}
+@media screen and (min-width: 745px){
+    nav ul li{
+        font-size: 12vh;
+        margin-right: 15vw;
+    }
+}
+
+
+nav ul li:hover{
+    cursor: pointer;
+    color: var(--clear-color);
+}
+nav ul li:hover::after{
+    content: '';
+}
+nav ul li:hover::before{
+    content: 'cd /';
+}
+
+/*Mouse cursor*/
+#cursor{
+    border-radius: 1000px;
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--third-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: -15px;
+    transition-duration: 150ms;
+    z-index: 10000;
+    pointer-events: none;
+    padding: 0;
+    box-sizing: border-box;
+    display: none;
+    will-change: top, left, width, height, border-radius, margin;
+}
+@media screen and (min-width: 745px){
+    #cursor{
+        display: inherit;
+    }
+}
+
+#pointer{
+    border-radius: 1000px;
+    width: 10px;
+    height: 10px;
+    border: 5px solid var(--third-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: -5px;
+    z-index: 10001;
+    pointer-events: none;
+    padding: 0;
+    box-sizing: border-box;
+    display: none;
+    will-change: top, left;
+}
+@media screen and (min-width: 745px){
+    #pointer{
+        display: inherit;
+    }
+}
+
+@keyframes cursorClick{
+    from,to{
+        border: 3px solid var(--third-color);
+        transform: scale(1);
+    }
+    60%{
+        border: 3px solid var(--third-color-0);
+        transform: scale(0);
+    }
+    70%{
+        border: 3px solid var(--third-color-0);
+        transform: scale(0.4);
+    }
+}
+
+/*BACKGROUND*/
+
+#back{
+    position: fixed;
+    z-index: 0;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: calc(100vh - 56px);
+    padding: 0;
+    will-change: margin;
+}
+@media screen and (min-width: 745px){
+    #back{
+        height: 100vh;
+    }
+}
+#back svg{
+    width: 80vw;
+    height: 80vw;
+    margin-bottom: -80vw;
+    opacity: 0.2;
+}
+#back svg path{
+    stroke-width: 15vw;
+}
+
+#back svg path:first-child, #back svg path:last-child{
+    stroke: var(--second-color);
+}
+#starcontainer{
+    position: relative;
+    width: 70vw;
+    height: 100%;
+    margin-left: 30vw;
+    margin-top: 0;
+    overflow: hidden;
+}
+.star{
+    position: absolute;
+    z-index: 10;
+    width: 0.6vh;
+    height: 0.6vh;
+    background-color: rgba(198,228,247,1);
+    border-radius: 50%;
+    box-shadow: 0.05vh 0.05vh 0 0.05vh rgba(50,50,50,0.7);
+}

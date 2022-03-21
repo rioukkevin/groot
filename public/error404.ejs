@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#000000">
+    <title>RIOU Kévin - Error</title>
+
+    <!--Favicons/apps icons-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#ffd000">
+    <link rel="shortcut icon" href="/favicon/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="RIOU K&eacute;vin">
+    <meta name="application-name" content="RIOU K&eacute;vin">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/favicon/mstile-144x144.png">
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml">
+    <!--Favicons/apps icons-->
+
+    <!--Other-->
+    <meta name="google" content="nositelinkssearchbox">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="RIOU Kévin - I think i found error in the matrix">
+    <meta name="keywords" content="RIOU,Kevin,Error,Web,Portfolio,Development,HTML,CSS,JS,PHP">
+    <meta name="author" content="RIOU Kévin">
+    <meta name="Category" content="Portfolio">
+    <meta name="Copyright" content="RIOU Kévin">
+    <meta name="generator" content="Visual Studio Code">
+    <!--Other-->
+
+    <!--emoji-->
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+    <!--emoji-->
+
+    <!--custome-css-->
+    <style>
+        @font-face{
+            font-family: "lt";
+            src: url("/font/built titling lt.ttf")
+        }
+        @font-face{
+            font-family: "bd";
+            src: url("/font/built titling bd.ttf")
+        }
+        
+        ::selection{
+            background-color: rgba(255,255,255,0.1);
+            color: rgba(0, 0, 0, 1);
+        }
+
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            overflow: hidden;
+            background-color: rgb(30,30,30);
+        }
+        body > div{
+            margin: 20px 0;
+        }
+
+        /*LOADING SCREEN*/
+        #loading{
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: calc(10vh + 150px);
+        }
+        #loading svg{
+            position: relative;
+            width: 100px;
+            height: 100px;
+            left: calc(50vw - 50px);
+            top: 10vh;
+            transform: scale(1.5);
+        }
+        #loading svg path:nth-child(2){
+            animation: logobuildR 4s forwards;
+            stroke-dashoffset: 250;
+            stroke-dasharray: 250;
+        }
+        @keyframes logobuildR {
+            from{
+                stroke-dashoffset: 250;
+            }
+            to{
+                stroke-dashoffset: 0;
+            }
+        }
+        #loading svg path:first-child, #loading svg path:last-child{
+            animation: logobuildK 4s forwards;
+            stroke-dashoffset: 120;
+            stroke-dasharray: 120;
+        }
+        @keyframes logobuildK {
+            from{
+                stroke-dashoffset: 120;
+            }
+            to{
+                stroke-dashoffset: 0;
+            }
+        }
+        /*ERRORCODE*/
+        #errorcode{
+            position: relative;
+            width: 100vw;
+            height: calc(10vh);
+            font-family: 'bd';
+            font-size: 10vh;
+            text-align: center;
+            color: rgb(255,255,255);
+        }
+
+        #OMG{
+            width:60vw;
+            margin: 20px auto;
+            max-width: 700px;
+            font-family: 'lt';
+            text-align: center;
+            color: rgb(255,255,255);
+            letter-spacing: 3px;
+            font-size: 2.5vh;
+        }
+
+        #contact{
+            width:60vw;
+            margin: 50px auto;
+            max-width: 700px;
+            font-family: 'lt';
+            text-align: center;
+            color: rgb(255,255,255);
+            letter-spacing: 4px;
+            font-size: 3.2vh;
+        }
+        #contact a{
+            color: #005aa7;
+        }
+
+        #lookingfor{
+            width:60vw;
+            margin: 20px auto;
+            max-width: 700px;
+            font-family: 'lt';
+            text-align: center;
+            color: rgb(255,255,255);
+            letter-spacing: 2px;
+            font-size: 2vh;
+        }
+        #lookingfor a{
+            color: #005aa7;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">
+        <svg viewBox="0 0 100 100">
+            <path d=" M 48.75 99.5 L 48.75 71 C 47.667 60.167 50.093 57.343 56 62.5 L 97.667 104.333" fill="none"
+                vector-effect="non-scaling-stroke" stroke-width="18" stroke="#005aa7" stroke-linejoin="miter"
+                stroke-linecap="square" stroke-miterlimit="3" />
+            <path d=" M -3.5 12.25 L 68.5 12.25 C 93.5 12.5 93.5 40 68.5 40 L 39 40 C 20.5 40.25 22 52.5 31.75 63 L 72.5 103.75"
+                fill="none" vector-effect="non-scaling-stroke" stroke-width="18" stroke="rgb(0,0,0)" stroke-linejoin="miter"
+                stroke-linecap="square" stroke-miterlimit="3" />
+            <path d=" M 48 -10.5 L 48.75 31.75 C 48.75 40.917 51.76 43.093 57.75 38.25 L 104.25 0.75" fill="none"
+                vector-effect="non-scaling-stroke" stroke-width="18" stroke="#005aa7" stroke-linejoin="miter"
+                stroke-linecap="square" stroke-miterlimit="3" />
+        </svg>
+    </div>
+    <div id="errorcode">404</div>
+    <div id="OMG">
+        Hooo I'm sorry about that but the blue flying elephant is not here you need to search in an other place :(
+    </div>
+    <div id="contact">If there are problems, I can help you at <a href="mailto:riou.kkevin@gmail.com">&nbsp;riou.kkevin@gmail.com&nbsp;</a></div>
+    <div id="lookingfor">I think you are looking for <a href="https://kevin.riou.pro">&nbsp;my_portfolio&nbsp;</a> </div>
+</body>
+</html>

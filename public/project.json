@@ -1,0 +1,213 @@
+[
+    {
+        "name":"Shiny Touch",
+        "state":"In Preproduction",
+        "year":"2019",
+        "background":"linear-gradient(45deg, #444444 0%,#222222 100% )",
+        "main":"#000000",
+        "second":"#000000",
+        "third":"#000000",
+        "clear":"#ffffff",
+        "roles":[
+            "Front",
+            "Back",
+            "Gestion",
+            "Client management"
+        ],
+        "introduction":"Made in my personnal time for the Shiny Touch brand",
+        "content":"I made this website for a new french brand that sell products on amazon",
+        "technologies":[
+            "JS",
+            "Jquery",
+            "AOS.js",
+            "Anime.js",
+            "underscoreJS"
+        ],
+        "screencapture":[
+            "https://kevin.riou.pro/images/project/st1.png",
+            "https://kevin.riou.pro/images/project/st2.png",
+            "https://kevin.riou.pro/images/project/st3.png",
+            "https://kevin.riou.pro/images/project/st4.png"
+        ],
+        "url":[
+            {
+                "name":"Website",
+                "link":"https://shiny-touch.com"
+            }
+        ]
+    },
+    {
+        "name":"Magnetic Cursor",
+        "state":"In development",
+        "year":"2018-2019",
+        "background":"linear-gradient(45deg, #f4f5f7 0%,#f44236 100% )",
+        "main":"#f44236",
+        "second":"#f44236",
+        "third":"#f44236",
+        "clear":"#ffffff",
+        "roles":[
+            "Front"
+        ],
+        "introduction":"Made in my personnal time to be used here",
+        "content":"This project is a project made to be used first on this website. I work on it and decide to share it with everyone need to use it. I work on when I found time.",
+        "technologies":[
+            "Native JS only"
+        ],
+        "screencapture":[
+            "https://kevin.riou.pro/images/project/mc1.png",
+            "https://kevin.riou.pro/images/project/mc2.svg"
+        ],
+        "url":[
+            {
+                "name":"Gitlab",
+                "link":"https://gitlab.com/rioukevin/magnetic_cursor"
+            },
+            {
+                "name":"Docs",
+                "link":"https://rioukevin.gitlab.io/magnetic_cursor/"
+            }
+        ]
+    },
+    {
+        "name":"Personnal Portfolio",
+        "state":"Done",
+        "year":"2018-2019",
+        "background":"linear-gradient(45deg, rgba(97, 15, 129, 1) 0%,rgba(0,27,50, 1) 100% )",
+        "main":"rgba(3, 140, 219, 1)",
+        "second":"rgba(3, 140, 219, 1)",
+        "third":"rgba(3, 140, 219, 1)",
+        "clear":"#ffffff",
+        "roles":[
+            "Front",
+            "Back",
+            "UI"
+        ],
+        "introduction":"I do it to complete my Curriculum Vitae",
+        "content":"I work on this website with technologies I don't practice a lot. The challenge is here to do it only with native language to learn the basics",
+        "technologies":[
+            "NodeJS",
+            "Express",
+            "Ejs",
+            "Html",
+            "CSS",
+            "JS"
+        ],
+        "screencapture":[
+            "https://kevin.riou.pro/images/project/krp1.png",
+            "https://kevin.riou.pro/images/project/krp2.png",
+            "https://kevin.riou.pro/images/project/krp3.png",
+            "https://kevin.riou.pro/images/project/krp4.png"
+        ],
+        "url":[
+            {
+                "name":"The website",
+                "link":"https://kevin.riou.pro"
+            }
+        ]
+    },
+    {
+        "name":"G.A.D",
+        "state":"Done",
+        "year":"2018",
+        "background":"linear-gradient(225deg, rgba(100, 100, 100, 1) 0%,rgba(255,255,255, 1) 100% )",
+        "main":"rgba(100, 100, 100, 1)",
+        "second":"rgba(100, 100, 100, 1)",
+        "third":"rgba(100, 100, 100, 1)",
+        "clear":"#ffffff",
+        "roles":[
+            "Front",
+            "Gestion"
+        ],
+        "introduction":"I work on it at CDG29: G.A.D ( Gestionnaire Arrivee Depart )",
+        "content":"I work on this project at CDG29, It's an app made to follow a workflow when there are new employee at in the company, each department of the company have to prepare things to welcome employee ( Prepare office, prepare computer, visit the company, ...)",
+        "technologies":[
+            "PHP",
+            "Slim3",
+            "Html",
+            "CSS",
+            "JS",
+            "Bootstrap",
+            "Jquery",
+            "Moment.JS"
+        ],
+        "screencapture":[
+            "https://kevin.riou.pro/images/project/gad.jpg",
+            "https://kevin.riou.pro/images/project/gad2.jpg"
+        ],
+        "url":[
+            {
+                "name":"CDG29",
+                "link":"https://kevin.riou.pro/xp"
+            }
+        ]
+    },
+    {
+        "name":"Annuaire Central",
+        "state":"Done",
+        "year":"2017-2018",
+        "background":"linear-gradient(225deg, rgba(100, 100, 100, 1) 0%,rgba(255,255,255, 1) 100% )",
+        "main":"rgba(100, 100, 100, 1)",
+        "second":"rgba(100, 100, 100, 1)",
+        "third":"rgba(100, 100, 100, 1)",
+        "clear":"#ffffff",
+        "roles":[
+            "Front",
+            "Back",
+            "Gestion"
+        ],
+        "introduction":"My first project at CDG29",
+        "content":"That the first project on which I work at CDG29, it permit me to learn about MVC and the Slim3 framework with a skeleton. I made the the full website from Database to Server to Front. I use Datatable to create table to display informations.",
+        "technologies":[
+            "PHP",
+            "Slim3",
+            "Html",
+            "CSS",
+            "JS",
+            "Bootstrap",
+            "Jquery",
+            "Datatable"
+        ],
+        "screencapture":[
+            "https://kevin.riou.pro/images/project/ac1.jpg",
+            "https://kevin.riou.pro/images/project/ac2.jpg",
+            "https://kevin.riou.pro/images/project/ac3.jpg",
+            "https://kevin.riou.pro/images/project/ac4.jpg"
+        ],
+        "url":[
+            {
+                "name":"CDG29",
+                "link":"https://kevin.riou.pro/xp"
+            }
+        ]
+    },
+    {
+        "name":"More projects",
+        "state":"In development",
+        "year":"1337",
+        "background":"linear-gradient(90deg, #000046 0%,#1cb5e0 100% )",
+        "main":"#1cb5e0",
+        "second":"#1cb5e0",
+        "third":"#1cb5e0",
+        "clear":"#ffffff",
+        "roles":[
+            "Groot"
+        ],
+        "introduction":"I add the other projects I made when I found time",
+        "content":"School and work take a lot of time, I complete project list as soon as possible ;)",
+        "technologies":[
+            "Blue Elephant"
+        ],
+        "screencapture":[
+            "https://cdn2.vectorstock.com/i/1000x1000/16/01/seamless-pattern-blue-flying-elephant-vector-331601.jpg",
+            "https://i.pinimg.com/236x/1a/41/cc/1a41cc0a485183de2ac86f9c63a4df16--nerd-geek-bugs.jpg",
+            "https://png.pngtree.com/element_origin_min_pic/17/09/17/cb4280c6dcbb4587f060de6f714b5390.jpg"
+        ],
+        "url":[
+            {
+                "name":"Here",
+                "link":"https://kevin.riou.pro"
+            }
+        ]
+    }
+
+]

@@ -1,0 +1,183 @@
+/*CONTENT*/
+/*Default and hidden page state*/
+section article:last-child{
+    position: absolute;
+    left: 10vw;
+    top: 10vh;
+    width: 80vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+}
+@media screen and (min-width: 745px){
+    section article:last-child{
+        justify-content: center;
+    }
+}
+section article:last-child h1{
+    font-size: 8vh;
+    text-transform: uppercase;
+    font-family: 'sb';
+    max-width: 80vw;
+    margin-left: -100vw;
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition-duration: 600ms;
+    will-change: margin-left;
+}
+section article:last-child p{
+    font-size: 3vh;
+    font-family: 'rg';
+    letter-spacing: 2px;
+    max-width: 80vw;
+    margin-left: -100vw;
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition-duration: 600ms;
+    will-change: margin-left;
+}
+section article:last-child button{
+    margin-left: -100vw;
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition-duration: 600ms;
+    will-change: margin-left;
+}
+section article:last-child .separator{
+    margin-left: -100vw;
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition-duration: 600ms;
+    will-change: margin-left;
+}
+
+
+section article:first-child{
+    position: absolute;
+    overflow: hidden;
+    right: 5vw;
+    top: 10vh;
+    height: 90vw;
+    width: 90vw;
+
+    margin-right: -100vw;
+
+    transition-duration: 800ms;
+    background-position: center center;
+    background-size: cover;
+    will-change: margin-right;
+}
+@media screen and (min-width: 745px){
+    section article:first-child{
+        right: 20vw;
+        top: auto;
+        bottom: 7vh;
+        height: 60vh;
+        width: 60vw;
+    }
+}
+section article:first-child .scanwave{
+    position: relative;
+}
+section article:first-child .scanwave:before{
+    position: absolute;
+    top: 0;
+    left: 60vw;
+    height: 60vh;
+    width: 5vw;
+    background-color: var(--third-color-5);
+    display: block;
+    content: "";
+    transform-origin: top left;
+    will-change: transform,left;
+}
+.active_page article:first-child .scanwave:before{
+    animation: movescan 1300ms forwards;
+}
+@keyframes movescan{
+    from,50%{
+        left: -5vw;
+        transform: skewX(0deg);
+    }
+    to{
+        left: 60vw;
+        transform: skewX(20deg);
+    }
+}
+section article:first-child .scanwave:after{
+    position: absolute;
+    top: 0;
+    left: 60vw;
+    height: 60vh;
+    width: 60vw;
+    background-color: var(--second-color);
+    display: block;
+    content: "";
+    transform-origin: top left;
+    will-change: transform,left;
+}
+.active_page article:first-child .scanwave:after{
+    animation: movescan2 1300ms forwards;
+}
+@keyframes movescan2{
+    from,50%{
+        left: 0vw;
+        transform: skewX(0deg);
+    }
+    to{
+        left: 65vw;
+        transform: skewX(20deg);
+    }
+}
+
+/*visible page state*/
+.active_page article:last-child h1{
+    transition-delay: 200ms;
+    margin-left: 0;
+}
+.active_page article:last-child p{
+    margin-left: 0;
+    transition-delay: 250ms;
+}
+.active_page article:last-child button{
+    margin-left: 0;
+    transition-delay: 150ms;
+}
+.active_page article:last-child .separator{
+    margin-left: 0;
+    transition-delay: 350ms;
+}
+
+.active_page article:first-child{
+    margin-right: 0vw;
+}
+
+/*Desktop changes*/
+@media screen and (min-width: 745px){
+    section article:last-child,section article:last-child h1,section article:last-child p{
+        width: 60vw;
+    }
+    section article:last-child h1{
+        font-size: 15vh;
+    }
+}
+
+
+/* Images */
+
+section:nth-child(1) article:first-child{
+    display: none;
+}
+section:nth-child(2) article:first-child{
+    background-image: url("../images/wet.jpg");
+}
+section:nth-child(3) article:first-child{
+    background-image: url("../images/wet2.jpg");
+}
+section:nth-child(4) article:first-child{
+    background-image: url("../images/wet3.jpg");
+}
+section:nth-child(5) article:first-child{
+    background-image: url("../images/wet4.jpg");
+}
+section:nth-child(6) article:first-child{
+    background-image: url("../images/wet3.jpg");
+}

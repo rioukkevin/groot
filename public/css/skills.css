@@ -1,0 +1,104 @@
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+#main h1{
+    font-size: 8vh;
+    text-transform: uppercase;
+    font-family: 'sb';
+    width: 100vw;
+    height: 8vh;
+    margin-left: 0;
+    margin-top: 15vh;
+    transition-duration: 300ms;
+    white-space:nowrap;
+    text-align: center;
+}
+@media screen and (min-width: 745px){
+    #main h1{
+        width: 80vw;
+        margin-left: 10vw;
+        margin-top: 10vh;
+        text-align: left;
+    }
+}
+#fakebash{
+    background-color: rgba(0,0,0,0);
+    border: 0px solid red;
+    outline-color: rgba(0,0,0,0);
+    position: fixed;
+    width: 92vw;
+    height: calc(60vh - 4vw);
+    left: 2vw;
+    top: 20vh;
+    padding: 2vw;
+    font-size: 3vh;
+    resize: none;
+    color: rgba(0,0,0,0);
+    overflow: hidden;
+    text-transform: lowercase;
+}
+@media screen and (min-width: 745px){
+    #fakebash{
+        width: 76vw;
+        left: 10vw;
+        display:none;
+    }
+}
+#bash{
+    padding: 2vw;
+    font-size: 3vh;
+    width: 96vw;
+    height: calc(60vh - 4vw);
+    margin-left: 0;
+    margin-top: 2vh;
+    transition-duration: 300ms;
+    background-color: var(--second-color-5);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+@media screen and (min-width: 745px){
+    #bash{
+        width: 76vw;
+        margin-left: 10vw;
+    }
+}
+
+#bash .folder{
+    color: var(--third-color);
+}
+#bash .folder::after{
+    content: '/';
+}
+#bash .file{
+    color: var(--main-color);
+}
+.oldcmd{
+    color: var(--clear-color-7);
+}
+#currentcmd{
+    color: var(--clear-color-7);
+    animation: cursor 1000ms infinite;
+    padding-right: 2px;
+}
+
+@keyframes cursor{
+    from,49%{
+        border-right: 10px solid white;
+    }
+    to,50%{
+        border-right: 0px solid white;
+    }
+}
+#download{
+    position: absolute;
+    bottom: 2vh;
+    left: 5vw;
+    color: var(--third-color-8);
+    font-size: 3vh;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'sb';
+    width: 90vw;
+}

@@ -1,0 +1,36 @@
+/* HEADER */
+
+header{
+    position: fixed;
+    top: 2vh;
+    left: 2vh;
+    z-index: 150;
+    height: 4vh;
+    padding: 10px;
+    border-radius: 100px;
+    background-color: var(--clear-color);
+}
+#social svg{
+}
+#social a{
+    text-decoration: none;
+}
+header svg{
+    width: 4vh;
+    height: 4vh;
+    margin: 0 1vh;
+    transition-duration: 200ms;
+}
+header #twitter:hover path{
+    fill:#1da1f2;
+}
+header #linkedin:hover path{
+    fill:#0077B5;
+}
+header #discord:hover path{
+    fill:#7289d9;
+}
+header svg path{
+    fill:#555;
+    transition-duration: 400ms;
+}

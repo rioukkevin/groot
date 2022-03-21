@@ -1,0 +1,121 @@
+#main{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    width: calc(100vw + 25px);
+    padding-right: 25px;
+}
+#main .inputgroup:first-child{
+    margin-top: 30vh;
+}
+#main .inputgroup:last-child{
+    margin-bottom: 30vh;
+}
+.inputgroup{
+    width: 90vw;
+    margin: 5vw;
+    height: auto;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    transition-duration: 400ms;
+
+    background-color: var(--second-color-5);
+    padding: 2vw;
+}
+
+@media screen and (min-width: 745px){
+   .inputgroup{
+       width:70vw;
+       margin: 5vw 15vw;
+   }
+}
+
+.inputgroup label{
+    color: var(--clear-color);
+    font-size: 3vh;
+    font-family: 'rg',cursive;
+    letter-spacing: 5px;
+    margin-bottom: 3vw;
+}
+@media screen and (min-width: 745px){
+    .inputgroup label{
+        font-size: 8vh;
+    }
+}
+
+
+
+.inputgroup input, .inputgroup textarea{
+    min-height: 30px;
+    padding: 10px 20px;
+    background-color: rgba(0,0,0,0);
+    border: 0px solid white;
+    color: white;
+    box-shadow: inset 0 -5px 0 0 var(--second-color-8);
+    outline-color: rgba(0,0,0,0);
+    transition-duration: 1500ms;
+    font-size: 2vh;
+}
+@media screen and (min-width: 745px){
+    .inputgroup input, .inputgroup textarea{
+        font-size: 6vh;
+        min-height: 60px;
+        padding: 10px 50px;
+    }
+}
+.inputgroup textarea{
+    padding: 10px 20px;
+    resize: none;
+    height: 30px;
+    overflow: hidden;
+    max-height: 90vh;
+}
+@media screen and (min-width: 745px){
+    .inputgroup textarea{
+        padding: 20px 50px;
+    }
+}
+
+
+.inputgroup input::placeholder, .inputgroup textarea::placeholder{
+    color: var(--clear-color-7);
+}
+.inputgroup input:focus, .inputgroup textarea:focus, .inputgroup .done{
+    box-shadow: inset 0 -100vh 0 0 var(--second-color-8);
+}
+.inputgroup .done{
+    box-shadow: inset 0 -100vh 0 0 var(--second-color-8) !important;
+}
+
+#subm{
+    margin: 5vw 10vw;
+    width: 80vw;
+}
+@media screen and (min-width: 745px){
+    #subm{
+        width: 50vw;
+        margin: 5vw 30vw;
+    }
+}
+.mask{
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    margin: 0 5vw;
+}
+.error{
+    height: 3vh;
+    line-height: 3vh;
+    color: var(--third-color);
+    font-size: 2vh;
+}
+@media screen and (min-width: 745px){
+    .error{
+        height: 5vh;
+        line-height: 5vh;
+        font-size: 4vh;
+    }
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>RIOU Kévin - Portfolio</title>
+    <meta name="description" content="RIOU Kévin - Welcome to my website, here you can find Groot or me, take a look and have a nice day ;) ">
+    <meta name="keywords" content="RIOU,Kevin,Bretagne,France,LP,Licence,Web,Portfolio,Development,HTML,CSS,JS,PHP">
+
+    <%- include('views/sw.ejs') %>
+
+    <%- include('views/googleanalytics.ejs') %>
+    
+    <%- include('views/meta.ejs') %>
+
+    <%- include('views/dependencies.ejs') %>
+
+    <%- include('views/favicon.ejs') %>
+
+    <!--custom-css-->
+    <link href="./css/common.css" rel="stylesheet" type="text/css" />
+    <link href="./css/multipage.css" rel="stylesheet" type="text/css" />
+    <link href="./css/footer.css" rel="stylesheet" type="text/css" />
+    <link href="./css/header.css" rel="stylesheet" type="text/css" />
+    <link href="./css/index.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="page-0 nav-close">
+
+    <%- include('views/header.ejs') %>
+
+    <%- include('views/nav.ejs') %>
+
+    <%- include('views/loader.ejs') %>
+
+    <%- include('views/footer.ejs') %>
+
+    <%- include('views/back.ejs') %>
+
+    <main id="main">
+        <section class="page active_page">
+            <article></article>
+            <article>
+                <h1>RIOU Kévin</h1>
+                <span class="separator"></span>
+                <p>
+                    Web developer <span class="highlight">&nbsp;/&nbsp;</span> Student
+                </p>
+            </article>
+        </section>
+        <section class="page">
+            <article>
+                <span class="scanwave"></span>
+            </article>
+            <article>
+                <h1>I am <span class="stroke highlight">Groot</span> Kévin</h1>
+                <span class="separator"></span>
+                <p>
+                    Young student in computer science, I love web development, actually in a french university I learn
+                    how to work with a lot of web technology.
+                </p>
+                <button onclick="goto(1)" class="targetable">
+                    Who am I ?
+                </button>
+            </article>
+        </section>
+        <section class="page">
+            <article>
+                <span class="scanwave"></span>
+            </article>
+            <article>
+                <h1>let experience <span class="highlight">&nbsp;;&nbsp;</span></h1>
+                <span class="separator"></span>
+                <p>
+                    Yes, at 20 years old I have experience, I study in "Alternance" (A part of the year in enterprise
+                    and the rest in School)
+                </p>
+                <button onclick="goto(2)" class="targetable">
+                    See my XP level ...
+                </button>
+            </article>
+        </section>
+        <section class="page">
+            <article>
+                <span class="scanwave"></span>
+            </article>
+            <article>
+                <h1>What I <span class="highlight">done</span></h1>
+                <span class="separator"></span>
+                <p>
+                    I work on many project, enterprise or personnal project, i explain to you how i work and on what !
+                </p>
+                <button onclick="goto(3)" class="targetable">
+                    Let's explore it ...
+                </button>
+            </article>
+        </section>
+        <section class="page">
+            <article>
+                <span class="scanwave"></span>
+            </article>
+            <article>
+                <h1>$skills <span class="highlight">&nbsp;=&nbsp;</span> array()</h1>
+                <span class="separator"></span>
+                <p>
+                    I love Front Web development but i can work on the Back, PHP, NodeJS, Javascript, CSS ...
+                    Everything is possible, just learned !
+                </p>
+                <button onclick="goto(4)" class="targetable">
+                    Get($skills[i]) ...
+                </button>
+            </article>
+        </section>
+        <section class="page">
+            <article>
+                <span class="scanwave"></span>
+            </article>
+            <article>
+                <h1>let's <span class="highlight">talk</span> !</h1>
+                <span class="separator"></span>
+                <p>
+                    If my website is not sufficient you can send me a message with this forms, I send you email back
+                    ASAP ! Send me message, I don't eat children ;)
+                </p>
+                <button onclick="goto(5)" class="targetable">
+                    Just do it !
+                </button>
+            </article>
+        </section>
+    </main>
+    <aside id="page_links">
+        <div class="page_link active_page_link" onclick="scrollToPage(0)"></div>
+        <div class="page_link" onclick="scrollToPage(1)"></div>
+        <div class="page_link" onclick="scrollToPage(2)"></div>
+        <div class="page_link" onclick="scrollToPage(3)"></div>
+        <div class="page_link" onclick="scrollToPage(4)"></div>
+        <div class="page_link" onclick="scrollToPage(5)"></div>
+    </aside>
+
+    <script src="./js/common.js"></script>
+    <script src="./js/multipage.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+
+</html>

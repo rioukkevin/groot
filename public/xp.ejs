@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>RIOU Kévin - Let Experience;</title>
+    <meta name="description" content="RIOU Kévin - Did you want to see my experience? here it is ! My study (IUT de Lannion), My first Job ( Centre de gestion du Finistere ) and my current job ( Triskalia ) :), You can see where and when easily.">
+    <meta name="keywords" content="RIOU,Kevin,Bretagne,France,CDG29,Triskalia,UTA,IUT de Lannion">
+
+    <%- include('views/sw.ejs') %>
+
+    <%- include('views/googleanalytics.ejs') %>
+    
+    <%- include('views/meta.ejs') %>
+
+    <%- include('views/dependencies.ejs') %>
+
+    <%- include('views/favicon.ejs') %>
+
+    <!--Leaflet-->
+    <link href="./css/leaflet.css" rel="stylesheet" type="text/css">
+    <script src="./js/leaflet.js"></script>
+    <!--Leaflet-->
+
+    <!--custome-css-->
+    <link href="./css/common.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/multipage.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/header.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/footer.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/xp.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="map-close nav-close">
+
+    <%- include('views/header.ejs') %>
+
+    <%- include('views/nav.ejs') %>
+
+    <%- include('views/loader.ejs') %>
+
+    <%- include('views/footer.ejs') %>
+
+    <%- include('views/back.ejs') %>
+
+    <article id="map"></article>
+
+    <div id="maptoggle">
+        &nbsp;Map&nbsp;
+    </div>
+
+    <main id="main">
+        <section class="page active_page">
+            <article>
+                <h1>License Pro Web</h1>
+                <h3>Bac +3</h3>
+                <span class="separator"></span>
+                <h2>Triskalia</h2>
+                <p>I work at <a class="targetable" href="https://www.triskalia.fr/">Triskalia</a> as a web developer, I work on desktop project and mobile project with cordova</p>
+                <h2>IUT de Lannion</h2>
+                <p>At IUT de Lannion I study web technologies including CMS and design like angular or magento or gimp</p>
+            </article>
+        </section>
+        <section class="page active_page">
+            <article>
+                <h1>DUT informatique</h1>
+                <h3>Bac +2</h3>
+                <span class="separator"></span>
+                <h2>CDG29</h2>
+                <p>I work as an officials worker at <a class="targetable" href="http://www.cdg29.bzh/">Centre de Gestion du Finistère</a> on internal web project on fullstack. I work on project alone or in team of two</p>
+                <h2>IUT de Lannion</h2>
+                <p>My first two years a IUT de Lannion were for a DUT informatique, I'm only alternating between CDG29 and School the second year</p>
+            </article>
+        </section>
+        <section class="page active_page">
+            <article>
+                <h1>Baccalauréat</h1>
+                <h3>Bac</h3>
+                <span class="separator"></span>
+                <h2>Lycée Yves Thépot</h2>
+                <p>I get my Baccalauréat at <a class="targetable" href="http://www.lycee-thepot.org/">Lycée Yves Thépot</a> on section STI2D with specialities computer science</p>
+            </article>
+        </section>
+    </main>
+
+    <aside id="page_links">
+        <div class="page_link active_page_link" onclick="scrollToPage(0)"></div>
+        <div class="page_link" onclick="scrollToPage(1)"></div>
+        <div class="page_link" onclick="scrollToPage(2)"></div>
+    </aside>
+
+    <script src="./js/common.js"></script>
+    <script src="./js/multipage.js"></script>
+    <script src="./js/xp.js"></script>
+</body>
+</html>

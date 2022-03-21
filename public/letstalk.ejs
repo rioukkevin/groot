@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>RIOU Kévin - Let's Talk !</title>
+    <meta name="description" content="RIOU Kévin - A very nice form ! You can send me what you want,a Joke ? a job offer ? a meet ? Anythiiiiiing you want is possible !">
+    <meta name="keywords" content="RIOU,Kevin,Bretagne,France,Meet,Me,Form,Contact,Email,Mail">
+
+    <%- include('views/sw.ejs') %>
+
+    <%- include('views/googleanalytics.ejs') %>
+    
+    <%- include('views/meta.ejs') %>
+
+    <%- include('views/dependencies.ejs') %>
+
+    <%- include('views/favicon.ejs') %>
+
+    <!--custom-css-->
+    <link href="./css/common.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/header.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/footer.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/letstalk.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class=" nav-close">
+
+    <%- include('views/header.ejs') %>
+
+    <%- include('views/nav.ejs') %>
+
+    <%- include('views/loader.ejs') %>
+
+    <%- include('views/footer.ejs') %>
+
+    <%- include('views/back.ejs') %>
+
+    <main id="main">
+        <form autocomplete="off" name="contact">
+            <div class="inputgroup targetable" id="name">
+                <label for="name">What's your <span class="stroke highlight">credit card number</span> name</label>
+                <input name="name" type="text" placeholder="Groot"/>
+                <p class="error"></p>
+            </div>
+
+            <div class="inputgroup targetable mask" id="mail">
+                <label for="mail">Where can i respond to you <span class="highlight">?</span></label>
+                <input name="mail" type="text" placeholder="06.18.26.08.49 / riou.kkevin@gmail.com" disabled/>
+                <p class="error"></p>
+            </div>
+
+            <div class="inputgroup targetable mask" id="subject">
+                <label for="subject">What is the <span class="highlight">subject</span> ?</label>
+                <input name="subject" type="text" placeholder="I found the blue elephant" disabled/>
+                <p class="error"></p>
+            </div>
+
+            <div class="inputgroup targetable mask" id="data">
+                <label for="data">We are <span class="highlight">ready</span> to talk ;)</label>
+                <textarea name="data" placeholder="I love apple, yesterday I ..." disabled></textarea>
+                <p class="error"></p>
+            </div>
+
+            <button id="subm" class="mask targetable">Let's go</button>
+        </form>
+    </main>
+
+    <script src="./js/common.js"></script>
+    <script src="./js/letstalk.js"></script>
+</body>
+</html>

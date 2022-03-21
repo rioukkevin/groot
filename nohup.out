@@ -1,0 +1,68 @@
+[33m[nodemon] 1.18.9[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node server.js`[39m
+events.js:167
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EBADF: bad file descriptor, read
+Emitted 'error' event at:
+    at lazyFs.read (internal/fs/streams.js:165:12)
+    at FSReqWrap.wrapper [as oncomplete] (fs.js:463:17)
+[33m[nodemon] 1.18.9[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node server.js`[39m
+events.js:167
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EBADF: bad file descriptor, read
+Emitted 'error' event at:
+    at lazyFs.read (internal/fs/streams.js:165:12)
+    at FSReqWrap.wrapper [as oncomplete] (fs.js:463:17)
+[33m[nodemon] 1.18.9[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node server.js`[39m
+events.js:167
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EBADF: bad file descriptor, read
+Emitted 'error' event at:
+    at lazyFs.read (internal/fs/streams.js:165:12)
+    at FSReqWrap.wrapper [as oncomplete] (fs.js:463:17)
+[33m[nodemon] 1.18.9[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node server.js`[39m
+[33m[nodemon] 1.18.9[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+events.js:167
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8080
+    at Server.setupListenHandle [as _listen2] (net.js:1290:14)
+    at listenInCluster (net.js:1338:12)
+    at Server.listen (net.js:1425:7)
+    at Function.listen (/var/www/kevin_riou_pro/node_modules/express/lib/application.js:618:24)
+    at Object.<anonymous> (/var/www/kevin_riou_pro/server.js:71:5)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Module.load (internal/modules/cjs/loader.js:599:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
+Emitted 'error' event at:
+    at emitErrorNT (net.js:1317:8)
+    at process._tickCallback (internal/process/next_tick.js:63:19)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:745:11)
+    at startup (internal/bootstrap/node.js:283:19)
+    at bootstrapNodeJSCore (internal/bootstrap/node.js:743:3)
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m

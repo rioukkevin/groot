@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>RIOU Kévin - $skills  =  ARRAY()</title>
+    <meta name="description" content="RIOU Kévin - Whaat can I do ? With which technologies ? HTML, CSS, JS ? with Frameworks ? or in Back-End NodeJs or PHP ? What are you searching for ?">
+    <meta name="keywords" content="RIOU,Kevin,Bretagne,France,HTML,CSS,JS,NodeJS,PHP,Framework,Library">
+
+    <%- include('views/sw.ejs') %>
+
+    <%- include('views/googleanalytics.ejs') %>
+    
+    <%- include('views/meta.ejs') %>
+
+    <%- include('views/dependencies.ejs') %>
+
+    <%- include('views/favicon.ejs') %>
+
+    <!--custom-css-->
+    <link href="./css/common.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/header.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/footer.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/skills.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class=" nav-close">
+
+    <%- include('views/header.ejs') %>
+
+    <%- include('views/nav.ejs') %>
+
+    <%- include('views/loader.ejs') %>
+
+    <%- include('views/footer.ejs') %>
+
+    <%- include('views/back.ejs') %>
+
+    <main id="main">
+        <section>
+            <h1>$skills <span class="highlight">&nbsp;=&nbsp;</span> array();</h1>
+            <p id="bash">
+                Welcome to my Skills explorer bash<br/>
+                Type <span class="file">'help'</span> to see available command <i class="em em-stuck_out_tongue_winking_eye"></i><br/>
+                AutoCompletion not available yet<br/>
+                [groot@skills /]$ <span id="currentcmd"></span></p>
+        </section>
+        <textarea id="fakebash">A</textarea>
+        <!-- <a id="download" href="./other/skills.pdf"> You don't understand what is this ? Click here</a> -->
+    </main>
+
+    <script src="./js/common.js"></script>
+    <script src="./js/skills.js"></script>
+</body>
+</html>

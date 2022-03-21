@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>RIOU Kévin - CV</title>
+
+    <%- include('views/meta.ejs') %>
+
+    <%- include('views/dependencies.ejs') %>
+
+    <%- include('views/favicon.ejs') %>
+
+    <!--custom-css-->
+    <link href="./css/common.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="./css/cvfront.css" />
+</head>
+
+<body class="page-0 nav-close">
+    <main id="main">
+        <header>
+            <img src="./favicon/android-chrome-256x256.png" id="logo"/>
+            <div id="infoperso">
+                <h1>RIOU Kevin</h1>
+                <h2>Developpeur web <span class="highlight">&nbsp;/&nbsp;</span> Alternant</h2>
+                <h3>https://kevin.riou.pro</h3>
+            </div>
+        </header>
+        <section id="infoperso2">
+            <p>06.18.26.08.49</p>
+            <p class="highlight">&nbsp;riou.kkevin@gmail.com&nbsp;</p>
+            <p>kevin.riou.pro/talk</p>
+        </section>
+        <ul id="tags">
+            <li>Front</li>
+            <li>Back</li>
+            <li>UI</li>
+            <li>API</li>
+            <li>Webservices</li>
+            <li>Big Data</li>
+            <li>Machine Learning</li>
+            <li>Hybrid</li>
+            <li>Mobile</li>
+        </ul>
+        <div class="row">
+            <section id="exp">
+                <h1 class="title">Experiences</h1>
+                <article id="xp">
+                    <div class="xp"><h4>Triskalia</h4><p>Sep 2018- Aout 2019</p><p class="highlight">&nbsp;Alternance&nbsp;</p><p>LPweb - IUT de Lannion</p></div>
+                    <div class="xp"><h4>CDG29</h4><p>Sep 2017- Aout 2018</p><p class="highlight">&nbsp;Alternance&nbsp;</p><p>DUT Info - IUT de Lannion</p></div>
+                </article>
+                <h1 class="title">Hobbies</h1>
+                <ul id="love">
+                    <li>RallyCross</li>
+                    <li>Web</li>
+                    <li>Culture asiatique</li>
+                </ul>
+            </section>
+            <section id="right">
+                <h1 class="title">Projets</h1>
+                <article class="project">
+                    <h4>Magnetic Cursor</h4>
+                    <h5 style="background-color:rgba(100, 100, 100, 0.6)">En developpement</h5>
+                    <p>Une librairie front en JS/CSS permettant un curseur dynamique</p>
+                    <a href="https://rioukevin.gitlab.io/magnetic_cursor/">rioukevin.gitlab.io/magnetic_cursor/</a> 
+                </article>
+                <article class="project">
+                    <h4>Site personnel CV</h4>
+                    <h5 style="background-color:rgba(0, 155, 0, 0.6)">Done</h5>
+                    <p>Un site permettant l'accès à mon portfolio pour completer ce CV</p>  
+                    <a href="https://kevin.riou.pro">kevin.riou.pro</a>   
+                </article>
+                <article class="project">
+                    <h4>Et Plus ...</h4>
+                    <p>D'autres projets sont disponible sur mon site</p>  
+                    <a href="https://kevin.riou.pro/project">kevin.riou.pro/project</a>   
+                </article>
+            </section>
+        </div>
+    </main>
+</body>
+
+</html>

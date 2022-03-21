@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>RIOU Kévin - What I've done</title>
+    <meta name="description" content="RIOU Kévin - I work on many thing like all the projects you can see here ;)">
+    <meta name="keywords" content="RIOU,Kevin,Bretagne,France,project,UI,UX,visagelivre,plongee">
+
+    <%- include('views/sw.ejs') %>
+
+    <%- include('views/googleanalytics.ejs') %>
+    
+    <%- include('views/meta.ejs') %>
+
+    <%- include('views/dependencies.ejs') %>
+
+    <%- include('views/favicon.ejs') %>
+
+    <!--custom-css-->
+    <link href="./css/common.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/header.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/footer.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/project.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class=" nav-close">
+
+    <%- include('views/header.ejs') %>
+
+    <%- include('views/nav.ejs') %>
+
+    <%- include('views/loader.ejs') %>
+
+    <%- include('views/footer.ejs') %>
+
+    <%- include('views/back.ejs') %>
+
+    <main id="main">
+        <section>
+            <div class="row">
+                <h2 id="name"></h2>
+                <h3 class="highlight" id="year"></h3>
+            </div>
+            <p class="highlight" id="introduction"></p>
+            <h4 id="state"></h4>
+            <div class="row">
+                <article id="imglist"></article>
+                <article id="right">
+                    <h3>On what does I work ?</h3>
+                    <ul id="roles"></ul>
+                    <h3>With which technologies ?</h3>
+                    <ul id="technologies"></ul>
+                    <p id="content"></p>
+                    <ul id="urls"></ul>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <aside id="arrowleft" onclick="change(currentproject - 1);" class="arrow targetable highlight">&nbsp;previous&nbsp;</aside>
+    <aside id="arrowright" onclick="change(currentproject + 1);" class="arrow targetable highlight">&nbsp;next&nbsp;</aside>
+
+    <div id="blurmask">
+        <img src="" alt="none" id="imgfullscreen"/> 
+    </div>
+
+    <script src="./js/common.js"></script>
+    <script src="./js/project.js"></script>
+</body>
+</html>
