@@ -1,58 +1,63 @@
 @import "../../../styles/styles";
 
-$mee_size: 500;
+$mee_size: 800;
 
 .container {
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
-  height: #{$mee_size}px;
-  min-height: #{$mee_size}px;
-  z-index: 1;
-  margin-top: 100px;
-  border-radius: 500px;
   pointer-events: none;
 
   .name {
-    font-size: #{$mee_size / 2 - $mee_size / 20}px;
-    color: #{$sealk}77;
-    font-weight: bolder;
-    position: absolute;
-    top: #{$mee_size / 6}px;
-  }
+    height: 100vh;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  &.isLoading {
-    & > span > span::before {
-      right: 0;
+    & > div {
+      font-size: 40vh;
+      color: #{$sealk}77;
+      font-weight: bolder;
+
+      &::selection {
+        background-color: transparent;
+      }
     }
   }
 
-  & > span {
-    margin: -#{$mee_size / 2}px 0 !important;
-
-    & > span::before {
-      z-index: 3;
-      display: block;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      top: 0;
-      right: 100%;
-      content: "";
-      background-color: $pinky;
-      transition-duration: 1000ms;
-    }
+  .mee {
+    height: 100vh;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -100vh;
   }
 
   .surname {
+    height: 100vh;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -100vh;
     z-index: 2;
-    font-family: Brush;
-    font-size: #{$mee_size / 3}px;
-    color: $pinky;
-    font-weight: 100;
-    position: absolute;
-    top: #{$mee_size / 3 + $mee_size / 10}px;
+
+    & > div {
+      font-family: Brush;
+      font-size: 30vh;
+      line-height: 30vh;
+      color: $pinky;
+      font-weight: 100;
+
+      &::selection {
+        background-color: transparent;
+      }
+    }
   }
 }

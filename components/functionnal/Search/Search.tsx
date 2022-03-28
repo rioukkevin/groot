@@ -15,6 +15,8 @@ import { useLoader } from "../../../hooks/useTrigger";
 import { analytics } from "../../../services/analytics";
 import Router, { useRouter } from "next/router";
 import { TransitionContext } from "../../graphics/Transition/TransitionContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {}
 
@@ -70,17 +72,18 @@ export const Search: FC<IProps> = (props) => {
     <>
       <div
         ref={searchContainer}
-        className={`${styles.searchContainer} ${
-          isLoading ? styles.loading : ""
-        }`}
+        className={`${styles.container} ${isLoading ? styles.loading : ""}`}
       >
-        <input
-          ref={searchInput}
-          placeholder="Search"
-          value={query}
-          onBlur={handleBlur}
-          onChange={handleSearch}
-        />
+        <div className={styles.searchContainer}>
+          <input
+            ref={searchInput}
+            placeholder="Search"
+            value={query}
+            onBlur={handleBlur}
+            onChange={handleSearch}
+          />
+          <FontAwesomeIcon color="inherit" fontSize="40px" icon={faSearch} />
+        </div>
         <div className={styles.filters}>
           {FILTERS.map((f, i) => (
             <div
