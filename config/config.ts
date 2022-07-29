@@ -1,1 +1,0 @@
-export const MINIMAL_TIME_BEFORE_ANIMATION = 1500;
