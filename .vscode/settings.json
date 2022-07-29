@@ -1,57 +1,39 @@
 {
   "workbench.colorCustomizations": {
-    "tab.activeBorder": "#867ccf",
-    "activityBar.activeBackground": "#867ccf",
-    "activityBar.activeBorder": "#8c3e33",
-    "activityBar.background": "#867ccf",
+    "activityBar.activeBackground": "#56febb",
+    "activityBar.activeBorder": "#cc80fe",
+    "activityBar.background": "#56febb",
     "activityBar.foreground": "#15202b",
     "activityBar.inactiveForeground": "#15202b99",
-    "activityBarBadge.background": "#8c3e33",
-    "activityBarBadge.foreground": "#e7e7e7",
-    "sash.hoverBorder": "#867ccf"
+    "activityBarBadge.background": "#cc80fe",
+    "activityBarBadge.foreground": "#15202b",
+    "sash.hoverBorder": "#56febb",
+    "tab.activeBorder": "#56febb"
   },
-  "peacock.color": "#6457c1",
-  "vscodeGitCommit.template": ["{feat}({scope}): {message} "],
+  "peacock.color": "#23fea6",
+  "vscodeGitCommit.insertMode": "Replace",
+  "vscodeGitCommit.template": ["{feat}: {message} "],
   "vscodeGitCommit.variables": {
     "feat": [
       {
-        "label": "🎓 Functional"
+        "label": "😎 Feature"
       },
       {
-        "label": "🌈 Graphics"
+        "label": "😇 Hosting"
       },
       {
-        "label": "🚀 Deploy"
+        "label": "😝 Content"
       },
       {
-        "label": "🔐 Security"
+        "label": "🥸 SEO"
       },
       {
-        "label": "🧹 WIP"
-      },
-      {
-        "label": "🪲 Bug"
+        "label": "🤮 Dependency"
       }
     ],
-    "scope": [
-      {
-        "label": "Component"
-      },
-      {
-        "label": "Page"
-      },
-      {
-        "label": "Utils"
-      },
-      {
-        "label": "Infra"
-      },
-      {
-        "label": "Config"
-      },
-      {
-        "label": ""
-      }
-    ]
+    "vscodeGitCommit.variablesDisplayTitles": {
+      "feat": "Type d'action",
+      "message": "Détail de l'action"
+    }
   }
 }
