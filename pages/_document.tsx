@@ -12,7 +12,7 @@ export default function Document() {
   return (
     <Html lang="fr">
       <Head />
-      <body>
+      <body className="bg-cleary w-full h-full">
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-W95S4H2"
