@@ -1,6 +1,10 @@
+import { useContext } from "react";
+import { SettingsContext } from "../components/Settings";
 import { Title } from "../components/Title";
 
 export const ModuleMe = () => {
+  const { isATech } = useContext(SettingsContext);
+
   return (
     <section className="w-full flex flex-col justify-between items-stretch">
       <Title value="Qui suis-je ?" />
@@ -24,6 +28,18 @@ export const ModuleMe = () => {
         <strong>meetups</strong> pour <strong>découvrir</strong> de nouvelles
         choses y compris pour des sujets non liés au développement.
       </p>
+      {isATech && (
+        <>
+          <p className="w-2/3 self-end text-justify my-6 text-secondary">
+            Que ce soit du frontend ou du backend, du moment que c&apos;est dans
+            l&apos;environnement JS, je suis votre homme. Pour
+            l&apos;hébergement pas de problèmes non plus, une infra à mettre en
+            place ? je peux m&apos;y coller, une exploitation de Docker
+            avec/sans kubernetes j&apos;adore, helm en plus pour le templating
+            de kub, quel bonheur !
+          </p>
+        </>
+      )}
     </section>
   );
 };

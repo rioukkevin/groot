@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Script from "next/script";
+import { SettingsProvider } from "../components/Settings";
 
 const GTM_ID = "GTM-W95S4H2";
 
@@ -16,7 +17,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         })(window,document,'script','dataLayer','${GTM_ID}');
       `}
       </Script>
-      <Component {...pageProps} />
+      <SettingsProvider>
+        <Component {...pageProps} />
+      </SettingsProvider>
     </>
   );
 }
