@@ -15,8 +15,8 @@ export const ModuleHome = () => {
           <div className="ml-4 px-4 py-2 bg-secondary">web</div>
         </h2>
         <p>
-          Je recherche une nouvelle aventure, vous avez une mission à me confier
-          ? Contactez moi !
+          Je recherche une nouvelle aventure, si vous avez une mission pour moi
+          contactez moi !
         </p>
       </div>
       <Image

@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+import { Socials } from "../components/Socials";
 import { ModuleHome } from "../modules/Home";
-import styles from "../styles/Home.module.css";
+import { ModuleWorks } from "../modules/Works";
 
 const Home: NextPage = () => {
   return (
@@ -13,8 +13,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container mx-auto bg-white my-24 py-24 px-36 rounded border-darky border-1 box-shadow flex flex-col justify-start items-center">
+      <main className="container relative mx-auto max-w-[1280px] bg-white my-24 py-24 px-36 rounded-lg border-darky border-1 shadow-md flex flex-col justify-start items-center">
+        <Socials />
         <ModuleHome />
+        <ModuleWorks />
       </main>
     </>
   );

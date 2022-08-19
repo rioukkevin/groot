@@ -5,16 +5,22 @@ module.exports = {
     "./components/**/*.{ts,tsx}",
     "./modules/**/*.{ts,tsx}",
   ],
+  plugins: [require("tailwind-children")],
   theme: {
+    fontFamily: {
+      DEFAULT: ["Roboto Mono", "sans-serif"],
+    },
     extend: {
       colors: {
-        primary: "#FCE762",
+        primary: "#CA3C25",
         secondary: "#508484",
-        tertiary: "#CA3C25",
+        tertiary: "#FCE762",
         darky: "#121113",
         cleary: "#f2e5d7",
       },
+      fontFamily: {
+        roboto: ["Roboto Mono", "sans-serif"],
+      },
     },
   },
-  plugins: [],
 };
