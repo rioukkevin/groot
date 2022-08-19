@@ -32,7 +32,7 @@ export const Work: FC<IProps> = (props) => {
         <div className="w-[50px] min-w-[50px] h-[300px] py-6 flex flex-col justify-start">
           {work.images.map((img, i) => (
             <div
-              className="relative w-[50px] aspect-square mb-3 isolate"
+              className="relative w-[50px] aspect-square mb-3 isolate cursor-pointer"
               key={i}
               onClick={() => setDisplayedImageIndex(i)}
             >

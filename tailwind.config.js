@@ -16,7 +16,7 @@ module.exports = {
         secondary: "#508484",
         tertiary: "#FCE762",
         darky: "#121113",
-        cleary: "#f2e5d7",
+        cleary: "#fcfbf299",
       },
       fontFamily: {
         roboto: ["Roboto Mono", "sans-serif"],

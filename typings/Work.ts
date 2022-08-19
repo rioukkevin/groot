@@ -12,5 +12,6 @@ export interface IWork {
     | "frontend"
     | "backend"
     | "graphic"
+    | "mobile"
     | "other";
 }
