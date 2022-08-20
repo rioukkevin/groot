@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import { Socials } from "../components/Socials";
 import { ModuleHome } from "../modules/Home";
 import { ModuleMe } from "../modules/Me";
