@@ -1,24 +1,25 @@
-/* eslint-disable @next/next/no-script-component-in-head */
+import type { NextPage } from "next";
 import Head from "next/head";
-// import Script from "next/script";
-import React from "react";
-import Me from "../components/functionnal/Me";
-import Search from "../components/functionnal/Search";
-import styles from "./index.module.scss";
+import { Socials } from "../components/Socials";
+import { ModuleHome } from "../modules/Home";
+import { ModuleMe } from "../modules/Me";
+import { Metas } from "../modules/SEO/Metas";
+import { ModuleSettings } from "../modules/Settings";
+import { ModuleWorks } from "../modules/Works";
 
-export default function Home() {
+const Home: NextPage = () => {
   return (
-    <div>
-      <Head>
-        <title>Riou Kévin</title>
-        <meta content="I am groot" name="description" />
-        <link href="/favicon.png" rel="icon" />
-      </Head>
-
-      <main suppressHydrationWarning className={styles.container}>
-        <Me />
-        <Search />
+    <>
+      <Metas />
+      <main className="container relative mx-auto max-w-[1280px] bg-white my-24 py-24 px-36 rounded-lg border-darky border-1 shadow-md flex flex-col justify-start items-center">
+        <Socials />
+        <ModuleHome />
+        <ModuleSettings />
+        <ModuleMe />
+        <ModuleWorks />
       </main>
-    </div>
+    </>
   );
-}
+};
+
+export default Home;

@@ -1,10 +1,20 @@
-const withLqipImages = require("next-lqip-images");
+/** @type {import('next').NextConfig} */
 
-module.exports = withLqipImages({
-  fileExtensions: ["jpg", "jpeg", "png", "gif"],
+const withMDX = require("@next/mdx")({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+    // If you use `MDXProvider`, uncomment the following line.
+    // providerImportSource: "@mdx-js/react",
+  },
+});
+module.exports = withMDX({
+  // Append the default value with md extensions
   reactStrictMode: true,
-  target: "serverless",
+  swcMinify: true,
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   images: {
-    disableStaticImages: true,
+    domains: ["i.pinimg.com"],
   },
 });
