@@ -23,7 +23,13 @@ export default function Document() {
           rel="stylesheet"
         ></link>
       </Head>
-      <body className="bg-cleary w-full h-full">
+      <body
+        className="bg-cleary w-full h-full"
+        style={{
+          background:
+            "linear-gradient(91deg, hsl(8deg 96% 96%) 0%, hsla(0, 0%, 92%, 1) 100%)",
+        }}
+      >
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-W95S4H2"
