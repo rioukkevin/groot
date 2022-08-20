@@ -52,57 +52,64 @@ export const WORKS_CONTENT: IWork[] = [
   {
     name: "VSCode git commit",
     description:
-      "Une extension qui offre une harmonie des messages de commit pour les utilisateurs de VSCode, plus de 7k/* installations et 30 étoiles github c'est mon projet phare",
+      "Une extension qui offre une harmonie des messages de commit pour les utilisateurs de VSCode, plus de **7k** installations et **30 stars github**, c'est mon projet le plus célèbre",
     type: "vscode",
     url: "https://gcm-config.netlify.app/",
+    techs: ["VSCode", "Typescript", "React"],
     images: [IMGVSCodeGitCommit1, IMGVSCodeGitCommit2],
   },
   {
     name: "Britch",
     description:
-      "Une extension chrome pour twitch, permet un réglage de la luminosité des streams sur twitch",
+      "Une extension chrome pour twitch, permet un réglage de la **luminosité** et du **contraste** des streams sur twitch sans demander au diffuseur.",
     type: "chrome",
     url: "https://chrome.google.com/webstore/detail/britch-twitch-brightness/mbakeppieaiacmnfckfmaijhjlelokph",
+    techs: ["Chrome API", "Typescript", "React", "Webpack"],
     images: [IMGBritch1, IMGBritch2],
   },
   {
     name: "Overlay de manette",
     description:
-      "Quelques overlay de manette réalisés pour des streameurs twitch selon leur charte graphique",
+      "Quelques **overlays** de **manette** réalisés pour des streameurs twitch selon leur charte graphique",
     type: "graphic",
     url: "https://github.com/rioukkevin/custom-thustmaster-overlay",
+    techs: ["Figma", "CSS", "Paint.net"],
     images: [IMGController1, IMGController2, IMGController3],
   },
   {
     name: "Bot Discord AmongUs",
     description:
-      "C'est un bot qui permet à des personnes d'organiser une soirée en définissant les disponibilités journalières et horaires de chacun",
+      "C'est un bot qui permets à des personnes d'**organiser** une soirée en définissant les **disponibilités** journalières et horaires de chacun",
     type: "bot",
     url: "https://github.com/rioukkevin/discord-bot-amongus",
+    techs: ["DiscordJS", "Typescript", "NodeJS", "Webpack", "Framework custom"],
     images: [IMGDiscordBotAmongus1, IMGDiscordBotAmongus2],
   },
   {
     name: "Greevel",
     description:
-      "Greevel est un prototype fait pour un investisseur sur Angers. Celui-ci souhaite un prototype d'application pour inciter les employés des entreprises de ville à utiliser des moyens de transports commun ou plus écologiques.",
+      "Greevel est un **prototype** conçu pour un investisseur sur Angers. Celui-ci souhaite une application pour inciter les employés des entreprises de ville à utiliser des moyens de transports commun ou plus écologiques.",
     type: "mobile",
     url: "mailto:kevin@riou.pro",
+    techs: ["ReactNative", "Expo", "Typescript"],
     images: [IMGGreevel1, IMGGreevel2, IMGGreevel3, IMGGreevel4],
   },
   {
     name: "Diagevol",
     description:
-      "Diagevol est le site vitrine du produit mis en vente par Alpha8, j'ai développé la première version du site en me basant sur un début de maquette.",
+      "Diagevol est le site vitrine du produit mis en vente par **Alpha8**, j'ai développé la première version du site en me basant sur une maquette partielle.",
     type: "frontend",
     url: "https://diagevol.fr",
+    techs: ["React", "TailwindCSS", "Typescript"],
     images: [IMGDiagevol1, IMGDiagevol2, IMGDiagevol3, IMGDiagevol4],
   },
   {
     name: "Subiby",
     description:
-      "Subiby est une interface web que j'ai créée afin de répertorier toutes les souscriptions que je paie et savoir quand arrivent les prochains prélèvements.",
+      "Subiby est une interface web que j'ai créée afin de répertorier toutes les **souscriptions** que je paie et savoir quand arrivent les prochains **prélèvements**.",
     type: "mobile",
     url: "https://subiby.vercel.app",
+    techs: ["React", "Typescript", "Firebase.Firestore", "Firebase.Auth"],
     images: [IMGSubiby1, IMGSubiby2, IMGSubiby3],
   },
 ];

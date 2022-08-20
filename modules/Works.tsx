@@ -19,7 +19,7 @@ export const ModuleWorks = () => {
 
   return (
     <section className="w-full flex flex-col justify-between items-center">
-      <Title value="Mes projets" />
+      <Title value="Mes projets récents" />
       <div className="w-full flex justify-start items-center font-bold text-lg">
         <div
           style={{

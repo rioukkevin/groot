@@ -32,11 +32,11 @@ export const ModuleMe = () => {
         <>
           <p className="w-2/3 self-end text-justify my-6 text-secondary">
             Que ce soit du frontend ou du backend, du moment que c&apos;est dans
-            l&apos;environnement JS, je suis votre homme. Pour
+            l&apos;environnement <strong>JS</strong>, je suis votre homme. Pour
             l&apos;hébergement pas de problèmes non plus, une infra à mettre en
-            place ? je peux m&apos;y coller, une exploitation de Docker
-            avec/sans kubernetes j&apos;adore, helm en plus pour le templating
-            de kub, quel bonheur !
+            place ? je peux m&apos;y coller, une exploitation de{" "}
+            <strong>Docker avec/sans kubernetes</strong> j&apos;adore, helm en
+            plus pour le templating de kub, quel <strong>bonheur</strong> !
           </p>
         </>
       )}

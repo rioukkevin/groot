@@ -1,11 +1,14 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { IWork } from "../typings/Work";
+
+import { marked } from "marked";
 
 import Image from "next/image";
 
 import { WORKS_ICONS } from "../contents/Works";
 import { RiEyeLine } from "react-icons/ri";
 import { Link } from "./Link";
+import { SettingsContext } from "./Settings";
 
 interface IProps {
   work: IWork;
@@ -14,18 +17,27 @@ interface IProps {
 export const Work: FC<IProps> = (props) => {
   const { work } = props;
 
+  const { isATech } = useContext(SettingsContext);
+
   const Icon = WORKS_ICONS[work.type];
 
   const [displayedImageIndex, setDisplayedImageIndex] = useState<number>(0);
 
   return (
-    <article className="mx-3 my-3 relative flex flex-nowrap justify-between items-center w-full h-[300px] bg-white shadow-lg rounded-lg overflow-hidden">
+    <article
+      className={`mx-3 my-3 relative flex flex-nowrap justify-between items-center w-full h-[300px] bg-white shadow-lg rounded-lg ${
+        isATech ? "mb-8" : ""
+      }`}
+    >
       <div className="p-12 flex-grow relative h-full flex flex-col justify-between">
         <h2 className="text-xl font-bold mb-3 w-10/12 flex">
           <Icon size={32} className="fill-neutral-700 mr-6" />
           {work.name}
         </h2>
-        <p className="text-md w-10/12">{work.description}</p>
+        <p
+          className="text-md w-10/12"
+          dangerouslySetInnerHTML={{ __html: marked.parse(work.description) }}
+        />
         <Link label=">&nbsp;accès_" href={work.url} />
       </div>
       {work.images.length > 1 && (
@@ -63,6 +75,17 @@ export const Work: FC<IProps> = (props) => {
           className="rounded-lg"
         />
       </div>
+      {isATech && (
+        <div className="bg-secondary absolute top-[300px] left-6 max-w-[90%] flex rounded-b-lg px-6 h-9 text-sm">
+          {work.techs.map((t, i) => {
+            return (
+              <div key={i} className="p-2 rounded text-white">
+                {t}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </article>
   );
 };

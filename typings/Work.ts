@@ -5,6 +5,7 @@ export interface IWork {
   url: string;
   description: string;
   images: StaticImageData[];
+  techs: string[];
   type:
     | "vscode"
     | "chrome"
