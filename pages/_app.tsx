@@ -2,16 +2,23 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Script from "next/script";
 import { SettingsProvider } from "../components/Settings";
+import { useEffect } from "react";
 
 const GTM_ID = "GTM-W95S4H2";
 
-navigator.serviceWorker.getRegistrations().then((registrations) => {
-  registrations.forEach((registration) => {
-    registration.unregister();
-  });
-});
-
 function MyApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          registrations.forEach((registration) => {
+            registration.unregister();
+          });
+        });
+      });
+    }
+  });
+
   return (
     <>
       <Script id="google-tag-manager" strategy="afterInteractive">
