@@ -5,6 +5,12 @@ import { SettingsProvider } from "../components/Settings";
 
 const GTM_ID = "GTM-W95S4H2";
 
+navigator.serviceWorker.getRegistrations().then((registrations) => {
+  registrations.forEach((registration) => {
+    registration.unregister();
+  });
+});
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
