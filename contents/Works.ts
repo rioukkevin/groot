@@ -48,11 +48,21 @@ export const WORKS_ICONS: { [key in IWork["type"]]: any } = {
   other: RiMoreLine,
 };
 
+export const WORKS_ICONS_LABEL: { [key in IWork["type"]]: string } = {
+  vscode: "Extensions VSCode",
+  chrome: "Extensions Chrome",
+  bot: "Bots",
+  frontend: "Clients web",
+  backend: "APIs",
+  graphic: "Graphismes",
+  mobile: "Applications Mobiles",
+  other: "Autres",
+};
+
 export const WORKS_CONTENT: IWork[] = [
   {
     name: "VSCode git commit",
-    description:
-      "Une extension qui offre une harmonie des messages de commit pour les utilisateurs de VSCode, plus de **7k** installations et **30 stars github**, c'est mon projet le plus célèbre",
+    description: "vscodeGitCommit",
     type: "vscode",
     url: "https://gcm-config.netlify.app/",
     techs: ["VSCode", "Typescript", "React", "Netlify"],
@@ -60,17 +70,15 @@ export const WORKS_CONTENT: IWork[] = [
   },
   {
     name: "Britch",
-    description:
-      "Une extension chrome pour twitch, permet un réglage de la **luminosité** et du **contraste** des streams sur twitch sans impacter au diffuseur.",
+    description: "britch",
     type: "chrome",
     url: "https://chrome.google.com/webstore/detail/britch-twitch-brightness/mbakeppieaiacmnfckfmaijhjlelokph",
     techs: ["Chrome API", "Typescript", "React", "Webpack"],
     images: [IMGBritch1, IMGBritch2],
   },
   {
-    name: "Overlay de manette",
-    description:
-      "Quelques **overlays** de **manettes** réalisés pour des streameurs twitch selon leur charte graphique",
+    name: "Controller overlay",
+    description: "controllerOverlay",
     type: "graphic",
     url: "https://github.com/rioukkevin/custom-thustmaster-overlay",
     techs: ["Figma", "CSS", "Paint.net", "Netlify"],
@@ -78,8 +86,7 @@ export const WORKS_CONTENT: IWork[] = [
   },
   {
     name: "Bot Discord AmongUs",
-    description:
-      "C'est un bot qui permet à des personnes d'**organiser** une soirée en définissant les **disponibilités** journalières et horaires de chacun",
+    description: "discordBotAmongus",
     type: "bot",
     url: "https://github.com/rioukkevin/discord-bot-amongus",
     techs: [
@@ -94,8 +101,7 @@ export const WORKS_CONTENT: IWork[] = [
   },
   {
     name: "Greevel",
-    description:
-      "Greevel est un **prototype** conçu pour un investisseur sur Angers. Celui-ci souhaite une application pour inciter les employés des entreprises de ville à utiliser des moyens de transports en commun ou plus écologiques.",
+    description: "greevel",
     type: "mobile",
     url: "mailto:kevin@riou.pro",
     techs: ["ReactNative", "Expo", "Typescript", "Docker"],
@@ -103,8 +109,7 @@ export const WORKS_CONTENT: IWork[] = [
   },
   {
     name: "Diagevol",
-    description:
-      "Diagevol est le site vitrine du produit mis en vente par **Alpha8**, j'ai développé la première version du site en me basant sur une maquette partielle.",
+    description: "diagevol",
     type: "frontend",
     url: "https://diagevol.fr",
     techs: ["React", "TailwindCSS", "Typescript", "Netlify"],
@@ -112,8 +117,7 @@ export const WORKS_CONTENT: IWork[] = [
   },
   {
     name: "Subiby",
-    description:
-      "Subiby est une interface web que j'ai créée afin de répertorier toutes les **souscriptions** que je paie et savoir quand arrivent les prochains **prélèvements**.",
+    description: "subiby",
     type: "mobile",
     url: "https://subiby.vercel.app",
     techs: [

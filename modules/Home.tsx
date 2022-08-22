@@ -1,8 +1,11 @@
 import Image from "next/image";
 
 import IMGMe from "../assets/Profil.png";
+import { useTranslations } from "../translations/Translations";
 
 export const ModuleHome = () => {
+  const { t } = useTranslations();
+
   return (
     <section className="w-full flex justify-between items-center">
       <div className="flex flex-col w-2/5">
@@ -11,13 +14,10 @@ export const ModuleHome = () => {
           <div className="mt-4 text-6xl">Kevin</div>
         </h1>
         <h2 className="text-2xl text-white flex -ml-4 mb-10">
-          <div className="px-4 py-2 bg-secondary">Développeur</div>
-          <div className="ml-4 px-4 py-2 bg-secondary">web</div>
+          <div className="px-4 py-2 bg-secondary">{t.home.job1}</div>
+          <div className="ml-4 px-4 py-2 bg-secondary">{t.home.job2}</div>
         </h2>
-        <p>
-          Je recherche une nouvelle aventure, si vous avez une mission, prenez
-          contact !
-        </p>
+        <p>{t.home.info}</p>
       </div>
       <Image
         src={IMGMe}

@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import Script from "next/script";
 import { SettingsProvider } from "../components/Settings";
 import { useEffect } from "react";
+import { TranslationsProvider } from "../translations/Translations";
 
 const GTM_ID = "GTM-W95S4H2";
 
@@ -31,7 +32,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       `}
       </Script>
       <SettingsProvider>
-        <Component {...pageProps} />
+        <TranslationsProvider>
+          <Component {...pageProps} />
+        </TranslationsProvider>
       </SettingsProvider>
     </>
   );

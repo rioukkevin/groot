@@ -9,6 +9,7 @@ import { WORKS_ICONS } from "../contents/Works";
 import { RiEyeLine } from "react-icons/ri";
 import { Link } from "./Link";
 import { SettingsContext } from "./Settings";
+import { useTranslations } from "../translations/Translations";
 
 interface IProps {
   work: IWork;
@@ -23,6 +24,8 @@ export const Work: FC<IProps> = (props) => {
 
   const [displayedImageIndex, setDisplayedImageIndex] = useState<number>(0);
 
+  const { t } = useTranslations();
+
   return (
     <article
       className={`mx-3 my-3 relative flex flex-nowrap justify-between items-center w-full h-[300px] bg-white shadow-lg rounded-lg ${
@@ -36,9 +39,11 @@ export const Work: FC<IProps> = (props) => {
         </h2>
         <p
           className="text-md w-10/12"
-          dangerouslySetInnerHTML={{ __html: marked.parse(work.description) }}
+          dangerouslySetInnerHTML={{
+            __html: t.works.descriptions[work.description],
+          }}
         />
-        <Link label=">&nbsp;accès_" href={work.url} />
+        <Link label={`> ${t.works.access}_`} href={work.url} />
       </div>
       {work.images.length > 1 && (
         <div className="w-[50px] min-w-[50px] h-[300px] py-6 flex flex-col justify-start">
@@ -77,10 +82,10 @@ export const Work: FC<IProps> = (props) => {
       </div>
       {isATech && (
         <div className="bg-secondary absolute top-[300px] left-6 max-w-[90%] flex rounded-b-lg px-6 h-9 text-sm">
-          {work.techs.map((t, i) => {
+          {work.techs.map((ta, i) => {
             return (
               <div key={i} className="p-2 rounded text-white">
-                {t}
+                {ta}
               </div>
             );
           })}

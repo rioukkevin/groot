@@ -17,4 +17,9 @@ module.exports = withMDX({
   images: {
     domains: ["i.pinimg.com"],
   },
+  i18n: {
+    locales: ["en", "fr"],
+    defaultLocale: "fr",
+    localeDetection: false,
+  },
 });
