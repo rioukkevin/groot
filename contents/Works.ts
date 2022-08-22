@@ -94,7 +94,7 @@ export const WORKS_CONTENT: IWork[] = [
       "Typescript",
       "NodeJS",
       "Webpack",
-      "Framework custom",
+      "Custom Framework",
       "Heroku",
     ],
     images: [IMGDiscordBotAmongus1, IMGDiscordBotAmongus2],

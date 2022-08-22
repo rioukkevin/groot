@@ -13,16 +13,16 @@ export const fr: ITranslation = {
   me: {
     title: "Qui suis-je ?",
     p1: marked.parse(
-      "Actuellement développeur web dans une petite startup nommée <strong>Alpha8</strong>, je suis aussi un <strong>indépendant</strong> pour des missions occasionnelles mais surtout, je suis développeur d&apos;utilitaires <strong>open-source</strong> pour le quotidien des développeurs et des joueurs."
+      "Actuellement développeur web dans une petite startup nommée **Alpha8**, je suis aussi un **indépendant** pour des missions occasionnelles mais surtout, je suis développeur d'utilitaires **open-source** pour le quotidien des développeurs et des joueurs."
     ),
     p2: marked.parse(
-      "Passionné par <strong>l&apos;automobile</strong>, le <strong>développement</strong> et les <strong>jeux vidéos</strong>, ces éléments font partie de mon quotidien. Lorsque je peux, je développe des outils pour répondre à mes besoins ou ceux que je rencontre en entreprise ainsi que dans les communautés de <strong>twitch</strong> que je fréquente."
+      "Passionné par **l'automobile**, le **développement** et les **jeux vidéos**, ces éléments font partie de mon quotidien. Lorsque je peux, je développe des outils pour répondre à mes besoins ou ceux que je rencontre en entreprise ainsi que dans les communautés de **twitch** que je fréquente."
     ),
     p3: marked.parse(
-      "Enfin, je suis friands des <strong>meetups</strong> pour y acquérir de nouvelles connaissances y compris sur des sujets non liés au développement."
+      "Enfin, je suis friands des **meetups** pour y acquérir de nouvelles connaissances y compris sur des sujets non liés au développement."
     ),
     p4: marked.parse(
-      "Que ce soit du frontend ou du backend, si c&apos;est dans l&apos;environnement <strong>JS</strong>, je suis votre homme. Pour l&apos;hébergement pas de problèmes non plus, une infra à mettre en place ? je peux m&apos;y ateler, une exploitation de <strong>Docker avec/sans kubernetes</strong>, j&apos;adore, helm en plus pour le templating de kub, quel <strong>bonheur</strong> !"
+      "Que ce soit du frontend ou du backend, si c'est dans l'environnement **JS**, je suis votre homme. Pour l'hébergement pas de problèmes non plus, une infra à mettre en place ? je peux m'y ateler, une exploitation de **Docker avec/sans kubernetes**, j'adore, helm en plus pour le templating de kub, quel **bonheur** !"
     ),
   },
   works: {
