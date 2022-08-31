@@ -1,16 +1,13 @@
-import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { RiGithubLine, RiLinkedinLine, RiTranslate } from "react-icons/ri";
-import { TranslationsContext } from "../translations/Translations";
+import { TranslationsContext, useLang } from "../translations/Translations";
 import { Link } from "./Link";
 
 const ICON_SIZE = 24;
 
 export const Socials = () => {
-  const router = useRouter();
-
   const [lang, setLangInternal] = useState<"fr" | "en">("fr");
-  const { setLang } = useContext(TranslationsContext);
+  const { setLang, t } = useContext(TranslationsContext);
 
   const handleChangeLang = () => {
     const toSet = lang === "fr" ? "en" : "fr";
@@ -21,9 +18,10 @@ export const Socials = () => {
 
   return (
     <div className="flex justify-center items-center absolute top-0 right-0 p-6">
+      <Link label={t.socials.resume} href={`/resume/${lang}.pdf`}></Link>
       <button
         onClick={handleChangeLang}
-        className="mr-6 flex justify-center items-center hover:scale-110 duration-100 hover:fill-primary hover:text-primary font-bold"
+        className="mx-6 flex justify-center items-center hover:scale-110 duration-100 hover:fill-primary hover:text-primary font-bold"
       >
         <RiTranslate className="mr-2" size={22} />
         {lang === "fr" ? "En" : "Fr"}

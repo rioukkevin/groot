@@ -12,6 +12,7 @@ import { fr } from "./fr";
 interface ISettings {
   t: ITranslation;
   setLang: (value: "fr" | "en") => void;
+  lang: "fr" | "en";
 }
 
 const TRANS: { [key in "fr" | "en"]: ITranslation } = {
@@ -22,6 +23,7 @@ const TRANS: { [key in "fr" | "en"]: ITranslation } = {
 export const TranslationsContext = createContext<ISettings>({
   t: fr,
   setLang: () => null,
+  lang: "fr",
 });
 
 interface IProps extends PropsWithChildren {}
@@ -31,7 +33,11 @@ export const TranslationsProvider: FC<IProps> = (props) => {
 
   return (
     <TranslationsContext.Provider
-      value={{ t: TRANS[currentLang], setLang: setCurrentLang }}
+      value={{
+        t: TRANS[currentLang],
+        setLang: setCurrentLang,
+        lang: currentLang,
+      }}
     >
       {props.children}
     </TranslationsContext.Provider>
@@ -44,4 +50,10 @@ export const useTranslations = (): { t: ITranslation } => {
   return {
     t,
   };
+};
+
+export const useLang = (): "fr" | "en" => {
+  const { lang } = useContext(TranslationsContext);
+
+  return lang;
 };
