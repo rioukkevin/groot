@@ -2,6 +2,9 @@ import { marked } from "marked";
 import { ITranslation } from ".";
 
 export const en: ITranslation = {
+  socials: {
+    resume: "Resume",
+  },
   home: {
     job1: "Web",
     job2: "Developer",

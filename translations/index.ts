@@ -1,6 +1,9 @@
 import { IWork } from "../typings/Work";
 
 export interface ITranslation {
+  socials: {
+    resume: string;
+  };
   home: {
     job1: string;
     job2: string;
