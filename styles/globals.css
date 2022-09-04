@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* html {
+  overflow-x: hidden;
+} */
+
 html,
 body {
+  width: 100vw;
   padding: 0;
   margin: 0;
   font-family: "Roboto Mono", -apple-system, BlinkMacSystemFont, Segoe UI,

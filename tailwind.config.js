@@ -11,6 +11,9 @@ module.exports = {
       DEFAULT: ["Roboto Mono", "sans-serif"],
     },
     extend: {
+      screens: {
+        desk: "1024px",
+      },
       colors: {
         primary: "#CA3C25",
         secondary: "#508484",

@@ -7,15 +7,15 @@ export const ModuleHome = () => {
   const { t } = useTranslations();
 
   return (
-    <section className="w-full flex justify-between items-center">
-      <div className="flex flex-col w-2/5">
-        <h1 className="font-bold flex mb-10">
-          <div className="-mt-4 text-5xl">RIOU</div>
-          <div className="mt-4 text-6xl">Kevin</div>
+    <section className="flex w-full flex-col-reverse items-center justify-between desk:flex-row">
+      <div className="mt-5 flex w-full flex-col items-center desk:mt-0 desk:w-2/5 desk:items-start">
+        <h1 className="mb-10 flex font-bold">
+          <div className="text-3xl desk:-mt-4 desk:text-5xl">RIOU</div>
+          <div className="ml-3 text-3xl desk:mt-4 desk:text-6xl">Kevin</div>
         </h1>
-        <h2 className="text-2xl text-white flex -ml-4 mb-10">
-          <div className="px-4 py-2 bg-secondary">{t.home.job1}</div>
-          <div className="ml-4 px-4 py-2 bg-secondary">{t.home.job2}</div>
+        <h2 className="mb-10 flex text-2xl text-white desk:-ml-4">
+          <div className="bg-secondary px-4 py-2">{t.home.job1}</div>
+          <div className="ml-4 bg-secondary px-4 py-2">{t.home.job2}</div>
         </h2>
         <p>{t.home.info}</p>
       </div>

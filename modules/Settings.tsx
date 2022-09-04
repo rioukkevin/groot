@@ -9,7 +9,7 @@ export const ModuleSettings = () => {
   const { t } = useTranslations();
 
   return (
-    <section className="w-full flex flex-col justify-between items-stretch mt-24">
+    <section className="mt-24 flex w-full flex-col items-stretch justify-between">
       <Toggle label={t.settings.isATechlabel} onChecked={settings.setIsATech} />
     </section>
   );

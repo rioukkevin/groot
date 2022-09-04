@@ -24,11 +24,11 @@ export default function Document() {
         ></link>
       </Head>
       <body
-        className="bg-cleary w-full h-full"
-        style={{
-          background:
-            "linear-gradient(91deg, hsl(8deg 96% 96%) 0%, hsla(0, 0%, 92%, 1) 100%)",
-        }}
+        className="bg-cleary"
+        // style={{
+        //   background:
+        //     "linear-gradient(91deg, hsl(8deg 96% 96%) 0%, hsla(0, 0%, 92%, 1) 100%)",
+        // }}
       >
         <noscript>
           <iframe
