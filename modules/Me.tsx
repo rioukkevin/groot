@@ -9,24 +9,24 @@ export const ModuleMe = () => {
   const { t } = useTranslations();
 
   return (
-    <section className="w-full flex flex-col justify-between items-stretch">
+    <section className="flex w-full flex-col items-stretch justify-between">
       <Title value={t.me.title} />
       <p
-        className="w-2/3 text-justify my-6"
+        className="my-6 text-justify desk:w-2/3"
         dangerouslySetInnerHTML={{ __html: t.me.p1 }}
       />
       <p
-        className="w-2/3 self-end text-justify my-6"
+        className="my-6 text-justify desk:w-2/3 desk:self-end"
         dangerouslySetInnerHTML={{ __html: t.me.p2 }}
       />
       <p
-        className="w-2/3 text-justify my-6"
+        className="my-6 text-justify desk:w-2/3"
         dangerouslySetInnerHTML={{ __html: t.me.p3 }}
       />
       {isATech && (
         <>
           <p
-            className="w-2/3 self-end text-justify my-6 text-secondary"
+            className="my-6 text-justify text-secondary desk:w-2/3 desk:self-end"
             dangerouslySetInnerHTML={{ __html: t.me.p4 }}
           />
         </>

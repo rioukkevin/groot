@@ -10,12 +10,14 @@ const Home: NextPage = () => {
   return (
     <>
       <Metas />
-      <main className="container relative mx-auto max-w-[1280px] bg-white my-24 py-24 px-36 rounded-lg border-darky border-1 shadow-md flex flex-col justify-start items-center">
+      <main className="relative mx-auto flex max-w-[1280px] flex-col items-center justify-start rounded-lg border-darky bg-white shadow-md desk:container">
         <Socials />
-        <ModuleHome />
-        <ModuleSettings />
-        <ModuleMe />
-        <ModuleWorks />
+        <div className="flex w-full flex-col items-center justify-start px-5 pb-24 desk:my-24 desk:px-36">
+          <ModuleHome />
+          <ModuleSettings />
+          <ModuleMe />
+          <ModuleWorks />
+        </div>
       </main>
     </>
   );

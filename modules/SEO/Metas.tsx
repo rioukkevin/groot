@@ -12,6 +12,11 @@ const DATAS = {
 export const Metas = () => {
   return (
     <Head>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      ></meta>
+      <link rel="manifest" href="/icons/manifest.json"></link>
       <MetaFavicons />
       {/* General */}
       <title>{DATAS.title}</title>

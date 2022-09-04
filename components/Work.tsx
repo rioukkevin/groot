@@ -27,64 +27,70 @@ export const Work: FC<IProps> = (props) => {
   const { t } = useTranslations();
 
   return (
-    <article
-      className={`mx-3 my-3 relative flex flex-nowrap justify-between items-center w-full h-[300px] bg-white shadow-lg rounded-lg ${
-        isATech ? "mb-8" : ""
-      }`}
-    >
-      <div className="p-12 flex-grow relative h-full flex flex-col justify-between">
-        <h2 className="text-xl font-bold mb-3 w-10/12 flex">
-          <Icon size={32} className="fill-neutral-700 mr-6" />
-          {work.name}
-        </h2>
-        <p
-          className="text-md w-10/12"
-          dangerouslySetInnerHTML={{
-            __html: t.works.descriptions[work.description],
-          }}
-        />
-        <Link label={`> ${t.works.access}_`} href={work.url} />
-      </div>
-      {work.images.length > 1 && (
-        <div className="w-[50px] min-w-[50px] h-[300px] py-6 flex flex-col justify-start">
-          {work.images.map((img, i) => (
-            <div
-              className="relative w-[50px] aspect-square mb-3 isolate cursor-pointer"
-              key={i}
-              onClick={() => setDisplayedImageIndex(i)}
-            >
-              <Image
-                src={img}
-                width={50}
-                height={50}
-                alt="background"
-                placeholder="blur"
-                className="rounded-lg"
-              />
-              {i === displayedImageIndex && (
-                <div className="absolute bg-black bg-opacity-50 w-[50px] h-[50px] top-0 z-10 isolate rounded-lg flex justify-center items-center">
-                  <RiEyeLine fill="white" size={22} />
-                </div>
-              )}
-            </div>
-          ))}
+    <article className={`relative mb-5 rounded-lg bg-white shadow-lg desk:m-3`}>
+      <div className="m-0 flex w-full flex-col flex-nowrap items-center justify-between desk:flex-row">
+        <div className="relative flex h-full grow flex-col justify-between p-6 desk:p-12">
+          <h2 className="mb-3 flex text-xl font-bold">
+            <Icon size={32} className="mr-6 fill-neutral-700" />
+            {work.name}
+          </h2>
+          <p
+            className="text-justify"
+            dangerouslySetInnerHTML={{
+              __html: t.works.descriptions[work.description],
+            }}
+          />
+          <Link label={`> ${t.works.access}_`} href={work.url} />
         </div>
-      )}
-      <div className="rounded-lg aspect-square w-fit h-[300px] p-6">
-        <Image
-          src={work.images[displayedImageIndex]}
-          width={300}
-          height={300}
-          alt="background"
-          placeholder="blur"
-          className="rounded-lg"
-        />
+        {work.images.length > 1 && (
+          <div
+            className={`${
+              work.images.length < 4 ? "justify-start" : "justify-between"
+            } flex w-[300px] min-w-[300px] px-6 desk:h-full desk:min-h-[300px] desk:w-[50px] desk:min-w-[50px] desk:flex-col desk:px-0 desk:py-6`}
+          >
+            {work.images.map((img, i) => (
+              <div
+                className={`relative isolate aspect-square h-[50px] w-[50px] cursor-pointer ${
+                  work.images.length < 4
+                    ? "mr-6 desk:mb-5 desk:mr-0"
+                    : "mr-0 mb-0"
+                }`}
+                key={i}
+                onClick={() => setDisplayedImageIndex(i)}
+              >
+                <Image
+                  src={img}
+                  width={50}
+                  height={50}
+                  alt="background"
+                  placeholder="blur"
+                  className="rounded-lg"
+                />
+                {i === displayedImageIndex && (
+                  <div className="absolute top-0 isolate z-10 flex h-[50px] w-[50px] items-center justify-center rounded-lg bg-black/50">
+                    <RiEyeLine fill="white" size={22} />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="aspect-square h-[300px] w-[300px] rounded-lg p-6">
+          <Image
+            src={work.images[displayedImageIndex]}
+            width={300}
+            height={300}
+            alt="background"
+            placeholder="blur"
+            className="rounded-lg"
+          />
+        </div>
       </div>
       {isATech && (
-        <div className="bg-secondary absolute top-[300px] left-6 max-w-[90%] flex rounded-b-lg px-6 h-9 text-sm">
+        <div className="relative m-6 mt-0 flex max-w-[100%] flex-wrap rounded-lg bg-secondary px-6 py-1 text-xs">
           {work.techs.map((ta, i) => {
             return (
-              <div key={i} className="p-2 rounded text-white">
+              <div key={i} className="rounded p-2 text-white">
                 {ta}
               </div>
             );

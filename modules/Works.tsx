@@ -24,15 +24,15 @@ export const ModuleWorks = () => {
   const { t } = useTranslations();
 
   return (
-    <section className="w-full flex flex-col justify-between items-center">
+    <section className="flex w-full flex-col items-center justify-between">
       <Title value={t.works.title} />
-      <div className="w-full flex justify-start items-center font-bold text-lg">
+      <div className="mb-6 flex w-full flex-wrap items-center justify-start text-lg font-bold desk:flex-nowrap">
         <div
           style={{
             color: "all" === selectedType ? "white" : "inherit",
             backgroundColor: "all" === selectedType ? "#CA3C25" : "transparent",
           }}
-          className="m-2 cursor-pointer hover:fill-primary hover:scale-110 hover:rotate-12 duration-100 p-2 px-5 rounded-full"
+          className="m-2 cursor-pointer rounded-full p-2 px-5 duration-100 hover:rotate-12 hover:scale-110 hover:fill-primary"
           onClick={() => setSelectedType("all")}
         >
           {t.works.all}
@@ -52,7 +52,7 @@ export const ModuleWorks = () => {
           );
         })}
       </div>
-      <div className="flex justify-start items-center flex-wrap w-full">
+      <div className="flex w-full flex-wrap items-center justify-start">
         {filteredWork.map((w, i) => (
           <Work key={i} work={w} />
         ))}
