@@ -26,4 +26,15 @@ export interface ITranslation {
     types: { [key in IWork["type"]]: string };
     descriptions: { [key: string]: string };
   };
+  footer: {
+    title: string;
+    link: string;
+    elements: {
+      [key: string]: {
+        name: string;
+        description: string;
+        link: string;
+      };
+    };
+  };
 }

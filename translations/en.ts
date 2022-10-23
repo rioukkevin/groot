@@ -66,4 +66,16 @@ export const en: ITranslation = {
       ),
     },
   },
+  footer: {
+    title: "Shoutout",
+    link: "Access",
+    elements: {
+      chezKyou: {
+        name: "chezkyou",
+        description:
+          "ChezKyou is a company created by a young auto-entrepreneur, who likes working with wood and making all kinds of objects.",
+        link: "https://chezkyou.fr",
+      },
+    },
+  },
 };

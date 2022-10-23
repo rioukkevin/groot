@@ -5,12 +5,12 @@ interface IProps {
 }
 
 export const Title: FC<IProps> = (props) => (
-  <div className="w-full flex mt-16 mb-8">
-    <h1 className="text-2xl font-bold uppercase whitespace-nowrap font-caveat">
-      <span className="text-secondary text-3xl">[</span>
+  <div className="mt-16 mb-8 flex w-full">
+    <h1 className="whitespace-nowrap text-2xl font-bold uppercase">
+      <span className="text-3xl text-secondary">[</span>
       &nbsp;{props.value}&nbsp;
-      <span className="text-secondary text-3xl">]</span>
+      <span className="text-3xl text-secondary">]</span>
     </h1>
-    <div className="w-full h-0.5 bg-secondary mt-5 mx-6"></div>
+    <div className="mx-6 mt-5 h-0.5 w-full bg-secondary"></div>
   </div>
 );

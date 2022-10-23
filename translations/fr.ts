@@ -66,4 +66,16 @@ export const fr: ITranslation = {
       ),
     },
   },
+  footer: {
+    title: "Dédicaces",
+    link: "Accéder",
+    elements: {
+      chezKyou: {
+        name: "chezkyou",
+        description:
+          "ChezKyou est une entreprise créée par un jeune auto-entrepreneur, qui aime travailler le bois et fabriquer toutes sortes d'objets.",
+        link: "https://chezkyou.fr",
+      },
+    },
+  },
 };

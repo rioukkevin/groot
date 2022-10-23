@@ -3,11 +3,7 @@ import { Work } from "../components/Work";
 import { IWork } from "../typings/Work";
 
 import { Title } from "../components/Title";
-import {
-  WORKS_ICONS,
-  WORKS_CONTENT,
-  WORKS_ICONS_LABEL,
-} from "../contents/Works";
+import { WORKS_ICONS, WORKS_CONTENT } from "../contents/Works";
 import { Icon } from "../components/Icon";
 import { useTranslations } from "../translations/Translations";
 
@@ -43,7 +39,6 @@ export const ModuleWorks = () => {
             <Icon
               Ico={Ico}
               k={k}
-              // label={WORKS_ICONS_LABEL[k as IWork["type"]]}
               label={t.works.types[k as IWork["type"]]}
               isSelected={k === selectedType}
               onClick={() => setSelectedType(k as IWork["type"])}
