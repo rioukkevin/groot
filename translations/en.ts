@@ -76,6 +76,12 @@ export const en: ITranslation = {
           "ChezKyou is a company created by a young auto-entrepreneur, who likes working with wood and making all kinds of objects.",
         link: "https://chezkyou.fr",
       },
+      castomize: {
+        name: "Castomize",
+        description:
+          "Castomize is a Belgian company that personalizes your fabrics at low prices. Work on Hoodies, T-Shirt, etc...",
+        link: "https://www.facebook.com/Customyourclothes",
+      },
     },
   },
 };
