@@ -33,7 +33,6 @@ export interface ITranslation {
       [key: string]: {
         name: string;
         description: string;
-        link: string;
       };
     };
   };

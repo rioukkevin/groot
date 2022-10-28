@@ -70,17 +70,20 @@ export const fr: ITranslation = {
     title: "Dédicaces",
     link: "Accéder",
     elements: {
-      chezKyou: {
+      oxidya: {
+        name: "Oxidya_",
+        description:
+          "Pilote / détective / dresseuse / chasseuse de fantôme.. bref une gameuse quoi ¯_(ツ)_/¯",
+      },
+      chezkyou: {
         name: "chezkyou",
         description:
           "ChezKyou est une entreprise créée par un jeune auto-entrepreneur, qui aime travailler le bois et fabriquer toutes sortes d'objets.",
-        link: "https://chezkyou.fr",
       },
       castomize: {
         name: "Castomize",
         description:
           "Castomize est une entreprise belge personnalisant vos tissus à petits prix. Travail sur Hoodies, T-Shirt, etc...",
-        link: "https://www.facebook.com/Customyourclothes",
       },
     },
   },
