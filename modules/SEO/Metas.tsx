@@ -1,10 +1,11 @@
 import Head from "next/head";
+import { MetaAdditionnal } from "./Additionnal";
 import { MetaFavicons } from "./Favicon";
 
 const DATAS = {
   title: "RIOU Kevin",
   description:
-    "Je recherche une nouvelle aventure, si vous avez une mission, prenez contact !",
+    "Je suis développeur fullstack chez Technis, je suis aussi développeur open-source ! Fan de Groot et du JS bien évidemment 😉",
   url: "http://kevin.riou.pro",
   previewPath: "/preview.png",
 };
@@ -35,6 +36,15 @@ export const Metas = () => {
       <meta property="twitter:title" content={DATAS.title} />
       <meta property="twitter:description" content={DATAS.description} />
       <meta property="twitter:image" content={DATAS.previewPath} />
+      {/* Scripts */}
+      <MetaAdditionnal />
     </Head>
   );
 };
+
+// {
+//   /* <script
+//   src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"
+//   crossorigin="anonymous"
+// ></script>; */
+// }

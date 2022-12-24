@@ -22,4 +22,11 @@ export const ADS_CONTENT: IAd[] = [
     url: "https://www.facebook.com/Customyourclothes",
     color: "#BDC8E4",
   },
+  {
+    slug: "poachiclash",
+    name: "footer.elements.poachiclash.name",
+    description: "footer.elements.poachiclash.description",
+    url: "https://www.poachiclash.com/",
+    color: "#F5927E",
+  },
 ];

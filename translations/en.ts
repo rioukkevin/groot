@@ -1,4 +1,5 @@
 import { marked } from "marked";
+import twemoji from "twemoji";
 import { ITranslation } from ".";
 
 export const en: ITranslation = {
@@ -8,7 +9,11 @@ export const en: ITranslation = {
   home: {
     job1: "Web",
     job2: "Developer",
-    info: "I'm looking for a new adventure, if you have one, contact me !",
+    info: marked.parse(
+      twemoji.parse(
+        "I'm a fullstack developer at Technis, and also an open-source developer ! Fan of Groot and JS obviously ❤️"
+      )
+    ),
   },
   settings: {
     isATechlabel: "Show technical informations",
@@ -16,7 +21,7 @@ export const en: ITranslation = {
   me: {
     title: "Who am I ?",
     p1: marked.parse(
-      "I'm a web developper working at **Alpha8**, a little startup in France, I am a **Freelancer** for occasional assignments, but above all, I am an **open-source** utility developper doing tools for other developpers and players."
+      "I'm a web developper working at **Technis**, a startup based in Swiss, I am a **Freelancer** for occasional assignments, but above all, I am an **open-source** utility developper doing tools for other developpers and players."
     ),
     p2: marked.parse(
       "Passionnate by **automobile**, **development** and **video games**, those are parts of my life. When I can, I develop needs of **twitch commnunity** I am inside and needs I find in organizations."
@@ -84,6 +89,11 @@ export const en: ITranslation = {
         name: "Castomize",
         description:
           "Castomize is a Belgian company that personalizes your fabrics at low prices. Work on Hoodies, T-Shirt, etc...",
+      },
+      poachiclash: {
+        name: "Poachiclash",
+        description:
+          "The Poachiclash is a video game tournament by Poachimpa on twitch on 21 & 22 january.",
       },
     },
   },

@@ -1,4 +1,5 @@
 import { marked } from "marked";
+import twemoji from "twemoji";
 import { ITranslation } from ".";
 
 export const fr: ITranslation = {
@@ -8,7 +9,11 @@ export const fr: ITranslation = {
   home: {
     job1: "Développeur",
     job2: "Web",
-    info: "Je recherche une nouvelle aventure, si vous avez une mission, prenez contact !",
+    info: marked.parse(
+      twemoji.parse(
+        "Je suis développeur fullstack chez Technis, je suis aussi développeur open-source ! Fan de Groot et du JS bien évidemment ❤️"
+      )
+    ),
   },
   settings: {
     isATechlabel: "Voir les informations techniques",
@@ -16,7 +21,7 @@ export const fr: ITranslation = {
   me: {
     title: "Qui suis-je ?",
     p1: marked.parse(
-      "Actuellement développeur web dans une petite startup nommée **Alpha8**, je suis aussi un **indépendant** pour des missions occasionnelles mais surtout, je suis développeur d'utilitaires **open-source** pour le quotidien des développeurs et des joueurs."
+      "Actuellement développeur web chez **Technis**, je suis aussi un **indépendant** pour des missions occasionnelles mais surtout, je suis développeur d'utilitaires **open-source** pour le quotidien des développeurs et des joueurs."
     ),
     p2: marked.parse(
       "Passionné par **l'automobile**, le **développement** et les **jeux vidéos**, ces éléments font partie de mon quotidien. Lorsque je peux, je développe des outils pour répondre à mes besoins ou ceux que je rencontre en entreprise ainsi que dans les communautés de **twitch** que je fréquente."
@@ -84,6 +89,11 @@ export const fr: ITranslation = {
         name: "Castomize",
         description:
           "Castomize est une entreprise belge personnalisant vos tissus à petits prix. Travail sur Hoodies, T-Shirt, etc...",
+      },
+      poachiclash: {
+        name: "Poachiclash",
+        description:
+          "Le Poachiclash est un tournoi de jeu vidéo organisé par la streameuse Poachimpa sur twitch les 21 et 22 janvier.",
       },
     },
   },

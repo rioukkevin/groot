@@ -1,8 +1,6 @@
 import { FC, useContext, useState } from "react";
 import { IWork } from "../typings/Work";
 
-import { marked } from "marked";
-
 import Image from "next/image";
 
 import { WORKS_ICONS } from "../contents/Works";
@@ -64,6 +62,7 @@ export const Work: FC<IProps> = (props) => {
                   height={50}
                   alt="background"
                   placeholder="blur"
+                  loading="lazy"
                   className="rounded-lg"
                 />
                 {i === displayedImageIndex && (
@@ -82,6 +81,7 @@ export const Work: FC<IProps> = (props) => {
             height={300}
             alt="background"
             placeholder="blur"
+            loading="lazy"
             className="rounded-lg"
           />
         </div>
