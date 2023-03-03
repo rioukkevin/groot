@@ -15,7 +15,7 @@ module.exports = withMDX({
   swcMinify: true,
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   images: {
-    domains: ["i.pinimg.com"],
+    domains: ["i.pinimg.com", "a.storyblok.com"],
   },
   i18n: {
     locales: ["en", "fr"],

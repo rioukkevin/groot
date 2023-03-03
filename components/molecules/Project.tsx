@@ -1,55 +1,66 @@
-import { FC, useContext, useState } from "react";
-import { IWork } from "../typings/Work";
+import { FC, useContext, useMemo, useState } from "react";
+import { IWork } from "../../typings/Work";
 
 import Image from "next/image";
 
-import { WORKS_ICONS } from "../contents/Works";
+import { WORKS_ICONS } from "../../contents/Works";
 import { RiEyeLine } from "react-icons/ri";
-import { Link } from "./Link";
-import { SettingsContext } from "./Settings";
-import { useTranslations } from "../translations/Translations";
+import { Link } from "../Link";
+import { SettingsContext } from "../Settings";
+import { useTranslations } from "../../translations/Translations";
+import { marked } from "marked";
+import { String } from "../atoms/String";
+import { storyblokEditable } from "@storyblok/react";
 
-interface IProps {
-  work: IWork;
-}
+const THUMBNAIL_SUFFIX = "/m/60x60";
+const THUMBNAIL_BLUR_SUFFIX = "/m/60x60/filters:blur(15)";
+const VIEW_SUFFIX = "/m/300x300";
+const BLUR_SUFFIX = "/m/100x100/filters:blur(20)";
 
-export const Work: FC<IProps> = (props) => {
-  const { work } = props;
-
+// @ts-ignore
+export const Project: FC = ({ blok }) => {
   const { isATech } = useContext(SettingsContext);
-
-  const Icon = WORKS_ICONS[work.type];
 
   const [displayedImageIndex, setDisplayedImageIndex] = useState<number>(0);
 
+  const description = useMemo(
+    () => marked.parse(blok.description),
+    [blok.description]
+  );
+
+  // @ts-ignore
+  const Icon = WORKS_ICONS[blok.type];
   const { t } = useTranslations();
 
   return (
-    <article className={`relative mb-5 rounded-lg bg-white shadow-lg desk:m-3`}>
+    <article
+      className={`relative mb-5 rounded-lg bg-white shadow-lg desk:m-3`}
+      {...storyblokEditable(blok)}
+    >
       <div className="m-0 flex w-full flex-col flex-nowrap items-center justify-between desk:flex-row">
         <div className="relative flex h-full grow flex-col justify-between p-6 desk:p-12">
           <h2 className="mb-3 flex text-xl font-bold">
             <Icon size={32} className="mr-6 fill-neutral-700" />
-            {work.name}
+            {blok.name}
           </h2>
           <p
             className="text-justify"
             dangerouslySetInnerHTML={{
-              __html: t.works.descriptions[work.description],
+              __html: description,
             }}
           />
-          <Link label={`> ${t.works.access}_`} href={work.url} />
+          <Link label={`> ${t.works.access}_`} href={blok.url} />
         </div>
-        {work.images.length > 1 && (
+        {blok.images.length > 1 && (
           <div
             className={`${
-              work.images.length < 4 ? "justify-start" : "justify-between"
+              blok.images.length < 4 ? "justify-start" : "justify-between"
             } flex w-[300px] min-w-[300px] px-6 desk:h-full desk:min-h-[300px] desk:w-[50px] desk:min-w-[50px] desk:flex-col desk:px-0 desk:py-6`}
           >
-            {work.images.map((img, i) => (
+            {blok.images.map((img: any, i: number) => (
               <div
                 className={`relative isolate aspect-square h-[50px] w-[50px] cursor-pointer ${
-                  work.images.length < 4
+                  blok.images.length < 4
                     ? "mr-6 desk:mb-5 desk:mr-0"
                     : "mr-0 mb-0"
                 }`}
@@ -57,7 +68,8 @@ export const Work: FC<IProps> = (props) => {
                 onClick={() => setDisplayedImageIndex(i)}
               >
                 <Image
-                  src={img}
+                  src={`${img.filename}${THUMBNAIL_SUFFIX}`}
+                  blurDataURL={`${img.filename}${THUMBNAIL_BLUR_SUFFIX}`}
                   width={50}
                   height={50}
                   alt="background"
@@ -76,7 +88,8 @@ export const Work: FC<IProps> = (props) => {
         )}
         <div className="aspect-square h-[300px] w-[300px] rounded-lg p-6">
           <Image
-            src={work.images[displayedImageIndex]}
+            src={`${blok.images[displayedImageIndex].filename}${VIEW_SUFFIX}`}
+            blurDataURL={`${blok.images[displayedImageIndex].filename}${BLUR_SUFFIX}`}
             width={300}
             height={300}
             alt="background"
@@ -88,10 +101,10 @@ export const Work: FC<IProps> = (props) => {
       </div>
       {isATech && (
         <div className="relative m-6 mt-0 flex max-w-[100%] flex-wrap rounded-lg bg-secondary px-6 py-1 text-xs">
-          {work.techs.map((ta, i) => {
+          {blok.techs.map((ta: string, i: number) => {
             return (
               <div key={i} className="rounded p-2 text-white">
-                {ta}
+                <String blok={ta} />
               </div>
             );
           })}

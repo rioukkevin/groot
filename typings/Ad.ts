@@ -1,5 +1,6 @@
-export interface IAd {
-  slug: string;
+import { SbBlokData } from "@storyblok/react";
+
+export interface IAd extends SbBlokData {
   name: string;
   url: string;
   description: string;

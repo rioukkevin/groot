@@ -12,7 +12,7 @@ module.exports = {
     },
     extend: {
       screens: {
-        desk: "1024px",
+        desk: "768px",
       },
       colors: {
         primary: "#CA3C25",

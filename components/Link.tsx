@@ -13,12 +13,21 @@ export const Link: FC<IProps> = (props) => {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className={`w-fit hover:text-white text-primary font-bold p-1 hover:children:font-bold flex hover:bg-primary shadow-none hover:shadow-md`}
+      onClick={() =>
+        // @ts-ignore
+        window.gtag("send", {
+          hitType: "event",
+          eventCategory: "Videos",
+          eventAction: "play",
+          eventLabel: "Fall Campaign",
+        })
+      }
+      className={`flex w-fit p-1 font-bold text-primary shadow-none hover:bg-primary hover:text-white hover:shadow-md hover:children:font-bold`}
     >
       {label.split("").map((letter, i) => {
         return (
           <span
-            className="font-roboto text-inherit duration-100 rotate-0 bg-transparent rounded"
+            className="rotate-0 rounded bg-transparent font-roboto text-inherit duration-100"
             key={i}
           >
             {letter}

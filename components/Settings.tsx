@@ -1,12 +1,4 @@
-import React, {
-  createContext,
-  FC,
-  JSXElementConstructor,
-  PropsWithChildren,
-  ReactChild,
-  ReactElement,
-  useState,
-} from "react";
+import React, { createContext, FC, PropsWithChildren, useState } from "react";
 
 interface ISettings {
   isATech: boolean;

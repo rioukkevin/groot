@@ -192,6 +192,20 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz#0c8b74c50f29ee44f423f7416829c0bf8bb5eb27"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
+"@storyblok/js@^2.0.15":
+  version "2.0.16"
+  resolved "https://registry.yarnpkg.com/@storyblok/js/-/js-2.0.16.tgz#7d5eacbf342865195324e58518cee9703ca24ef1"
+  integrity sha512-T8x5YJypO1/Fh4mIhilaG5Dg1qSx3L4BsaRnbAmrGIR0o0ZW+VPBwBC6DG1LZL21ZbaUZUO3AiBjm2QmJCWNnw==
+  dependencies:
+    storyblok-js-client "^5.4.1"
+
+"@storyblok/react@^2.0.12":
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/@storyblok/react/-/react-2.0.12.tgz#df80dfd45cdf37aa678ea35822c31115f87fe736"
+  integrity sha512-g5YbcWG02lIkT4AatirHijqe97gFuXByNwOa9jsVcfYLv24FEZyRXDhKZLjthwVuX+XZ/bKj83Vh9wmQ4Lqy+g==
+  dependencies:
+    "@storyblok/js" "^2.0.15"
+
 "@swc/helpers@0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.4.3.tgz#16593dfc248c53b699d4b5026040f88ddb497012"
@@ -2643,6 +2657,11 @@ space-separated-tokens@^2.0.0:
   resolved "https://registry.yarnpkg.com/space-separated-tokens/-/space-separated-tokens-2.0.1.tgz#43193cec4fb858a2ce934b7f98b7f2c18107098b"
   integrity sha512-ekwEbFp5aqSPKaqeY1PGrlGQxPNaq+Cnx4+bE2D8sciBQrHpbwoBbawqTN2+6jPs9IdWxxiUcN0K2pkczD3zmw==
 
+storyblok-js-client@^5.4.1:
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/storyblok-js-client/-/storyblok-js-client-5.4.2.tgz#7cfd2130e5d6961ff9ec41720d8c20d0c3fa48a6"
+  integrity sha512-OKwIqRPkxTV+wVhTbH2MgfA82tQeve+Lt8ygsNyCKULPuvZ92XCQbBtSB+uf05SOPBKRzNQXCjUYyGiXaF3xKQ==
+
 string.prototype.matchall@^4.0.7:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/string.prototype.matchall/-/string.prototype.matchall-4.0.7.tgz#8e6ecb0d8a1fb1fda470d81acecb2dba057a481d"
@@ -2979,6 +2998,11 @@ use-sync-external-store@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
   integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
+
+usehooks-ts@^2.9.1:
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/usehooks-ts/-/usehooks-ts-2.9.1.tgz#953d3284851ffd097432379e271ce046a8180b37"
+  integrity sha512-2FAuSIGHlY+apM9FVlj8/oNhd+1y+Uwv5QNkMQz1oSfdHk4PXo1qoCw9I5M7j0vpH8CSWFJwXbVPeYDjLCx9PA==
 
 util-deprecate@^1.0.2:
   version "1.0.2"

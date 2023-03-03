@@ -4,6 +4,14 @@ import Script from "next/script";
 import { SettingsProvider } from "../components/Settings";
 import { useEffect } from "react";
 import { TranslationsProvider } from "../translations/Translations";
+import { storyblokInit, apiPlugin } from "@storyblok/react";
+import { StoryblokComponents } from "../storyblok";
+
+storyblokInit({
+  accessToken: "lDceqJHP7uC0ORGXIV5hxwtt",
+  use: [apiPlugin],
+  components: StoryblokComponents,
+});
 
 const GTM_ID = "GTM-W95S4H2";
 

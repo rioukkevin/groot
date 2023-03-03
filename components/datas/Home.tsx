@@ -1,17 +1,18 @@
 import Image from "next/image";
 
-import { useTranslations } from "../translations/Translations";
-import useWindowPosition from "../hooks/useWindowScroll";
+import useWindowPosition from "../../hooks/useWindowScroll";
+import { useMemo } from "react";
+import { marked } from "marked";
+import twemoji from "twemoji";
 
-import IMGMe from "../assets/Profil.png";
-import IMGName from "../assets/Name.svg";
-import IMGShapeTriangle from "../assets/shapes/Triangle.png";
-import IMGShapeSquare from "../assets/shapes/Square.png";
-import IMGShapeCircle from "../assets/shapes/Circle.png";
+import IMGMe from "../../assets/Profil.png";
+import IMGName from "../../assets/Name.svg";
+import IMGShapeTriangle from "../../assets/shapes/Triangle.png";
+import IMGShapeSquare from "../../assets/shapes/Square.png";
+import IMGShapeCircle from "../../assets/shapes/Circle.png";
 
-export const ModuleHome = () => {
-  const { t } = useTranslations();
-
+// @ts-ignore
+export const Home = ({ blok }) => {
   const { y } = useWindowPosition();
 
   const transformations = {
@@ -28,16 +29,20 @@ export const ModuleHome = () => {
     },
   };
 
+  const description = useMemo(
+    () => marked.parse(twemoji.parse(blok.description)),
+    [blok.description]
+  );
+
   return (
     <section className="flex w-full flex-col-reverse items-center justify-between desk:flex-row">
       <div className="mt-5 flex w-full flex-col items-center desk:mt-0 desk:w-2/5 desk:items-start">
         <h1 className="mb-10 flex font-bold">
-          <div className="text-3xl desk:hidden">RIOU</div>
-          <div className="ml-3 text-3xl desk:hidden">Kevin</div>
+          <div className="text-3xl desk:hidden">{blok.name}</div>
           <div className="-mt-10 hidden desk:block">
             <Image
               src={IMGName}
-              alt="RIOU Kevin"
+              alt={blok.name}
               width={300}
               height={200}
               loading="lazy"
@@ -45,10 +50,10 @@ export const ModuleHome = () => {
           </div>
         </h1>
         <h2 className="mb-10 flex text-2xl text-white desk:-ml-4">
-          <div className="bg-secondary px-4 py-2">{t.home.job1}</div>
-          <div className="ml-4 bg-secondary px-4 py-2">{t.home.job2}</div>
+          <div className="bg-secondary px-4 py-2">{blok.job1}</div>
+          <div className="ml-4 bg-secondary px-4 py-2">{blok.job2}</div>
         </h2>
-        <p dangerouslySetInnerHTML={{ __html: t.home.info }} />
+        <p dangerouslySetInnerHTML={{ __html: description }} />
       </div>
       <div className="relative h-[400px] w-[400px]">
         <div

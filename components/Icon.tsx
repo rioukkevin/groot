@@ -24,10 +24,10 @@ export const Icon: FC<IProps> = (props) => {
       }}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
-      className="relative m-2 cursor-pointer hover:fill-primary hover:scale-110 hover:rotate-12 duration-100 p-2 rounded-full"
+      className="relative m-2 cursor-pointer rounded-full p-2 duration-100 hover:rotate-12 hover:scale-110 hover:fill-primary"
     >
       {isHover && (
-        <div className="absolute z-20 bg-darky text-white p-2 bottom-[150%] -rotate-12 rounded -m-[40%] text-sm">
+        <div className="absolute bottom-[150%] z-20 -m-[40%] -rotate-12 rounded bg-darky p-2 text-sm text-white">
           {label}
         </div>
       )}
