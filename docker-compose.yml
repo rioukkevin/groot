@@ -1,0 +1,29 @@
+version: "3"
+
+networks:
+  web:
+    external: true
+
+services:
+  portfolio:
+    container_name: devportfolio
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./dist:/app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.new-kevin.rule=Host(`new-kevin.riou.pro`)"
+      - "traefik.http.routers.new-kevin.entrypoints=web-secure"
+      - "traefik.http.routers.new-kevin.tls=true"
+      - "traefik.http.routers.new-kevin.tls.certresolver=ssl"
+      - "traefik.http.routers.new-kevin-http.rule=Host(`new-kevin.riou.pro`)"
+      - "traefik.http.routers.new-kevin-http.entrypoints=web"
+      - "traefik.http.middlewares.https.redirectscheme.scheme=https"
+      - "traefik.http.routers.new-kevin-http.middlewares=https@docker"
+      - "traefik.port=80"
+    networks:
+      - web

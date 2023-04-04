@@ -1,0 +1,40 @@
+$white: 225,225,225;
+$black: 15,15,15;
+$primary: rgb(248,243,1);
+$lightgrey: 200,200,200;
+$darkgrey: 50,50,50;
+
+
+// Kéké tu t'en sert pas encore :P 
+@mixin background1($back, $front, $deg) {
+  background-image: linear-gradient($deg, $front 50%, $back 50%);
+}
+@mixin background2($back, $front) {
+  background-image: linear-gradient(
+    $back,
+    $back 7px,
+    $front 7px,
+    $front
+  );
+  background-size: 100% 14px;
+}
+@mixin background3($back, $front, $deg) {
+  background-image: 
+    linear-gradient($deg, $front 50%, transparent 50%),
+    linear-gradient(
+    $back,
+    $back 7px,
+    $front 7px,
+    $front
+  );
+  background-size: 100%, 100% 14px;
+}
+@mixin background4($back, $front, $deg) {
+  background: 
+    linear-gradient($deg, $back 50%, transparent 50%),
+    radial-gradient($front 4px, transparent 4px),
+    radial-gradient($front 4px, transparent 4px),
+    transparent;
+  background-size: 100%, 24px 24px, 24px 24px, 100%;
+  background-position: 0 0, -2px 6px, 10px 18px, 0 0;
+}

@@ -1,0 +1,29 @@
+@import './font.scss';
+@import './variable.scss';
+
+
+.theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined){
+  background-color: unset;
+}
+
+.k-button{
+  background-color: $white;
+  border-radius: 2px;
+  padding: 15px 20px;
+  height: auto;
+
+  span{
+    color: $black;
+    text-transform: capitalize !important;
+  }
+
+  &:focus{
+    border-color: $lightgrey;
+  }
+
+  &:hover{
+    background-color: $white;
+    box-shadow: 0 0 0 0 $black;
+    border-color: $white;
+  }
+}
