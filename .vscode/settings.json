@@ -8,7 +8,16 @@
     "activityBarBadge.background": "#cc80fe",
     "activityBarBadge.foreground": "#15202b",
     "sash.hoverBorder": "#56febb",
-    "tab.activeBorder": "#56febb"
+    "commandCenter.border": "#15202b99",
+    "statusBar.background": "#23fea6",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#01ed8e",
+    "statusBarItem.remoteBackground": "#23fea6",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#23fea6",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#23fea699",
+    "titleBar.inactiveForeground": "#15202b99"
   },
   "peacock.color": "#23fea6",
   "vscodeGitCommit.insertMode": "Replace",
