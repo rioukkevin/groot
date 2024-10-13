@@ -11,6 +11,7 @@ import {
   SettingsIcon,
 } from "lucide-react";
 import { ContactWindow, WhoWindow } from "./Windows";
+import { NewsWindow } from "./Windows/NewsWindow";
 
 export const Page = () => {
   const openWindow = useOpenWindow();
@@ -60,7 +61,7 @@ export const Page = () => {
       onPress: () =>
         openWindow({
           title: "News",
-          children: <div className="text-xl">News</div>,
+          children: <NewsWindow />,
           id: "news",
         }),
     },

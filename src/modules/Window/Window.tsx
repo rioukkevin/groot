@@ -80,8 +80,8 @@ export const Window: FC<WindowProps> = ({
       dragConstraints={containerRef}
       dragElastic={0.1}
       className={cn(
-        "pointer-events-none absolute z-10 overflow-hidden rounded-lg shadow-lg brightness-75 backdrop-blur-md",
-        isFocused && "z-30 brightness-100",
+        "pointer-events-none absolute z-10 select-none overflow-hidden rounded-lg shadow-lg brightness-75 backdrop-blur-md",
+        isFocused && "z-30 select-auto brightness-100",
       )}
       dragControls={dragControls}
       dragListener={false}
