@@ -19,7 +19,7 @@ const ContactItem: FC<ContactData> = ({ label, value, href, icon }) => {
 export const ContactWindow = () => {
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">Contact</h1>
+      <h1 className="text-3xl font-bold">Contact</h1>
       <div className="flex flex-col gap-2">
         {data.map((item) => (
           <ContactItem key={item.label} {...item} />

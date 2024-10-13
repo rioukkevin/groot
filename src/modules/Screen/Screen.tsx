@@ -1,19 +1,18 @@
 /* eslint-disable react/display-name */
 import { FC, ReactNode, useRef } from "react";
 import Image from "next/image";
-import IMGBackground from "@/assets/background.jpg";
 import { WindowManagerProvider } from "../WindowManager";
+import { useBackground } from "./Background";
 
 interface ScreenProps {
   children: ReactNode;
   backgroundImage?: string;
 }
 
-export const Screen: FC<ScreenProps> = ({
-  children,
-  backgroundImage = IMGBackground,
-}) => {
+export const Screen: FC<ScreenProps> = ({ children }) => {
   const screenRef = useRef(null);
+
+  const { currentBackground } = useBackground();
 
   return (
     <div
@@ -21,13 +20,14 @@ export const Screen: FC<ScreenProps> = ({
       className="max-w-screen relative h-screen max-h-screen w-screen overflow-hidden"
     >
       <Image
-        src={backgroundImage}
+        src={currentBackground}
         alt="Background"
         fill
         objectFit="cover"
         quality={100}
         className="z-0"
       />
+
       <WindowManagerProvider containerRef={screenRef}>
         <div className="relative z-10 h-full w-full">{children}</div>
       </WindowManagerProvider>

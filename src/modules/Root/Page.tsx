@@ -10,8 +10,12 @@ import {
   PersonStandingIcon,
   SettingsIcon,
 } from "lucide-react";
-import { ContactWindow, WhoWindow } from "./Windows";
-import { NewsWindow } from "./Windows/NewsWindow";
+import {
+  ContactWindow,
+  WhoWindow,
+  NewsWindow,
+  SettingsWindow,
+} from "./Windows";
 
 export const Page = () => {
   const openWindow = useOpenWindow();
@@ -85,7 +89,7 @@ export const Page = () => {
       onPress: () =>
         openWindow({
           title: "Settings",
-          children: <div className="text-xl">Settings</div>,
+          children: <SettingsWindow />,
           id: "settings",
         }),
     },
