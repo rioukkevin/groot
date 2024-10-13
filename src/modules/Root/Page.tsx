@@ -4,6 +4,7 @@ import { Dock, DockElement } from "../Dock";
 import { useOpenWindow, WindowManager } from "../WindowManager";
 import {
   BriefcaseBusinessIcon,
+  JoystickIcon,
   MailIcon,
   NewspaperIcon,
   PackageIcon,
@@ -16,6 +17,7 @@ import {
   NewsWindow,
   SettingsWindow,
   ExperiencesWindow,
+  TicTacToeWindow,
 } from "./Windows";
 
 export const Page = () => {
@@ -100,6 +102,22 @@ export const Page = () => {
           size: {
             width: "350px",
             height: "250px",
+          },
+        }),
+    },
+    {
+      title: "TicTacToe",
+      icon: (
+        <JoystickIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+      ),
+      onPress: () =>
+        openWindow({
+          title: "TicTacToe",
+          children: (props) => <TicTacToeWindow {...props} />,
+          id: "tictactoe",
+          size: {
+            width: "352px",
+            height: "392px",
           },
         }),
     },

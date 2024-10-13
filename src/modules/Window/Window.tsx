@@ -186,7 +186,8 @@ export const Window: FC<WindowProps> = ({
           <div className="mx-4 select-none text-sm font-medium text-neutral-300">
             {title}
           </div>
-          <div className="w-16"></div> {/* Spacer to balance the title */}
+          <div className={cn("w-16", !isFullscreenAllowed && "w-5")}></div>{" "}
+          {/* Spacer to balance the title */}
         </div>
         <div
           className={cn(
