@@ -3,101 +3,89 @@
 import { Dock, DockElement } from "../Dock";
 import { useOpenWindow, WindowManager } from "../WindowManager";
 import {
-  Activity,
-  Component,
-  HomeIcon,
-  Mail,
-  Package,
-  ScrollText,
-  SunMoon,
+  BriefcaseBusinessIcon,
+  MailIcon,
+  NewspaperIcon,
+  PackageIcon,
+  PersonStandingIcon,
+  SettingsIcon,
 } from "lucide-react";
+import { ContactWindow, WhoWindow } from "./Windows";
 
 export const Page = () => {
   const openWindow = useOpenWindow();
 
   const data: DockElement[] = [
     {
-      title: "Home",
+      title: "Who am I ?",
       icon: (
-        <HomeIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <PersonStandingIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          title: "Presentation",
-          children: <div className="text-xl">Presentation</div>,
-          id: "presentation",
+          title: "Who am I ?",
+          children: <WhoWindow />,
+          id: "who",
         }),
     },
     {
-      title: "Products",
+      title: "Experiences",
       icon: (
-        <Package className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <BriefcaseBusinessIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          id: "products",
-          title: "Products",
-          children: <div>Products</div>,
+          title: "Experiences",
+          children: <div className="text-xl">Expériences</div>,
+          id: "experiences",
         }),
     },
     {
-      title: "Components",
+      title: "Projects",
       icon: (
-        <Component className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <PackageIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          id: "components",
-          title: "Components",
-          children: <div>Components</div>,
+          title: "Projects",
+          children: <div className="text-xl">Projects</div>,
+          id: "projects",
         }),
     },
     {
-      title: "Activity",
+      title: "News",
       icon: (
-        <Activity className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <NewspaperIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          id: "activity",
-          title: "Activity",
-          children: <div>Activity</div>,
+          title: "News",
+          children: <div className="text-xl">News</div>,
+          id: "news",
         }),
     },
     {
-      title: "Change Log",
+      title: "Contact",
       icon: (
-        <ScrollText className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <MailIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          id: "change-log",
-          title: "Change Log",
-          children: <div>Change Log</div>,
+          title: "Contact",
+          children: <ContactWindow />,
+          id: "contact",
         }),
     },
     {
-      title: "Email",
+      title: "Settings",
       icon: (
-        <Mail className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <SettingsIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          id: "email",
-          title: "Email",
-          children: <div>Email</div>,
-        }),
-    },
-    {
-      title: "Theme",
-      icon: (
-        <SunMoon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
-      ),
-      onPress: () =>
-        openWindow({
-          id: "theme",
-          title: "Theme",
-          children: <div>Theme</div>,
+          title: "Settings",
+          children: <div className="text-xl">Settings</div>,
+          id: "settings",
         }),
     },
   ];
