@@ -2,15 +2,18 @@
 
 import { RootPage } from "@/modules/Root";
 import { Screen } from "@/modules/Screen";
-import { BackgroundProvider } from "@/modules/Screen/Background";
 import IMGBackground from "@/assets/background.jpg";
+import { BackgroundProvider } from "@/modules/Theme/Background";
+import { ThemeColorProvider } from "@/modules/Theme/ThemeColor";
 
 export default function Home() {
   return (
     <BackgroundProvider defaultBackground={IMGBackground.src}>
-      <Screen>
-        <RootPage />
-      </Screen>
+      <ThemeColorProvider>
+        <Screen>
+          <RootPage />
+        </Screen>
+      </ThemeColorProvider>
     </BackgroundProvider>
   );
 }

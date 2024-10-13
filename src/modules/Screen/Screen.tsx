@@ -2,7 +2,7 @@
 import { FC, ReactNode, useRef } from "react";
 import Image from "next/image";
 import { WindowManagerProvider } from "../WindowManager";
-import { useBackground } from "./Background";
+import { useBackground } from "../Theme/Background";
 
 interface ScreenProps {
   children: ReactNode;
