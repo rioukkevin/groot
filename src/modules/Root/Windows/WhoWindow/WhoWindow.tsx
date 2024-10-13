@@ -1,10 +1,12 @@
 import Image from "next/image";
 
 import IMGMe from "@/assets/me.png";
+import { FC } from "react";
+import { WindowChildrenProps } from "@/modules/Window";
 
-export const WhoWindow = () => {
+export const WhoWindow: FC<WindowChildrenProps> = () => {
   return (
-    <div className="flex w-[400px] flex-col gap-4">
+    <div className="flex w-full flex-col gap-4">
       <div className="flex flex-col items-center gap-4">
         <Image
           src={IMGMe}
@@ -41,7 +43,7 @@ export const WhoWindow = () => {
           <strong>seamless, efficient, and user-friendly applications</strong>{" "}
           from concept to deployment.
         </p>
-        <p>
+        <p className="w-full">
           I love <strong>experimenting</strong> and pushing the boundaries of
           web technology. I turn <strong>complex challenges</strong> into{" "}
           <strong>elegant, scalable solutions</strong>, from building{" "}

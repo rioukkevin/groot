@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { data } from "./data";
+import { WindowChildrenProps } from "@/modules/Window";
 
-export const NewsWindow = () => {
+export const NewsWindow: FC<WindowChildrenProps> = () => {
   enum SortOrder {
     MostRecent = "mostRecent",
     Oldest = "oldest",
@@ -19,7 +20,7 @@ export const NewsWindow = () => {
   }, [sortBy]);
 
   return (
-    <div className="flex w-[400px] flex-col gap-4">
+    <div className="flex h-full w-full flex-col gap-4">
       <h1 className="text-3xl font-bold">News</h1>
       <div className="flex items-center justify-end gap-4">
         <label className="whitespace-nowrap text-sm text-neutral-200">
@@ -36,7 +37,7 @@ export const NewsWindow = () => {
           <option value={SortOrder.Oldest}>Oldest</option>
         </select>
       </div>
-      <div className="flex w-full flex-col items-center gap-4">
+      <div className="flex h-full w-full flex-col items-center gap-4 overflow-y-auto">
         {sortedData.map((newItem) => (
           <div
             key={newItem.title}

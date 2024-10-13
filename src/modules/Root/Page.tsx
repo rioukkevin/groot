@@ -15,6 +15,7 @@ import {
   WhoWindow,
   NewsWindow,
   SettingsWindow,
+  ExperiencesWindow,
 } from "./Windows";
 
 export const Page = () => {
@@ -29,8 +30,12 @@ export const Page = () => {
       onPress: () =>
         openWindow({
           title: "Who am I ?",
-          children: <WhoWindow />,
+          children: (props) => <WhoWindow {...props} />,
           id: "who",
+          size: {
+            width: "400px",
+            height: "fit-content",
+          },
         }),
     },
     {
@@ -41,8 +46,13 @@ export const Page = () => {
       onPress: () =>
         openWindow({
           title: "Experiences",
-          children: <div className="text-xl">Expériences</div>,
+          children: (props) => <ExperiencesWindow {...props} />,
+          isFullscreenAllowed: true,
           id: "experiences",
+          size: {
+            width: "80vw",
+            height: "60vh",
+          },
         }),
     },
     {
@@ -53,8 +63,12 @@ export const Page = () => {
       onPress: () =>
         openWindow({
           title: "Projects",
-          children: <div className="text-xl">Projects</div>,
+          children: () => <div>Projects</div>,
           id: "projects",
+          size: {
+            width: "80vw",
+            height: "60vh",
+          },
         }),
     },
     {
@@ -65,8 +79,12 @@ export const Page = () => {
       onPress: () =>
         openWindow({
           title: "News",
-          children: <NewsWindow />,
+          children: (props) => <NewsWindow {...props} />,
           id: "news",
+          size: {
+            width: "400px",
+            height: "500px",
+          },
         }),
     },
     {
@@ -77,8 +95,12 @@ export const Page = () => {
       onPress: () =>
         openWindow({
           title: "Contact",
-          children: <ContactWindow />,
+          children: (props) => <ContactWindow {...props} />,
           id: "contact",
+          size: {
+            width: "350px",
+            height: "250px",
+          },
         }),
     },
     {
@@ -89,8 +111,12 @@ export const Page = () => {
       onPress: () =>
         openWindow({
           title: "Settings",
-          children: <SettingsWindow />,
+          children: (props) => <SettingsWindow {...props} />,
           id: "settings",
+          size: {
+            width: "300px",
+            height: "600px",
+          },
         }),
     },
   ];

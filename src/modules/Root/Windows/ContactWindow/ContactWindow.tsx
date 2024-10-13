@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { ContactData, data } from "./data";
 import Link from "next/link";
+import { WindowChildrenProps } from "@/modules/Window";
 
 const ContactItem: FC<ContactData> = ({ label, value, href, icon }) => {
   return (
@@ -16,7 +17,7 @@ const ContactItem: FC<ContactData> = ({ label, value, href, icon }) => {
   );
 };
 
-export const ContactWindow = () => {
+export const ContactWindow: FC<WindowChildrenProps> = () => {
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-3xl font-bold">Contact</h1>

@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 
 interface WindowCreationProperties
   extends Omit<WindowProps, "id" | "isFocused" | "containerRef"> {
+  isFullscreenAllowed?: boolean;
   id?: string;
 }
 
@@ -46,7 +47,13 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
 
     setWindows([
       ...windows,
-      { ...window, id: window.id || uuidv4(), containerRef, isFocused: true },
+      {
+        ...window,
+        id: window.id || uuidv4(),
+        containerRef,
+        isFocused: true,
+        isFullscreenAllowed: window.isFullscreenAllowed || false,
+      },
     ]);
   };
 
