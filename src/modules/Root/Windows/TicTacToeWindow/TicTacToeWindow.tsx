@@ -71,7 +71,7 @@ export const TicTacToeWindow: FC<WindowChildrenProps> = () => {
             {board.map((cell, index) => (
               <motion.button
                 key={index}
-                className="flex h-24 w-24 items-center justify-center rounded-lg bg-neutral-700 text-4xl font-bold transition-colors hover:bg-neutral-600"
+                className="flex size-24 items-center justify-center rounded-lg bg-neutral-700 text-4xl font-bold transition-colors hover:bg-neutral-600"
                 aria-label={`Cell ${index + 1}`}
                 onClick={() => play(index)}
                 disabled={!isXNext || result.isGameFinished}

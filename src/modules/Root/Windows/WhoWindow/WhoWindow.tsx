@@ -25,7 +25,7 @@ export const WhoWindow: FC<WindowChildrenProps> = () => {
             <p className="text-5xl font-light">7+</p>
             <p className="text-sm font-extrabold">Years of exp.</p>
           </div>
-          <div className="w-[1px] bg-neutral-200/50" />
+          <div className="w-px bg-neutral-200/50" />
           <div className="flex flex-col items-center">
             <p className="text-5xl font-light">40+</p>
             <p className="text-sm font-extrabold">Projects</p>

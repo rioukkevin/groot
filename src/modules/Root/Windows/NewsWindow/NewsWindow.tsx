@@ -20,7 +20,7 @@ export const NewsWindow: FC<WindowChildrenProps> = () => {
   }, [sortBy]);
 
   return (
-    <div className="flex h-full w-full flex-col gap-4">
+    <div className="flex size-full flex-col gap-4">
       <h1 className="text-3xl font-bold">News</h1>
       <div className="flex items-center justify-end gap-4">
         <label className="whitespace-nowrap text-sm text-neutral-200">
@@ -37,7 +37,7 @@ export const NewsWindow: FC<WindowChildrenProps> = () => {
           <option value={SortOrder.Oldest}>Oldest</option>
         </select>
       </div>
-      <div className="flex h-full w-full flex-col items-center gap-4 overflow-y-auto">
+      <div className="flex size-full flex-col items-center gap-4 overflow-y-auto">
         {sortedData.map((newItem) => (
           <div
             key={newItem.title}

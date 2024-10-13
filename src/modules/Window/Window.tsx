@@ -141,7 +141,7 @@ export const Window: FC<WindowProps> = ({
         >
           <div className="relative flex cursor-move select-none space-x-2">
             <motion.button
-              className="h-3 w-3 rounded-full bg-red-500"
+              className="size-3 rounded-full bg-red-500"
               aria-label="Close"
               onHoverStart={() => closeHovered.set(1)}
               onHoverEnd={() => closeHovered.set(0)}
@@ -154,7 +154,7 @@ export const Window: FC<WindowProps> = ({
             {isFullscreenAllowed && (
               <>
                 <motion.button
-                  className="h-3 w-3 cursor-zoom-out rounded-full bg-yellow-500"
+                  className="size-3 cursor-zoom-out rounded-full bg-yellow-500"
                   aria-label="Minimize"
                   onHoverStart={() => minimizeHovered.set(1)}
                   onHoverEnd={() => minimizeHovered.set(0)}

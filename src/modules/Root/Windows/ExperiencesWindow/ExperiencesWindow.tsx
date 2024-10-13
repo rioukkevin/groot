@@ -55,7 +55,7 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
               className="mb-4 ms-4 cursor-pointer"
               onClick={() => setSelectedExperience(experience)}
             >
-              <div className="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200 dark:border-gray-900 dark:bg-gray-700"></div>
+              <div className="absolute -start-1.5 mt-1.5 size-3 rounded-full border border-white bg-gray-200 dark:border-gray-900 dark:bg-gray-700"></div>
               <div className="flex w-full flex-col gap-2 rounded-lg border border-neutral-600/50 p-4">
                 <time className="text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
                   {new Date(experience.startDate).toLocaleDateString()} -{" "}

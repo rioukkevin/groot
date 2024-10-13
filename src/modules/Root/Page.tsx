@@ -27,7 +27,7 @@ export const Page = () => {
     {
       title: "Who am I ?",
       icon: (
-        <PersonStandingIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <PersonStandingIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
@@ -43,7 +43,7 @@ export const Page = () => {
     {
       title: "Experiences",
       icon: (
-        <BriefcaseBusinessIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <BriefcaseBusinessIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
@@ -60,7 +60,7 @@ export const Page = () => {
     {
       title: "Projects",
       icon: (
-        <PackageIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <PackageIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
@@ -76,7 +76,7 @@ export const Page = () => {
     {
       title: "News",
       icon: (
-        <NewspaperIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <NewspaperIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
@@ -92,7 +92,7 @@ export const Page = () => {
     {
       title: "Contact",
       icon: (
-        <MailIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <MailIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
@@ -108,7 +108,7 @@ export const Page = () => {
     {
       title: "TicTacToe",
       icon: (
-        <JoystickIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <JoystickIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
@@ -124,7 +124,7 @@ export const Page = () => {
     {
       title: "Settings",
       icon: (
-        <SettingsIcon className="h-full w-full text-neutral-600 dark:text-neutral-300" />
+        <SettingsIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({

@@ -17,7 +17,7 @@ export const Screen: FC<ScreenProps> = ({ children }) => {
   return (
     <div
       ref={screenRef}
-      className="max-w-screen relative h-screen max-h-screen w-screen overflow-hidden"
+      className="relative h-screen max-h-screen w-screen overflow-hidden"
     >
       <Image
         src={currentBackground}
@@ -29,7 +29,7 @@ export const Screen: FC<ScreenProps> = ({ children }) => {
       />
 
       <WindowManagerProvider containerRef={screenRef}>
-        <div className="relative z-10 h-full w-full">{children}</div>
+        <div className="relative z-10 size-full">{children}</div>
       </WindowManagerProvider>
     </div>
   );
