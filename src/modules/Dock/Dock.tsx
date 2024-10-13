@@ -17,13 +17,13 @@ export function Dock({ items }: DockProps) {
   return (
     <AnimatePresence>
       <motion.div
-        className="absolute bottom-2 z-50 flex w-full max-w-full justify-center"
+        className="pointer-events-none absolute bottom-2 z-50 flex w-full max-w-full justify-center"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 50 }}
         transition={{ type: "spring", bounce: 0, delay: 1 }}
       >
-        <DockContainer className="items-end pb-3">
+        <DockContainer className="pointer-events-auto items-end pb-3">
           {items.map((item, idx) => (
             <DockItem
               key={idx}

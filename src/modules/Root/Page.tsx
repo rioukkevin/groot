@@ -133,7 +133,7 @@ export const Page = () => {
           id: "settings",
           size: {
             width: "300px",
-            height: "600px",
+            height: "470px",
           },
         }),
     },
