@@ -40,30 +40,32 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
   const [windows, setWindows] = useState<WindowProps[]>([]);
 
   const openWindow = (window: WindowCreationProperties) => {
-    if (window.id && windows.find((w) => w.id === window.id)) {
-      focusWindow(window.id);
-      return;
-    }
+    setWindows((oldValue) => {
+      if (window.id && oldValue.find((w) => w.id === window.id)) {
+        focusWindow(window.id);
+        return oldValue;
+      }
 
-    setWindows([
-      ...windows,
-      {
-        ...window,
-        id: window.id || uuidv4(),
-        containerRef,
-        isFocused: true,
-        isFullscreenAllowed: window.isFullscreenAllowed || false,
-      },
-    ]);
+      return [
+        ...oldValue,
+        {
+          ...window,
+          id: window.id || uuidv4(),
+          containerRef,
+          isFocused: true,
+          isFullscreenAllowed: window.isFullscreenAllowed || false,
+        },
+      ];
+    });
   };
 
   const closeWindow = (id: string) => {
-    setWindows(windows.filter((window) => window.id !== id));
+    setWindows((oldValue) => oldValue.filter((window) => window.id !== id));
   };
 
   const focusWindow = (id: string) => {
-    setWindows(
-      windows.map((window) => ({ ...window, isFocused: window.id === id })),
+    setWindows((oldValue) =>
+      oldValue.map((window) => ({ ...window, isFocused: window.id === id })),
     );
   };
 
