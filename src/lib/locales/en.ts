@@ -1,3 +1,7 @@
+import contactEn from "./contact/en";
+import experiencesEn from "./experiences/en";
+import newsEn from "./news/en";
+
 const en = {
   // Root/Page
   "dock.whoami": "Who am I ?",
@@ -28,15 +32,18 @@ const en = {
   "experiences.missions": "Missions:",
   "experiences.achievements": "Achievements:",
   "experiences.selectExperience": "Select an experience to view details",
+  ...experiencesEn,
 
   // Root/Windows/NewsWindow
   "news.title": "News",
   "news.sortBy": "Sort by:",
   "news.mostRecent": "Most recent",
   "news.oldest": "Oldest",
+  ...newsEn,
 
   // Root/Windows/ContactWindow
   "contact.title": "Contact",
+  ...contactEn,
 
   // Root/Windows/TicTacToeWindow
   "tictactoe.restart": "Restart",

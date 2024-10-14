@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useScopedI18n } from "@/lib/locales/client";
 
 export interface ExperienceData {
   company: string;
@@ -13,15 +14,16 @@ export interface ExperienceData {
 }
 
 export const useExperiencesData = () => {
+  const t = useScopedI18n("experiences");
+
   const experiencesData = useMemo<ExperienceData[]>(
     () => [
       {
-        company: "Ooof.dev",
-        job: "Fullstack web developer - Freelance",
+        company: t("ooof.company"),
+        job: t("ooof.job"),
         startDate: "2024-09-01",
         endDate: "Present",
-        about:
-          "Ooof.dev is my commercial name for freelancing. As a freelance developer, I operate under this brand to provide professional web development services.",
+        about: t("ooof.about"),
         technologies: [
           "React",
           "Next.js",
@@ -31,20 +33,19 @@ export const useExperiencesData = () => {
           "REST APIs",
         ],
         missions: [
-          "Full-stack web development",
-          "Custom software solutions",
-          "Technical consulting",
+          t("ooof.missions.0"),
+          t("ooof.missions.1"),
+          t("ooof.missions.2"),
         ],
         achievements: [],
         color: "#FF6B6B",
       },
       {
-        company: "Side projects",
-        job: "Fullstack web developer - No Contract",
+        company: t("sideProjects.company"),
+        job: t("sideProjects.job"),
         startDate: "2016-01-01",
         endDate: "Present",
-        about:
-          "In my free time, i'm working on personal subjects I have, some for my needs, others for streaming needs or association needs",
+        about: t("sideProjects.about"),
         technologies: [
           "Javascript",
           "Typescript",
@@ -82,24 +83,23 @@ export const useExperiencesData = () => {
         ],
         missions: [],
         achievements: [
-          "Open-source VSCode extension to manage commit messages with a customizable template",
-          "A Portfolio to showcase some of my projects and explore technologies, 6 differents versions since 2016",
-          "A website for the Chariteam association to track events and donations",
-          "A complex twitch bot for Poachimpa's streaming to help creating engagement, track any events that occur, get statistics, manage viewers",
-          "Scripts and Bots for discord to help organize meetings or help everyday with funny interactions",
-          "A beting mobile application canceled before it was published",
-          "Some web interfaces to have subscriptions statistics",
-          "A multiple devices synced counter for Outtrans 15 years association event to manage entries in the event",
+          t("sideProjects.achievements.0"),
+          t("sideProjects.achievements.1"),
+          t("sideProjects.achievements.2"),
+          t("sideProjects.achievements.3"),
+          t("sideProjects.achievements.4"),
+          t("sideProjects.achievements.5"),
+          t("sideProjects.achievements.6"),
+          t("sideProjects.achievements.7"),
         ],
         color: "#4ECDC4",
       },
       {
-        company: "Technis",
-        job: "Fullstack web developer - Permanent Contract",
+        company: t("technis.company"),
+        job: t("technis.job"),
         startDate: "2022-11-01",
         endDate: "2024-08-02",
-        about:
-          "Technis is a Swiss technology company specializing in smart flooring solutions. They develop intelligent flooring systems that use sensor technology to track movement and gather data. Technis' products are applied in various sectors including sports facilities, healthcare environments, and retail spaces, enabling real-time analysis of foot traffic, movement patterns, and other metrics.",
+        about: t("technis.about"),
         technologies: [
           "React.js",
           "Node.js",
@@ -115,28 +115,27 @@ export const useExperiencesData = () => {
           "Git",
         ],
         missions: [
-          "Developing web application to display data exploitation result",
-          "Managed development teams",
-          "Designed and implemented architecture for web-based systems for an experiment team",
-          "Led end-to-end project, including human ressources management, timeline, communication with dependencies, technical solutions, ...",
-          "Conducted design reviews to optimize user experience and system performance",
+          t("technis.missions.0"),
+          t("technis.missions.1"),
+          t("technis.missions.2"),
+          t("technis.missions.3"),
+          t("technis.missions.4"),
         ],
         achievements: [
-          "Managing a developer team for 3 months in a row on international level.",
-          "Initialise a documentation movement in the web team",
-          "Lead a project from A to Z, from the idea to the production and support",
-          "Participate in Olympics project at start while the company was looking for a dedicated team recruitment",
-          "Push good practices on the frontend side of web development",
+          t("technis.achievements.0"),
+          t("technis.achievements.1"),
+          t("technis.achievements.2"),
+          t("technis.achievements.3"),
+          t("technis.achievements.4"),
         ],
         color: "#45B7D1",
       },
       {
-        company: "ALPHA8",
-        job: "Fullstack web developer - Alternance & Permanent Contract",
+        company: t("alpha8.company"),
+        job: t("alpha8.job"),
         startDate: "2020-09-01",
         endDate: "2022-10-25",
-        about:
-          "Alpha8 is a company specializing in web development of digital solutions. They focus on creating an all-in-one SaaS similar to the GSuite from Google, mostly with target of consulting peoples",
+        about: t("alpha8.about"),
         technologies: [
           "React.js",
           "Node.js",
@@ -152,28 +151,27 @@ export const useExperiencesData = () => {
           "Jest",
         ],
         missions: [
-          "Led full-stack web development for part of the Saas",
-          "Participation in design and implementation of scalable architectures for complex web applications",
-          "Contributed to the overall design and user experience of web solutions",
-          "Provided strategic input on enterprise-level decisions",
-          "Collaborated with cross-functional teams to align technical solutions with business objectives",
+          t("alpha8.missions.0"),
+          t("alpha8.missions.1"),
+          t("alpha8.missions.2"),
+          t("alpha8.missions.3"),
+          t("alpha8.missions.4"),
         ],
         achievements: [
-          "Imagine and develop as a leader of a team a complex part of the SaaS platform (Customizable report generator section)",
-          "Solve architecture problems to interact between every systems using Apollo federation",
-          "Imagine a UI for the application",
-          "Create a simple to use development environment",
-          "Help bosses to choose direction for the company",
+          t("alpha8.achievements.0"),
+          t("alpha8.achievements.1"),
+          t("alpha8.achievements.2"),
+          t("alpha8.achievements.3"),
+          t("alpha8.achievements.4"),
         ],
         color: "#FFA500",
       },
       {
-        company: "Brioche Pasquier",
-        job: "R&D Web developer - Alternance",
+        company: t("pasquier.company"),
+        job: t("pasquier.job"),
         startDate: "2019-09-01",
         endDate: "2020-08-31",
-        about:
-          "Pasquier is a well-known French food company. They have a significant IT department with a dedicated R&D section, focusing on creating innovative internal tools and frameworks to streamline their software development processes.",
+        about: t("pasquier.about"),
         technologies: [
           "Vue.js 2",
           "Javascript",
@@ -186,29 +184,28 @@ export const useExperiencesData = () => {
           "Sharepoint",
         ],
         missions: [
-          "Worked in the R&D section of the IT department",
-          "Collaborated with designers to create a comprehensive UI kit following habits of internals users",
-          "Developed the UI kit using Vue.js 2",
-          "Contributed to building a full ecosystem for internal web developers",
-          'Created modular, reusable components ("bricks") for efficient software assembly',
-          "Served as a formation teacher, training other developers on the new ecosystem",
-          "Doing support for developers on any frontend related question",
+          t("pasquier.missions.0"),
+          t("pasquier.missions.1"),
+          t("pasquier.missions.2"),
+          t("pasquier.missions.3"),
+          t("pasquier.missions.4"),
+          t("pasquier.missions.5"),
+          t("pasquier.missions.6"),
         ],
         achievements: [
-          "Successfully developed a comprehensive UI kit that standardized the company's web application design",
-          "Created a modular ecosystem that significantly reduced development time for internal projects",
-          "Trained developers on the new ecosystem, facilitating its adoption across the IT department",
-          "Creating a big documentation about the ecosystem and every choice made in developing it",
+          t("pasquier.achievements.0"),
+          t("pasquier.achievements.1"),
+          t("pasquier.achievements.2"),
+          t("pasquier.achievements.3"),
         ],
         color: "#FFD700",
       },
       {
-        company: "Eureden/Triskalia",
-        job: "Web developer - Alternance",
+        company: t("eureden.company"),
+        job: t("eureden.job"),
         startDate: "2018-09-01",
         endDate: "2019-08-31",
-        about:
-          "Eureden (previously known as Triskalia) is a major French agricultural cooperative. The company appears to have been undergoing digital transformation, investing in modern web and mobile solutions to enhance their operations and services.",
+        about: t("eureden.about"),
         technologies: [
           "Vue.js 2",
           "CSS/Sass",
@@ -220,35 +217,34 @@ export const useExperiencesData = () => {
           "NativeScript",
         ],
         missions: [
-          "Served as a key frontend web and mobile developer",
-          "Spearheaded the adoption of Vue.js as the primary frontend framework",
-          "Defined and implemented the architectural structure for Vue.js-based applications",
-          "Developed frontend solutions for both web and mobile platforms",
-          "Ensured best practices and consistency in frontend development",
-          "Worked on maintaining and evolving a web applaction that give agricultor the ability to track their parcel at anytime",
-          "Maintain hybrid mobile application",
+          t("eureden.missions.0"),
+          t("eureden.missions.1"),
+          t("eureden.missions.2"),
+          t("eureden.missions.3"),
+          t("eureden.missions.4"),
+          t("eureden.missions.5"),
+          t("eureden.missions.6"),
         ],
         achievements: [
-          "Successfully led the transition to Vue.js, improving development efficiency and application performance with my teammates",
-          "Designed and implemented a comptability account management web app",
-          "Created a complex timeline view in native Javascript for old systems",
+          t("eureden.achievements.0"),
+          t("eureden.achievements.1"),
+          t("eureden.achievements.2"),
         ],
         color: "#32CD32",
       },
       {
-        company: "CDG29",
-        job: "Alternance - Technician",
+        company: t("cdg29.company"),
+        job: t("cdg29.job"),
         startDate: "2017-09-01",
         endDate: "2018-08-31",
-        about:
-          "Worked as a technician performing a variety of roles including IT support, software development, network management, and operations tasks. This diverse experience provided a solid foundation in multiple aspects of IT infrastructure and operations.",
+        about: t("cdg29.about"),
         technologies: [],
         missions: [],
         achievements: [],
         color: "#9370DB",
       },
     ],
-    [],
+    [t],
   );
 
   return experiencesData;
