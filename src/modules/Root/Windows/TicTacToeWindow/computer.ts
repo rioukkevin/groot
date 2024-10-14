@@ -2,7 +2,7 @@ import { calculateWinner } from "./utils";
 
 export const computerMove = (board: Array<string | null>): number => {
   // Random chance to make a wrong move
-  if (Math.random() < 0.2) {
+  if (Math.random() < 0.03) {
     const emptyIndices = board.reduce((acc, cell, index) => {
       if (cell === null) acc.push(index);
       return acc;
