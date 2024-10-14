@@ -59,6 +59,8 @@ const en = {
   "theme.background.changeBackground": "Change Background",
   "theme.background.currentBackgroundPreview": "Current background preview",
   "theme.background.invalidImageFile": "Please select a valid image file.",
+  "theme.background.fileTooLarge":
+    "File size exceeds 4MB. Please choose a smaller file.",
 
   // WindowManager
   "window.close": "Close",

@@ -62,6 +62,8 @@ const fr = {
     "Aperçu de l'arrière-plan actuel",
   "theme.background.invalidImageFile":
     "Veuillez sélectionner un fichier image valide.",
+  "theme.background.fileTooLarge":
+    "La taille du fichier dépasse 4 Mo. Veuillez choisir un fichier plus petit.",
 
   // WindowManager
   "window.close": "Fermer",

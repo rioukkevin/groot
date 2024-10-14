@@ -64,6 +64,16 @@ export const BackgroundFileSelector: React.FC = () => {
   const t = useScopedI18n("theme");
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const fileSizeInMB = file.size / (1024 * 1024);
+
+      if (fileSizeInMB > 4) {
+        alert(t("background.fileTooLarge"));
+        event.target.value = "";
+        return;
+      }
+    }
     const file = event.target.files?.[0];
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
