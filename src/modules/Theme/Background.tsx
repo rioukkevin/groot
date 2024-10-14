@@ -8,6 +8,7 @@ import React, {
 import { ChangeEvent } from "react";
 import Image from "next/image";
 import IMGBackground from "@/assets/background.jpg";
+import { useScopedI18n } from "@/lib/locales/client";
 
 interface BackgroundContextType {
   currentBackground: string;
@@ -60,6 +61,7 @@ export const BackgroundProvider: React.FC<BackgroundProviderProps> = ({
 
 export const BackgroundFileSelector: React.FC = () => {
   const { currentBackground, setBackground } = useBackground();
+  const t = useScopedI18n("theme");
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -73,7 +75,7 @@ export const BackgroundFileSelector: React.FC = () => {
       };
       reader.readAsDataURL(file);
     } else {
-      alert("Please select a valid image file.");
+      alert(t("background.invalidImageFile"));
     }
   };
 
@@ -83,7 +85,7 @@ export const BackgroundFileSelector: React.FC = () => {
         <div className="relative aspect-video w-full overflow-hidden rounded-lg">
           <Image
             src={currentBackground}
-            alt="Current background preview"
+            alt={t("background.currentBackgroundPreview")}
             layout="fill"
             objectFit="cover"
           />
@@ -94,7 +96,7 @@ export const BackgroundFileSelector: React.FC = () => {
           htmlFor="files"
           className="block w-full cursor-pointer rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-center text-sm text-neutral-200"
         >
-          Change Background
+          {t("background.changeBackground")}
         </label>
         <input
           id="files"

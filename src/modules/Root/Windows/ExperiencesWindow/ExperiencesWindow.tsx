@@ -1,11 +1,14 @@
 import { FC, useMemo, useState } from "react";
-import { data, ExperienceData } from "./data";
+import { ExperienceData, useExperiencesData } from "./data";
 import { WindowChildrenProps } from "@/modules/Window";
 import { cn } from "@/lib/cn";
+import { useScopedI18n } from "@/lib/locales/client";
 
 export const ExperiencesWindow: FC<WindowChildrenProps> = ({
   isFullscreen,
 }) => {
+  const t = useScopedI18n("experiences");
+
   enum SortOrder {
     MostRecent = "mostRecent",
     Oldest = "oldest",
@@ -14,6 +17,8 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
   const [selectedExperience, setSelectedExperience] =
     useState<ExperienceData | null>(null);
   const [sortBy, setSortBy] = useState<SortOrder>(SortOrder.MostRecent);
+
+  const data = useExperiencesData();
 
   const sortedData = useMemo(() => {
     return data.sort((a, b) => {
@@ -32,10 +37,10 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
           isFullscreen && "w-full",
         )}
       >
-        <h1 className="text-3xl font-bold">News</h1>
+        <h1 className="text-3xl font-bold">{t("title")}</h1>
         <div className="flex items-center justify-end gap-4">
           <label className="whitespace-nowrap text-sm text-neutral-200">
-            Sort by:
+            {t("sortBy")}
           </label>
           <select
             value={sortBy}
@@ -43,9 +48,9 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
             className="block w-full rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
           >
             <option selected value={SortOrder.MostRecent}>
-              Most recent
+              {t("mostRecent")}
             </option>
-            <option value={SortOrder.Oldest}>Oldest</option>
+            <option value={SortOrder.Oldest}>{t("oldest")}</option>
           </select>
         </div>
         <ol className="relative border-s border-gray-200 dark:border-gray-700">
@@ -60,7 +65,7 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
                 <time className="text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
                   {new Date(experience.startDate).toLocaleDateString()} -{" "}
                   {experience.endDate === "Present"
-                    ? "Present"
+                    ? t("present")
                     : new Date(experience.endDate).toLocaleDateString()}
                 </time>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -86,12 +91,14 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
             <p className="text-sm text-neutral-500">
               {new Date(selectedExperience.startDate).toLocaleDateString()} -{" "}
               {selectedExperience.endDate === "Present"
-                ? "Present"
+                ? t("present")
                 : new Date(selectedExperience.endDate).toLocaleDateString()}
             </p>
             <hr className="w-full border-neutral-600/50" />
             <div className="mt-2">
-              <h3 className="mb-2 text-sm font-semibold">Technologies:</h3>
+              <h3 className="mb-2 text-sm font-semibold">
+                {t("technologies")}
+              </h3>
               <div className="flex max-w-[60vw] flex-wrap gap-2">
                 {selectedExperience.technologies.map((tech, index) => (
                   <span
@@ -105,7 +112,7 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
             </div>
             {selectedExperience.missions.length > 0 && (
               <div className="mt-4">
-                <h3 className="mb-2 text-sm font-semibold">Missions:</h3>
+                <h3 className="mb-2 text-sm font-semibold">{t("missions")}</h3>
                 <ul className="list-inside list-disc text-sm">
                   {selectedExperience.missions.map((mission, index) => (
                     <li key={index}>{mission}</li>
@@ -115,7 +122,9 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
             )}
             {selectedExperience.achievements.length > 0 && (
               <div className="mt-4">
-                <h3 className="mb-2 text-sm font-semibold">Achievements:</h3>
+                <h3 className="mb-2 text-sm font-semibold">
+                  {t("achievements")}
+                </h3>
                 <ul className="list-inside list-disc text-sm">
                   {selectedExperience.achievements.map((achievement, index) => (
                     <li key={index}>{achievement}</li>
@@ -127,7 +136,7 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
         ) : (
           <div className="flex h-full items-center justify-center">
             <p className="text-center text-3xl text-neutral-400">
-              Select an experience to view details
+              {t("selectExperience")}
             </p>
           </div>
         )}

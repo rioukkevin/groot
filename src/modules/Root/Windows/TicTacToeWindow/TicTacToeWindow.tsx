@@ -5,8 +5,10 @@ import { computerMove } from "./computer";
 import { useCalculateWinner } from "./utils";
 import { FishSymbol, PawPrint } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useScopedI18n } from "@/lib/locales/client";
 
 export const TicTacToeWindow: FC<WindowChildrenProps> = () => {
+  const t = useScopedI18n("tictactoe");
   type Board = Array<"X" | "O" | null>;
 
   const [board, setBoard] = useState<Board>(Array(9).fill(null));
@@ -132,7 +134,7 @@ export const TicTacToeWindow: FC<WindowChildrenProps> = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              Restart
+              {t("restart")}
             </motion.button>
           </motion.div>
         )}

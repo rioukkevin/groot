@@ -1,7 +1,8 @@
 import { FC } from "react";
-import { ContactData, data } from "./data";
+import { ContactData, useContactData } from "./data";
 import Link from "next/link";
 import { WindowChildrenProps } from "@/modules/Window";
+import { useScopedI18n } from "@/lib/locales/client";
 
 const ContactItem: FC<ContactData> = ({ label, value, href, icon }) => {
   return (
@@ -18,9 +19,12 @@ const ContactItem: FC<ContactData> = ({ label, value, href, icon }) => {
 };
 
 export const ContactWindow: FC<WindowChildrenProps> = () => {
+  const data = useContactData();
+  const t = useScopedI18n("contact");
+
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-bold">Contact</h1>
+      <h1 className="text-3xl font-bold">{t("title")}</h1>
       <div className="flex flex-col gap-2">
         {data.map((item) => (
           <ContactItem key={item.label} {...item} />

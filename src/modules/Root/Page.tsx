@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Dock, DockElement } from "../Dock";
 import { useOpenWindow, WindowManager } from "../WindowManager";
 import {
@@ -19,19 +20,20 @@ import {
   ExperiencesWindow,
   TicTacToeWindow,
 } from "./Windows";
+import { useScopedI18n } from "@/lib/locales/client";
 
-export const Page = () => {
+const useDockData = () => {
+  const t = useScopedI18n("dock");
   const openWindow = useOpenWindow();
-
-  const data: DockElement[] = [
+  const [data] = useState<DockElement[]>([
     {
-      title: "Who am I ?",
+      title: t("whoami"),
       icon: (
         <PersonStandingIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          title: "Who am I ?",
+          title: t("whoami"),
           children: (props) => <WhoWindow {...props} />,
           id: "who",
           size: {
@@ -41,13 +43,13 @@ export const Page = () => {
         }),
     },
     {
-      title: "Experiences",
+      title: t("experiences"),
       icon: (
         <BriefcaseBusinessIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          title: "Experiences",
+          title: t("experiences"),
           children: (props) => <ExperiencesWindow {...props} />,
           isFullscreenAllowed: true,
           id: "experiences",
@@ -58,13 +60,13 @@ export const Page = () => {
         }),
     },
     {
-      title: "Projects",
+      title: t("projects"),
       icon: (
         <PackageIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          title: "Projects",
+          title: t("projects"),
           children: () => <div>Projects</div>,
           id: "projects",
           size: {
@@ -74,13 +76,13 @@ export const Page = () => {
         }),
     },
     {
-      title: "News",
+      title: t("news"),
       icon: (
         <NewspaperIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          title: "News",
+          title: t("news"),
           children: (props) => <NewsWindow {...props} />,
           id: "news",
           size: {
@@ -90,13 +92,13 @@ export const Page = () => {
         }),
     },
     {
-      title: "Contact",
+      title: t("contact"),
       icon: (
         <MailIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          title: "Contact",
+          title: t("contact"),
           children: (props) => <ContactWindow {...props} />,
           id: "contact",
           size: {
@@ -106,13 +108,13 @@ export const Page = () => {
         }),
     },
     {
-      title: "TicTacToe",
+      title: t("tictactoe"),
       icon: (
         <JoystickIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          title: "TicTacToe",
+          title: t("tictactoe"),
           children: (props) => <TicTacToeWindow {...props} />,
           id: "tictactoe",
           size: {
@@ -122,13 +124,13 @@ export const Page = () => {
         }),
     },
     {
-      title: "Settings",
+      title: t("settings"),
       icon: (
         <SettingsIcon className="size-full text-neutral-600 dark:text-neutral-300" />
       ),
       onPress: () =>
         openWindow({
-          title: "Settings",
+          title: t("settings"),
           children: (props) => <SettingsWindow {...props} />,
           id: "settings",
           size: {
@@ -137,11 +139,17 @@ export const Page = () => {
           },
         }),
     },
-  ];
+  ]);
+
+  return data;
+};
+
+export const Page = () => {
+  const dockData = useDockData();
 
   return (
     <>
-      <Dock items={data} />
+      <Dock items={dockData} />
       <WindowManager />
     </>
   );

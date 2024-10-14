@@ -1,8 +1,12 @@
 import { FC, useMemo, useState } from "react";
-import { data } from "./data";
 import { WindowChildrenProps } from "@/modules/Window";
+import { useNewsData } from "./data";
+import { useScopedI18n } from "@/lib/locales/client";
 
 export const NewsWindow: FC<WindowChildrenProps> = () => {
+  const data = useNewsData();
+  const t = useScopedI18n("news");
+
   enum SortOrder {
     MostRecent = "mostRecent",
     Oldest = "oldest",
@@ -21,10 +25,10 @@ export const NewsWindow: FC<WindowChildrenProps> = () => {
 
   return (
     <div className="flex size-full flex-col gap-4">
-      <h1 className="text-3xl font-bold">News</h1>
+      <h1 className="text-3xl font-bold">{t("title")}</h1>
       <div className="flex items-center justify-end gap-4">
         <label className="whitespace-nowrap text-sm text-neutral-200">
-          Sort by:
+          {t("sortBy")}
         </label>
         <select
           value={sortBy}
@@ -32,9 +36,9 @@ export const NewsWindow: FC<WindowChildrenProps> = () => {
           className="block w-full rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
         >
           <option selected value={SortOrder.MostRecent}>
-            Most recent
+            {t("mostRecent")}
           </option>
-          <option value={SortOrder.Oldest}>Oldest</option>
+          <option value={SortOrder.Oldest}>{t("oldest")}</option>
         </select>
       </div>
       <div className="flex size-full flex-col items-center gap-4 overflow-y-auto">
