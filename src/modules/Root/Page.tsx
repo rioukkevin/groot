@@ -21,6 +21,7 @@ import {
   TicTacToeWindow,
 } from "./Windows";
 import { useScopedI18n } from "@/lib/locales/client";
+import { ProjectsWindow } from "./Windows/ProjectsWindow";
 
 const useDockData = () => {
   const t = useScopedI18n("dock");
@@ -67,10 +68,10 @@ const useDockData = () => {
       onPress: () =>
         openWindow({
           title: t("projects"),
-          children: () => <div>Projects</div>,
+          children: (props) => <ProjectsWindow {...props} />,
           id: "projects",
           size: {
-            width: "80vw",
+            width: "1280px",
             height: "60vh",
           },
         }),
