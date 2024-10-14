@@ -65,6 +65,15 @@ const en = {
   "window.minimize": "Minimize",
   "window.maximize": "Maximize",
   "window.restore": "Restore",
+
+  // Cookies
+  "cookies.cookieMessage":
+    "This website uses cookies to enhance your experience. By continuing to use this site, you agree to our use of cookies.",
+  "cookies.accept": "Accept",
+  "cookies.moreInfo": "More Info",
+  "cookies.cookiePolicy": "Cookie Policy",
+  "cookies.cookiePolicyContent":
+    "Our website uses cookies to improve your browsing experience and provide personalized content. Cookies are small text files stored on your device that help us analyze site usage, remember your preferences, and optimize performance. By using our site, you consent to our use of cookies in accordance with our Cookie Policy.",
 } as const;
 
 export default en;

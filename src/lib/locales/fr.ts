@@ -68,6 +68,15 @@ const fr = {
   "window.minimize": "Réduire",
   "window.maximize": "Agrandir",
   "window.restore": "Restaurer",
+
+  // Cookies
+  "cookies.cookieMessage":
+    "Ce site utilise des cookies pour améliorer votre expérience. En continuant à utiliser ce site, vous acceptez notre utilisation des cookies.",
+  "cookies.accept": "Accepter",
+  "cookies.moreInfo": "Plus d'infos",
+  "cookies.cookiePolicy": "Politique de cookies",
+  "cookies.cookiePolicyContent":
+    "Notre site web utilise des cookies pour améliorer votre expérience de navigation et fournir du contenu personnalisé. Les cookies sont de petits fichiers texte stockés sur votre appareil qui nous aident à analyser l'utilisation du site, à mémoriser vos préférences et à optimiser les performances. En utilisant notre site, vous consentez à notre utilisation des cookies conformément à notre Politique de cookies.",
 } as const;
 
 export default fr;
