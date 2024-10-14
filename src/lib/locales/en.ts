@@ -49,6 +49,7 @@ const en = {
     [ProjectType.VSCODE]: "VSCode Extension",
     [ProjectType.MOBILE_APP]: "Mobile App",
     [ProjectType.GRAPHISM]: "Graphism",
+    [ProjectType.CHROME_EXTENSION]: "Chrome Extension",
     [ProjectType.OTHER]: "Other",
   },
 

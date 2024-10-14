@@ -50,6 +50,7 @@ const fr = {
     [ProjectType.VSCODE]: "Extension VSCode",
     [ProjectType.MOBILE_APP]: "Application mobile",
     [ProjectType.GRAPHISM]: "Graphisme",
+    [ProjectType.CHROME_EXTENSION]: "Extension Chrome",
     [ProjectType.OTHER]: "Autre",
   },
 

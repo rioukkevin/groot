@@ -15,6 +15,10 @@ import ImgVSCodeGitCommitScreen1 from "@/assets/projects/vscodeGitCommitMessage/
 import ImgVSCodeGitCommitScreen2 from "@/assets/projects/vscodeGitCommitMessage/Screen2.png";
 import ImgVSCodeGitCommitDemo from "@/assets/projects/vscodeGitCommitMessage/Demo.gif";
 
+import ImgBritchThumbnail from "@/assets/projects/britch/Thumbnail.png";
+import ImgBritchScreen1 from "@/assets/projects/britch/Screen1.png";
+import ImgBritchScreen2 from "@/assets/projects/britch/Screen2.png";
+
 import { StaticImageData } from "next/image";
 
 export enum ProjectType {
@@ -23,6 +27,7 @@ export enum ProjectType {
   VSCODE = "vscode",
   MOBILE_APP = "mobile-app",
   GRAPHISM = "graphism",
+  CHROME_EXTENSION = "chrome-extension",
   OTHER = "other",
 }
 
@@ -155,6 +160,28 @@ export const useProjectsData = (): ProjectThumbnail[] => {
         },
       ],
       color: "#DB4535",
+    },
+    {
+      imageSrc: ImgBritchThumbnail,
+      name: "Britch",
+      shortDescription:
+        "This extension adds a gauge to adjust the brightness and contrast of streams",
+      type: ProjectType.CHROME_EXTENSION,
+      technologies: ["Typescript", "Chrome extension", "CSS", "React"],
+      date: { month: 8, year: 2022 },
+      images: [ImgBritchScreen1, ImgBritchScreen2, ImgBritchThumbnail],
+      descriptions: [
+        "Britch is a Chrome extension that enhances the viewing experience on Twitch.",
+        "It provides a user-friendly interface to adjust brightness and contrast of streams.",
+        "The extension integrates seamlessly with the Twitch platform for easy accessibility.",
+      ],
+      links: [
+        {
+          label: "Chrome Web Store",
+          href: "https://chromewebstore.google.com/detail/britch-twitch-brightness/mbakeppieaiacmnfckfmaijhjlelokph",
+        },
+      ],
+      color: "#9246FF",
     },
   ]);
 
