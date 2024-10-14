@@ -19,6 +19,9 @@ const FULLSCREEN_INSET = 12;
 
 export interface WindowChildrenProps {
   isFullscreen: boolean;
+  id: string;
+  isFocused: boolean;
+  title: string;
 }
 
 export interface WindowProps {
@@ -196,7 +199,12 @@ export const Window: FC<WindowProps> = ({
             "pointer-events-auto h-[calc(100%-40px)] max-h-[calc(100vh-40px)] overflow-y-auto overflow-x-hidden p-4",
           )}
         >
-          {children({ isFullscreen })}
+          {children({
+            isFullscreen,
+            id,
+            isFocused: !!isFocused,
+            title,
+          })}
         </div>
       </div>
     </motion.div>

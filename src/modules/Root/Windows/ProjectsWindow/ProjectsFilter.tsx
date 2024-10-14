@@ -114,7 +114,7 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
           className="w-full rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 pr-24 text-sm text-neutral-200 focus:border-neutral-600"
         />
         <AnimatePresence>
-          {searchTerm.length > 0 && (
+          {(searchTerm.length > 0 || filteredCount !== allProjects.length) && (
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}

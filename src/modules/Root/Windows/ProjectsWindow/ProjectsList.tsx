@@ -61,7 +61,7 @@ export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
   const column3Y = useTransform(spring, [0, 1], [0, offsetConfig[2]]);
 
   return (
-    <div ref={containerRef} className="h-full overflow-y-scroll">
+    <div ref={containerRef} className="mx-auto h-full overflow-y-scroll">
       <div className="flex max-w-screen-xl items-start justify-start gap-6 p-6">
         <motion.div
           style={{ y: column1Y, marginBottom: MARGIN_BOTTOM }}

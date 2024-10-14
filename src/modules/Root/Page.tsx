@@ -74,6 +74,7 @@ const useDockData = () => {
             width: "1280px",
             height: "60vh",
           },
+          isFullscreenAllowed: true,
         }),
     },
     {

@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProjectThumbnail as ProjectThumbnailType } from "./data";
+import { useOpenWindow } from "@/modules/WindowManager";
+import { ProjectWindow } from "./ProjectWindow";
 
 export interface ProjectThumbnailProps
-  extends Omit<ProjectThumbnailType, "technologies" | "type" | "date"> {
+  extends Omit<
+    ProjectThumbnailType,
+    "technologies" | "type" | "date" | "images" | "descriptions" | "links"
+  > {
   onClick?: () => void;
 }
 
@@ -15,13 +20,28 @@ export const ProjectThumbnail: React.FC<ProjectThumbnailProps> = ({
   onClick,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const openWindow = useOpenWindow();
+
+  const handleClick = () => {
+    onClick?.();
+    openWindow({
+      id: `project-${name}`,
+      title: name,
+      children: (props) => <ProjectWindow {...props} />,
+      isFullscreenAllowed: true,
+      size: {
+        width: "1024px",
+        height: "60vh",
+      },
+    });
+  };
 
   return (
     <motion.div
       className="flex flex-col items-center gap-2 p-6"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick}
+      onClick={handleClick}
       initial={{ scale: 0.8, opacity: 0 }}
       whileInView={{ scale: 1, opacity: 1 }}
       exit={{ scale: 0.8, opacity: 0 }}
