@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { ProjectType, ProjectThumbnail, useProjectsData } from "./data";
 import { Search } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useScopedI18n } from "@/lib/locales/client";
+import { useProjectTypeTranslations } from "./useProjectTypeTranslation";
 
 interface ProjectsFilterProps {
   onFilterChange: (filteredProjects: ProjectThumbnail[]) => void;
@@ -10,6 +12,8 @@ interface ProjectsFilterProps {
 export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
   onFilterChange,
 }) => {
+  const t = useScopedI18n("projects.filter");
+  const translatedTypes = useProjectTypeTranslations();
   const allProjects = useProjectsData();
   const [selectedTechnology, setSelectedTechnology] = useState<string>("");
   const [selectedType, setSelectedType] = useState<ProjectType | "">("");
@@ -18,7 +22,7 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
 
   const allTechnologies = Array.from(
     new Set(allProjects.flatMap((project) => project.technologies)),
-  );
+  ).sort();
 
   useEffect(() => {
     const filteredProjects = allProjects.filter((project) => {
@@ -69,7 +73,7 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
           onChange={(e) => setSelectedTechnology(e.target.value)}
           className="w-48 cursor-pointer rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
         >
-          <option value="">All Technologies</option>
+          <option value="">{t("allTechnologies")}</option>
           {allTechnologies.map((tech) => (
             <option key={tech} value={tech}>
               {tech}
@@ -89,10 +93,10 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
           onChange={(e) => setSelectedType(e.target.value as ProjectType | "")}
           className="w-48 cursor-pointer rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
         >
-          <option value="">All Project Types</option>
+          <option value="">{t("allProjectTypes")}</option>
           {Object.values(ProjectType).map((type) => (
             <option key={type} value={type}>
-              {type}
+              {translatedTypes[type]}
             </option>
           ))}
         </select>
@@ -110,7 +114,7 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
           id="search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search by title or description"
+          placeholder={t("searchPlaceholder")}
           className="w-full rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 pr-24 text-sm text-neutral-200 focus:border-neutral-600"
         />
         <AnimatePresence>
@@ -121,7 +125,7 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
               exit={{ scale: 0, opacity: 0 }}
               className="absolute right-10 top-2 -translate-y-1/2 rounded-lg bg-neutral-600 px-2 py-1 text-xs text-neutral-200"
             >
-              Found {filteredCount} projects
+              {t("projectsFound", { count: filteredCount })}
             </motion.div>
           )}
         </AnimatePresence>

@@ -4,11 +4,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ProjectThumbnail as ProjectThumbnailType } from "./data";
 import { useOpenWindow } from "@/modules/WindowManager";
 import { ProjectWindow } from "./ProjectWindow";
+import { useScopedI18n } from "@/lib/locales/client";
 
 export interface ProjectThumbnailProps
   extends Omit<
     ProjectThumbnailType,
-    "technologies" | "type" | "date" | "images" | "descriptions" | "links"
+    | "technologies"
+    | "type"
+    | "date"
+    | "images"
+    | "descriptions"
+    | "links"
+    | "color"
   > {
   onClick?: () => void;
 }
@@ -21,6 +28,7 @@ export const ProjectThumbnail: React.FC<ProjectThumbnailProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const openWindow = useOpenWindow();
+  const t = useScopedI18n("projects.thumbnail");
 
   const handleClick = () => {
     onClick?.();
@@ -88,7 +96,7 @@ export const ProjectThumbnail: React.FC<ProjectThumbnailProps> = ({
               transition={{ duration: 0.3 }}
             >
               <motion.button className="mt-4 w-full rounded-lg bg-neutral-700 px-4 py-2 text-lg font-bold text-neutral-300 transition-colors hover:bg-neutral-600">
-                View More
+                {t("viewMore")}
               </motion.button>
             </motion.div>
           )}

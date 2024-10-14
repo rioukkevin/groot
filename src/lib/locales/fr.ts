@@ -1,3 +1,4 @@
+import { ProjectType } from "@/modules/Root/Windows/ProjectsWindow/data";
 import contactFr from "./contact/fr";
 import experiencesFr from "./experiences/fr";
 import newsFr from "./news/fr";
@@ -34,6 +35,23 @@ const fr = {
   "experiences.selectExperience":
     "Sélectionnez une expérience pour voir les détails",
   ...experiencesFr,
+
+  // Root/Windows/ProjectsWindow
+  "projects.title": "Projets",
+  "projects.filter.allTechnologies": "Toutes les technologies",
+  "projects.filter.allProjectTypes": "Tous les types de projets",
+  "projects.filter.searchPlaceholder": "Rechercher par titre ou description",
+  "projects.filter.projectsFound": "{count} projets trouvés",
+  "projects.thumbnail.viewMore": "Voir plus",
+  "projects.window.projectNotFound": "Projet non trouvé",
+  "projects.types": {
+    [ProjectType.DISPLAY_WEBSITE]: "Site web",
+    [ProjectType.ADMIN_WEBSITE]: "Site d'administration",
+    [ProjectType.VSCODE]: "Extension VSCode",
+    [ProjectType.MOBILE_APP]: "Application mobile",
+    [ProjectType.GRAPHISM]: "Graphisme",
+    [ProjectType.OTHER]: "Autre",
+  },
 
   // Root/Windows/NewsWindow
   "news.title": "Actualités",
