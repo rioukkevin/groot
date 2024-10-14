@@ -5,12 +5,12 @@ import ImgOoofScreen1 from "@/assets/projects/ooof/Screen1.png";
 import ImgOoofScreen2 from "@/assets/projects/ooof/Screen2.png";
 import ImgOoofScreen3 from "@/assets/projects/ooof/Screen3.png";
 
-import ImgPortfolioV6Thumbnail from "@/assets/projects/portfoliov6/thumbnail.png";
+import ImgPortfolioV6Thumbnail from "@/assets/projects/portfoliov6/Thumbnail.png";
 import ImgPortfolioV6Screen1 from "@/assets/projects/portfoliov6/Screen1.png";
 import ImgPortfolioV6Screen2 from "@/assets/projects/portfoliov6/Screen2.png";
 import ImgPortfolioV6Screen3 from "@/assets/projects/portfoliov6/Screen3.png";
 
-import ImgVSCodeGitCommitThumbnail from "@/assets/projects/vscodeGitCommitMessage/thumbnail.png";
+import ImgVSCodeGitCommitThumbnail from "@/assets/projects/vscodeGitCommitMessage/Thumbnail.png";
 import ImgVSCodeGitCommitScreen1 from "@/assets/projects/vscodeGitCommitMessage/Screen1.png";
 import ImgVSCodeGitCommitScreen2 from "@/assets/projects/vscodeGitCommitMessage/Screen2.png";
 import ImgVSCodeGitCommitDemo from "@/assets/projects/vscodeGitCommitMessage/Demo.gif";
