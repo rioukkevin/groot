@@ -41,9 +41,7 @@ export const NewsWindow: FC<WindowChildrenProps> = () => {
           onChange={(e) => setSortBy(e.target.value as SortOrder)}
           className="block w-full rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
         >
-          <option selected value={SortOrder.MostRecent}>
-            {t("mostRecent")}
-          </option>
+          <option value={SortOrder.MostRecent}>{t("mostRecent")}</option>
           <option value={SortOrder.Oldest}>{t("oldest")}</option>
         </select>
       </motion.div>

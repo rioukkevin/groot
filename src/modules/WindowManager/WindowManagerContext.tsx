@@ -6,10 +6,13 @@ import {
   ReactNode,
   RefObject,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { WindowProps } from "../Window/Window";
 import { v4 as uuidv4 } from "uuid";
+import { identifyBrowser } from "@/lib/mixpanel";
+import mixpanel from "mixpanel-browser";
 
 interface WindowCreationProperties
   extends Omit<WindowProps, "id" | "isFocused" | "containerRef"> {
@@ -46,6 +49,12 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
         return oldValue;
       }
 
+      mixpanel.track("OpenWindow", {
+        id: window.id ?? "No-Id",
+      });
+
+      console.log("OpenWindow", window);
+
       return [
         ...oldValue,
         {
@@ -60,14 +69,35 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
   };
 
   const closeWindow = (id: string) => {
-    setWindows((oldValue) => oldValue.filter((window) => window.id !== id));
+    setWindows((oldValue) => {
+      mixpanel.track("CloseWindow", {
+        id,
+      });
+
+      console.log("CloseWindow", id);
+
+      return oldValue.filter((window) => window.id !== id);
+    });
   };
 
   const focusWindow = (id: string) => {
-    setWindows((oldValue) =>
-      oldValue.map((window) => ({ ...window, isFocused: window.id === id })),
-    );
+    setWindows((oldValue) => {
+      mixpanel.track("FocusWindow", {
+        id,
+      });
+
+      console.log("FocusWindow", id);
+
+      return oldValue.map((window) => ({
+        ...window,
+        isFocused: window.id === id,
+      }));
+    });
   };
+
+  useEffect(() => {
+    identifyBrowser();
+  }, []);
 
   return (
     <WindowManagerContext.Provider
