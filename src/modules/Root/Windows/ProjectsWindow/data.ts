@@ -32,6 +32,12 @@ import ImgControllerScreen2 from "@/assets/projects/controller/Screen2.png";
 import ImgControllerScreen3 from "@/assets/projects/controller/Screen3.png";
 import ImgControllerScreen4 from "@/assets/projects/controller/Screen4.png";
 
+import ImgPortfolioV5Thumbnail from "@/assets/projects/portfoliov5/Thumbnail.png";
+import ImgPortfolioV5Screen1 from "@/assets/projects/portfoliov5/Screen1.png";
+import ImgPortfolioV5Screen2 from "@/assets/projects/portfoliov5/Screen2.png";
+import ImgPortfolioV5Screen3 from "@/assets/projects/portfoliov5/Screen3.png";
+import ImgPortfolioV5Screen4 from "@/assets/projects/portfoliov5/Screen4.png";
+
 import { StaticImageData } from "next/image";
 
 export enum ProjectType {
@@ -72,10 +78,11 @@ export const useProjectsData = (): ProjectThumbnail[] => {
         "React.js",
         "Next.js",
         "TypeScript",
+        "JavaScript",
         "Tailwind CSS",
         "Framer Motion",
-        "Vercel",
         "Nodemailer",
+        "Vercel",
       ],
       date: { month: 8, year: 2024 },
       images: [
@@ -102,17 +109,18 @@ export const useProjectsData = (): ProjectThumbnail[] => {
         "Old version of my portfolio up for 2 years until october 2024",
       type: ProjectType.DISPLAY_WEBSITE,
       technologies: [
+        "React.js",
         "Next.js",
         "TypeScript",
+        "JavaScript",
         "Tailwind",
-        "Storyblok",
-        "Google Analytics",
-        "React.js",
-        "Vercel",
-        "Netlify",
-        "Node.js",
         "Twemoji",
         "Marked",
+        "Storyblok",
+        "Google Analytics",
+        "Node.js",
+        "Vercel",
+        "Netlify",
       ],
       date: { month: 10, year: 2022 },
       images: [
@@ -139,15 +147,16 @@ export const useProjectsData = (): ProjectThumbnail[] => {
         "A VSCode extension to template commit message in the IDE VSCode",
       type: ProjectType.VSCODE,
       technologies: [
-        "Typescript",
-        "NextJS",
+        "React",
+        "TypeScript",
+        "JavaScript",
+        "Chakra UI",
+        "Emotion",
+        "Slate.js",
+        "React-Markdown",
+        "Next.js",
         "VSCE",
         "Netlify",
-        "Chakra UI",
-        "React",
-        "Slate.js",
-        "Emotion",
-        "React-Markdown",
       ],
       date: { month: 9, year: 2022 },
       images: [
@@ -180,7 +189,13 @@ export const useProjectsData = (): ProjectThumbnail[] => {
       shortDescription:
         "This extension adds a gauge to adjust the brightness and contrast of streams",
       type: ProjectType.CHROME_EXTENSION,
-      technologies: ["Typescript", "Chrome extension", "CSS", "React"],
+      technologies: [
+        "React",
+        "TypeScript",
+        "JavaScript",
+        "CSS",
+        "Chrome extension",
+      ],
       date: { month: 8, year: 2022 },
       images: [ImgBritchScreen1, ImgBritchScreen2, ImgBritchThumbnail],
       descriptions: [
@@ -203,13 +218,14 @@ export const useProjectsData = (): ProjectThumbnail[] => {
         "Display website for Alpha8's SaaS product DiagEvol, showcasing its features and benefits",
       type: ProjectType.DISPLAY_WEBSITE,
       technologies: [
+        "React.js",
         "Next.js",
         "TypeScript",
+        "JavaScript",
         "Tailwind CSS",
-        "Vercel",
-        "React.js",
         "Cloud Functions",
         "SendGrid",
+        "Vercel",
       ],
       date: { month: 3, year: 2022 },
       images: [
@@ -233,7 +249,7 @@ export const useProjectsData = (): ProjectThumbnail[] => {
       name: "Custom Thrustmaster Overlay",
       shortDescription: "Interactive controller overlay for stream displays",
       type: ProjectType.GRAPHISM,
-      technologies: ["Figma", "Paint.net", "CSS", "JavaScript"],
+      technologies: ["CSS", "JavaScript", "Figma", "Paint.net"],
       date: { month: 6, year: 2021 },
       images: [
         ImgControllerScreen1,
@@ -253,6 +269,46 @@ export const useProjectsData = (): ProjectThumbnail[] => {
         },
       ],
       color: "#92A7A2",
+    },
+    {
+      imageSrc: ImgPortfolioV5Thumbnail,
+      name: "Portfolio V5",
+      shortDescription: "My personal portfolio website from 2021",
+      type: ProjectType.DISPLAY_WEBSITE,
+      technologies: [
+        "Vue.js",
+        "JavaScript",
+        "Sass",
+        "Vue Router",
+        "Vuetify",
+        "Anime.js",
+        "Twemoji",
+        "Fontawesome",
+        "Matomo analytics",
+        "Node.js",
+        "Docker",
+        "Nginx",
+        "Netlify",
+        "Vercel",
+      ],
+      date: { month: 8, year: 2021 },
+      images: [
+        ImgPortfolioV5Screen1,
+        ImgPortfolioV5Screen2,
+        ImgPortfolioV5Screen3,
+        ImgPortfolioV5Screen4,
+        ImgPortfolioV5Thumbnail,
+      ],
+      descriptions: [
+        "Portfolio V5 was my personal portfolio website developed in 2021.",
+        "It showcased my projects and skills using a modern, interactive design.",
+        "The project was initially hosted on a Docker machine, then migrated to Netlify, and finally to Vercel for optimal performance and ease of deployment.",
+      ],
+      links: [
+        { label: "GitHub", href: "https://github.com/rioukkevin/portfolio" },
+        { label: "Live Demo", href: "https://portfolio-chi-virid.vercel.app" },
+      ],
+      color: "#000",
     },
   ]);
 
