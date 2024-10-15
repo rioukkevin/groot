@@ -19,6 +19,19 @@ import ImgBritchThumbnail from "@/assets/projects/britch/Thumbnail.png";
 import ImgBritchScreen1 from "@/assets/projects/britch/Screen1.png";
 import ImgBritchScreen2 from "@/assets/projects/britch/Screen2.png";
 
+import ImgDiagevolThumbnail from "@/assets/projects/diagevol/Thumbnail.png";
+import ImgDiagevolScreen1 from "@/assets/projects/diagevol/Screen1.png";
+import ImgDiagevolScreen2 from "@/assets/projects/diagevol/Screen2.png";
+import ImgDiagevolScreen3 from "@/assets/projects/diagevol/Screen3.png";
+import ImgDiagevolScreen4 from "@/assets/projects/diagevol/Screen4.png";
+import ImgDiagevolScreen5 from "@/assets/projects/diagevol/Screen5.png";
+
+import ImgControllerThumbnail from "@/assets/projects/controller/Thumbnail.png";
+import ImgControllerScreen1 from "@/assets/projects/controller/Screen1.png";
+import ImgControllerScreen2 from "@/assets/projects/controller/Screen2.png";
+import ImgControllerScreen3 from "@/assets/projects/controller/Screen3.png";
+import ImgControllerScreen4 from "@/assets/projects/controller/Screen4.png";
+
 import { StaticImageData } from "next/image";
 
 export enum ProjectType {
@@ -182,6 +195,64 @@ export const useProjectsData = (): ProjectThumbnail[] => {
         },
       ],
       color: "#9246FF",
+    },
+    {
+      imageSrc: ImgDiagevolThumbnail,
+      name: "Diagevol",
+      shortDescription:
+        "Display website for Alpha8's SaaS product DiagEvol, showcasing its features and benefits",
+      type: ProjectType.DISPLAY_WEBSITE,
+      technologies: [
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Vercel",
+        "React.js",
+        "Cloud Functions",
+        "SendGrid",
+      ],
+      date: { month: 3, year: 2022 },
+      images: [
+        ImgDiagevolThumbnail,
+        ImgDiagevolScreen1,
+        ImgDiagevolScreen2,
+        ImgDiagevolScreen3,
+        ImgDiagevolScreen4,
+        ImgDiagevolScreen5,
+      ],
+      descriptions: [
+        "Diagevol is a display website designed to present Alpha8's main product, a SaaS application called DiagEvol.",
+        "The site provides an overview of DiagEvol's features, benefits, and use cases for potential customers.",
+        "Built with modern web technologies, it offers a responsive and engaging user experience to showcase the SaaS product effectively.",
+      ],
+      links: [{ label: "Website", href: "https://diagevol.fr" }],
+      color: "#F86815",
+    },
+    {
+      imageSrc: ImgControllerThumbnail,
+      name: "Custom Thrustmaster Overlay",
+      shortDescription: "Interactive controller overlay for stream displays",
+      type: ProjectType.GRAPHISM,
+      technologies: ["Figma", "Paint.net", "CSS", "JavaScript"],
+      date: { month: 1, year: 2021 },
+      images: [
+        ImgControllerScreen1,
+        ImgControllerScreen2,
+        ImgControllerScreen3,
+        ImgControllerScreen4,
+      ],
+      descriptions: [
+        "Development and graphical design of an interactive controller overlay for stream displays.",
+        "Created for streamers Oxidya_, Dgifou, Amphirae, and Poachimpa.",
+        "The overlay provides a visual representation of controller inputs during gameplay streams.",
+      ],
+      links: [
+        {
+          label: "GitHub",
+          href: "https://github.com/rioukkevin/custom-thustmaster-overlay",
+        },
+      ],
+      color: "#92A7A2",
     },
   ]);
 
