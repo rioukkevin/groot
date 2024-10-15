@@ -234,7 +234,7 @@ export const useProjectsData = (): ProjectThumbnail[] => {
       shortDescription: "Interactive controller overlay for stream displays",
       type: ProjectType.GRAPHISM,
       technologies: ["Figma", "Paint.net", "CSS", "JavaScript"],
-      date: { month: 1, year: 2021 },
+      date: { month: 6, year: 2021 },
       images: [
         ImgControllerScreen1,
         ImgControllerScreen2,
