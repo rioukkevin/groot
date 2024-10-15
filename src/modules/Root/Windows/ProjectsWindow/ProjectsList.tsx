@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useRef } from "react";
+import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useProjectsData } from "./data";
 import { ProjectThumbnail } from "./ProjectThumbnail";
@@ -7,18 +7,22 @@ const MARGIN_BOTTOM = -200;
 
 const IS_EVENLY_DIVIDED_CONFIG = [-200, 0, -100];
 const IS_ODD_CONFIG = [400, -200, 300];
-const IS_EVEN_CONFIG = [-100, 400, -100];
+const IS_EVEN_CONFIG = [-200, 400, -200];
 
 export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
   data,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [shouldScrollReset, setShouldScrollReset] = useState(false);
+
   const { scrollYProgress } = useScroll({
     container: containerRef,
   });
 
-  const spring = useSpring(scrollYProgress ?? 0, { bounce: 0 });
+  const spring = useSpring(scrollYProgress ?? 0, {
+    bounce: 0,
+  });
 
   const isEvenlyDivided = data.length % 3 === 0;
   const isOdd = data.length % 3 === 1;
@@ -60,12 +64,29 @@ export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
   const column2Y = useTransform(spring, [0, 1], [0, offsetConfig[1]]);
   const column3Y = useTransform(spring, [0, 1], [0, offsetConfig[2]]);
 
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      setShouldScrollReset(true);
+    }
+  }, [data]);
+
   return (
-    <div ref={containerRef} className="mx-auto h-full overflow-y-scroll">
-      <div className="flex max-w-screen-xl items-start justify-start gap-6 p-6">
+    <div
+      ref={containerRef}
+      className="mx-auto size-full max-w-screen-xl overflow-y-scroll"
+      onScroll={() => setShouldScrollReset(false)}
+    >
+      <div className="flex w-full items-start justify-start gap-6 p-6">
         <motion.div
-          style={{ y: column1Y, marginBottom: MARGIN_BOTTOM }}
-          className="w-1/3"
+          style={{
+            y: shouldScrollReset ? 0 : column1Y,
+            marginBottom: MARGIN_BOTTOM,
+          }}
+          className="min-h-[200vh] w-1/3"
         >
           {column1Data.map((item) => (
             <ProjectThumbnail
@@ -73,12 +94,16 @@ export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
               imageSrc={item.imageSrc}
               name={item.name}
               shortDescription={item.shortDescription}
+              color={item.color}
             />
           ))}
         </motion.div>
         <motion.div
-          style={{ y: column2Y, marginBottom: MARGIN_BOTTOM }}
-          className="w-1/3"
+          style={{
+            y: shouldScrollReset ? 0 : column2Y,
+            marginBottom: MARGIN_BOTTOM,
+          }}
+          className="min-h-[200vh] w-1/3"
         >
           {column2Data.map((item) => (
             <ProjectThumbnail
@@ -86,12 +111,16 @@ export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
               imageSrc={item.imageSrc}
               name={item.name}
               shortDescription={item.shortDescription}
+              color={item.color}
             />
           ))}
         </motion.div>
         <motion.div
-          style={{ y: column3Y, marginBottom: MARGIN_BOTTOM }}
-          className="w-1/3"
+          style={{
+            y: shouldScrollReset ? 0 : column3Y,
+            marginBottom: MARGIN_BOTTOM,
+          }}
+          className="min-h-[200vh] w-1/3"
         >
           {column3Data.map((item) => (
             <ProjectThumbnail
@@ -99,6 +128,7 @@ export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
               imageSrc={item.imageSrc}
               name={item.name}
               shortDescription={item.shortDescription}
+              color={item.color}
             />
           ))}
         </motion.div>

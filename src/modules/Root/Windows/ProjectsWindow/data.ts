@@ -38,6 +38,11 @@ import ImgPortfolioV5Screen2 from "@/assets/projects/portfoliov5/Screen2.png";
 import ImgPortfolioV5Screen3 from "@/assets/projects/portfoliov5/Screen3.png";
 import ImgPortfolioV5Screen4 from "@/assets/projects/portfoliov5/Screen4.png";
 
+import ImgOutransCounterThumbnail from "@/assets/projects/outransCounter/Thumbnail.png";
+import ImgOutransCounterScreen1 from "@/assets/projects/outransCounter/Screen1.png";
+import ImgOutransCounterScreen2 from "@/assets/projects/outransCounter/Screen2.png";
+import ImgOutransCounterScreen3 from "@/assets/projects/outransCounter/Screen3.png";
+
 import { StaticImageData } from "next/image";
 
 export enum ProjectType {
@@ -309,6 +314,38 @@ export const useProjectsData = (): ProjectThumbnail[] => {
         { label: "Live Demo", href: "https://portfolio-chi-virid.vercel.app" },
       ],
       color: "#000",
+    },
+    {
+      imageSrc: ImgOutransCounterThumbnail,
+      name: "Outrans Counter",
+      shortDescription: "Admin website for managing Outrans event counters",
+      type: ProjectType.ADMIN_WEBSITE,
+      technologies: [
+        "Next.js",
+        "React.js",
+        "TypeScript",
+        "JavaScript",
+        "Vercel",
+        "Firebase",
+        "Realtime Database",
+        "Bcrypt",
+        "Node.js",
+      ],
+      date: { month: 1, year: 2024 },
+      images: [
+        ImgOutransCounterThumbnail,
+        ImgOutransCounterScreen1,
+        ImgOutransCounterScreen2,
+        ImgOutransCounterScreen3,
+      ],
+      descriptions: [
+        "Outrans Counter is an administrative website designed for managing event counters for Outrans.",
+        "It utilizes Next.js and React.js for a responsive and efficient user interface.",
+        "The application leverages Firebase Realtime Database for real-time data synchronization.",
+        "Security is ensured through the implementation of Bcrypt for password hashing.",
+      ],
+      links: [{ label: "Outrans Website", href: "https://outrans.org" }],
+      color: "#2F0A2A",
     },
   ]);
 

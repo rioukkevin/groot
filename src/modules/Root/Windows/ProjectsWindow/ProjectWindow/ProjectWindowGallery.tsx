@@ -3,13 +3,16 @@ import Image from "next/image";
 import { StaticImageData } from "next/image";
 import { useOpenWindow } from "@/modules/WindowManager";
 import { useWindowSize } from "@uidotdev/usehooks";
+import { motion } from "framer-motion";
 
 interface ProjectWindowGalleryProps {
   images: StaticImageData[];
+  color: string;
 }
 
 const ProjectWindowGallery: React.FC<ProjectWindowGalleryProps> = ({
   images,
+  color,
 }) => {
   const openWindow = useOpenWindow();
 
@@ -58,10 +61,15 @@ const ProjectWindowGallery: React.FC<ProjectWindowGalleryProps> = ({
   return (
     <div className="flex w-full flex-col gap-4">
       {images.map((image, index) => (
-        <div
+        <motion.div
           key={index}
-          className="w-full cursor-zoom-in overflow-hidden rounded-lg"
+          className="w-full cursor-zoom-in overflow-hidden rounded-lg border-2"
           onClick={() => handleClick(image)}
+          initial={{ scale: 0.8, opacity: 0, borderColor: `${color}00` }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          whileTap={{ scale: 0.9 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+          whileHover={{ borderColor: color }}
         >
           <Image
             src={image}
@@ -70,7 +78,7 @@ const ProjectWindowGallery: React.FC<ProjectWindowGalleryProps> = ({
             width={image.width}
             height={image.height}
           />
-        </div>
+        </motion.div>
       ))}
     </div>
   );

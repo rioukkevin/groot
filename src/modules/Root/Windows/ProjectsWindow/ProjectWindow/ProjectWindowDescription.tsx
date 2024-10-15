@@ -2,6 +2,8 @@ import React from "react";
 import { ProjectThumbnail } from "../data";
 import { Link } from "lucide-react";
 import { useProjectTypeTranslations } from "../useProjectTypeTranslation";
+import { motion } from "framer-motion";
+import { TextEffect } from "@/modules/TextEffect/TextEffect";
 
 interface ProjectWindowDescriptionProps {
   project: ProjectThumbnail;
@@ -28,71 +30,148 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
   const translatedTypes = useProjectTypeTranslations();
 
   return (
-    <div className="flex w-full flex-col gap-2">
-      <h2 className="text-3xl font-bold">{project.name}</h2>
-      <p className="text-xl">{project.shortDescription}</p>
+    <div className="flex w-full flex-col gap-2 pb-8">
+      <motion.h2
+        className="text-xl font-medium uppercase text-neutral-500"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        {project.name}
+      </motion.h2>
+      <p className="text-3xl font-bold">
+        <TextEffect per="word" preset="fade">
+          {project.shortDescription}
+        </TextEffect>
+      </p>
 
-      <div className="flex items-center gap-2">
-        <span className="text-lg text-neutral-400">
+      <div className="text-lg text-neutral-400">
+        <TextEffect per="char" preset="fade">
           {new Date(
             project.date.year,
             project.date.month - 1,
           ).toLocaleDateString(undefined, { year: "numeric", month: "long" })}
-        </span>
-        <span
-          className="rounded-lg px-2 py-1 text-base font-bold"
-          style={{ backgroundColor: project.color, color: contrastedColor }}
-        >
-          {translatedTypes[project.type]}
-        </span>
+        </TextEffect>
       </div>
+      <motion.div
+        className="w-fit rounded-lg px-2 py-1 text-base font-bold"
+        style={{ backgroundColor: project.color, color: contrastedColor }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        {translatedTypes[project.type]}
+      </motion.div>
 
-      <hr className="my-4 w-full border-neutral-600/50" />
+      <motion.hr
+        className="my-4 w-full border-neutral-600/50"
+        initial={{ opacity: 0, scaleX: 0 }}
+        whileInView={{ opacity: 1, scaleX: 1 }}
+        exit={{ opacity: 0, scaleX: 0 }}
+        transition={{ delay: 0.3 }}
+      />
 
       <div className="flex flex-col gap-2">
-        <h3 className="text-sm font-semibold">Technologies</h3>
+        <motion.h3
+          className="text-lg font-semibold uppercase"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          Technologies
+        </motion.h3>
         <div className="flex flex-wrap gap-2">
           {project.technologies.map((tech, index) => (
-            <span
+            <motion.span
               key={index}
-              className="rounded-lg bg-neutral-600 px-2 py-1 text-xs text-neutral-200"
+              className="origin-left rounded-lg bg-neutral-700 px-2 py-1 text-xs text-neutral-200"
+              initial={{ opacity: 0, scaleX: 0 }}
+              whileInView={{ opacity: 1, scaleX: 1 }}
+              exit={{ opacity: 0, scaleX: 0 }}
+              transition={{ delay: index * 0.1 + 0.4 }}
             >
               {tech}
-            </span>
+            </motion.span>
           ))}
         </div>
       </div>
 
-      <hr className="my-4 w-full border-neutral-600/50" />
+      <motion.hr
+        className="my-4 w-full border-neutral-600/50"
+        initial={{ opacity: 0, scaleX: 0 }}
+        whileInView={{ opacity: 1, scaleX: 1 }}
+        exit={{ opacity: 0, scaleX: 0 }}
+        transition={{ delay: 0.6 }}
+      />
 
       {project.links && project.links.length > 0 && (
-        <div className="flex flex-col flex-wrap gap-2">
+        <div className="flex flex-wrap gap-6">
+          <motion.h3
+            className="mr-4 text-lg font-semibold uppercase"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            Links
+          </motion.h3>
           {project.links.map((link, index) => (
-            <a
+            <motion.a
               key={index}
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
               className="flex w-fit items-center rounded-lg py-1 text-sm text-white hover:text-neutral-400"
+              initial={{ scale: 0.8, opacity: 0, color: "#fff" }}
+              whileInView={{
+                scale: 1,
+                opacity: 1,
+                transition: { delay: index * 0.1 + 0.7 },
+              }}
+              whileTap={{ scale: 1.2, transition: { delay: 0 } }}
+              whileHover={{ color: project.color, transition: { delay: 0 } }}
+              exit={{ scale: 0.8, opacity: 0 }}
             >
               {link.label}
               <Link className="ml-2 size-3" />
-            </a>
+            </motion.a>
           ))}
         </div>
       )}
 
-      <hr className="my-4 w-full border-neutral-600/50" />
+      <motion.hr
+        className="my-4 w-full border-neutral-600/50"
+        initial={{ opacity: 0, scaleX: 0 }}
+        whileInView={{ opacity: 1, scaleX: 1 }}
+        exit={{ opacity: 0, scaleX: 0 }}
+        transition={{ delay: 0.9 }}
+      />
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
+        <motion.h3
+          className="text-lg font-semibold uppercase"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ delay: 0.9 }}
+        >
+          Description
+        </motion.h3>
         {project.descriptions.map((description, index) => (
-          <p key={index} className="text-sm">
+          <motion.p
+            key={index}
+            className="text-sm"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ delay: index * 0.2 + 1 }}
+          >
             {description}
-          </p>
+          </motion.p>
         ))}
       </div>
-
-      {/* <div className="h-[200vh] w-full bg-red-500/20"></div> */}
     </div>
   );
 };

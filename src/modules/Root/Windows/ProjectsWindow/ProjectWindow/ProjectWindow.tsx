@@ -27,7 +27,10 @@ export const ProjectWindow: FC<WindowChildrenProps> = ({ id }) => {
             ref={galleryRef}
             className="col-span-1 h-full overflow-y-auto"
           >
-            <ProjectWindowGallery images={project.images} />
+            <ProjectWindowGallery
+              images={project.images}
+              color={project.color}
+            />
           </motion.div>
         </ScrollSyncPane>
         <ScrollSyncPane>

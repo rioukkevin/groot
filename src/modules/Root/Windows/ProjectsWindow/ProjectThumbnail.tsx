@@ -9,13 +9,7 @@ import { useScopedI18n } from "@/lib/locales/client";
 export interface ProjectThumbnailProps
   extends Omit<
     ProjectThumbnailType,
-    | "technologies"
-    | "type"
-    | "date"
-    | "images"
-    | "descriptions"
-    | "links"
-    | "color"
+    "technologies" | "type" | "date" | "images" | "descriptions" | "links"
   > {
   onClick?: () => void;
 }
@@ -24,6 +18,7 @@ export const ProjectThumbnail: React.FC<ProjectThumbnailProps> = ({
   imageSrc,
   name,
   shortDescription,
+  color,
   onClick,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -52,6 +47,7 @@ export const ProjectThumbnail: React.FC<ProjectThumbnailProps> = ({
       onClick={handleClick}
       initial={{ scale: 0.8, opacity: 0 }}
       whileInView={{ scale: 1, opacity: 1 }}
+      whileTap={{ scale: 0.9 }}
       exit={{ scale: 0.8, opacity: 0 }}
       transition={{ type: "spring", bounce: 0 }}
       role="button"
@@ -59,7 +55,7 @@ export const ProjectThumbnail: React.FC<ProjectThumbnailProps> = ({
       <motion.div
         className="relative aspect-[3/5] w-full cursor-pointer rounded-lg border-2"
         animate={{
-          borderColor: isHovered ? "#FFFFFFFF" : "#FFFFFF00",
+          borderColor: isHovered ? color : `${color}00`,
         }}
         transition={{ duration: 0.3 }}
       >
