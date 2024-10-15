@@ -4,6 +4,7 @@ import { StaticImageData } from "next/image";
 import { useOpenWindow } from "@/modules/WindowManager";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { motion } from "framer-motion";
+import { useScopedI18n } from "@/lib/locales/client";
 
 interface ProjectWindowGalleryProps {
   images: StaticImageData[];
@@ -15,6 +16,8 @@ const ProjectWindowGallery: React.FC<ProjectWindowGalleryProps> = ({
   color,
 }) => {
   const openWindow = useOpenWindow();
+
+  const t = useScopedI18n("projects.gallery");
 
   const { width: windowWidth, height: windowHeight } = useWindowSize();
 
@@ -39,7 +42,7 @@ const ProjectWindowGallery: React.FC<ProjectWindowGalleryProps> = ({
     }
 
     openWindow({
-      title: "Galery Preview",
+      title: t("previewTitle"),
       children: () => (
         <div className="flex size-full max-h-[80vh] max-w-[80vw] items-center justify-center overflow-hidden rounded-lg">
           <Image

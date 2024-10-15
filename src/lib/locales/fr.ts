@@ -2,6 +2,7 @@ import { ProjectType } from "@/modules/Root/Windows/ProjectsWindow/data";
 import contactFr from "./contact/fr";
 import experiencesFr from "./experiences/fr";
 import newsFr from "./news/fr";
+import { projectsFr } from "./projects/fr";
 
 const fr = {
   // Root/Page
@@ -41,9 +42,10 @@ const fr = {
   "projects.filter.allTechnologies": "Toutes les technologies",
   "projects.filter.allProjectTypes": "Tous les types de projets",
   "projects.filter.searchPlaceholder": "Rechercher par titre ou description",
-  "projects.filter.projectsFound": "{count} projets trouvés",
+  "projects.filter.projectsFound": "projets trouvés",
   "projects.thumbnail.viewMore": "Voir plus",
   "projects.window.projectNotFound": "Projet non trouvé",
+  "projects.gallery.previewTitle": "Aperçu de la galerie",
   "projects.types": {
     [ProjectType.DISPLAY_WEBSITE]: "Site web",
     [ProjectType.ADMIN_WEBSITE]: "Site d'administration",
@@ -53,6 +55,7 @@ const fr = {
     [ProjectType.CHROME_EXTENSION]: "Extension Chrome",
     [ProjectType.OTHER]: "Autre",
   },
+  ...projectsFr,
 
   // Root/Windows/NewsWindow
   "news.title": "Actualités",

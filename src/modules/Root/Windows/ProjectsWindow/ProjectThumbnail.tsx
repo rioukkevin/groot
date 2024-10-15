@@ -45,10 +45,8 @@ export const ProjectThumbnail: React.FC<ProjectThumbnailProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
-      initial={{ scale: 0.8, opacity: 0 }}
-      whileInView={{ scale: 1, opacity: 1 }}
+      initial={{ scale: 1, opacity: 1 }}
       whileTap={{ scale: 0.9 }}
-      exit={{ scale: 0.8, opacity: 0 }}
       transition={{ type: "spring", bounce: 0 }}
       role="button"
     >

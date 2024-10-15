@@ -2,6 +2,7 @@ import { FC, useMemo, useState } from "react";
 import { WindowChildrenProps } from "@/modules/Window";
 import { useNewsData } from "./data";
 import { useScopedI18n } from "@/lib/locales/client";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const NewsWindow: FC<WindowChildrenProps> = () => {
   const data = useNewsData();
@@ -24,12 +25,17 @@ export const NewsWindow: FC<WindowChildrenProps> = () => {
   }, [sortBy]);
 
   return (
-    <div className="flex size-full flex-col gap-4">
-      <h1 className="text-3xl font-bold">{t("title")}</h1>
-      <div className="flex items-center justify-end gap-4">
-        <label className="whitespace-nowrap text-sm text-neutral-200">
-          {t("sortBy")}
-        </label>
+    <motion.div
+      className="flex size-full flex-col gap-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <motion.div
+        className="flex items-center justify-end gap-4"
+        initial={{ x: 20, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.4 }}
+      >
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as SortOrder)}
@@ -40,21 +46,32 @@ export const NewsWindow: FC<WindowChildrenProps> = () => {
           </option>
           <option value={SortOrder.Oldest}>{t("oldest")}</option>
         </select>
-      </div>
-      <div className="flex size-full flex-col items-center gap-4 overflow-y-auto">
-        {sortedData.map((newItem) => (
-          <div
-            key={newItem.title}
-            className="flex w-full flex-col gap-2 rounded-lg border border-neutral-600/50 p-4"
-          >
-            <h2 className="text-lg font-bold">{newItem.title}</h2>
-            <p>{newItem.description}</p>
-            <p className="text-sm text-neutral-500">
-              {new Date(newItem.date).toLocaleDateString()}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
+      </motion.div>
+      <motion.div
+        className="flex size-full flex-col items-center gap-4 overflow-y-auto"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6 }}
+      >
+        <AnimatePresence>
+          {sortedData.map((newItem, index) => (
+            <motion.div
+              key={newItem.title}
+              className="flex w-full flex-col gap-2 rounded-lg border border-neutral-600/50 p-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <h2 className="text-lg font-bold">{newItem.title}</h2>
+              <p>{newItem.description}</p>
+              <p className="text-sm text-neutral-500">
+                {new Date(newItem.date).toLocaleDateString()}
+              </p>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 };

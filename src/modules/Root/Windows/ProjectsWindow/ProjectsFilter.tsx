@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { ProjectType, ProjectThumbnail, useProjectsData } from "./data";
+import {
+  ProjectType,
+  ProjectThumbnail,
+  useProjectsData,
+  FilterableTechnologies,
+  Technology,
+} from "./data";
 import { Search } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useScopedI18n } from "@/lib/locales/client";
@@ -22,7 +28,13 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
 
   const allTechnologies = Array.from(
     new Set(allProjects.flatMap((project) => project.technologies)),
-  ).sort();
+  )
+    .sort()
+    .filter((tech) => FilterableTechnologies[tech as Technology]);
+
+  const allProjectTypes = Object.values(ProjectType).filter((type) =>
+    allProjects.some((project) => project.type === type),
+  );
 
   useEffect(() => {
     const filteredProjects = allProjects.filter((project) => {
@@ -94,7 +106,7 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
           className="w-48 cursor-pointer rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
         >
           <option value="">{t("allProjectTypes")}</option>
-          {Object.values(ProjectType).map((type) => (
+          {allProjectTypes.map((type) => (
             <option key={type} value={type}>
               {translatedTypes[type]}
             </option>
@@ -125,7 +137,7 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
               exit={{ scale: 0, opacity: 0 }}
               className="absolute right-10 top-2 -translate-y-1/2 rounded-lg bg-neutral-600 px-2 py-1 text-xs text-neutral-200"
             >
-              {t("projectsFound", { count: filteredCount })}
+              {filteredCount} {t("projectsFound")}
             </motion.div>
           )}
         </AnimatePresence>

@@ -105,7 +105,7 @@ const useDockData = () => {
           id: "contact",
           size: {
             width: "350px",
-            height: "250px",
+            height: "210px",
           },
         }),
     },
@@ -137,7 +137,7 @@ const useDockData = () => {
           id: "settings",
           size: {
             width: "300px",
-            height: "470px",
+            height: "420px",
           },
         }),
     },

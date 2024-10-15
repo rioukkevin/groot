@@ -2,49 +2,102 @@ import Image from "next/image";
 import { FC } from "react";
 import { WindowChildrenProps } from "@/modules/Window";
 import { useScopedI18n } from "@/lib/locales/client";
+import { motion } from "framer-motion";
 
 import IMGMe from "@/assets/me.png";
+import { TextEffect } from "@/modules/TextEffect/TextEffect";
 
 export const WhoWindow: FC<WindowChildrenProps> = () => {
   const t = useScopedI18n("who");
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <div className="flex flex-col items-center gap-4">
-        <Image
-          src={IMGMe}
-          alt="Kevin"
-          width={350}
-          height={350}
-          quality={100}
-          className="grayscale"
-        />
-        <h1 className="text-pretty text-5xl font-light uppercase">
+      <motion.div
+        className="flex flex-col items-center gap-4"
+        initial={{ y: 50 }}
+        animate={{ y: 0 }}
+      >
+        <motion.div
+          initial={{ scale: 0.8, filter: "blur(10px)" }}
+          animate={{ scale: 1, filter: "blur(0px)" }}
+          transition={{ delay: 0.2 }}
+        >
+          <Image
+            src={IMGMe}
+            alt="Kevin"
+            width={350}
+            height={350}
+            quality={100}
+            className="grayscale"
+          />
+        </motion.div>
+        <motion.h1
+          className="text-pretty text-5xl font-light uppercase"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
           {t("title")}
-        </h1>
-        <hr className="w-full border-neutral-200/50" />
-        <div className="flex w-full items-stretch justify-evenly gap-2">
-          <div className="flex flex-col items-center">
+        </motion.h1>
+        <motion.hr
+          className="w-full border-neutral-200/50"
+          initial={{ width: 0 }}
+          animate={{ width: "100%" }}
+        />
+        <motion.div
+          className="flex w-full items-stretch justify-evenly gap-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <motion.div
+            className="flex flex-col items-center"
+            whileInView={{ scale: 1.1 }}
+            transition={{ delay: 0.5 }}
+          >
             <p className="text-5xl font-light">7+</p>
             <p className="text-sm font-extrabold">{t("years")}</p>
-          </div>
+          </motion.div>
           <div className="w-px bg-neutral-200/50" />
-          <div className="flex flex-col items-center">
+          <motion.div
+            className="flex flex-col items-center"
+            whileInView={{ scale: 1.1 }}
+            transition={{ delay: 0.5 }}
+          >
             <p className="text-5xl font-light">40+</p>
             <p className="text-sm font-extrabold">{t("projects")}</p>
-          </div>
-        </div>
-        <hr className="w-full border-neutral-200/50" />
-        <h2 className="w-full text-lg font-bold uppercase">{t("about")}</h2>
-        <p
-          className="w-full"
-          dangerouslySetInnerHTML={{ __html: t("description1") }}
+          </motion.div>
+        </motion.div>
+        <motion.hr
+          className="w-full border-neutral-200/50"
+          initial={{ width: 0 }}
+          animate={{ width: "100%" }}
         />
-        <p
+        <motion.h2
+          className="w-full text-lg font-bold uppercase"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <TextEffect per="char" preset="fade">
+            {t("about")}
+          </TextEffect>
+        </motion.h2>
+        <motion.p
           className="w-full"
-          dangerouslySetInnerHTML={{ __html: t("description2") }}
-        />
-      </div>
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          {t("description1")}
+        </motion.p>
+        <motion.p
+          className="w-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+        >
+          {t("description2")}
+        </motion.p>
+      </motion.div>
     </div>
   );
 };

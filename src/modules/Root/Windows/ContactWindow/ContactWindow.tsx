@@ -2,7 +2,7 @@ import { FC } from "react";
 import { ContactData, useContactData } from "./data";
 import Link from "next/link";
 import { WindowChildrenProps } from "@/modules/Window";
-import { useScopedI18n } from "@/lib/locales/client";
+import { motion } from "framer-motion";
 
 const ContactItem: FC<ContactData> = ({ label, value, href, icon }) => {
   return (
@@ -20,16 +20,19 @@ const ContactItem: FC<ContactData> = ({ label, value, href, icon }) => {
 
 export const ContactWindow: FC<WindowChildrenProps> = () => {
   const data = useContactData();
-  const t = useScopedI18n("contact");
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-bold">{t("title")}</h1>
-      <div className="flex flex-col gap-2">
-        {data.map((item) => (
-          <ContactItem key={item.label} {...item} />
-        ))}
-      </div>
+      {data.map((item, index) => (
+        <motion.div
+          key={item.label}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.1 + 0.3 }}
+        >
+          <ContactItem {...item} />
+        </motion.div>
+      ))}
     </div>
   );
 };

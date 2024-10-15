@@ -3,6 +3,8 @@ import { ExperienceData, useExperiencesData } from "./data";
 import { WindowChildrenProps } from "@/modules/Window";
 import { cn } from "@/lib/cn";
 import { useScopedI18n } from "@/lib/locales/client";
+import { AnimatePresence, motion } from "framer-motion";
+import { TextEffect } from "@/modules/TextEffect/TextEffect";
 
 export const ExperiencesWindow: FC<WindowChildrenProps> = ({
   isFullscreen,
@@ -29,6 +31,13 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortBy]);
 
+  const handleSelectExperience = (experience: ExperienceData) => {
+    setSelectedExperience(null);
+    setTimeout(() => {
+      setSelectedExperience(experience);
+    }, 5);
+  };
+
   return (
     <div className={cn("grid-cols-fr grid h-full w-full grid-cols-3")}>
       <div
@@ -37,11 +46,12 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
           isFullscreen && "w-full",
         )}
       >
-        <h1 className="text-3xl font-bold">{t("title")}</h1>
-        <div className="flex items-center justify-end gap-4">
-          <label className="whitespace-nowrap text-sm text-neutral-200">
-            {t("sortBy")}
-          </label>
+        <motion.div
+          className="flex items-center justify-end gap-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as SortOrder)}
@@ -52,32 +62,60 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
             </option>
             <option value={SortOrder.Oldest}>{t("oldest")}</option>
           </select>
-        </div>
-        <ol className="relative border-s border-gray-200 dark:border-gray-700">
-          {sortedData.map((experience) => (
+        </motion.div>
+        <motion.ol
+          className="relative border-s border-gray-200"
+          initial={{ borderColor: "transparent" }}
+          animate={{ borderColor: "gray" }}
+          transition={{ delay: 0.3 }}
+        >
+          {sortedData.map((experience, index) => (
             <li
               key={experience.company}
-              className="mb-4 ms-4 cursor-pointer"
-              onClick={() => setSelectedExperience(experience)}
+              className="mb-4 ms-4 origin-left cursor-pointer"
+              onClick={() => handleSelectExperience(experience)}
             >
-              <div className="absolute -start-1.5 mt-1.5 size-3 rounded-full border border-white bg-gray-200 dark:border-gray-900 dark:bg-gray-700"></div>
-              <div className="flex w-full flex-col gap-2 rounded-lg border border-neutral-600/50 p-4">
-                <time className="text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+              <motion.div
+                className="absolute -start-1.5 mt-1.5 size-3 rounded-full border border-white bg-gray-200"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: index * 0.1 + 0.3 }}
+              />
+              <motion.div
+                className="flex w-full flex-col gap-2 rounded-lg border border-neutral-600/50 p-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                whileTap={{ scale: 1.05 }}
+              >
+                <motion.time
+                  className="text-sm font-normal leading-none text-gray-400"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: index * 0.1 + 0.3 }}
+                >
                   {new Date(experience.startDate).toLocaleDateString()} -{" "}
                   {experience.endDate === "Present"
                     ? t("present")
                     : new Date(experience.endDate).toLocaleDateString()}
-                </time>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  {experience.company}
+                </motion.time>
+                <h3 className="mt-2 text-sm font-semibold uppercase text-neutral-400">
+                  <TextEffect
+                    per="char"
+                    preset="fade"
+                    delay={index * 0.1 + 0.3}
+                  >
+                    {experience.company}
+                  </TextEffect>
                 </h3>
-                <p className="text-base font-normal text-gray-500 dark:text-gray-400">
-                  {experience.job}
+                <p className="text-xl font-normal text-neutral-100">
+                  <TextEffect preset="fade" delay={index * 0.1 + 0.3}>
+                    {experience.job}
+                  </TextEffect>
                 </p>
-              </div>
+              </motion.div>
             </li>
           ))}
-        </ol>
+        </motion.ol>
       </div>
       <div
         className={cn(
@@ -85,59 +123,118 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
         )}
       >
         {selectedExperience ? (
-          <>
-            <h2 className="text-lg font-bold">{selectedExperience.company}</h2>
-            <p>{selectedExperience.job}</p>
-            <p className="text-sm text-neutral-500">
+          <AnimatePresence>
+            <h2 className="text-lg font-semibold uppercase text-neutral-400">
+              <TextEffect per="char" preset="fade">
+                {selectedExperience.company}
+              </TextEffect>
+            </h2>
+            <p className="text-xl font-semibold">
+              <TextEffect per="char" preset="fade">
+                {selectedExperience.job}
+              </TextEffect>
+            </p>
+            <motion.p
+              className="text-sm text-neutral-500"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
               {new Date(selectedExperience.startDate).toLocaleDateString()} -{" "}
               {selectedExperience.endDate === "Present"
                 ? t("present")
                 : new Date(selectedExperience.endDate).toLocaleDateString()}
-            </p>
+            </motion.p>
             <hr className="w-full border-neutral-600/50" />
-            <div className="mt-2">
-              <h3 className="mb-2 text-sm font-semibold">
+            <div className="flex flex-col gap-2">
+              <motion.h3
+                className="text-lg font-semibold uppercase"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: 0.3 }}
+              >
                 {t("technologies")}
-              </h3>
-              <div className="flex max-w-[60vw] flex-wrap gap-2">
+              </motion.h3>
+              <div className="flex flex-wrap gap-2">
                 {selectedExperience.technologies.map((tech, index) => (
-                  <span
+                  <motion.span
                     key={index}
-                    className="rounded-lg bg-neutral-600 px-2 py-1 text-xs text-neutral-200"
+                    className="origin-left rounded-lg bg-neutral-700 px-2 py-1 text-xs text-neutral-200"
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    whileInView={{ opacity: 1, scaleX: 1 }}
+                    exit={{ opacity: 0, scaleX: 0 }}
+                    transition={{ delay: index * 0.1 + 0.4 }}
                   >
                     {tech}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </div>
             {selectedExperience.missions.length > 0 && (
               <div className="mt-4">
-                <h3 className="mb-2 text-sm font-semibold">{t("missions")}</h3>
+                <motion.h3
+                  className="text-lg font-semibold uppercase"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  {t("missions")}
+                </motion.h3>
                 <ul className="list-inside list-disc text-sm">
                   {selectedExperience.missions.map((mission, index) => (
-                    <li key={index}>{mission}</li>
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ delay: index * 0.1 + 0.7 }}
+                    >
+                      {mission}
+                    </motion.li>
                   ))}
                 </ul>
               </div>
             )}
             {selectedExperience.achievements.length > 0 && (
               <div className="mt-4">
-                <h3 className="mb-2 text-sm font-semibold">
+                <motion.h3
+                  className="text-lg font-semibold uppercase"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ delay: 0.9 }}
+                >
                   {t("achievements")}
-                </h3>
+                </motion.h3>
                 <ul className="list-inside list-disc text-sm">
                   {selectedExperience.achievements.map((achievement, index) => (
-                    <li key={index}>{achievement}</li>
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ delay: index * 0.1 + 1 }}
+                    >
+                      {achievement}
+                    </motion.li>
                   ))}
                 </ul>
               </div>
             )}
-          </>
+          </AnimatePresence>
         ) : (
           <div className="flex h-full items-center justify-center">
-            <p className="text-center text-3xl text-neutral-400">
+            <motion.p
+              className="text-center text-3xl text-neutral-400"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              whileInView={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
               {t("selectExperience")}
-            </p>
+            </motion.p>
           </div>
         )}
       </div>

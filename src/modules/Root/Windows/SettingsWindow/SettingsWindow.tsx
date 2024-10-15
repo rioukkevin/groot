@@ -6,6 +6,7 @@ import {
 import { BackgroundFileSelector } from "@/modules/Theme/Background";
 import { WindowChildrenProps } from "@/modules/Window";
 import { FC, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 enum Language {
   English = "en",
@@ -31,27 +32,60 @@ export const SettingsWindow: FC<WindowChildrenProps> = () => {
   };
 
   return (
-    <div className="flex w-full flex-col gap-4">
-      <h1 className="text-3xl font-bold">{t("title")}</h1>
-      <div className="flex flex-col gap-4">
-        <div className="flex w-full flex-col justify-between gap-2">
-          <label className="text-lg font-bold text-neutral-200">
+    <motion.div
+      className="flex w-full flex-col gap-4"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 }}
+    >
+      <motion.div
+        className="flex flex-col gap-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4 }}
+      >
+        <motion.div
+          className="flex w-full flex-col justify-between gap-2"
+          initial={{ x: -20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          <motion.label
+            className="text-lg font-bold text-neutral-200"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
             {t("language")}
-          </label>
-          <select
+          </motion.label>
+          <motion.select
             value={language}
             onChange={(e) => handleChangeLanguage(e.target.value as Language)}
             className="block w-full cursor-pointer rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1 }}
           >
             <option value={Language.English}>{t("english")}</option>
             <option value={Language.French}>{t("french")}</option>
-          </select>
-        </div>
-        <label className="text-lg font-bold text-neutral-200">
+          </motion.select>
+        </motion.div>
+        <motion.label
+          className="text-lg font-bold text-neutral-200"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+        >
           {t("theme")}
-        </label>
-        <BackgroundFileSelector />
-      </div>
-    </div>
+        </motion.label>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4 }}
+        >
+          <BackgroundFileSelector />
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };

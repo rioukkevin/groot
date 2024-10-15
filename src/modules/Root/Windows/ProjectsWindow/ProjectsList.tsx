@@ -1,9 +1,7 @@
-import React, { FC, useEffect, useMemo, useRef, useState } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import React, { FC, useMemo, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useProjectsData } from "./data";
 import { ProjectThumbnail } from "./ProjectThumbnail";
-
-const MARGIN_BOTTOM = -200;
 
 const IS_EVENLY_DIVIDED_CONFIG = [-200, 0, -100];
 const IS_ODD_CONFIG = [400, -200, 300];
@@ -14,14 +12,8 @@ export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [shouldScrollReset, setShouldScrollReset] = useState(false);
-
   const { scrollYProgress } = useScroll({
     container: containerRef,
-  });
-
-  const spring = useSpring(scrollYProgress ?? 0, {
-    bounce: 0,
   });
 
   const isEvenlyDivided = data.length % 3 === 0;
@@ -60,33 +52,21 @@ export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
 
   const [column1Data, column2Data, column3Data] = dividedData;
 
-  const column1Y = useTransform(spring, [0, 1], [0, offsetConfig[0]]);
-  const column2Y = useTransform(spring, [0, 1], [0, offsetConfig[1]]);
-  const column3Y = useTransform(spring, [0, 1], [0, offsetConfig[2]]);
-
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-      setShouldScrollReset(true);
-    }
-  }, [data]);
+  const column1Y = useTransform(scrollYProgress, [0, 1], [0, offsetConfig[0]]);
+  const column2Y = useTransform(scrollYProgress, [0, 1], [0, offsetConfig[1]]);
+  const column3Y = useTransform(scrollYProgress, [0, 1], [0, offsetConfig[2]]);
 
   return (
     <div
       ref={containerRef}
       className="mx-auto size-full max-w-screen-xl overflow-y-scroll"
-      onScroll={() => setShouldScrollReset(false)}
     >
-      <div className="flex w-full items-start justify-start gap-6 p-6">
+      <div className="flex min-h-[200%] w-full items-start justify-start gap-6 p-6">
         <motion.div
           style={{
-            y: shouldScrollReset ? 0 : column1Y,
-            marginBottom: MARGIN_BOTTOM,
+            y: column1Y,
           }}
-          className="min-h-[200vh] w-1/3"
+          className="w-1/3"
         >
           {column1Data.map((item) => (
             <ProjectThumbnail
@@ -100,10 +80,9 @@ export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
         </motion.div>
         <motion.div
           style={{
-            y: shouldScrollReset ? 0 : column2Y,
-            marginBottom: MARGIN_BOTTOM,
+            y: column2Y,
           }}
-          className="min-h-[200vh] w-1/3"
+          className="w-1/3"
         >
           {column2Data.map((item) => (
             <ProjectThumbnail
@@ -117,10 +96,9 @@ export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
         </motion.div>
         <motion.div
           style={{
-            y: shouldScrollReset ? 0 : column3Y,
-            marginBottom: MARGIN_BOTTOM,
+            y: column3Y,
           }}
-          className="min-h-[200vh] w-1/3"
+          className="w-1/3"
         >
           {column3Data.map((item) => (
             <ProjectThumbnail
