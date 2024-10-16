@@ -28,7 +28,7 @@ export const Cookies = () => {
     openWindow({
       title: t("cookiePolicy"),
       children: () => <div>{t("cookiePolicyContent")}</div>,
-      size: { width: "400px", height: "300px" },
+      size: { width: 400, height: 300 },
     });
   };
 
