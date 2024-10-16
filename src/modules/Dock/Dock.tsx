@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { DockContainer, DockIcon, DockItem, DockLabel } from "./index";
 
 export interface DockElement {
+  id: string;
   title: string;
   icon: React.ReactNode;
   onPress: (item: DockElement) => void;
@@ -29,6 +30,7 @@ export function Dock({ items }: DockProps) {
               key={idx}
               className="aspect-square rounded-full bg-neutral-600/80 shadow-lg backdrop-blur-md"
               onClick={() => item.onPress(item)}
+              windowId={item.id}
             >
               <DockLabel>{item.title}</DockLabel>
               <DockIcon>{item.icon}</DockIcon>

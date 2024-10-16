@@ -43,6 +43,7 @@ const ProjectWindowGallery: React.FC<ProjectWindowGalleryProps> = ({
 
     openWindow({
       title: t("previewTitle"),
+      id: `projects-gallery-${image.src}`,
       children: () => (
         <div className="flex size-full max-h-[80vh] max-w-[80vw] items-center justify-center overflow-hidden rounded-lg">
           <Image

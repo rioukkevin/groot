@@ -14,7 +14,7 @@ import { cn } from "@/lib/cn";
 const DOCK_HEIGHT = 128;
 const DEFAULT_MAGNIFICATION = 80;
 const DEFAULT_DISTANCE = 150;
-const DEFAULT_PANEL_HEIGHT = 64;
+const DEFAULT_PANEL_HEIGHT = 72;
 
 type DockProps = {
   children: React.ReactNode;

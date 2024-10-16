@@ -28,7 +28,7 @@ export const ProjectThumbnail: React.FC<ProjectThumbnailProps> = ({
   const handleClick = () => {
     onClick?.();
     openWindow({
-      id: `project-${name}`,
+      id: `projects-detail-${name}`,
       title: name,
       children: (props) => <ProjectWindow {...props} />,
       isFullscreenAllowed: true,

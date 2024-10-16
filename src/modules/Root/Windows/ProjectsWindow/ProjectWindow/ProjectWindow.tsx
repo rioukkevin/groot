@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { ScrollSync, ScrollSyncPane } from "react-scroll-sync";
 
 const parseProjectId = (id: string) => {
-  return id.split("-")[1];
+  return id.split("-")[2];
 };
 
 export const ProjectWindow: FC<WindowChildrenProps> = ({ id }) => {

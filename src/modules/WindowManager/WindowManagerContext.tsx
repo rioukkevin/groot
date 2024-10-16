@@ -136,3 +136,13 @@ export const useOpenWindow = () => {
   const { openWindow } = useWindowManager();
   return openWindow;
 };
+
+export const useWindowExists = (id: string): boolean => {
+  const { windows } = useWindowManager();
+  return !!windows.find((window) => window.id === id);
+};
+
+export const useWindowCountById = (id: string) => {
+  const { windows } = useWindowManager();
+  return windows.filter((window) => window.id.includes(id)).length;
+};

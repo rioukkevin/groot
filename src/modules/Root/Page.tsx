@@ -28,6 +28,7 @@ const useDockData = () => {
   const openWindow = useOpenWindow();
   const [data] = useState<DockElement[]>([
     {
+      id: "who",
       title: t("whoami"),
       icon: <PersonStandingIcon className="size-full text-neutral-300" />,
       onPress: () =>
@@ -39,9 +40,14 @@ const useDockData = () => {
             width: "400px",
             height: "fit-content",
           },
+          position: {
+            left: "50px",
+            top: "50px",
+          },
         }),
     },
     {
+      id: "experiences",
       title: t("experiences"),
       icon: <BriefcaseBusinessIcon className="size-full text-neutral-300" />,
       onPress: () =>
@@ -57,6 +63,7 @@ const useDockData = () => {
         }),
     },
     {
+      id: "projects",
       title: t("projects"),
       icon: <PackageIcon className="size-full text-neutral-300" />,
       onPress: () =>
@@ -72,6 +79,7 @@ const useDockData = () => {
         }),
     },
     {
+      id: "news",
       title: t("news"),
       icon: <NewspaperIcon className="size-full text-neutral-300" />,
       onPress: () =>
@@ -83,9 +91,14 @@ const useDockData = () => {
             width: "400px",
             height: "500px",
           },
+          position: {
+            right: "50px",
+            top: "470px",
+          },
         }),
     },
     {
+      id: "contact",
       title: t("contact"),
       icon: <MailIcon className="size-full text-neutral-300" />,
       onPress: () =>
@@ -97,9 +110,14 @@ const useDockData = () => {
             width: "350px",
             height: "210px",
           },
+          position: {
+            right: "50px",
+            top: "250px",
+          },
         }),
     },
     {
+      id: "tictactoe",
       title: t("tictactoe"),
       icon: <JoystickIcon className="size-full text-neutral-300" />,
       onPress: () =>
@@ -114,6 +132,7 @@ const useDockData = () => {
         }),
     },
     {
+      id: "settings",
       title: t("settings"),
       icon: <SettingsIcon className="size-full text-neutral-300" />,
       onPress: () =>
@@ -124,6 +143,9 @@ const useDockData = () => {
           size: {
             width: "300px",
             height: "420px",
+          },
+          position: {
+            right: "50px",
           },
         }),
     },

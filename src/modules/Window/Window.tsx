@@ -35,6 +35,12 @@ export interface WindowProps {
     width?: string;
     height?: string;
   };
+  position?: {
+    left?: string;
+    top?: string;
+    right?: string;
+    bottom?: string;
+  };
 }
 
 export const Window: FC<WindowProps> = ({
@@ -45,6 +51,7 @@ export const Window: FC<WindowProps> = ({
   isFocused,
   isFullscreenAllowed = false,
   size,
+  position,
 }) => {
   const windowRef = useRef<HTMLDivElement>(null);
   const t = useScopedI18n("window");
@@ -96,7 +103,7 @@ export const Window: FC<WindowProps> = ({
       dragConstraints={containerRef}
       dragElastic={0.1}
       className={cn(
-        "max-w-screen pointer-events-none absolute z-10 max-h-full select-none overflow-hidden rounded-lg shadow-lg brightness-75 backdrop-blur-md",
+        "max-w-screen -m-1/2 pointer-events-none absolute z-10 max-h-full select-none overflow-hidden rounded-lg shadow-lg brightness-75 backdrop-blur-md",
         isFocused && "z-30 select-auto brightness-100",
       )}
       dragControls={dragControls}
@@ -130,6 +137,12 @@ export const Window: FC<WindowProps> = ({
       }}
       transition={{ type: "spring", bounce: 0 }}
       key={id}
+      style={{
+        ...(position?.left && { left: position.left }),
+        ...(position?.top && { top: position.top }),
+        ...(position?.right && { right: position.right }),
+        ...(position?.bottom && { bottom: position.bottom }),
+      }}
     >
       <div
         className={cn(
