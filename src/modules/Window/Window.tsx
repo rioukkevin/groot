@@ -5,15 +5,17 @@ import React, {
   ReactNode,
   RefObject,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 import { motion, useDragControls, useMotionValue } from "framer-motion";
 import { WindowButtonTooltip } from "./WindowButtonTooltip";
 import { cn } from "@/lib/cn";
-import { useWindow } from "../WindowManager";
+import { useIsWindowFocused, useWindow } from "../WindowManager";
 import { BorderTrail } from "../BorderTrail";
 import { useScopedI18n } from "@/lib/locales/client";
+import useScreenSize from "@/lib/screen";
 
 const FULLSCREEN_INSET = 12;
 
@@ -32,16 +34,33 @@ export interface WindowProps {
   isFocused?: boolean;
   isFullscreenAllowed?: boolean;
   size?: {
-    width?: string;
-    height?: string;
+    width?: number;
+    height?: number;
   };
   position?: {
-    left?: string;
-    top?: string;
-    right?: string;
-    bottom?: string;
+    left?: number;
+    top?: number;
+    right?: number;
+    bottom?: number;
   };
 }
+
+const getMaxSize = (
+  size: WindowProps["size"],
+  screenWidth: number,
+  screenHeight: number,
+  position: WindowProps["position"],
+) => {
+  const maxWidth =
+    screenWidth - ((position?.left ?? 0) + (position?.right ?? 0));
+  const maxHeight =
+    screenHeight - ((position?.top ?? 0) + (position?.bottom ?? 0));
+
+  return {
+    width: (size?.width ?? 0) > maxWidth ? maxWidth : size?.width,
+    height: (size?.height ?? 0) > maxHeight ? maxHeight : size?.height,
+  };
+};
 
 export const Window: FC<WindowProps> = ({
   children,
@@ -56,6 +75,8 @@ export const Window: FC<WindowProps> = ({
   const windowRef = useRef<HTMLDivElement>(null);
   const t = useScopedI18n("window");
 
+  const { width: screenWidth, height: screenHeight } = useScreenSize();
+
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const [previousTransformX, setPreviousTransformX] = useState(0);
@@ -66,11 +87,14 @@ export const Window: FC<WindowProps> = ({
   const maximizeHovered = useMotionValue(0);
 
   const { focusWindow, closeWindow } = useWindow(id);
+  const isFocusedWindow = useIsWindowFocused(id);
 
   const dragControls = useDragControls();
 
   useEffect(() => {
-    focusWindow();
+    if (!isFocusedWindow) {
+      focusWindow();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -96,6 +120,16 @@ export const Window: FC<WindowProps> = ({
     } else closeWindow();
   };
 
+  const handlePointerDown = () => {
+    if (!isFocusedWindow) {
+      focusWindow();
+    }
+  };
+
+  const maxSize = useMemo(() => {
+    return getMaxSize(size, screenWidth, screenHeight, position);
+  }, [size, screenWidth, screenHeight, position]);
+
   return (
     <motion.div
       ref={windowRef}
@@ -109,14 +143,14 @@ export const Window: FC<WindowProps> = ({
       dragControls={dragControls}
       dragListener={false}
       dragMomentum={false}
-      onPointerDown={() => focusWindow()}
+      onPointerDown={handlePointerDown}
       onDragEnd={handleDragEnd}
       initial={{
         opacity: 0,
         filter: "blur(10px)",
         scaleY: 0,
-        width: size?.width ?? "fit-content",
-        height: size?.height ?? "fit-content",
+        width: maxSize?.width ?? "fit-content",
+        height: maxSize?.height ?? "fit-content",
       }}
       animate={{
         opacity: 1,
@@ -132,16 +166,16 @@ export const Window: FC<WindowProps> = ({
         opacity: 0,
         filter: "blur(10px)",
         scaleY: 0,
-        width: size?.width ?? "fit-content",
-        height: size?.height ?? "fit-content",
+        width: maxSize?.width ?? "fit-content",
+        height: maxSize?.height ?? "fit-content",
       }}
       transition={{ type: "spring", bounce: 0 }}
       key={id}
       style={{
-        ...(position?.left && { left: position.left }),
-        ...(position?.top && { top: position.top }),
-        ...(position?.right && { right: position.right }),
-        ...(position?.bottom && { bottom: position.bottom }),
+        ...(position?.left && { left: position.left + "px" }),
+        ...(position?.top && { top: position.top + "px" }),
+        ...(position?.right && { right: position.right + "px" }),
+        ...(position?.bottom && { bottom: position.bottom + "px" }),
       }}
     >
       <div

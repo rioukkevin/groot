@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 const MIXPANEL_LOCALE_STORAGE_KEY = "mixpanel_browser_id";
 
 mixpanel.init("9b41d9b3688089d6626423e43c207e09", {
-  debug: true,
+  debug: false,
   track_pageview: true,
   persistence: "localStorage",
   ignore_dnt: true,

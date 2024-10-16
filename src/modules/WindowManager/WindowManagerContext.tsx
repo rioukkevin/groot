@@ -53,8 +53,6 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
         id: window.id ?? "No-Id",
       });
 
-      console.log("OpenWindow", window);
-
       return [
         ...oldValue,
         {
@@ -74,8 +72,6 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
         id,
       });
 
-      console.log("CloseWindow", id);
-
       return oldValue.filter((window) => window.id !== id);
     });
   };
@@ -85,8 +81,6 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
       mixpanel.track("FocusWindow", {
         id,
       });
-
-      console.log("FocusWindow", id);
 
       return oldValue.map((window) => ({
         ...window,

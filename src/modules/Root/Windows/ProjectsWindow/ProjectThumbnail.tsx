@@ -5,6 +5,7 @@ import { ProjectThumbnail as ProjectThumbnailType } from "./data";
 import { useOpenWindow } from "@/modules/WindowManager";
 import { ProjectWindow } from "./ProjectWindow";
 import { useScopedI18n } from "@/lib/locales/client";
+import useScreenSize from "@/lib/screen";
 
 export interface ProjectThumbnailProps
   extends Omit<
@@ -24,7 +25,7 @@ export const ProjectThumbnail: React.FC<ProjectThumbnailProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const openWindow = useOpenWindow();
   const t = useScopedI18n("projects.thumbnail");
-
+  const { height: screenHeight } = useScreenSize();
   const handleClick = () => {
     onClick?.();
     openWindow({
@@ -33,8 +34,8 @@ export const ProjectThumbnail: React.FC<ProjectThumbnailProps> = ({
       children: (props) => <ProjectWindow {...props} />,
       isFullscreenAllowed: true,
       size: {
-        width: "1024px",
-        height: "60vh",
+        width: 1024,
+        height: screenHeight * 0.6,
       },
     });
   };

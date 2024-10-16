@@ -22,9 +22,14 @@ import {
 } from "./Windows";
 import { useScopedI18n } from "@/lib/locales/client";
 import { ProjectsWindow } from "./Windows/ProjectsWindow";
+import useScreenSize from "@/lib/screen";
 
 const useDockData = () => {
   const t = useScopedI18n("dock");
+  const { height: screenHeight } = useScreenSize();
+
+  console.log(screenHeight);
+
   const openWindow = useOpenWindow();
   const [data] = useState<DockElement[]>([
     {
@@ -37,12 +42,12 @@ const useDockData = () => {
           children: (props) => <WhoWindow {...props} />,
           id: "who",
           size: {
-            width: "400px",
-            height: "fit-content",
+            width: 400,
+            height: screenHeight * 0.8,
           },
           position: {
-            left: "50px",
-            top: "50px",
+            left: 50,
+            top: 50,
           },
         }),
     },
@@ -57,8 +62,8 @@ const useDockData = () => {
           isFullscreenAllowed: true,
           id: "experiences",
           size: {
-            width: "80vw",
-            height: "60vh",
+            width: 1280,
+            height: screenHeight * 0.8,
           },
         }),
     },
@@ -72,8 +77,8 @@ const useDockData = () => {
           children: (props) => <ProjectsWindow {...props} />,
           id: "projects",
           size: {
-            width: "1280px",
-            height: "60vh",
+            width: 1280,
+            height: screenHeight * 0.8,
           },
           isFullscreenAllowed: true,
         }),
@@ -88,12 +93,12 @@ const useDockData = () => {
           children: (props) => <NewsWindow {...props} />,
           id: "news",
           size: {
-            width: "400px",
-            height: "500px",
+            width: 400,
+            height: 500,
           },
           position: {
-            right: "50px",
-            top: "470px",
+            right: 20,
+            top: 470,
           },
         }),
     },
@@ -107,12 +112,12 @@ const useDockData = () => {
           children: (props) => <ContactWindow {...props} />,
           id: "contact",
           size: {
-            width: "350px",
-            height: "210px",
+            width: 350,
+            height: 210,
           },
           position: {
-            right: "50px",
-            top: "250px",
+            right: 20,
+            top: 250,
           },
         }),
     },
@@ -126,8 +131,8 @@ const useDockData = () => {
           children: (props) => <TicTacToeWindow {...props} />,
           id: "tictactoe",
           size: {
-            width: "352px",
-            height: "392px",
+            width: 352,
+            height: 392,
           },
         }),
     },
@@ -141,11 +146,11 @@ const useDockData = () => {
           children: (props) => <SettingsWindow {...props} />,
           id: "settings",
           size: {
-            width: "300px",
-            height: "420px",
+            width: 300,
+            height: 420,
           },
           position: {
-            right: "50px",
+            right: 50,
           },
         }),
     },
@@ -160,6 +165,7 @@ export const Page = () => {
   useEffect(() => {
     setTimeout(() => {
       dockData[0].onPress(dockData[0]);
+      dockData[4].onPress(dockData[4]);
     }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

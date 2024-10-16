@@ -55,8 +55,8 @@ const ProjectWindowGallery: React.FC<ProjectWindowGalleryProps> = ({
         </div>
       ),
       size: {
-        width: `${newWidth + 32}px`,
-        height: `${newHeight + 40 + 32}px`,
+        width: newWidth + 32,
+        height: newHeight + 40 + 32,
       },
       isFullscreenAllowed: false,
     });
