@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dock, DockElement } from "../Dock";
 import { useOpenWindow, WindowManager } from "../WindowManager";
 import {
@@ -29,9 +29,7 @@ const useDockData = () => {
   const [data] = useState<DockElement[]>([
     {
       title: t("whoami"),
-      icon: (
-        <PersonStandingIcon className="size-full text-neutral-600 dark:text-neutral-300" />
-      ),
+      icon: <PersonStandingIcon className="size-full text-neutral-300" />,
       onPress: () =>
         openWindow({
           title: t("whoami"),
@@ -45,9 +43,7 @@ const useDockData = () => {
     },
     {
       title: t("experiences"),
-      icon: (
-        <BriefcaseBusinessIcon className="size-full text-neutral-600 dark:text-neutral-300" />
-      ),
+      icon: <BriefcaseBusinessIcon className="size-full text-neutral-300" />,
       onPress: () =>
         openWindow({
           title: t("experiences"),
@@ -62,9 +58,7 @@ const useDockData = () => {
     },
     {
       title: t("projects"),
-      icon: (
-        <PackageIcon className="size-full text-neutral-600 dark:text-neutral-300" />
-      ),
+      icon: <PackageIcon className="size-full text-neutral-300" />,
       onPress: () =>
         openWindow({
           title: t("projects"),
@@ -79,9 +73,7 @@ const useDockData = () => {
     },
     {
       title: t("news"),
-      icon: (
-        <NewspaperIcon className="size-full text-neutral-600 dark:text-neutral-300" />
-      ),
+      icon: <NewspaperIcon className="size-full text-neutral-300" />,
       onPress: () =>
         openWindow({
           title: t("news"),
@@ -95,9 +87,7 @@ const useDockData = () => {
     },
     {
       title: t("contact"),
-      icon: (
-        <MailIcon className="size-full text-neutral-600 dark:text-neutral-300" />
-      ),
+      icon: <MailIcon className="size-full text-neutral-300" />,
       onPress: () =>
         openWindow({
           title: t("contact"),
@@ -111,9 +101,7 @@ const useDockData = () => {
     },
     {
       title: t("tictactoe"),
-      icon: (
-        <JoystickIcon className="size-full text-neutral-600 dark:text-neutral-300" />
-      ),
+      icon: <JoystickIcon className="size-full text-neutral-300" />,
       onPress: () =>
         openWindow({
           title: t("tictactoe"),
@@ -127,9 +115,7 @@ const useDockData = () => {
     },
     {
       title: t("settings"),
-      icon: (
-        <SettingsIcon className="size-full text-neutral-600 dark:text-neutral-300" />
-      ),
+      icon: <SettingsIcon className="size-full text-neutral-300" />,
       onPress: () =>
         openWindow({
           title: t("settings"),
@@ -148,6 +134,12 @@ const useDockData = () => {
 
 export const Page = () => {
   const dockData = useDockData();
+
+  useEffect(() => {
+    setTimeout(() => {
+      dockData[0].onPress(dockData[0]);
+    }, 1000);
+  }, []);
 
   return (
     <>
