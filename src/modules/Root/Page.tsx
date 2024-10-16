@@ -139,6 +139,7 @@ export const Page = () => {
     setTimeout(() => {
       dockData[0].onPress(dockData[0]);
     }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
