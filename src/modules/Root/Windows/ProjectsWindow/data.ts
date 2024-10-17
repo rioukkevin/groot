@@ -182,6 +182,7 @@ export const useProjectsData = (): ProjectThumbnail[] => {
           t("ooof.descriptions.0"),
           t("ooof.descriptions.1"),
           t("ooof.descriptions.2"),
+          t("ooof.descriptions.3"),
         ],
         links: [
           { label: t("ooof.links.0"), href: "https://ooof.dev" },
@@ -219,6 +220,9 @@ export const useProjectsData = (): ProjectThumbnail[] => {
           t("portfolioV6.descriptions.0"),
           t("portfolioV6.descriptions.1"),
           t("portfolioV6.descriptions.2"),
+          t("portfolioV6.descriptions.3"),
+          t("portfolioV6.descriptions.4"),
+          t("portfolioV6.descriptions.5"),
         ],
         links: [
           {
@@ -260,6 +264,8 @@ export const useProjectsData = (): ProjectThumbnail[] => {
           t("vscodeGitCommit.descriptions.0"),
           t("vscodeGitCommit.descriptions.1"),
           t("vscodeGitCommit.descriptions.2"),
+          t("vscodeGitCommit.descriptions.3"),
+          t("vscodeGitCommit.descriptions.4"),
         ],
         links: [
           {
@@ -358,6 +364,9 @@ export const useProjectsData = (): ProjectThumbnail[] => {
           t("controller.descriptions.0"),
           t("controller.descriptions.1"),
           t("controller.descriptions.2"),
+          t("controller.descriptions.3"),
+          t("controller.descriptions.4"),
+          t("controller.descriptions.5"),
         ],
         links: [
           {
@@ -400,6 +409,7 @@ export const useProjectsData = (): ProjectThumbnail[] => {
           t("portfolioV5.descriptions.0"),
           t("portfolioV5.descriptions.1"),
           t("portfolioV5.descriptions.2"),
+          t("portfolioV5.descriptions.3"),
         ],
         links: [
           {

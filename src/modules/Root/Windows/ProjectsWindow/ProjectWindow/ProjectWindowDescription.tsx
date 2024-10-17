@@ -2,7 +2,7 @@ import React from "react";
 import { ProjectThumbnail } from "../data";
 import { Link } from "lucide-react";
 import { useProjectTypeTranslations } from "../useProjectTypeTranslation";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { TextEffect } from "@/modules/TextEffect/TextEffect";
 
 interface ProjectWindowDescriptionProps {
@@ -34,7 +34,7 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
       <motion.h2
         className="text-xl font-medium uppercase text-neutral-500"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+        animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
         {project.name}
@@ -57,7 +57,7 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
         className="w-fit rounded-lg px-2 py-1 text-base font-bold"
         style={{ backgroundColor: project.color, color: contrastedColor }}
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+        animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ delay: 0.3 }}
       >
@@ -67,7 +67,7 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
       <motion.hr
         className="my-4 w-full border-neutral-600/50"
         initial={{ opacity: 0, scaleX: 0 }}
-        whileInView={{ opacity: 1, scaleX: 1 }}
+        animate={{ opacity: 1, scaleX: 1 }}
         exit={{ opacity: 0, scaleX: 0 }}
         transition={{ delay: 0.3 }}
       />
@@ -76,7 +76,7 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
         <motion.h3
           className="text-lg font-semibold uppercase"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ delay: 0.3 }}
         >
@@ -88,7 +88,7 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
               key={index}
               className="origin-left rounded-lg bg-neutral-700 px-2 py-1 text-xs text-neutral-200"
               initial={{ opacity: 0, scaleX: 0 }}
-              whileInView={{ opacity: 1, scaleX: 1 }}
+              animate={{ opacity: 1, scaleX: 1 }}
               exit={{ opacity: 0, scaleX: 0 }}
               transition={{ delay: index * 0.1 + 0.4 }}
             >
@@ -101,7 +101,7 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
       <motion.hr
         className="my-4 w-full border-neutral-600/50"
         initial={{ opacity: 0, scaleX: 0 }}
-        whileInView={{ opacity: 1, scaleX: 1 }}
+        animate={{ opacity: 1, scaleX: 1 }}
         exit={{ opacity: 0, scaleX: 0 }}
         transition={{ delay: 0.6 }}
       />
@@ -111,7 +111,7 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
           <motion.h3
             className="mr-4 text-lg font-semibold uppercase"
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ delay: 0.6 }}
           >
@@ -125,7 +125,7 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
               rel="noopener noreferrer"
               className="flex w-fit items-center rounded-lg py-1 text-sm text-white hover:text-neutral-400"
               initial={{ scale: 0.8, opacity: 0, color: "#fff" }}
-              whileInView={{
+              animate={{
                 scale: 1,
                 opacity: 1,
                 transition: { delay: index * 0.1 + 0.7 },
@@ -144,7 +144,7 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
       <motion.hr
         className="my-4 w-full border-neutral-600/50"
         initial={{ opacity: 0, scaleX: 0 }}
-        whileInView={{ opacity: 1, scaleX: 1 }}
+        animate={{ opacity: 1, scaleX: 1 }}
         exit={{ opacity: 0, scaleX: 0 }}
         transition={{ delay: 0.9 }}
       />
@@ -153,24 +153,26 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
         <motion.h3
           className="text-lg font-semibold uppercase"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ delay: 0.9 }}
         >
           Description
         </motion.h3>
-        {project.descriptions.map((description, index) => (
-          <motion.p
-            key={index}
-            className="text-sm"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ delay: index * 0.2 + 1 }}
-          >
-            {description}
-          </motion.p>
-        ))}
+        <AnimatePresence>
+          {project.descriptions.map((description, index) => (
+            <motion.p
+              key={index}
+              className="text-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ delay: index * 0.2 + 1 }}
+            >
+              {description}
+            </motion.p>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );

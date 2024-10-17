@@ -3,9 +3,12 @@ export const frProjectsPortfolioV6 = {
   shortDescription:
     "Ancienne version de mon portfolio en ligne pendant 2 ans jusqu'en octobre 2024",
   descriptions: [
-    "Portfolio V6 était la précédente itération de mon site web portfolio personnel.",
-    "Il présentait mes projets et compétences en tant que développeur web pendant deux ans.",
-    "Le site utilisait des technologies web modernes pour créer une expérience utilisateur engageante.",
+    "Ce site web représente une version antérieure de mon portfolio, qui a été en ligne pendant deux ans jusqu'en octobre 2024. Conçu en 2022, son objectif principal était de captiver l'attention des recruteurs pour un poste en CDI. Cette version reflète une étape importante de mon parcours professionnel, mettant en avant mes compétences et mon expérience de l'époque.",
+    "L'essence de ce portfolio reposait sur sa simplicité et son minimalisme. J'ai délibérément opté pour un design épuré, permettant aux visiteurs de se concentrer sur l'essentiel : mon travail et mes compétences. Cette approche visait à offrir une expérience utilisateur fluide et agréable, tout en mettant en valeur mes réalisations de manière efficace.",
+    "Sur le plan technique, j'ai accordé une attention particulière aux performances et au SEO. Cette démarche avait un double objectif : d'une part, approfondir mes connaissances dans ces domaines cruciaux du développement web, et d'autre part, optimiser l'expérience utilisateur, notamment sur les appareils mobiles. Le résultat était un site rapide, réactif et bien référencé, démontrant mes compétences techniques et mon souci du détail.",
+    "Une caractéristique unique de ce portfolio était l'inclusion d'endorsements pour des projets professionnels qui me tenaient à cœur. Parmi eux, on trouvait des initiatives comme https://www.poachiclash.com/, un tournoi de jeux vidéo, ainsi que la mise en avant de produits d'un artisan alsacien. Ces recommandations personnelles illustraient non seulement mon réseau professionnel, mais aussi mes intérêts variés et mon engagement envers des projets locaux et innovants.",
+    "L'un des défis techniques les plus stimulants de ce projet a été le développement d'un système de traduction à partir de zéro. Cette initiative m'a permis d'explorer en profondeur le fonctionnement des nombreux packages de traduction existants. Ce processus a non seulement enrichi mes compétences techniques, mais m'a également offert une compréhension approfondie des mécanismes de localisation, un atout précieux pour des projets internationaux.",
+    "Pour la gestion du contenu, j'ai opté pour Storyblok, un CMS headless moderne. Cette décision était motivée par mon désir d'expérimenter avec des solutions de pointe en gestion de contenu. L'intégration de Storyblok m'a permis de gagner en flexibilité dans la mise à jour du contenu et d'acquérir une expérience précieuse que j'ai pu par la suite mettre à profit dans mes missions freelance. Cette approche démontrait ma capacité à adopter et à maîtriser de nouvelles technologies pour améliorer l'efficacité et la maintenabilité des projets web.",
   ],
   links: ["Site Web", "GitHub"],
 };
