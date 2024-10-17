@@ -42,6 +42,8 @@ const ENGLISH_METADATA: Metadata = {
   ...COMMON_METADATA,
 };
 
+export const getDefaultMetadata = () => ENGLISH_METADATA;
+
 export const getMetadata = () => {
   const lang = getCurrentLocale();
 

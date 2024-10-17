@@ -8,9 +8,10 @@ import { Widgets } from "@/modules/Widgets";
 import { Clock } from "@/modules/Widgets/Clock";
 import { ScreenSizeWarning } from "@/modules/Screen/ScreenSizeWarning";
 import { Metadata } from "next";
-import { getMetadata } from "@/modules/Metadata/metadata";
+import { getDefaultMetadata } from "@/modules/Metadata/metadata";
 
-export const generateMetadata = async (): Promise<Metadata> => getMetadata();
+export const generateMetadata = async (): Promise<Metadata> =>
+  getDefaultMetadata();
 
 export default function Home() {
   return (
