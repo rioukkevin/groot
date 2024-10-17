@@ -8,6 +8,7 @@ import { LoadingOverlay } from "@/modules/Loading";
 import { Cookies } from "@/modules/Cookies";
 import { Widgets } from "@/modules/Widgets";
 import { Clock } from "@/modules/Widgets/Clock";
+import { ScreenSizeWarning } from "@/modules/Screen/ScreenSizeWarning";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <Cookies />
         <RootPage />
       </Screen>
+      <ScreenSizeWarning />
     </BackgroundProvider>
   );
 }

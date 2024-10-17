@@ -28,8 +28,6 @@ const useDockData = () => {
   const t = useScopedI18n("dock");
   const { height: screenHeight } = useScreenSize();
 
-  console.log(screenHeight);
-
   const openWindow = useOpenWindow();
   const [data] = useState<DockElement[]>([
     {

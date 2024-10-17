@@ -17,7 +17,7 @@ export const Screen: FC<ScreenProps> = ({ children }) => {
   return (
     <div
       ref={screenRef}
-      className="relative h-screen max-h-screen w-screen overflow-hidden"
+      className="relative h-screen max-h-screen min-h-[720px] w-screen min-w-[1280px] overflow-hidden"
     >
       <Image
         src={currentBackground}
@@ -26,6 +26,7 @@ export const Screen: FC<ScreenProps> = ({ children }) => {
         objectFit="cover"
         quality={100}
         className="z-0"
+        priority
       />
 
       <WindowManagerProvider containerRef={screenRef}>

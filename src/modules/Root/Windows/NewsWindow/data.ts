@@ -19,7 +19,7 @@ export const useNewsData = () => {
         title: "New website version",
         description:
           "I've been working on a new version of my website. I'm very happy to finally share it with you.",
-        date: "2024-10-15",
+        date: "2024-10-18",
       },
     ],
     [],
