@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Children } from "react";
 import { motion } from "framer-motion";
 

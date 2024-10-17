@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable react/display-name */
 import { FC, ReactNode, useRef } from "react";
 import Image from "next/image";
@@ -27,6 +29,8 @@ export const Screen: FC<ScreenProps> = ({ children }) => {
         quality={100}
         className="z-0"
         priority
+        placeholder="blur"
+        blurDataURL={currentBackground}
       />
 
       <WindowManagerProvider containerRef={screenRef}>
