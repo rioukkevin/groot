@@ -8,14 +8,24 @@ import { Widgets } from "@/modules/Widgets";
 import { Clock } from "@/modules/Widgets/Clock";
 import { ScreenSizeWarning } from "@/modules/Screen/ScreenSizeWarning";
 import { Metadata } from "next";
-import { getDefaultMetadata } from "@/modules/Metadata/metadata";
+import { METADATA } from "@/modules/Metadata/metadata";
+import { BreadcrumbJsonLd } from "next-seo";
 
-export const generateMetadata = async (): Promise<Metadata> =>
-  getDefaultMetadata();
+export const metadata: Metadata = METADATA;
 
 export default function Home() {
   return (
     <BackgroundProvider defaultBackground={IMGBackground.src}>
+      <BreadcrumbJsonLd
+        useAppDir
+        itemListElements={[
+          {
+            position: 1,
+            name: "Home",
+            item: "https://kevin.riou.pro",
+          },
+        ]}
+      />
       <LoadingOverlay />
       <Screen>
         <Widgets>

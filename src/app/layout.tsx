@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { JsonLD } from "@/modules/JsonLD/JsonLD";
 import { getCurrentLocale } from "@/lib/locales/server";
 
 const geistSans = localFont({
@@ -29,7 +28,6 @@ export default function RootLayout({
 
   return (
     <html lang={lang}>
-      <JsonLD />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
