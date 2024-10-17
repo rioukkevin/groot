@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { JsonLD } from "@/modules/JsonLD/JsonLD";
+import { getCurrentLocale } from "@/lib/locales/server";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,8 +25,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const lang = getCurrentLocale();
+
   return (
-    <html lang="en">
+    <html lang={lang}>
+      <JsonLD />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

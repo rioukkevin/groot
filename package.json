@@ -16,6 +16,7 @@
     "mixpanel-browser": "^2.55.1",
     "next": "14.2.15",
     "next-international": "^1.2.4",
+    "next-seo": "^6.6.0",
     "react": "^18",
     "react-dom": "^18",
     "react-scroll-sync": "^0.11.2",
