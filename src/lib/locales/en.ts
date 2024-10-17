@@ -98,6 +98,10 @@ const en = {
   "cookies.cookiePolicy": "Cookie Policy",
   "cookies.cookiePolicyContent":
     "Our website uses cookies to improve your browsing experience and provide personalized content. Cookies are small text files stored on your device that help us analyze site usage, remember your preferences, and optimize performance. By using our site, you consent to our use of cookies in accordance with our Cookie Policy.",
+
+  // Screen/ScreenSizeWarning
+  "screenSizeWarning.message":
+    "This experience is designed primarily for computers with a minimum HD screen resolution.",
 } as const;
 
 export default en;

@@ -1,30 +1,32 @@
 "use client";
 
+import { useScopedI18n } from "@/lib/locales/client";
+import useScreenSize from "@/lib/screen";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect, FC } from "react";
 
+const SCREEN_SIZE_WARNING_TIMEOUT = 10000;
+const SCREEN_MIN_WIDTH = 1280;
+const SCREEN_MIN_HEIGHT = 720;
+
 export const ScreenSizeWarning: FC = () => {
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const { width: screenWidth, height: screenHeight } = useScreenSize();
+
+  const t = useScopedI18n("screenSizeWarning");
 
   useEffect(() => {
-    const checkScreenSize = () => {
-      setIsSmallScreen(window.innerWidth < 1280 || window.innerHeight < 720);
-    };
-
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-
-    // Hide the component after 10 seconds
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 10000);
+    }, SCREEN_SIZE_WARNING_TIMEOUT);
 
     return () => {
-      window.removeEventListener("resize", checkScreenSize);
       clearTimeout(timer);
     };
   }, []);
+
+  const isSmallScreen =
+    screenWidth < SCREEN_MIN_WIDTH || screenHeight < SCREEN_MIN_HEIGHT;
 
   const shouldShow = isVisible && isSmallScreen;
 
@@ -38,10 +40,7 @@ export const ScreenSizeWarning: FC = () => {
           transition={{ type: "spring", bounce: 0 }}
           className="fixed left-[20px] top-[20px] z-50 flex w-56 items-center justify-center rounded-lg bg-neutral-800/80 p-4 text-center text-white backdrop-blur-lg"
         >
-          <p>
-            Cette expérience est conçue pour ordinateur principalement pour un
-            écran HD minimum
-          </p>
+          <p>{t("message")}</p>
         </motion.div>
       )}
     </AnimatePresence>

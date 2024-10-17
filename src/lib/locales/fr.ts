@@ -101,6 +101,10 @@ const fr = {
   "cookies.cookiePolicy": "Politique de cookies",
   "cookies.cookiePolicyContent":
     "Notre site web utilise des cookies pour améliorer votre expérience de navigation et fournir du contenu personnalisé. Les cookies sont de petits fichiers texte stockés sur votre appareil qui nous aident à analyser l'utilisation du site, à mémoriser vos préférences et à optimiser les performances. En utilisant notre site, vous consentez à notre utilisation des cookies conformément à notre Politique de cookies.",
+
+  // Screen/ScreenSizeWarning
+  "screenSizeWarning.message":
+    "Cette expérience est conçue principalement pour les ordinateurs avec une résolution d'écran HD minimale.",
 } as const;
 
 export default fr;
