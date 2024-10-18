@@ -67,6 +67,16 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
 
   const focusWindow = (id: string) => {
     setWindows((oldValue) => {
+      console.log(
+        "FOCUS MANAGER",
+        id,
+        oldValue,
+        oldValue.map((window) => ({
+          ...window,
+          isFocused: window.id === id,
+        })),
+      );
+
       return oldValue.map((window) => ({
         ...window,
         isFocused: window.id === id,

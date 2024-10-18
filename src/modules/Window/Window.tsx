@@ -98,6 +98,10 @@ export const Window: FC<WindowProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  useEffect(() => {
+    console.log("FOCUS WINDOW", id, isFocusedWindow);
+  }, [id, isFocusedWindow]);
+
   const startDrag = (event: React.PointerEvent<Element>) => {
     if (!isFocusedWindow) {
       focusWindow();
