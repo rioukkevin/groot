@@ -1,8 +1,9 @@
 "use client";
 
-import { Client, ID } from "appwrite";
+import { Client, ID, Query } from "appwrite";
 import { Databases, RealtimeResponseEvent } from "appwrite";
 import { useState, useEffect } from "react";
+import { useScopedI18n } from "./locales/client";
 
 const DEFAULT_DATABASE_ID = "671250cb000fd45f7a7b";
 const DEFAULT_COLLECTION_ID = "671250d60030823cccc8";
@@ -26,6 +27,9 @@ const useChatMessages = (
   collectionId: string = DEFAULT_COLLECTION_ID,
 ) => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  const t = useScopedI18n("chat");
 
   useEffect(() => {
     const unsubscribe = client.subscribe(
@@ -52,21 +56,48 @@ const useChatMessages = (
         }
       },
     );
+    setError(null);
 
     return () => {
-      unsubscribe();
+      if (unsubscribe) {
+        unsubscribe();
+      }
     };
   }, [databaseId, collectionId]);
 
-  return messages;
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const response = await databases.listDocuments(
+          databaseId,
+          collectionId,
+          [Query.orderDesc("time"), Query.limit(20)],
+        );
+        setMessages(response.documents.reverse() as unknown as Message[]);
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+        setError(t("error.fetchMessages"));
+      }
+    };
+
+    fetchMessages();
+  }, []);
+
+  return { messages, error };
 };
 
 const useAddChatMessage = (
   databaseId: string = DEFAULT_DATABASE_ID,
   collectionId: string = DEFAULT_COLLECTION_ID,
 ) => {
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const t = useScopedI18n("chat");
+
   const addMessage = async (message: Omit<Message, "id" | "time">) => {
     try {
+      setIsLoading(true);
       const response = await databases.createDocument(
         databaseId,
         collectionId,
@@ -76,14 +107,18 @@ const useAddChatMessage = (
           time: new Date(),
         },
       );
+      setError(null);
       return response;
     } catch (error) {
       console.error("Error adding message:", error);
+      setError(t("error.sendMessage"));
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return addMessage;
+  return { addMessage, error, isLoading };
 };
 
 export { useChatMessages, useAddChatMessage };

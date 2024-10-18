@@ -113,6 +113,10 @@ const en = {
   "chat.saveUsername": "Save",
   "chat.liveDescription":
     "This chat is live with all person connected on this website all around the world !",
+  "chat.error.sendMessage":
+    "Failed to send message. Please try again later. Our chat provider is currently down.",
+  "chat.error.fetchMessages":
+    "Failed to fetch messages. Please try again later. Our chat provider is currently down.",
 } as const;
 
 export default en;

@@ -7,6 +7,7 @@ import { useChatUser, useSetupChatUser } from "./ChatUserProvider";
 import { ChatBubble } from "./ChatBubble";
 import { useScopedI18n } from "@/lib/locales/client";
 import { motion, AnimatePresence } from "framer-motion";
+import { Loader } from "lucide-react";
 
 export const ChatWindow: FC<WindowChildrenProps> = () => {
   const t = useScopedI18n("chat");
@@ -15,8 +16,12 @@ export const ChatWindow: FC<WindowChildrenProps> = () => {
   const [inputValue, setInputValue] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
 
-  const messages = useChatMessages();
-  const sendMessage = useAddChatMessage();
+  const { messages, error: messagesError } = useChatMessages();
+  const {
+    addMessage: sendMessage,
+    error: sendMessageError,
+    isLoading: isSendingMessageLoading,
+  } = useAddChatMessage();
   const { username, userId } = useChatUser();
   const setUsername = useSetupChatUser();
 
@@ -78,6 +83,16 @@ export const ChatWindow: FC<WindowChildrenProps> = () => {
               <div className="rounded-lg border border-neutral-400 p-3 text-sm text-neutral-200">
                 {t("liveDescription")}
               </div>
+              {messagesError && (
+                <div className="rounded-lg border border-red-400 p-3 text-sm text-red-400">
+                  {messagesError}
+                </div>
+              )}
+              {sendMessageError && (
+                <div className="rounded-lg border border-red-400 p-3 text-sm text-red-400">
+                  {sendMessageError}
+                </div>
+              )}
               <AnimatePresence>
                 {messages.map((message, index) => (
                   <motion.div
@@ -120,9 +135,13 @@ export const ChatWindow: FC<WindowChildrenProps> = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleSendMessage}
-                  className="h-10 w-24 rounded-lg bg-neutral-600 px-4 py-1 text-sm text-white"
+                  className="flex h-10 w-24 items-center justify-center rounded-lg bg-neutral-600 px-4 py-1 text-sm text-white"
                 >
-                  {t("send")}
+                  {isSendingMessageLoading ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    t("send")
+                  )}
                 </motion.button>
               </div>
             </motion.div>

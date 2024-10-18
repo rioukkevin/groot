@@ -116,6 +116,10 @@ const fr = {
   "chat.saveUsername": "Enregistrer",
   "chat.liveDescription":
     "Ce chat est en direct avec toutes les personnes connectées sur ce site web à travers le monde !",
+  "chat.error.sendMessage":
+    "Impossible d'envoyer un message. Veuillez réessayer plus tard. Notre fournisseur de chat est actuellement en panne.",
+  "chat.error.fetchMessages":
+    "Impossible de récupérer les messages. Veuillez réessayer plus tard. Notre fournisseur de chat est actuellement en panne.",
 } as const;
 
 export default fr;
