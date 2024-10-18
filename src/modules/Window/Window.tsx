@@ -67,6 +67,7 @@ export const Window: FC<WindowProps> = ({
   containerRef,
   id,
   isFullscreenAllowed = false,
+  isFocused,
   size,
   position,
 }) => {
