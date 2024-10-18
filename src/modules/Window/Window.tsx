@@ -96,9 +96,7 @@ export const Window: FC<WindowProps> = ({
   }, [id, isFocusedWindow]);
 
   const startDrag = (event: React.PointerEvent<Element>) => {
-    if (!isFocusedWindow) {
-      focusWindow();
-    }
+    focusWindow();
     dragControls.start(event, { snapToCursor: false });
   };
 
@@ -121,11 +119,7 @@ export const Window: FC<WindowProps> = ({
   };
 
   const handlePointerDown = () => {
-    console.log("FOCUS WINDOW", id, isFocusedWindow, "FOCUS 1");
-    if (!isFocusedWindow) {
-      console.log("FOCUS WINDOW", id, isFocusedWindow, "FOCUS 2");
-      focusWindow();
-    }
+    focusWindow();
   };
 
   const maxSize = useMemo(() => {
