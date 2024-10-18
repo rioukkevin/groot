@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const MIXPANEL_LOCALE_STORAGE_KEY = "mixpanel_browser_id";
 
-mixpanel.init("9b41d9b3688089d6626423e43c207e09", {
+mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_PROJECT_ID ?? "", {
   debug: false,
   track_pageview: true,
   persistence: "localStorage",

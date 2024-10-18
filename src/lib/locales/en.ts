@@ -76,6 +76,8 @@ const en = {
   "settings.english": "English",
   "settings.french": "French",
   "settings.theme": "Theme",
+  "settings.chatUsername": "Chat username",
+  "settings.chatUsernamePlaceholder": "Anonymous",
 
   // Theme/Background
   "theme.background.changeBackground": "Change Background",
@@ -102,6 +104,15 @@ const en = {
   // Screen/ScreenSizeWarning
   "screenSizeWarning.message":
     "This experience is designed primarily for computers with a minimum HD screen resolution.",
+
+  // Root/Windows/ChatWindow
+  "chat.title": "Chat",
+  "chat.inputPlaceholder": "Type a message...",
+  "chat.send": "Send",
+  "chat.chooseUsername": "Choose a username...",
+  "chat.saveUsername": "Save",
+  "chat.liveDescription":
+    "This chat is live with all person connected on this website all around the world !",
 } as const;
 
 export default en;

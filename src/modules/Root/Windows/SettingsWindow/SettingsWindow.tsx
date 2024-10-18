@@ -7,18 +7,23 @@ import { BackgroundFileSelector } from "@/modules/Theme/Background";
 import { WindowChildrenProps } from "@/modules/Window";
 import { FC, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useChatUserContext } from "../ChatWindow/ChatUserProvider";
 
 enum Language {
   English = "en",
   French = "fr",
 }
 
+const DEFAULT_USERNAME = "Anonymous";
+
 export const SettingsWindow: FC<WindowChildrenProps> = () => {
   const changeLocale = useChangeLocale();
   const locale = useCurrentLocale();
   const t = useScopedI18n("settings");
+  const { username, setUsername } = useChatUserContext();
 
   const [language, setLanguage] = useState<Language>(Language.English);
+  const [usernameInput, setUsernameInput] = useState<string>("");
 
   useEffect(() => {
     if (locale && locale !== language) {
@@ -26,9 +31,26 @@ export const SettingsWindow: FC<WindowChildrenProps> = () => {
     }
   }, [locale, language]);
 
+  useEffect(() => {
+    if (!!username && username !== DEFAULT_USERNAME) {
+      setUsernameInput(username);
+    }
+  }, [username]);
+
   const handleChangeLanguage = (language: Language) => {
     setLanguage(language);
     changeLocale(language);
+  };
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value.trim();
+
+    setUsernameInput(newValue);
+    if (newValue.length > 0) {
+      setUsername(newValue);
+    } else {
+      setUsername(DEFAULT_USERNAME);
+    }
   };
 
   return (
@@ -74,14 +96,32 @@ export const SettingsWindow: FC<WindowChildrenProps> = () => {
           className="text-lg font-bold text-neutral-200"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
+          transition={{ delay: 1.4 }}
+        >
+          {t("chatUsername")}
+        </motion.label>
+        <motion.input
+          type="text"
+          value={usernameInput}
+          onChange={handleUsernameChange}
+          className="block w-full rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.6 }}
+          placeholder={t("chatUsernamePlaceholder")}
+        />
+        <motion.label
+          className="text-lg font-bold text-neutral-200"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2 }}
         >
           {t("theme")}
         </motion.label>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4 }}
+          transition={{ delay: 2.2 }}
         >
           <BackgroundFileSelector />
         </motion.div>

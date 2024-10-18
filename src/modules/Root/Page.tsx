@@ -7,6 +7,7 @@ import {
   BriefcaseBusinessIcon,
   JoystickIcon,
   MailIcon,
+  MessageCircleIcon,
   NewspaperIcon,
   PackageIcon,
   PersonStandingIcon,
@@ -23,6 +24,7 @@ import {
 import { useScopedI18n } from "@/lib/locales/client";
 import { ProjectsWindow } from "./Windows/ProjectsWindow";
 import useScreenSize from "@/lib/screen";
+import { ChatWindow } from "./Windows/ChatWindow";
 
 const useDockData = () => {
   const t = useScopedI18n("dock");
@@ -111,11 +113,26 @@ const useDockData = () => {
           id: "contact",
           size: {
             width: 350,
-            height: 210,
+            height: 230,
           },
           position: {
             right: 20,
             top: 250,
+          },
+        }),
+    },
+    {
+      id: "chat",
+      title: "Chat",
+      icon: <MessageCircleIcon className="size-full text-neutral-300" />,
+      onPress: () =>
+        openWindow({
+          title: "Chat",
+          children: (props) => <ChatWindow {...props} />,
+          id: "chat",
+          size: {
+            width: 400,
+            height: 600,
           },
         }),
     },
@@ -145,7 +162,7 @@ const useDockData = () => {
           id: "settings",
           size: {
             width: 300,
-            height: 420,
+            height: 510,
           },
           position: {
             right: 50,
