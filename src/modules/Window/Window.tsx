@@ -99,6 +99,9 @@ export const Window: FC<WindowProps> = ({
   }, [id]);
 
   const startDrag = (event: React.PointerEvent<Element>) => {
+    if (!isFocusedWindow) {
+      focusWindow();
+    }
     dragControls.start(event, { snapToCursor: false });
   };
 
@@ -143,7 +146,6 @@ export const Window: FC<WindowProps> = ({
       dragControls={dragControls}
       dragListener={false}
       dragMomentum={false}
-      onPointerDown={handlePointerDown}
       onDragEnd={handleDragEnd}
       initial={{
         opacity: 0,
@@ -190,6 +192,7 @@ export const Window: FC<WindowProps> = ({
             !isFullscreen && "cursor-grab",
           )}
           onPointerDown={startDrag}
+          onClick={handlePointerDown}
         >
           <div className="relative flex cursor-move select-none space-x-2">
             <motion.button
@@ -245,6 +248,7 @@ export const Window: FC<WindowProps> = ({
           className={cn(
             "pointer-events-auto h-[calc(100%-40px)] max-h-[calc(100vh-40px)] overflow-y-auto overflow-x-hidden p-4",
           )}
+          onClick={handlePointerDown}
         >
           {children({
             isFullscreen,
