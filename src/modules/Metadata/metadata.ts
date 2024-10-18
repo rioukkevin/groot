@@ -15,6 +15,11 @@ export const METADATA: Metadata = {
       fr: "/fr",
     },
   },
+  openGraph: {
+    siteName: "RIOU Kevin - Portfolio",
+    url: `${process.env.NEXT_PUBLIC_URL}`,
+    type: "website",
+  },
   robots: {
     index: false,
     follow: true,
