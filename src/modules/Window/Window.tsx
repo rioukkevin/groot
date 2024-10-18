@@ -4,7 +4,6 @@ import React, {
   FC,
   ReactNode,
   RefObject,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -12,7 +11,7 @@ import React, {
 import { motion, useDragControls, useMotionValue } from "framer-motion";
 import { WindowButtonTooltip } from "./WindowButtonTooltip";
 import { cn } from "@/lib/cn";
-import { useIsWindowFocused, useWindow } from "../WindowManager";
+import { useWindow } from "../WindowManager";
 import { BorderTrail } from "../BorderTrail";
 import { useScopedI18n } from "@/lib/locales/client";
 import useScreenSize from "@/lib/screen";
@@ -67,7 +66,6 @@ export const Window: FC<WindowProps> = ({
   title = "Window Title",
   containerRef,
   id,
-  isFocused,
   isFullscreenAllowed = false,
   size,
   position,
@@ -87,13 +85,8 @@ export const Window: FC<WindowProps> = ({
   const maximizeHovered = useMotionValue(0);
 
   const { focusWindow, closeWindow } = useWindow(id);
-  const isFocusedWindow = useIsWindowFocused(id);
 
   const dragControls = useDragControls();
-
-  useEffect(() => {
-    console.log("FOCUS WINDOW", id, isFocusedWindow);
-  }, [id, isFocusedWindow]);
 
   const startDrag = (event: React.PointerEvent<Element>) => {
     focusWindow();
