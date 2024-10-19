@@ -133,7 +133,7 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
               </TextEffect>
             </p>
             <motion.p
-              className="text-sm text-neutral-500"
+              className="text-sm text-neutral-600"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -146,7 +146,7 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
             <hr className="w-full border-neutral-600/50" />
             <div className="flex flex-col gap-2">
               <motion.h3
-                className="text-lg font-semibold uppercase"
+                className="text-lg font-semibold uppercase text-neutral-300"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -172,7 +172,7 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
             {selectedExperience.missions.length > 0 && (
               <div className="mt-4">
                 <motion.h3
-                  className="text-lg font-semibold uppercase"
+                  className="text-lg font-semibold uppercase text-neutral-300"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -198,7 +198,7 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
             {selectedExperience.achievements.length > 0 && (
               <div className="mt-4">
                 <motion.h3
-                  className="text-lg font-semibold uppercase"
+                  className="text-lg font-semibold uppercase text-neutral-300"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   exit={{ opacity: 0 }}

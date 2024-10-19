@@ -61,9 +61,11 @@ export const NewsWindow: FC<WindowChildrenProps> = () => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ delay: index * 0.1 }}
             >
-              <h2 className="text-lg font-bold">{newItem.title}</h2>
-              <p>{newItem.description}</p>
-              <p className="text-sm text-neutral-500">
+              <h2 className="text-lg font-bold text-neutral-300">
+                {newItem.title}
+              </h2>
+              <p className="text-neutral-200">{newItem.description}</p>
+              <p className="text-sm text-neutral-600">
                 {new Date(newItem.date).toLocaleDateString()}
               </p>
             </motion.div>

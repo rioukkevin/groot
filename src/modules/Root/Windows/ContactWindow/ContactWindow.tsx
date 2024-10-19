@@ -11,7 +11,11 @@ const ContactItem: FC<ContactData> = ({ label, value, href, icon }) => {
         <span className="fill-neutral-500 text-neutral-500">{icon}</span>
       )}
       <span className="min-w-[120px] text-sm text-neutral-500">{label}</span>
-      <Link href={href ?? value} target="_blank" className="text-base">
+      <Link
+        href={href ?? value}
+        target="_blank"
+        className="text-base text-neutral-200"
+      >
         {value}
       </Link>
     </div>

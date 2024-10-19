@@ -32,7 +32,7 @@ export const WhoWindow: FC<WindowChildrenProps> = () => {
           />
         </motion.div>
         <motion.h1
-          className="text-pretty text-5xl font-light uppercase"
+          className="text-pretty text-5xl font-light uppercase text-neutral-200"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -54,8 +54,10 @@ export const WhoWindow: FC<WindowChildrenProps> = () => {
             whileInView={{ scale: 1.1 }}
             transition={{ delay: 0.5 }}
           >
-            <p className="text-5xl font-light">7+</p>
-            <p className="text-sm font-extrabold">{t("years")}</p>
+            <p className="text-5xl font-light text-neutral-200">7+</p>
+            <p className="text-sm font-extrabold text-neutral-200">
+              {t("years")}
+            </p>
           </motion.div>
           <div className="w-px bg-neutral-200/50" />
           <motion.div
@@ -63,8 +65,10 @@ export const WhoWindow: FC<WindowChildrenProps> = () => {
             whileInView={{ scale: 1.1 }}
             transition={{ delay: 0.5 }}
           >
-            <p className="text-5xl font-light">40+</p>
-            <p className="text-sm font-extrabold">{t("projects")}</p>
+            <p className="text-5xl font-light text-neutral-200">40+</p>
+            <p className="text-sm font-extrabold text-neutral-200">
+              {t("projects")}
+            </p>
           </motion.div>
         </motion.div>
         <motion.hr
@@ -73,7 +77,7 @@ export const WhoWindow: FC<WindowChildrenProps> = () => {
           animate={{ width: "100%" }}
         />
         <motion.h2
-          className="w-full text-lg font-bold uppercase"
+          className="w-full text-lg font-bold uppercase text-neutral-200"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
@@ -82,7 +86,7 @@ export const WhoWindow: FC<WindowChildrenProps> = () => {
           </TextEffect>
         </motion.h2>
         <motion.p
-          className="w-full"
+          className="w-full text-neutral-200"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -90,7 +94,7 @@ export const WhoWindow: FC<WindowChildrenProps> = () => {
           {t("description1")}
         </motion.p>
         <motion.p
-          className="w-full"
+          className="w-full text-neutral-200"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
