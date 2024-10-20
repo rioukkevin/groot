@@ -4,6 +4,7 @@ import { Client, ID, Query } from "appwrite";
 import { Databases, RealtimeResponseEvent } from "appwrite";
 import { useState, useEffect } from "react";
 import { useScopedI18n } from "./locales/client";
+import { getIp } from "./ip";
 
 const DEFAULT_DATABASE_ID = "671250cb000fd45f7a7b";
 const DEFAULT_COLLECTION_ID = "671250d60030823cccc8";
@@ -20,6 +21,7 @@ interface Message {
   username: string;
   userId: string;
   time: Date;
+  ip: string;
 }
 
 const useChatMessages = (
@@ -95,9 +97,12 @@ const useAddChatMessage = (
 
   const t = useScopedI18n("chat");
 
-  const addMessage = async (message: Omit<Message, "id" | "time">) => {
+  const addMessage = async (message: Omit<Message, "id" | "time" | "ip">) => {
     try {
       setIsLoading(true);
+
+      const ip = await getIp();
+
       const response = await databases.createDocument(
         databaseId,
         collectionId,
@@ -105,6 +110,7 @@ const useAddChatMessage = (
         {
           ...message,
           time: new Date(),
+          ip,
         },
       );
       setError(null);
