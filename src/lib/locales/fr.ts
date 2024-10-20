@@ -115,7 +115,7 @@ const fr = {
   "chat.chooseUsername": "Choisissez un nom d'utilisateur...",
   "chat.saveUsername": "Enregistrer",
   "chat.liveDescription":
-    "Ce chat est en direct avec toutes les personnes connectées sur ce site web à travers le monde !",
+    "Ce chat est en direct avec toutes les personnes connectées sur ce site web à travers le monde ! \n Soyez respectueux et gentil les uns envers les autres (votre adresse IP est enregistrée).",
   "chat.error.sendMessage":
     "Impossible d'envoyer un message. Veuillez réessayer plus tard. Notre fournisseur de chat est actuellement en panne.",
   "chat.error.fetchMessages":

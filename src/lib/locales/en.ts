@@ -112,7 +112,7 @@ const en = {
   "chat.chooseUsername": "Choose a username...",
   "chat.saveUsername": "Save",
   "chat.liveDescription":
-    "This chat is live with all person connected on this website all around the world !",
+    "This chat is live with all person connected on this website all around the world ! \n Please be respectful and kind to each other (your IP address is saved).",
   "chat.error.sendMessage":
     "Failed to send message. Please try again later. Our chat provider is currently down.",
   "chat.error.fetchMessages":
