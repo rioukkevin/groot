@@ -8,6 +8,7 @@ import { ChatBubble } from "./ChatBubble";
 import { useScopedI18n } from "@/lib/locales/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader } from "lucide-react";
+import { profanity } from "@/lib/profanity";
 
 export const ChatWindow: FC<WindowChildrenProps> = () => {
   const t = useScopedI18n("chat");
@@ -30,7 +31,9 @@ export const ChatWindow: FC<WindowChildrenProps> = () => {
   const handleSendMessage = () => {
     if (!isUserDefined) return;
 
-    sendMessage({ content: inputValue, username, userId });
+    const cleanedInput = profanity.censor(inputValue);
+
+    sendMessage({ content: cleanedInput, username, userId });
     setInputValue("");
   };
 
