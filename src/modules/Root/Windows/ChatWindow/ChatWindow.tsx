@@ -50,9 +50,11 @@ export const ChatWindow: FC<WindowChildrenProps> = () => {
   };
 
   const handleSaveUsername = () => {
-    if (!usernameInput) return;
-    if (usernameInput.length < 1) return;
-    setUsername(usernameInput);
+    const cleanedUsername = profanity.censor(usernameInput);
+
+    if (!cleanedUsername) return;
+    if (cleanedUsername.length < 1) return;
+    setUsername(cleanedUsername);
   };
 
   useEffect(() => {
