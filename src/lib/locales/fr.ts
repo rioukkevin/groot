@@ -62,6 +62,11 @@ const fr = {
   "news.sortBy": "Trier par :",
   "news.mostRecent": "Plus récent",
   "news.oldest": "Plus ancien",
+  "news.subscribe": "S'abonner",
+  "news.error.subscribe":
+    "Impossible de s'abonner. Veuillez réessayer plus tard.",
+  "news.emailPlaceholder": "Entrez votre email...",
+  "news.subscribed": "Vous êtes abonné à mes actualités.",
   ...newsFr,
 
   // Root/Windows/ContactWindow

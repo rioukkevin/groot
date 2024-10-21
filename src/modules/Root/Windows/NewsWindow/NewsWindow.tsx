@@ -3,8 +3,14 @@ import { WindowChildrenProps } from "@/modules/Window";
 import { useNewsData } from "./data";
 import { useScopedI18n } from "@/lib/locales/client";
 import { motion, AnimatePresence } from "framer-motion";
+import { Loader } from "lucide-react";
+import { useSubscribeToNews } from "@/lib/appwrite";
 
 export const NewsWindow: FC<WindowChildrenProps> = () => {
+  const [emailInput, setEmailInput] = useState("");
+  const [hasBeenSubscribed, setHasBeenSubscribed] = useState(false);
+  const { subscribeEmail, error, isLoading } = useSubscribeToNews();
+
   const data = useNewsData();
   const t = useScopedI18n("news");
 
@@ -24,9 +30,20 @@ export const NewsWindow: FC<WindowChildrenProps> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortBy]);
 
+  const handleSubscribe = async () => {
+    await subscribeEmail(emailInput);
+    setHasBeenSubscribed(true);
+  };
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubscribe();
+    }
+  };
+
   return (
     <motion.div
-      className="flex size-full flex-col gap-4"
+      className="relative flex size-full flex-col gap-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
@@ -65,12 +82,51 @@ export const NewsWindow: FC<WindowChildrenProps> = () => {
                 {newItem.title}
               </h2>
               <p className="text-neutral-200">{newItem.description}</p>
-              <p className="text-sm text-neutral-600">
+              <p className="text-sm text-neutral-400">
                 {new Date(newItem.date).toLocaleDateString()}
               </p>
             </motion.div>
           ))}
         </AnimatePresence>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+        className="flex h-[56px] w-full items-center gap-2"
+      >
+        {hasBeenSubscribed && (
+          <p className="w-full text-center text-base font-bold text-neutral-300">
+            {t("subscribed")}
+          </p>
+        )}
+        {error?.length && (
+          <p className="w-full text-sm text-red-500">{error}</p>
+        )}
+        {!hasBeenSubscribed && !error ? (
+          <div className="relative flex grow items-center gap-2">
+            <input
+              type="email"
+              id="emailInput"
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
+              onKeyUp={handleKeyUp}
+              disabled={hasBeenSubscribed}
+              placeholder={t("emailPlaceholder")}
+              className="h-11 w-full rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200"
+            />
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleSubscribe}
+              className="flex h-10 w-24 items-center justify-center rounded-lg bg-neutral-600 px-4 py-1 text-sm text-white"
+            >
+              {isLoading ? <Loader className="animate-spin" /> : t("subscribe")}
+            </motion.button>
+          </div>
+        ) : (
+          <></>
+        )}
       </motion.div>
     </motion.div>
   );

@@ -6,6 +6,10 @@ const newsFr = {
   "news.newWebsiteVersion.title": "Nouvelle version du site web",
   "news.newWebsiteVersion.description":
     "J'ai travaillé sur une nouvelle version de mon site web. Je suis très heureux de pouvoir enfin la partager avec vous.",
+
+  "news.freelanceStructure.title": "Structure freelance",
+  "news.freelanceStructure.description":
+    "J'ai décidé de créer ma propre structure freelance. C'est une nouvelle façon de travailler pour moi, et je suis très excité de voir où ça va.",
 };
 
 export default newsFr;

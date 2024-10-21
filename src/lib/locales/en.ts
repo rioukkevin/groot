@@ -61,6 +61,10 @@ const en = {
   "news.sortBy": "Sort by:",
   "news.mostRecent": "Most recent",
   "news.oldest": "Oldest",
+  "news.subscribe": "Subscribe",
+  "news.error.subscribe": "Failed to subscribe. Please try again later.",
+  "news.emailPlaceholder": "Enter your email...",
+  "news.subscribed": "You are subscribed to my news.",
   ...newsEn,
 
   // Root/Windows/ContactWindow

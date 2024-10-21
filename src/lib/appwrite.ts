@@ -6,8 +6,11 @@ import { useState, useEffect } from "react";
 import { useScopedI18n } from "./locales/client";
 import { getIp } from "./ip";
 
-const DEFAULT_DATABASE_ID = "671250cb000fd45f7a7b";
-const DEFAULT_COLLECTION_ID = "671250d60030823cccc8";
+const DEFAULT_CHAT_DATABASE_ID = "671250cb000fd45f7a7b";
+const DEFAULT_CHAT_COLLECTION_ID = "671250d60030823cccc8";
+
+const DEFAULT_NEWS_DATABASE_ID = "671250cb000fd45f7a7b";
+const DEFAULT_NEWS_COLLECTION_ID = "6716260a000f599ab708";
 
 const client = new Client()
   .setEndpoint("https://cloud.appwrite.io/v1")
@@ -25,8 +28,8 @@ interface Message {
 }
 
 const useChatMessages = (
-  databaseId: string = DEFAULT_DATABASE_ID,
-  collectionId: string = DEFAULT_COLLECTION_ID,
+  databaseId: string = DEFAULT_CHAT_DATABASE_ID,
+  collectionId: string = DEFAULT_CHAT_COLLECTION_ID,
 ) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -89,8 +92,8 @@ const useChatMessages = (
 };
 
 const useAddChatMessage = (
-  databaseId: string = DEFAULT_DATABASE_ID,
-  collectionId: string = DEFAULT_COLLECTION_ID,
+  databaseId: string = DEFAULT_CHAT_DATABASE_ID,
+  collectionId: string = DEFAULT_CHAT_COLLECTION_ID,
 ) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -127,4 +130,40 @@ const useAddChatMessage = (
   return { addMessage, error, isLoading };
 };
 
-export { useChatMessages, useAddChatMessage };
+const useSubscribeToNews = (
+  databaseId: string = DEFAULT_NEWS_DATABASE_ID,
+  collectionId: string = DEFAULT_NEWS_COLLECTION_ID,
+) => {
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const t = useScopedI18n("news");
+
+  const subscribeEmail = async (email: string) => {
+    try {
+      setIsLoading(true);
+
+      const response = await databases.createDocument(
+        databaseId,
+        collectionId,
+        ID.unique(),
+        {
+          email,
+          subscriptionDate: new Date(),
+        },
+      );
+      setError(null);
+      return response;
+    } catch (error) {
+      console.error("Error subscribing to news:", error);
+      setError(t("error.subscribe"));
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { subscribeEmail, error, isLoading };
+};
+
+export { useChatMessages, useAddChatMessage, useSubscribeToNews };

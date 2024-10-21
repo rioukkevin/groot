@@ -22,6 +22,11 @@ export const useNewsData = () => {
         description: t("newWebsiteVersion.description"),
         date: "2024-10-18",
       },
+      {
+        title: t("freelanceStructure.title"),
+        description: t("freelanceStructure.description"),
+        date: "2024-09-01",
+      },
     ],
     [t],
   );

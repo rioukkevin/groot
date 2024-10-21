@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# This project is a portfolio experience
 
-## Getting Started
+## About
 
-First, run the development server:
+This website serves as an interactive portfolio experience, showcasing my skills and projects as a fullstack web developer. It's designed to provide visitors with a unique and engaging way to explore my work, mimicking a desktop operating system interface.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Key aspects of this portfolio include:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. An intuitive window-based interface reminiscent of macOS, allowing users to navigate through different sections of the portfolio.
+2. Multilingual support, catering to both English and French-speaking audiences.
+3. Interactive elements such as a Tic-Tac-Toe game and a live global chat feature, demonstrating both front-end and back-end capabilities.
+4. Customization options like changeable backgrounds, showcasing attention to user experience.
+5. Integration of modern web technologies and practices, including animations, SEO optimization, and responsive design.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project not only presents my technical skills but also reflects my creativity and attention to detail in creating engaging web experiences.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+- Window system like macOS
+- Multi-language support (English and French) (Working by custom routes)
+- Custom background (local storage)
+- News subscription
+- Tic-Tac-Toe game
+- Live Chat available around the world
+- Error handling and feedback
+- Profanity filter
+- Cookie consent
+- Animation on every element
+- SEO configuration
+- Ip retrieval (For legal reasons)
 
-To learn more about Next.js, take a look at the following resources:
+## Technologies Used
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Main Frameworks
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next.js 14
+- React 18
+- TypeScript
 
-## Deploy on Vercel
+### Major Libraries
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Framer Motion - For animations and transitions
+- Appwrite - Backend as a Service (BaaS)
+- Tailwind CSS - For styling
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Utility Libraries
+
+- next-international - For internationalization
+- next-seo - For SEO optimization
+- uuid - For generating unique identifiers
+- clsx & tailwind-merge - For conditional CSS class merging
+- @uidotdev/usehooks - Custom React hooks
+- react-scroll-sync - For synchronizing scroll positions
+- @2toad/profanity - For profanity filtering
+
+### UI Components
+
+- Lucide React - For icons
+- @vercel/toolbar - For development help
+
+### Development Tools
+
+- ESLint - For code linting
+- Prettier - For code formatting
+- PostCSS - For transforming CSS
+
+### Analytics and Performance
+
+- @vercel/analytics - For website analytics
+- @vercel/speed-insights - For performance monitoring

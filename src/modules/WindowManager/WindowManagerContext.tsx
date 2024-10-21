@@ -46,11 +46,17 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
         return oldValue;
       }
 
+      const id = window.id || uuidv4();
+
+      setTimeout(() => {
+        focusWindow(id);
+      }, 100);
+
       return [
         ...oldValue,
         {
           ...window,
-          id: window.id || uuidv4(),
+          id,
           containerRef,
           isFocused: true,
           isFullscreenAllowed: window.isFullscreenAllowed || false,
