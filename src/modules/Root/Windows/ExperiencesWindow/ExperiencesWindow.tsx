@@ -133,7 +133,7 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
               </TextEffect>
             </p>
             <motion.p
-              className="text-sm text-neutral-600"
+              className="text-sm text-neutral-400"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
