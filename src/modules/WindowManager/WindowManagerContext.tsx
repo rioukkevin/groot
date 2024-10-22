@@ -75,10 +75,12 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
 
   const focusWindow = (id: string) => {
     setWindows((oldValue) => {
-      return oldValue.map((window) => ({
-        ...window,
-        isFocused: window.id === id,
-      }));
+      const focusedWindow = oldValue.find((window) => window.id === id);
+      const otherWindows = oldValue.filter((window) => window.id !== id);
+      return [
+        ...otherWindows.map((window) => ({ ...window, isFocused: false })),
+        ...(focusedWindow ? [{ ...focusedWindow, isFocused: true }] : []),
+      ];
     });
   };
 

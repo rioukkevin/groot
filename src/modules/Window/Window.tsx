@@ -236,15 +236,18 @@ export const Window: FC<WindowProps> = ({
           className={cn(
             "pointer-events-auto relative h-[calc(100%-40px)] max-h-[calc(100vh-40px)] overflow-y-auto overflow-x-hidden p-4",
           )}
+          onScroll={() => focusWindow()}
           onClick={handlePointerDown}
         >
-          {children({
-            isFullscreen,
-            id,
-            isFocused: !!isFocused,
-            title,
-          })}
-          {!isFocused && <div className="absolute inset-0 bg-black/30" />}
+          <div className="relative size-full">
+            {children({
+              isFullscreen,
+              id,
+              isFocused: !!isFocused,
+              title,
+            })}
+            {!isFocused && <div className="absolute -inset-4 bg-black/30" />}
+          </div>
         </div>
       </div>
     </motion.div>
