@@ -234,7 +234,7 @@ export const Window: FC<WindowProps> = ({
         </div>
         <div
           className={cn(
-            "pointer-events-auto h-[calc(100%-40px)] max-h-[calc(100vh-40px)] overflow-y-auto overflow-x-hidden p-4",
+            "pointer-events-auto relative h-[calc(100%-40px)] max-h-[calc(100vh-40px)] overflow-y-auto overflow-x-hidden p-4",
           )}
           onClick={handlePointerDown}
         >
@@ -244,6 +244,7 @@ export const Window: FC<WindowProps> = ({
             isFocused: !!isFocused,
             title,
           })}
+          {!isFocused && <div className="absolute inset-0 bg-black/30" />}
         </div>
       </div>
     </motion.div>
