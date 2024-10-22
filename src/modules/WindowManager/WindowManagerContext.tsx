@@ -41,8 +41,10 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
 
   const openWindow = (window: WindowCreationProperties) => {
     setWindows((oldValue) => {
-      if (window.id && oldValue.find((w) => w.id === window.id)) {
-        focusWindow(window.id);
+      if (!!window?.id && oldValue.find((w) => w.id === window.id)) {
+        setTimeout(() => {
+          focusWindow(window.id!);
+        }, 100);
         return oldValue;
       }
 
