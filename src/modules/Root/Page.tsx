@@ -179,8 +179,8 @@ export const Page = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      dockData[0].onPress(dockData[0]);
       dockData[4].onPress(dockData[4]);
+      dockData[0].onPress(dockData[0]);
     }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
