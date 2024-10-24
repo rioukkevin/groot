@@ -3,6 +3,7 @@ import contactEn from "./contact/en";
 import experiencesEn from "./experiences/en";
 import newsEn from "./news/en";
 import { projectsEn } from "./projects/en";
+import emailEn from "./email/en";
 
 const en = {
   // Root/Page
@@ -65,6 +66,8 @@ const en = {
   "news.error.subscribe": "Failed to subscribe. Please try again later.",
   "news.emailPlaceholder": "Enter your email...",
   "news.subscribed": "You are subscribed to my news.",
+  "news.error.alreadySubscribed":
+    "You are already subscribed to my news with this email.",
   ...newsEn,
 
   // Root/Windows/ContactWindow
@@ -121,6 +124,16 @@ const en = {
     "Failed to send message. Please try again later. Our chat provider is currently down.",
   "chat.error.fetchMessages":
     "Failed to fetch messages. Please try again later. Our chat provider is currently down.",
+
+  // Unsubscribe
+  "unsubscribe.title": "Unsubscribe",
+  "unsubscribe.success": "You have been unsubscribed from our mailing list.",
+  "unsubscribe.returnHome": "Return to Home",
+  "unsubscribe.error":
+    "An error occurred while processing your request. Please try again later.",
+
+  // Emails
+  ...emailEn,
 } as const;
 
 export default en;

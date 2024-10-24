@@ -4,7 +4,7 @@ import { useNewsData } from "./data";
 import { useScopedI18n } from "@/lib/locales/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader } from "lucide-react";
-import { useSubscribeToNews } from "@/lib/appwrite";
+import { useSubscribeToNews } from "../../appwrite";
 
 export const NewsWindow: FC<WindowChildrenProps> = () => {
   const [emailInput, setEmailInput] = useState("");
@@ -95,13 +95,13 @@ export const NewsWindow: FC<WindowChildrenProps> = () => {
         transition={{ duration: 0.3, delay: 0.2 }}
         className="flex h-[56px] w-full items-center gap-2"
       >
-        {hasBeenSubscribed && (
+        {hasBeenSubscribed && !error && (
           <p className="w-full text-center text-base font-bold text-neutral-300">
             {t("subscribed")}
           </p>
         )}
         {error?.length && (
-          <p className="w-full text-sm text-red-500">{error}</p>
+          <p className="w-full text-center text-base text-red-500">{error}</p>
         )}
         {!hasBeenSubscribed && !error ? (
           <div className="relative flex grow items-center gap-2">

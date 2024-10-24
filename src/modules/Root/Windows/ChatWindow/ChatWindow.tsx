@@ -1,6 +1,5 @@
 "use client";
 
-import { useAddChatMessage, useChatMessages } from "@/lib/appwrite";
 import { WindowChildrenProps } from "@/modules/Window";
 import { FC, useEffect, useRef, useState } from "react";
 import { useChatUser, useSetupChatUser } from "./ChatUserProvider";
@@ -9,6 +8,7 @@ import { useScopedI18n } from "@/lib/locales/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader } from "lucide-react";
 import { profanity } from "@/lib/profanity";
+import { useAddChatMessage, useChatMessages } from "../../appwrite";
 
 export const ChatWindow: FC<WindowChildrenProps> = () => {
   const t = useScopedI18n("chat");

@@ -3,6 +3,7 @@ import contactFr from "./contact/fr";
 import experiencesFr from "./experiences/fr";
 import newsFr from "./news/fr";
 import { projectsFr } from "./projects/fr";
+import emailFr from "./email/fr";
 
 const fr = {
   // Root/Page
@@ -67,6 +68,8 @@ const fr = {
     "Impossible de s'abonner. Veuillez réessayer plus tard.",
   "news.emailPlaceholder": "Entrez votre email...",
   "news.subscribed": "Vous êtes abonné à mes actualités.",
+  "news.error.alreadySubscribed":
+    "Vous êtes déjà abonné à mes actualités avec cet email.",
   ...newsFr,
 
   // Root/Windows/ContactWindow
@@ -125,6 +128,16 @@ const fr = {
     "Impossible d'envoyer un message. Veuillez réessayer plus tard. Notre fournisseur de chat est actuellement en panne.",
   "chat.error.fetchMessages":
     "Impossible de récupérer les messages. Veuillez réessayer plus tard. Notre fournisseur de chat est actuellement en panne.",
+
+  // Unsubscribe
+  "unsubscribe.title": "Désabonnement",
+  "unsubscribe.success": "Vous avez été désabonné de notre liste de diffusion.",
+  "unsubscribe.returnHome": "Retour à l'accueil",
+  "unsubscribe.error":
+    "Une erreur s'est produite lors du traitement de votre demande. Veuillez réessayer plus tard.",
+
+  // Emails
+  ...emailFr,
 } as const;
 
 export default fr;
