@@ -134,7 +134,7 @@ const useSubscribeToNews = () => {
       setIsLoading(true);
 
       const response = await fetch(
-        `http://localhost:3000/${locale}/api/email/subscribed`,
+        `https://${process.env.NEXT_PUBLIC_URL}/${locale}/api/email/subscribed`,
         {
           method: "POST",
           cache: "no-cache",

@@ -23,7 +23,7 @@ const unsubscribe = async (
   email: string,
 ): Promise<UnsubscribeResponse> => {
   const response = await fetch(
-    `http://localhost:3000/${locale}/api/email/unsubscribed`,
+    `https://${process.env.NEXT_PUBLIC_URL}/${locale}/api/email/unsubscribed`,
     {
       method: "POST",
       cache: "no-cache",
