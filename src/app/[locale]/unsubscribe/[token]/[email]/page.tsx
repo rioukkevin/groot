@@ -1,5 +1,3 @@
-"use client";
-
 import { LoadingOverlay } from "@/modules/Loading";
 import { Metadata } from "next";
 import { UnsubscribePage } from "@/modules/Unsubscribe";
