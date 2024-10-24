@@ -8,15 +8,26 @@ export const metadata: Metadata = {
 
 export interface UnsubscribeParams {
   locale: string;
+}
+
+export interface UnsubscribeSearchParams {
   token: string;
   email: string;
 }
 
-export default function Unsubscribe({ params }: { params: UnsubscribeParams }) {
+export default function Unsubscribe({
+  params,
+  searchParams,
+}: {
+  params: UnsubscribeParams;
+  searchParams: UnsubscribeSearchParams;
+}) {
+  console.log(params, searchParams);
+
   return (
     <>
       <LoadingOverlay />
-      <UnsubscribePage {...params} />
+      <UnsubscribePage {...params} {...searchParams} />
     </>
   );
 }

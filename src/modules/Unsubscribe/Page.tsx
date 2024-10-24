@@ -20,8 +20,12 @@ const unsubscribe = async (
   token: string,
   email: string,
 ): Promise<UnsubscribeResponse> => {
+  const protocol = process.env.NEXT_PUBLIC_URL?.includes("localhost")
+    ? "http"
+    : "https";
+
   const response = await fetch(
-    `https://${process.env.NEXT_PUBLIC_URL}/${locale}/api/email/unsubscribed`,
+    `${protocol}://${process.env.NEXT_PUBLIC_URL}/${locale}/api/email/unsubscribed`,
     {
       method: "POST",
       cache: "no-cache",

@@ -35,5 +35,5 @@ export const getUnsubscribeLink = async (
 
   const encodedEmail = encodeURIComponent(email);
 
-  return `${baseUrl}/${lang}/unsubscribe/${token}/${encodedEmail}`;
+  return `${baseUrl}/${lang}/unsubscribe?token=${token}&email=${encodedEmail}`;
 };
