@@ -5,7 +5,7 @@ import {
   DEFAULT_NEWS_COLLECTION_ID,
   DEFAULT_NEWS_DATABASE_ID,
 } from "@/lib/appwrite";
-import { AppwriteException, Query } from "appwrite";
+import { Query } from "appwrite";
 
 export interface UnsubscribeResponse {
   isSuccess: boolean;

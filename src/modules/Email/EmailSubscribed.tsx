@@ -7,7 +7,7 @@ import { EmailProps } from "./email";
 import { EmailBase } from "./EmailBase";
 import { Heading, Hr, Text } from "@react-email/components";
 
-interface EmailSubscribedProps extends EmailProps {}
+type EmailSubscribedProps = EmailProps;
 
 export const EmailSubscribed: FC<EmailSubscribedProps> = async ({
   lang,

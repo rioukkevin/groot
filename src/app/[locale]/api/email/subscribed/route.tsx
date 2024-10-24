@@ -61,7 +61,7 @@ export async function POST(request: Request) {
       throw new Error("invalidEmail" as EmailErrors);
     }
 
-    const { isSuccess, message, id } = await checkAndCreateSubscription(email);
+    const { isSuccess, message } = await checkAndCreateSubscription(email);
 
     if (!isSuccess) {
       throw new Error(message as EmailErrors);

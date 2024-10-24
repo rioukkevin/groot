@@ -7,7 +7,7 @@ import { EmailProps } from "./email";
 import { getScopedI18n } from "@/lib/locales/server";
 import { EmailBase } from "./EmailBase";
 
-interface EmailUnsubscribedProps extends EmailProps {}
+type EmailUnsubscribedProps = EmailProps;
 
 export const EmailUnsubscribed: FC<EmailUnsubscribedProps> = async ({
   lang,

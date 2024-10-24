@@ -3,8 +3,6 @@ import {
   databases,
   DEFAULT_CHAT_COLLECTION_ID,
   DEFAULT_CHAT_DATABASE_ID,
-  DEFAULT_NEWS_COLLECTION_ID,
-  DEFAULT_NEWS_DATABASE_ID,
 } from "@/lib/appwrite";
 import { getIp } from "@/lib/ip";
 import { useCurrentLocale, useScopedI18n } from "@/lib/locales/client";

@@ -3,7 +3,6 @@
 import * as React from "react";
 import {
   Html,
-  Button,
   Tailwind,
   Container,
   Head,
@@ -12,7 +11,6 @@ import {
   Section,
   Img,
   Link,
-  Hr,
 } from "@react-email/components";
 import { FC } from "react";
 import { getScopedI18n } from "@/lib/locales/server";
