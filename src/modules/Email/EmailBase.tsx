@@ -34,7 +34,7 @@ export const EmailBase: FC<EmailBaseProps> = async ({
       <Html lang={lang}>
         <Head />
         <Preview>{preview}</Preview>
-        <Body className="mx-auto my-auto bg-white px-2 font-sans">
+        <Body className="m-auto bg-white px-2 font-sans">
           <Container className="mx-auto my-[40px] max-w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
             <Section>
               <Img
