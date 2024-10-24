@@ -16,6 +16,8 @@ import { FC } from "react";
 import { getScopedI18n } from "@/lib/locales/server";
 import { EmailProps, getUnsubscribeLink } from "./email";
 
+const ICON_SIZE = 140;
+
 type EmailBaseProps = EmailProps & React.PropsWithChildren;
 
 export const EmailBase: FC<EmailBaseProps> = async ({
@@ -40,9 +42,9 @@ export const EmailBase: FC<EmailBaseProps> = async ({
               <Img
                 src={`${baseUrl}/icon.png`}
                 alt="logo"
-                width="50"
-                height="50"
-                className="mx-auto my-20"
+                width={ICON_SIZE}
+                height={ICON_SIZE}
+                className="mx-auto my-10"
               />
             </Section>
             {children}

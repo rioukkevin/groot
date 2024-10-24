@@ -38,3 +38,5 @@ export const EmailSubscribed: FC<EmailSubscribedProps> = async ({
     </EmailBase>
   );
 };
+
+export default EmailSubscribed;

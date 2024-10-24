@@ -150,11 +150,7 @@ const useSubscribeToNews = () => {
       if (!response.ok) {
         const result = await response.json();
 
-        if (result.message === "alreadySubscribed") {
-          throw new Error("alreadySubscribed");
-        }
-
-        throw new Error("Failed to subscribe to news");
+        throw new Error(result.message);
       }
 
       setError(null);
@@ -162,11 +158,7 @@ const useSubscribeToNews = () => {
     } catch (error) {
       console.error("Error subscribing to news:", error);
       if (error instanceof Error) {
-        if (error.message === "alreadySubscribed") {
-          setError(t("error.alreadySubscribed"));
-        } else {
-          setError(t("error.subscribe"));
-        }
+        setError(error.message);
       } else {
         setError(t("error.subscribe"));
       }
