@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 import { getCurrentLocale, getScopedI18n } from "@/lib/locales/server";
 import Link from "next/link";

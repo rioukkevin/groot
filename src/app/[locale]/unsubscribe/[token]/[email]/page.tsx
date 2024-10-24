@@ -1,8 +1,7 @@
-"use server-only";
+"use client";
 
 import { LoadingOverlay } from "@/modules/Loading";
 import { Metadata } from "next";
-import { BreadcrumbJsonLd } from "next-seo";
 import { UnsubscribePage } from "@/modules/Unsubscribe";
 
 export const metadata: Metadata = {
@@ -18,16 +17,6 @@ export interface UnsubscribeParams {
 export default function Unsubscribe({ params }: { params: UnsubscribeParams }) {
   return (
     <>
-      <BreadcrumbJsonLd
-        useAppDir
-        itemListElements={[
-          {
-            position: 1,
-            name: "Unsubscribe",
-            item: "https://kevin.riou.pro/unsubscribe",
-          },
-        ]}
-      />
       <LoadingOverlay />
       <UnsubscribePage {...params} />
     </>
