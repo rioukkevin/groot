@@ -67,8 +67,8 @@ export async function POST(request: Request) {
       throw new Error(message as EmailErrors);
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    const baseUrl = process.env.URL
+      ? `https://${process.env.URL}`
       : "http://localhost:3000";
 
     const config = {
