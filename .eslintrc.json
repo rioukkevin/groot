@@ -17,6 +17,19 @@
           "caseInsensitive": true
         }
       }
+    ],
+    "react/jsx-sort-props": [
+      "error",
+      {
+        "callbacksLast": true,
+        "shorthandFirst": false,
+        "shorthandLast": false,
+        "multiline": "ignore",
+        "ignoreCase": true,
+        "noSortAlphabetically": false,
+        "reservedFirst": true,
+        "locale": "en"
+      }
     ]
   }
 }

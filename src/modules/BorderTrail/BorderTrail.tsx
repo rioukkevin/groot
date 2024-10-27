@@ -29,6 +29,9 @@ export function BorderTrail({
   return (
     <div className="pointer-events-none absolute inset-0 rounded-lg border border-transparent [mask-clip:padding-box,border-box] [mask-composite:intersect] [mask-image:linear-gradient(transparent,transparent),linear-gradient(#000,#000)]">
       <motion.div
+        animate={{
+          offsetDistance: ["0%", "100%"],
+        }}
         className={cn(
           "absolute aspect-square bg-gradient-to-l from-blue-200/50 to-transparent",
           className,
@@ -37,9 +40,6 @@ export function BorderTrail({
           width: size,
           offsetPath: `rect(0 auto auto 0 round ${size}px)`,
           ...style,
-        }}
-        animate={{
-          offsetDistance: ["0%", "100%"],
         }}
         transition={{
           ...(transition ?? BASE_TRANSITION),

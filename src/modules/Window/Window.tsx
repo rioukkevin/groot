@@ -105,26 +105,8 @@ export const Window: FC<
 
   return (
     <motion.div
+      key={id}
       ref={windowRef}
-      drag={!isFullscreen}
-      dragConstraints={screenRef}
-      dragElastic={0.1}
-      className={cn(
-        "max-w-screen -m-1/2 pointer-events-none absolute max-h-full select-none overflow-hidden rounded-lg border border-transparent shadow-2xl brightness-75 backdrop-blur-md",
-        isFocused && "z-40 select-auto border-neutral-200/30 brightness-100",
-        !isFocused && "z-10",
-      )}
-      dragControls={dragControls}
-      dragListener={false}
-      dragMomentum={false}
-      onDragEnd={handleDragEnd}
-      initial={{
-        opacity: 0,
-        filter: "blur(10px)",
-        scaleY: 0,
-        width: maxSize?.width ?? "fit-content",
-        height: maxSize?.height ?? "fit-content",
-      }}
       animate={{
         opacity: 1,
         height: isFullscreen ? `100%` : (defaultSize?.height ?? "fit-content"),
@@ -135,6 +117,17 @@ export const Window: FC<
         filter: "blur(0px)",
         scaleY: 1,
       }}
+      className={cn(
+        "max-w-screen -m-1/2 pointer-events-none absolute max-h-full select-none overflow-hidden rounded-lg border border-transparent shadow-2xl brightness-75 backdrop-blur-md",
+        isFocused && "z-40 select-auto border-neutral-200/30 brightness-100",
+        !isFocused && "z-10",
+      )}
+      drag={!isFullscreen}
+      dragConstraints={screenRef}
+      dragControls={dragControls}
+      dragElastic={0.1}
+      dragListener={false}
+      dragMomentum={false}
       exit={{
         opacity: 0,
         filter: "blur(10px)",
@@ -142,8 +135,13 @@ export const Window: FC<
         width: maxSize?.width ?? "fit-content",
         height: maxSize?.height ?? "fit-content",
       }}
-      transition={{ type: "spring", bounce: 0 }}
-      key={id}
+      initial={{
+        opacity: 0,
+        filter: "blur(10px)",
+        scaleY: 0,
+        width: maxSize?.width ?? "fit-content",
+        height: maxSize?.height ?? "fit-content",
+      }}
       style={{
         ...(defaultPosition?.left && { left: defaultPosition.left + "px" }),
         ...(defaultPosition?.top && { top: defaultPosition.top + "px" }),
@@ -154,6 +152,8 @@ export const Window: FC<
           bottom: defaultPosition.bottom + "px",
         }),
       }}
+      transition={{ type: "spring", bounce: 0 }}
+      onDragEnd={handleDragEnd}
     >
       <div
         className={cn(
@@ -166,16 +166,16 @@ export const Window: FC<
             "pointer-events-auto flex items-center justify-between border-b border-neutral-600/20 bg-neutral-800/80 p-2",
             !isFullscreen && "cursor-grab",
           )}
-          onPointerDown={startDrag}
           onClick={() => focusSelf()}
+          onPointerDown={startDrag}
         >
           <div className="relative flex cursor-move select-none space-x-2">
             <motion.button
-              className="size-3 rounded-full bg-red-500"
               aria-label={t("close")}
-              onHoverStart={() => closeHovered.set(1)}
-              onHoverEnd={() => closeHovered.set(0)}
+              className="size-3 rounded-full bg-red-500"
               onClick={() => closeSelf()}
+              onHoverEnd={() => closeHovered.set(0)}
+              onHoverStart={() => closeHovered.set(1)}
             >
               <WindowButtonTooltip isHovered={closeHovered}>
                 {t("close")}
@@ -184,25 +184,25 @@ export const Window: FC<
             {isFullscreenAllowed && (
               <>
                 <motion.button
-                  className="size-3 cursor-zoom-out rounded-full bg-yellow-500"
                   aria-label={t("minimize")}
-                  onHoverStart={() => minimizeHovered.set(1)}
-                  onHoverEnd={() => minimizeHovered.set(0)}
+                  className="size-3 cursor-zoom-out rounded-full bg-yellow-500"
                   onClick={handleReduce}
+                  onHoverEnd={() => minimizeHovered.set(0)}
+                  onHoverStart={() => minimizeHovered.set(1)}
                 >
                   <WindowButtonTooltip isHovered={minimizeHovered}>
                     {t("minimize")}
                   </WindowButtonTooltip>
                 </motion.button>
                 <motion.button
+                  aria-label={isFullscreen ? t("restore") : t("maximize")}
                   className={cn(
                     "h-3 w-3 cursor-zoom-in rounded-full bg-green-500",
                     isFullscreen && "cursor-default bg-gray-500",
                   )}
-                  aria-label={isFullscreen ? t("restore") : t("maximize")}
-                  onHoverStart={() => maximizeHovered.set(1)}
-                  onHoverEnd={() => maximizeHovered.set(0)}
                   onClick={() => toggleFullscreenSelf()}
+                  onHoverEnd={() => maximizeHovered.set(0)}
+                  onHoverStart={() => maximizeHovered.set(1)}
                 >
                   {!isFullscreen && (
                     <WindowButtonTooltip isHovered={maximizeHovered}>
@@ -222,8 +222,8 @@ export const Window: FC<
           className={cn(
             "pointer-events-auto relative h-[calc(100%-40px)] max-h-[calc(100vh-40px)] overflow-y-auto overflow-x-hidden p-4",
           )}
-          onScroll={() => focusSelf()}
           onClick={() => focusSelf()}
+          onScroll={() => focusSelf()}
         >
           <div className="relative size-full">
             <Component

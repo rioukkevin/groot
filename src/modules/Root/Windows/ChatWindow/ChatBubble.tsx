@@ -32,10 +32,7 @@ export const ChatBubble: FC<ChatBubbleProps> = ({
         <p className="pb-1 text-sm text-neutral-300">{username}</p>
       )}
       <motion.p
-        initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
         className={cn(
           "max-w-[70%] px-2 py-1 duration-300",
           isSelf
@@ -43,6 +40,9 @@ export const ChatBubble: FC<ChatBubbleProps> = ({
             : "rounded-r-lg bg-neutral-500 text-white",
           !isInGroup && (isSelf ? "rounded-br-lg" : "rounded-bl-lg"),
         )}
+        exit={{ opacity: 0 }}
+        initial={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
       >
         {content}
       </motion.p>

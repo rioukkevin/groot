@@ -36,10 +36,10 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
   return (
     <div className="flex w-full flex-col gap-2 pb-8">
       <motion.h2
-        className="text-xl font-medium uppercase text-neutral-500"
-        initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        className="text-xl font-medium uppercase text-neutral-500"
         exit={{ opacity: 0 }}
+        initial={{ opacity: 0 }}
       >
         {project.name}
       </motion.h2>
@@ -58,30 +58,30 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
         </TextEffect>
       </div>
       <motion.div
-        className="w-fit rounded-lg px-2 py-1 text-base font-bold"
-        style={{ backgroundColor: project.color, color: contrastedColor }}
-        initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        className="w-fit rounded-lg px-2 py-1 text-base font-bold"
         exit={{ opacity: 0 }}
+        initial={{ opacity: 0 }}
+        style={{ backgroundColor: project.color, color: contrastedColor }}
         transition={{ delay: 0.3 }}
       >
         {translatedTypes[project.type]}
       </motion.div>
 
       <motion.hr
-        className="my-4 w-full border-neutral-600/50"
-        initial={{ opacity: 0, scaleX: 0 }}
         animate={{ opacity: 1, scaleX: 1 }}
+        className="my-4 w-full border-neutral-600/50"
         exit={{ opacity: 0, scaleX: 0 }}
+        initial={{ opacity: 0, scaleX: 0 }}
         transition={{ delay: 0.3 }}
       />
 
       <div className="flex flex-col gap-2">
         <motion.h3
-          className="text-lg font-semibold uppercase"
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          className="text-lg font-semibold uppercase"
           exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
           transition={{ delay: 0.3 }}
         >
           Technologies
@@ -90,10 +90,10 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
           {project.technologies.map((tech, index) => (
             <motion.span
               key={index}
-              className="origin-left rounded-lg bg-neutral-700 px-2 py-1 text-xs text-neutral-200"
-              initial={{ opacity: 0, scaleX: 0 }}
               animate={{ opacity: 1, scaleX: 1 }}
+              className="origin-left rounded-lg bg-neutral-700 px-2 py-1 text-xs text-neutral-200"
               exit={{ opacity: 0, scaleX: 0 }}
+              initial={{ opacity: 0, scaleX: 0 }}
               transition={{ delay: index * 0.1 + 0.4 }}
             >
               {tech}
@@ -103,20 +103,20 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
       </div>
 
       <motion.hr
-        className="my-4 w-full border-neutral-600/50"
-        initial={{ opacity: 0, scaleX: 0 }}
         animate={{ opacity: 1, scaleX: 1 }}
+        className="my-4 w-full border-neutral-600/50"
         exit={{ opacity: 0, scaleX: 0 }}
+        initial={{ opacity: 0, scaleX: 0 }}
         transition={{ delay: 0.6 }}
       />
 
       {project.links && project.links.length > 0 && (
         <div className="flex flex-wrap gap-6">
           <motion.h3
-            className="mr-4 text-lg font-semibold uppercase"
-            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            className="mr-4 text-lg font-semibold uppercase"
             exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
             transition={{ delay: 0.6 }}
           >
             Links
@@ -124,19 +124,19 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
           {project.links.map((link, index) => (
             <motion.a
               key={index}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex w-fit items-center rounded-lg py-1 text-sm text-white hover:text-neutral-400"
-              initial={{ scale: 0.8, opacity: 0, color: "#fff" }}
               animate={{
                 scale: 1,
                 opacity: 1,
                 transition: { delay: index * 0.1 + 0.7 },
               }}
-              whileTap={{ scale: 1.2, transition: { delay: 0 } }}
-              whileHover={{ color: project.color, transition: { delay: 0 } }}
+              className="flex w-fit items-center rounded-lg py-1 text-sm text-white hover:text-neutral-400"
               exit={{ scale: 0.8, opacity: 0 }}
+              href={link.href}
+              initial={{ scale: 0.8, opacity: 0, color: "#fff" }}
+              rel="noopener noreferrer"
+              target="_blank"
+              whileHover={{ color: project.color, transition: { delay: 0 } }}
+              whileTap={{ scale: 1.2, transition: { delay: 0 } }}
             >
               {link.label}
               <Link className="ml-2 size-3" />
@@ -146,19 +146,19 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
       )}
 
       <motion.hr
-        className="my-4 w-full border-neutral-600/50"
-        initial={{ opacity: 0, scaleX: 0 }}
         animate={{ opacity: 1, scaleX: 1 }}
+        className="my-4 w-full border-neutral-600/50"
         exit={{ opacity: 0, scaleX: 0 }}
+        initial={{ opacity: 0, scaleX: 0 }}
         transition={{ delay: 0.9 }}
       />
 
       <div className="flex flex-col gap-3">
         <motion.h3
-          className="text-lg font-semibold uppercase"
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          className="text-lg font-semibold uppercase"
           exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
           transition={{ delay: 0.9 }}
         >
           Description
@@ -167,10 +167,10 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
           {project.descriptions.map((description, index) => (
             <motion.p
               key={index}
-              className="text-sm"
-              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+              className="text-sm"
               exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
               transition={{ delay: index * 0.2 + 1 }}
             >
               {description}

@@ -62,72 +62,72 @@ export const SettingsWindow: FC<WindowComponentProps> = () => {
 
   return (
     <motion.div
+      animate={{ opacity: 1, y: 0 }}
       className="flex w-full flex-col gap-4"
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
     >
       <motion.div
+        animate={{ opacity: 1 }}
         className="flex flex-col gap-4"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
       >
         <motion.div
+          animate={{ x: 0, opacity: 1 }}
           className="flex w-full flex-col justify-between gap-2"
           initial={{ x: -20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
           <motion.label
+            animate={{ opacity: 1 }}
             className="text-lg font-bold text-neutral-200"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
           >
             {t("language")}
           </motion.label>
           <motion.select
-            value={language}
-            onChange={(e) => handleChangeLanguage(e.target.value as Language)}
+            animate={{ opacity: 1, y: 0 }}
             className="block w-full cursor-pointer rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
             initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1 }}
+            value={language}
+            onChange={(e) => handleChangeLanguage(e.target.value as Language)}
           >
             <option value={Language.English}>{t("english")}</option>
             <option value={Language.French}>{t("french")}</option>
           </motion.select>
         </motion.div>
         <motion.label
+          animate={{ opacity: 1 }}
           className="text-lg font-bold text-neutral-200"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
           transition={{ delay: 1.4 }}
         >
           {t("chatUsername")}
         </motion.label>
         <motion.input
+          animate={{ opacity: 1, y: 0 }}
+          className="block w-full rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
+          initial={{ opacity: 0, y: 10 }}
+          placeholder={t("chatUsernamePlaceholder")}
+          transition={{ delay: 1.6 }}
           type="text"
           value={usernameInput}
           onChange={handleUsernameChange}
-          className="block w-full rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.6 }}
-          placeholder={t("chatUsernamePlaceholder")}
         />
         <motion.label
+          animate={{ opacity: 1 }}
           className="text-lg font-bold text-neutral-200"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
         >
           {t("theme")}
         </motion.label>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
           transition={{ delay: 2.2 }}
         >
           <BackgroundFileSelector />

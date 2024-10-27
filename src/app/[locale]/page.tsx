@@ -19,7 +19,6 @@ export default function TestPage() {
     <ChatUserProvider>
       <BackgroundProvider defaultBackground={IMGBackground.src}>
         <BreadcrumbJsonLd
-          useAppDir
           itemListElements={[
             {
               position: 1,
@@ -27,6 +26,7 @@ export default function TestPage() {
               item: "https://kevin.riou.pro",
             },
           ]}
+          useAppDir
         />
         <LoadingOverlay />
         <Screen>

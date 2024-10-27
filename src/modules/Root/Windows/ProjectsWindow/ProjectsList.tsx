@@ -69,52 +69,52 @@ export const ProjectsList: FC<ProjectsListProps> = ({
     >
       <div className="flex min-h-[200%] w-full items-start justify-start gap-6 p-6">
         <motion.div
+          className="w-1/3"
           style={{
             y: column1Y,
           }}
-          className="w-1/3"
         >
           {column1Data.map((item) => (
             <ProjectThumbnail
               key={item.name}
+              color={item.color}
               imageSrc={item.imageSrc}
               name={item.name}
               shortDescription={item.shortDescription}
-              color={item.color}
               onClick={() => onOpenProject(item.name)}
             />
           ))}
         </motion.div>
         <motion.div
+          className="w-1/3"
           style={{
             y: column2Y,
           }}
-          className="w-1/3"
         >
           {column2Data.map((item) => (
             <ProjectThumbnail
               key={item.name}
+              color={item.color}
               imageSrc={item.imageSrc}
               name={item.name}
               shortDescription={item.shortDescription}
-              color={item.color}
               onClick={() => onOpenProject(item.name)}
             />
           ))}
         </motion.div>
         <motion.div
+          className="w-1/3"
           style={{
             y: column3Y,
           }}
-          className="w-1/3"
         >
           {column3Data.map((item) => (
             <ProjectThumbnail
               key={item.name}
+              color={item.color}
               imageSrc={item.imageSrc}
               name={item.name}
               shortDescription={item.shortDescription}
-              color={item.color}
               onClick={() => onOpenProject(item.name)}
             />
           ))}

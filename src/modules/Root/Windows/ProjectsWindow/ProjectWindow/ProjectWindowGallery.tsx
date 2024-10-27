@@ -19,19 +19,19 @@ const ProjectWindowGallery: React.FC<ProjectWindowGalleryProps> = ({
         <motion.div
           key={index}
           className="w-full cursor-zoom-in overflow-hidden rounded-lg border-2"
-          onClick={() => onClick(image.src)}
+          exit={{ scale: 0.8, opacity: 0 }}
           initial={{ scale: 0.8, opacity: 0, borderColor: `${color}00` }}
+          whileHover={{ borderColor: color }}
           whileInView={{ scale: 1, opacity: 1 }}
           whileTap={{ scale: 0.9 }}
-          exit={{ scale: 0.8, opacity: 0 }}
-          whileHover={{ borderColor: color }}
+          onClick={() => onClick(image.src)}
         >
           <Image
-            src={image}
             alt={`Project image ${index + 1}`}
-            layout="responsive"
-            width={image.width}
             height={image.height}
+            layout="responsive"
+            src={image}
+            width={image.width}
           />
         </motion.div>
       ))}

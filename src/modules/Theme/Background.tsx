@@ -100,26 +100,26 @@ export const BackgroundFileSelector: React.FC = () => {
       {currentBackground && (
         <div className="relative aspect-video w-full overflow-hidden rounded-lg">
           <Image
-            src={currentBackground}
             alt={t("background.currentBackgroundPreview")}
-            layout="fill"
             className="object-cover"
+            layout="fill"
+            src={currentBackground}
           />
         </div>
       )}
       <div className="w-full">
         <label
-          htmlFor="files"
           className="block w-full cursor-pointer rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-center text-sm text-neutral-200"
+          htmlFor="files"
         >
           {t("background.changeBackground")}
         </label>
         <input
+          accept="image/*"
+          className="hidden"
           id="files"
           type="file"
-          accept="image/*"
           onChange={handleFileChange}
-          className="hidden"
         />
       </div>
     </div>

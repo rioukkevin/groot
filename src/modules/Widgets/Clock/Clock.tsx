@@ -78,19 +78,19 @@ export const Clock: React.FC = () => {
 
   return (
     <motion.div
+      animate={{
+        opacity: 1,
+      }}
       className="relative flex items-center justify-center rounded-2xl bg-neutral-800 shadow-lg"
       initial={{
         opacity: 0,
       }}
-      animate={{
-        opacity: 1,
-      }}
-      transition={{
-        delay: 1,
-      }}
       style={{
         width: CLOCK_SIZE,
         height: CLOCK_SIZE,
+      }}
+      transition={{
+        delay: 1,
       }}
     >
       <div
@@ -103,21 +103,21 @@ export const Clock: React.FC = () => {
         {[...Array(60)].map((_, index) => (
           <motion.div
             key={index}
-            className="absolute left-1/2 top-0 rounded-b-lg bg-neutral-600"
-            style={{
-              transformOrigin: `center ${CLOCK_SIZE / 2}px`,
-              width: 0.01 * CLOCK_SIZE,
-              marginLeft: -0.005 * CLOCK_SIZE,
+            animate={{
+              opacity: 1,
+              transform: `rotate(${index * 6}deg)`,
+              ...calculateIndicatorStyle(index, time.getSeconds()),
             }}
+            className="absolute left-1/2 top-0 rounded-b-lg bg-neutral-600"
             initial={{
               opacity: 0,
               transform: `rotate(0deg)`,
               height: CLOCK_SECONDS_MAX_HEIGHT,
             }}
-            animate={{
-              opacity: 1,
-              transform: `rotate(${index * 6}deg)`,
-              ...calculateIndicatorStyle(index, time.getSeconds()),
+            style={{
+              transformOrigin: `center ${CLOCK_SIZE / 2}px`,
+              width: 0.01 * CLOCK_SIZE,
+              marginLeft: -0.005 * CLOCK_SIZE,
             }}
             transition={{
               duration: 1,
@@ -126,16 +126,12 @@ export const Clock: React.FC = () => {
           />
         ))}
         <motion.div
-          className="absolute left-1/2 origin-bottom -translate-x-1/2 rounded-full bg-neutral-200"
-          initial={{
-            transform: `rotate(1080deg)`,
-          }}
           animate={{
             transform: `rotate(${((time.getHours() % 12) + time.getMinutes() / 60) * 30}deg)`,
           }}
-          transition={{
-            type: "spring",
-            bounce: 0,
+          className="absolute left-1/2 origin-bottom -translate-x-1/2 rounded-full bg-neutral-200"
+          initial={{
+            transform: `rotate(1080deg)`,
           }}
           style={{
             height: CLOCK_HOURS_HEIGHT,
@@ -143,25 +139,28 @@ export const Clock: React.FC = () => {
             width: 0.01 * CLOCK_SIZE,
             marginLeft: -0.005 * CLOCK_SIZE,
           }}
-        />
-        <motion.div
-          className="absolute left-1/2 origin-bottom -translate-x-1/2 rounded-full bg-neutral-200"
-          // style={minutesStyle}
-          initial={{
-            transform: `rotate(1080deg)`,
-          }}
-          animate={{
-            transform: `rotate(${(time.getMinutes() + time.getSeconds() / 60) * 6}deg)`,
-          }}
           transition={{
             type: "spring",
             bounce: 0,
+          }}
+        />
+        <motion.div
+          animate={{
+            transform: `rotate(${(time.getMinutes() + time.getSeconds() / 60) * 6}deg)`,
+          }}
+          className="absolute left-1/2 origin-bottom -translate-x-1/2 rounded-full bg-neutral-200"
+          initial={{
+            transform: `rotate(1080deg)`,
           }}
           style={{
             height: CLOCK_MINUTES_HEIGHT,
             top: CLOCK_SIZE / 2 - CLOCK_MINUTES_HEIGHT,
             width: 0.01 * CLOCK_SIZE,
             marginLeft: -0.005 * CLOCK_SIZE,
+          }}
+          transition={{
+            type: "spring",
+            bounce: 0,
           }}
         />
         <div className="absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-neutral-200" />

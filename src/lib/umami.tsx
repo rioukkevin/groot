@@ -41,9 +41,9 @@ const PageView = () => {
 export const UmamiAnalytics: FC<PropsWithChildren> = ({ children }) => {
   return (
     <UmamiAnalyticsProvider
+      autoTrack={true}
       src={UmamiUrl}
       websiteId={UmamiKey}
-      autoTrack={true}
     >
       <PageView />
       {children}

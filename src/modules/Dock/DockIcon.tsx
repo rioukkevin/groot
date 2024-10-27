@@ -15,8 +15,8 @@ export function DockIcon({ children, className, width }: DockIconProps) {
 
   return (
     <motion.div
-      style={{ width: widthTransform }}
       className={cn("flex items-center justify-center", className)}
+      style={{ width: widthTransform }}
     >
       {children}
     </motion.div>

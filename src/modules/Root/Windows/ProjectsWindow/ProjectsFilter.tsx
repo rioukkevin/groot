@@ -71,15 +71,15 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
   return (
     <div className="flex h-10 space-x-4">
       <motion.div
-        variants={filterVariants}
-        initial="hidden"
         animate="visible"
         custom={0}
+        initial="hidden"
+        variants={filterVariants}
       >
         <select
+          className="w-48 cursor-pointer rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
           value={selectedTechnology}
           onChange={(e) => setSelectedTechnology(e.target.value)}
-          className="w-48 cursor-pointer rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
         >
           <option value="">{t("allTechnologies")}</option>
           {allTechnologies.map((tech) => (
@@ -91,15 +91,15 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
       </motion.div>
 
       <motion.div
-        variants={filterVariants}
-        initial="hidden"
         animate="visible"
         custom={1}
+        initial="hidden"
+        variants={filterVariants}
       >
         <select
+          className="w-48 cursor-pointer rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
           value={selectedType}
           onChange={(e) => setSelectedType(e.target.value as ProjectType | "")}
-          className="w-48 cursor-pointer rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 text-sm text-neutral-200 focus:border-neutral-600"
         >
           <option value="">{t("allProjectTypes")}</option>
           {allProjectTypes.map((type) => (
@@ -111,27 +111,27 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
       </motion.div>
 
       <motion.div
-        className="relative grow"
-        variants={filterVariants}
-        initial="hidden"
         animate="visible"
+        className="relative grow"
         custom={2}
+        initial="hidden"
+        variants={filterVariants}
       >
         <input
-          type="text"
+          className="w-full rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 pr-24 text-sm text-neutral-200 focus:border-neutral-600"
           id="search"
+          placeholder={t("searchPlaceholder")}
+          type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder={t("searchPlaceholder")}
-          className="w-full rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 pr-24 text-sm text-neutral-200 focus:border-neutral-600"
         />
         <AnimatePresence>
           {(searchTerm.length > 0 || filteredCount !== projects.length) && (
             <motion.div
-              initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0 }}
               className="absolute right-10 top-2 -translate-y-1/2 rounded-lg bg-neutral-600 px-2 py-1 text-xs text-neutral-200"
+              exit={{ scale: 0, opacity: 0 }}
+              initial={{ scale: 0, opacity: 0 }}
             >
               {filteredCount} {t("projectsFound")}
             </motion.div>

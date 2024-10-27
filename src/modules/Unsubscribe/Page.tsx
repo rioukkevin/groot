@@ -77,8 +77,8 @@ export const Page: FC<UnsubscribePageProps> = async ({
         {t(message)}
       </h1>
       <Link
-        href="/"
         className="mt-4 rounded-lg bg-neutral-700 px-4 py-2 text-lg font-bold text-neutral-300 transition-colors hover:bg-neutral-600"
+        href="/"
       >
         {t("returnHome")}
       </Link>

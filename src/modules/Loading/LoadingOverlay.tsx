@@ -65,12 +65,6 @@ export const LoadingOverlay = () => {
       {isLoading && (
         <motion.div
           className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-700"
-          initial={{
-            opacity: 1,
-            rotateX: 0,
-            filter: "brightness(100%)",
-            backgroundColor: "#000000",
-          }}
           exit={{
             opacity: 0,
             rotateX: 90,
@@ -78,12 +72,18 @@ export const LoadingOverlay = () => {
             transition: { duration: 0.5, ease: "anticipate" },
             backgroundColor: "#FFFFFF",
           }}
+          initial={{
+            opacity: 1,
+            rotateX: 0,
+            filter: "brightness(100%)",
+            backgroundColor: "#000000",
+          }}
         >
           <div className="relative size-full">
             <div className="absolute bottom-10 right-10 text-9xl font-bold text-white">
               <AnimatedNumber
-                value={percentage}
                 springOptions={{ bounce: 0 }}
+                value={percentage}
               />
             </div>
           </div>

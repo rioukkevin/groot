@@ -31,10 +31,10 @@ export const Widgets: React.FC<WidgetsProps> = ({ children }) => {
 
   return (
     <motion.div
-      className="absolute right-4 top-4 flex flex-col space-y-4"
-      variants={containerVariants}
-      initial="hidden"
       animate="visible"
+      className="absolute right-4 top-4 flex flex-col space-y-4"
+      initial="hidden"
+      variants={containerVariants}
     >
       {Children.map(children, (child, index) => (
         <motion.div key={index} variants={itemVariants}>

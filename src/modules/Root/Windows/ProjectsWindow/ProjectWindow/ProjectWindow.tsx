@@ -63,10 +63,10 @@ export const ProjectWindow: FC<WindowComponentProps> = ({
         component: () => (
           <div className="flex size-full max-h-[80vh] max-w-[80vw] items-center justify-center overflow-hidden rounded-lg">
             <Image
-              src={image}
               alt="Project image"
-              width={newWidth}
               height={newHeight}
+              src={image}
+              width={newWidth}
             />
           </div>
         ),
@@ -101,8 +101,8 @@ export const ProjectWindow: FC<WindowComponentProps> = ({
             className="col-span-1 h-full overflow-y-auto"
           >
             <ProjectWindowGallery
-              images={project.images}
               color={project.color}
+              images={project.images}
               onImageZoom={open}
             />
           </motion.div>

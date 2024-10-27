@@ -108,14 +108,14 @@ const AnimationComponent: React.FC<{
 }> = React.memo(({ segment, variants, per, segmentWrapperClassName }) => {
   const content =
     per === "line" ? (
-      <motion.span variants={variants} className="block">
+      <motion.span className="block" variants={variants}>
         {segment}
       </motion.span>
     ) : per === "word" ? (
       <motion.span
         aria-hidden="true"
-        variants={variants}
         className="inline-block whitespace-pre"
+        variants={variants}
       >
         {segment}
       </motion.span>
@@ -125,8 +125,8 @@ const AnimationComponent: React.FC<{
           <motion.span
             key={`char-${charIndex}`}
             aria-hidden="true"
-            variants={variants}
             className="inline-block whitespace-pre"
+            variants={variants}
           >
             {char}
           </motion.span>
@@ -200,21 +200,21 @@ export function TextEffect({
     <AnimatePresence mode="popLayout">
       {trigger && (
         <MotionTag
-          initial="hidden"
           animate="visible"
-          exit="exit"
           aria-label={ariaLabel}
-          variants={delayedContainerVariants}
           className={cn("whitespace-pre-wrap", className)}
+          exit="exit"
+          initial="hidden"
+          variants={delayedContainerVariants}
           onAnimationComplete={onAnimationComplete}
         >
           {segments.map((segment, index) => (
             <AnimationComponent
               key={`${per}-${index}-${segment}`}
-              segment={segment}
-              variants={itemVariants}
               per={per}
+              segment={segment}
               segmentWrapperClassName={segmentWrapperClassName}
+              variants={itemVariants}
             />
           ))}
         </MotionTag>

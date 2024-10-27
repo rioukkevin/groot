@@ -15,9 +15,9 @@ const ContactItem: FC<ContactData> = ({ label, value, href, icon }) => {
       )}
       <span className="min-w-[120px] text-sm text-neutral-500">{label}</span>
       <Link
+        className="text-base text-neutral-200"
         href={href ?? value}
         target="_blank"
-        className="text-base text-neutral-200"
       >
         {value}
       </Link>
@@ -33,8 +33,8 @@ export const ContactWindow: FC<WindowComponentProps> = () => {
       {data.map((item, index) => (
         <motion.div
           key={item.label}
-          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
           transition={{ delay: index * 0.1 + 0.3 }}
         >
           <ContactItem {...item} />

@@ -42,11 +42,11 @@ export const EmailBase: FC<EmailBaseProps> = async ({
           <Container className="mx-auto my-[40px] max-w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
             <Section>
               <Img
-                src={`${baseUrl}/icon.png`}
                 alt="logo"
-                width={ICON_SIZE}
-                height={ICON_SIZE}
                 className="mx-auto my-10"
+                height={ICON_SIZE}
+                src={`${baseUrl}/icon.png`}
+                width={ICON_SIZE}
               />
             </Section>
             {children}

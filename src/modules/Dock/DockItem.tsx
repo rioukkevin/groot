@@ -49,37 +49,37 @@ export function DockItem({
   return (
     <motion.div
       ref={ref}
-      style={{ width }}
-      onHoverStart={() => isHovered.set(1)}
-      onHoverEnd={() => isHovered.set(0)}
-      onFocus={() => isHovered.set(1)}
-      onBlur={() => isHovered.set(0)}
-      onClick={onClick}
+      aria-haspopup="true"
       className={cn(
         "relative mb-2 inline-flex items-center justify-center",
         className,
       )}
-      tabIndex={0}
       role="button"
-      aria-haspopup="true"
+      style={{ width }}
+      tabIndex={0}
       whileTap={{ scale: 0.8 }}
+      onBlur={() => isHovered.set(0)}
+      onClick={onClick}
+      onFocus={() => isHovered.set(1)}
+      onHoverEnd={() => isHovered.set(0)}
+      onHoverStart={() => isHovered.set(1)}
     >
       {Children.map(children, (child) =>
         cloneElement(child as React.ReactElement, { width, isHovered }),
       )}
       {openedWindowCount > 0 && (
         <motion.div
-          layout
           className="absolute -bottom-2 flex h-1 w-fit flex-nowrap justify-between gap-0.5 overflow-hidden"
+          layout
         >
           <AnimatePresence>
             {Array.from({ length: openedWindowCount }).map((_, idx) => (
               <motion.div
                 key={idx}
-                className="size-1 min-w-1 rounded-full bg-white shadow-md"
-                initial={{ width: 0, opacity: 0 }}
                 animate={{ width: 4, opacity: 1 }}
+                className="size-1 min-w-1 rounded-full bg-white shadow-md"
                 exit={{ width: 0, opacity: 0 }}
+                initial={{ width: 0, opacity: 0 }}
                 transition={{ type: "spring", bounce: 0 }}
               />
             ))}

@@ -28,25 +28,18 @@ export const Screen: FC<ScreenProps> = ({ children }) => {
       className="relative h-screen max-h-screen min-h-[720px] w-screen min-w-[1280px] overflow-hidden"
     >
       <Image
-        src={currentBackground}
         alt="Background"
-        fill
-        quality={100}
-        className="z-0 object-cover"
-        priority
-        placeholder="blur"
         blurDataURL={currentBackground}
+        className="z-0 object-cover"
+        fill
+        placeholder="blur"
+        priority
+        quality={100}
+        src={currentBackground}
       />
 
       <WindowManagerProvider
         screenRef={screenRef}
-        onOpenWindow={(window) =>
-          track?.("windowOpen", {
-            id: window.id,
-            title: window.title,
-            isFullscreenAllowed: window.isFullscreenAllowed,
-          })
-        }
         onCloseWindow={(window) =>
           track?.("windowClose", {
             id: window.id,
@@ -57,6 +50,13 @@ export const Screen: FC<ScreenProps> = ({ children }) => {
           track?.("windowFocus", {
             id: window.id,
             title: window.title,
+          })
+        }
+        onOpenWindow={(window) =>
+          track?.("windowOpen", {
+            id: window.id,
+            title: window.title,
+            isFullscreenAllowed: window.isFullscreenAllowed,
           })
         }
         onToggleFullscreen={(window) =>

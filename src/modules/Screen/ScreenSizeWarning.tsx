@@ -35,11 +35,11 @@ export const ScreenSizeWarning: FC = () => {
     <AnimatePresence>
       {shouldShow && (
         <motion.div
-          initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          transition={{ type: "spring", bounce: 0 }}
           className="fixed left-[20px] top-[20px] z-50 flex w-56 items-center justify-center rounded-lg bg-neutral-800/80 p-4 text-center text-white backdrop-blur-lg"
+          exit={{ opacity: 0, y: -50 }}
+          initial={{ opacity: 0, y: -50 }}
+          transition={{ type: "spring", bounce: 0 }}
         >
           <p>{t("message")}</p>
         </motion.div>

@@ -47,28 +47,28 @@ export function DockContainer({
 
   return (
     <motion.div
+      className="mx-2 flex max-w-full items-end overflow-x-auto"
       style={{
         height: height,
         scrollbarWidth: "none",
       }}
-      className="mx-2 flex max-w-full items-end overflow-x-auto"
     >
       <motion.div
-        onMouseMove={({ pageX }: { pageX: number }) => {
-          isHovered.set(1);
-          mouseX.set(pageX);
-        }}
-        onMouseLeave={() => {
-          isHovered.set(0);
-          mouseX.set(Infinity);
-        }}
+        aria-label="Application dock"
         className={cn(
           "mx-auto flex w-fit gap-4 rounded-2xl bg-neutral-800/80 px-4 shadow-lg backdrop-blur-md",
           className,
         )}
-        style={{ height: panelHeight }}
         role="toolbar"
-        aria-label="Application dock"
+        style={{ height: panelHeight }}
+        onMouseLeave={() => {
+          isHovered.set(0);
+          mouseX.set(Infinity);
+        }}
+        onMouseMove={({ pageX }: { pageX: number }) => {
+          isHovered.set(1);
+          mouseX.set(pageX);
+        }}
       >
         <DockProvider value={{ mouseX, spring, distance, magnification }}>
           {children}
