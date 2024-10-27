@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader } from "lucide-react";
-import { FC, useMemo, useState } from "react";
+import React, { FC, useMemo, useState } from "react";
 
 import { useScopedI18n } from "@/lib/locales/client";
 

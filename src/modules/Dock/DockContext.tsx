@@ -1,6 +1,6 @@
 "use client";
 import { MotionValue, type SpringOptions } from "framer-motion";
-import { createContext, useContext } from "react";
+import React, { createContext, useContext } from "react";
 
 type DocContextType = {
   mouseX: MotionValue<number>;

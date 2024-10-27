@@ -1,6 +1,5 @@
 "use client";
-
-import { FC, PropsWithChildren, useEffect } from "react";
+import React, { FC, PropsWithChildren, useEffect } from "react";
 import { umamiAnalyticsContextFactory as umami } from "umami-analytics-next";
 
 const events = [

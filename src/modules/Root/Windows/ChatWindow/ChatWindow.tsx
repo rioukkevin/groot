@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader } from "lucide-react";
-import { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 
 import { useScopedI18n } from "@/lib/locales/client";
 import { profanity } from "@/lib/profanity";

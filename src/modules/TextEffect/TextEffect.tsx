@@ -105,7 +105,7 @@ const AnimationComponent: React.FC<{
   variants: Variants;
   per: "line" | "word" | "char";
   segmentWrapperClassName?: string;
-}> = React.memo(({ segment, variants, per, segmentWrapperClassName }) => {
+}> = ({ segment, variants, per, segmentWrapperClassName }) => {
   const content =
     per === "line" ? (
       <motion.span className="block" variants={variants}>
@@ -145,7 +145,7 @@ const AnimationComponent: React.FC<{
       {content}
     </span>
   );
-});
+};
 
 AnimationComponent.displayName = "AnimationComponent";
 

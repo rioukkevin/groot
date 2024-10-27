@@ -1,6 +1,7 @@
 "use client";
-
 import { motion, MotionValue, useTransform } from "framer-motion";
+import React from "react";
+
 
 import { cn } from "@/lib/cn";
 

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import {
   useChangeLocale,
@@ -11,7 +11,6 @@ import { BackgroundFileSelector } from "@/modules/Theme";
 import { WindowComponentProps } from "@/modules/WindowManager";
 
 import { useChatUserContext } from "../ChatWindow/ChatUserProvider";
-
 
 enum Language {
   English = "en",

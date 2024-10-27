@@ -1,8 +1,7 @@
 "use server";
 
 import { Heading, Text, Hr } from "@react-email/components";
-import * as React from "react";
-import { FC } from "react";
+import React, { FC } from "react";
 
 import { getScopedI18n } from "@/lib/locales/server";
 

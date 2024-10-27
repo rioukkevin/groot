@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { FC } from "react";
+import React, { FC } from "react";
 
 import IMGMe from "@/assets/me.png";
 import { useScopedI18n } from "@/lib/locales/client";

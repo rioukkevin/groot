@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import React from "react";
 
 import { LoadingOverlay } from "@/modules/Loading";
 import { UnsubscribePage } from "@/modules/Unsubscribe";

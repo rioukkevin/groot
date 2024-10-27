@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import localFont from "next/font/local";
+import React from "react";
 
 import { UmamiAnalytics } from "@/lib/umami";
 

@@ -1,5 +1,11 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript", "plugin:tailwindcss/recommended", "plugin:import/recommended"],
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:tailwindcss/recommended",
+    "plugin:import/recommended",
+    "plugin:react/recommended"
+  ],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js"],

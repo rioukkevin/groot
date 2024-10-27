@@ -10,7 +10,7 @@ import {
   PersonStandingIcon,
   SettingsIcon,
 } from "lucide-react";
-import { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import { useScopedI18n } from "@/lib/locales/client";
 import useScreenSize from "@/lib/screen";
@@ -28,8 +28,6 @@ import {
 } from "./Windows";
 import { ChatWindow } from "./Windows/ChatWindow";
 import { ProjectsWindow } from "./Windows/ProjectsWindow";
-
-
 
 export const Page = () => {
   const t = useScopedI18n("dock");

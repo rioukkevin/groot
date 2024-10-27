@@ -1,5 +1,7 @@
+
 import { Metadata } from "next";
 import { BreadcrumbJsonLd } from "next-seo";
+import React from "react";
 
 import IMGBackground from "@/assets/background.jpg";
 import { Cookies } from "@/modules/Cookies";

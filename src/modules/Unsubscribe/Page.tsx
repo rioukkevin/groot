@@ -1,10 +1,9 @@
 import { CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
-import { FC } from "react";
+import React, { FC } from "react";
 
 import { cn } from "@/lib/cn";
 import { getCurrentLocale, getScopedI18n } from "@/lib/locales/server";
-
 
 interface UnsubscribePageProps {
   locale: string;

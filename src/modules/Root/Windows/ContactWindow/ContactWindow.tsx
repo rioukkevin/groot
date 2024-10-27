@@ -1,11 +1,10 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FC } from "react";
+import React, { FC } from "react";
 
 import { WindowComponentProps } from "@/modules/WindowManager";
 
 import { ContactData, useContactData } from "./data";
-
 
 const ContactItem: FC<ContactData> = ({ label, value, href, icon }) => {
   return (

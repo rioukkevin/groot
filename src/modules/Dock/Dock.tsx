@@ -1,6 +1,7 @@
-"use cleint";
-
+"use client";
 import { AnimatePresence, motion } from "framer-motion";
+import React from "react";
+
 
 import { DockContainer, DockIcon, DockItem, DockLabel } from "./index";
 

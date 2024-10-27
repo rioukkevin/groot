@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { FC, useMemo, useState } from "react";
+import React, { FC, useMemo, useState } from "react";
 
 import { cn } from "@/lib/cn";
 import { useScopedI18n } from "@/lib/locales/client";

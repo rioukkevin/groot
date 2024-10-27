@@ -2,13 +2,12 @@
 
 /* eslint-disable react/display-name */
 import Image from "next/image";
-import { FC, ReactNode, useRef } from "react";
+import React, { FC, ReactNode, useRef } from "react";
 
 import { useUmami } from "@/lib/umami";
 
 import { useBackground } from "../Theme";
 import { WindowManagerProvider } from "../WindowManager";
-
 
 interface ScreenProps {
   children: ReactNode;

@@ -5,7 +5,7 @@ import {
   PhoneIcon,
   TwitterIcon,
 } from "lucide-react";
-import { ReactNode, useMemo } from "react";
+import React, { ReactNode, useMemo } from "react";
 
 import { useScopedI18n } from "@/lib/locales/client";
 

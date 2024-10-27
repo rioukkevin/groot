@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useState, useEffect, FC } from "react";
+import React, { useState, useEffect, FC } from "react";
 
 import { useScopedI18n } from "@/lib/locales/client";
 import useScreenSize from "@/lib/screen";

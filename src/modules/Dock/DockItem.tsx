@@ -7,7 +7,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { Children, cloneElement, useRef } from "react";
+import React, { Children, cloneElement, useRef } from "react";
 
 import { cn } from "@/lib/cn";
 

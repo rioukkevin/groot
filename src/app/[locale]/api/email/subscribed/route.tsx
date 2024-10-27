@@ -1,6 +1,8 @@
+
 import { render } from "@react-email/render";
 import { ID, Query } from "appwrite";
 import { NextResponse } from "next/server";
+import React from "react";
 
 import {
   databases,
@@ -11,7 +13,6 @@ import { getCurrentLocale, getScopedI18n } from "@/lib/locales/server";
 import { sendEmail } from "@/lib/nodemailer";
 import { EmailErrors, validateEmail } from "@/modules/Email/email";
 import { EmailSubscribed } from "@/modules/Email/EmailSubscribed";
-
 
 interface CheckAndCreateSubscriptionResponse {
   isSuccess: boolean;

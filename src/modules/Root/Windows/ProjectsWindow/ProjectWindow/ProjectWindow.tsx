@@ -14,8 +14,6 @@ import { useProjectData } from "./data";
 import ProjectWindowDescription from "./ProjectWindowDescription";
 import ProjectWindowGallery from "./ProjectWindowGallery";
 
-
-
 const parseProjectId = (id: string) => {
   return id.split(":")[1];
 };

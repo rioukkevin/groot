@@ -3,6 +3,7 @@
 import { render } from "@react-email/render";
 import { AppwriteException } from "appwrite";
 import { NextResponse } from "next/server";
+import React from "react";
 
 import {
   databases,

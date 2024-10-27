@@ -7,7 +7,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 
 import { cn } from "@/lib/cn";
 
