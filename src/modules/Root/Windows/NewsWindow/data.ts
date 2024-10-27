@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+
 import { useScopedI18n } from "@/lib/locales/client";
 
 export interface NewData {

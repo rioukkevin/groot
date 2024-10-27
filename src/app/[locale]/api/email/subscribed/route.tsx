@@ -1,15 +1,17 @@
-import { NextResponse } from "next/server";
 import { render } from "@react-email/render";
-import { sendEmail } from "@/lib/nodemailer";
-import { EmailSubscribed } from "@/modules/Email/EmailSubscribed";
-import { getCurrentLocale, getScopedI18n } from "@/lib/locales/server";
-import { EmailErrors, validateEmail } from "@/modules/Email/email";
+import { ID, Query } from "appwrite";
+import { NextResponse } from "next/server";
+
 import {
   databases,
   DEFAULT_NEWS_DATABASE_ID,
   DEFAULT_NEWS_COLLECTION_ID,
 } from "@/lib/appwrite";
-import { ID, Query } from "appwrite";
+import { getCurrentLocale, getScopedI18n } from "@/lib/locales/server";
+import { sendEmail } from "@/lib/nodemailer";
+import { EmailErrors, validateEmail } from "@/modules/Email/email";
+import { EmailSubscribed } from "@/modules/Email/EmailSubscribed";
+
 
 interface CheckAndCreateSubscriptionResponse {
   isSuccess: boolean;

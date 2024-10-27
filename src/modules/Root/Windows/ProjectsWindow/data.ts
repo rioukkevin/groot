@@ -1,49 +1,42 @@
-import ImgOoofThumbnail from "@/assets/projects/ooof/Thumbnail.png";
-import ImgOoofScreen1 from "@/assets/projects/ooof/Screen1.png";
-import ImgOoofScreen2 from "@/assets/projects/ooof/Screen2.png";
-import ImgOoofScreen3 from "@/assets/projects/ooof/Screen3.png";
+import { StaticImageData } from "next/image";
+import { useMemo } from "react";
 
-import ImgPortfolioV6Thumbnail from "@/assets/projects/portfoliov6/Thumbnail.png";
-import ImgPortfolioV6Screen1 from "@/assets/projects/portfoliov6/Screen1.png";
-import ImgPortfolioV6Screen2 from "@/assets/projects/portfoliov6/Screen2.png";
-import ImgPortfolioV6Screen3 from "@/assets/projects/portfoliov6/Screen3.png";
-
-import ImgVSCodeGitCommitThumbnail from "@/assets/projects/vscodeGitCommitMessage/Thumbnail.png";
-import ImgVSCodeGitCommitScreen1 from "@/assets/projects/vscodeGitCommitMessage/Screen1.png";
-import ImgVSCodeGitCommitScreen2 from "@/assets/projects/vscodeGitCommitMessage/Screen2.png";
-import ImgVSCodeGitCommitDemo from "@/assets/projects/vscodeGitCommitMessage/Demo.gif";
-
-import ImgBritchThumbnail from "@/assets/projects/britch/Thumbnail.png";
 import ImgBritchScreen1 from "@/assets/projects/britch/Screen1.png";
 import ImgBritchScreen2 from "@/assets/projects/britch/Screen2.png";
-
-import ImgDiagevolThumbnail from "@/assets/projects/diagevol/Thumbnail.png";
+import ImgBritchThumbnail from "@/assets/projects/britch/Thumbnail.png";
+import ImgControllerScreen1 from "@/assets/projects/controller/Screen1.png";
+import ImgControllerScreen2 from "@/assets/projects/controller/Screen2.png";
+import ImgControllerScreen3 from "@/assets/projects/controller/Screen3.png";
+import ImgControllerScreen4 from "@/assets/projects/controller/Screen4.png";
+import ImgControllerThumbnail from "@/assets/projects/controller/Thumbnail.png";
 import ImgDiagevolScreen1 from "@/assets/projects/diagevol/Screen1.png";
 import ImgDiagevolScreen2 from "@/assets/projects/diagevol/Screen2.png";
 import ImgDiagevolScreen3 from "@/assets/projects/diagevol/Screen3.png";
 import ImgDiagevolScreen4 from "@/assets/projects/diagevol/Screen4.png";
 import ImgDiagevolScreen5 from "@/assets/projects/diagevol/Screen5.png";
-
-import ImgControllerThumbnail from "@/assets/projects/controller/Thumbnail.png";
-import ImgControllerScreen1 from "@/assets/projects/controller/Screen1.png";
-import ImgControllerScreen2 from "@/assets/projects/controller/Screen2.png";
-import ImgControllerScreen3 from "@/assets/projects/controller/Screen3.png";
-import ImgControllerScreen4 from "@/assets/projects/controller/Screen4.png";
-
-import ImgPortfolioV5Thumbnail from "@/assets/projects/portfoliov5/Thumbnail.png";
+import ImgDiagevolThumbnail from "@/assets/projects/diagevol/Thumbnail.png";
+import ImgOoofScreen1 from "@/assets/projects/ooof/Screen1.png";
+import ImgOoofScreen2 from "@/assets/projects/ooof/Screen2.png";
+import ImgOoofScreen3 from "@/assets/projects/ooof/Screen3.png";
+import ImgOoofThumbnail from "@/assets/projects/ooof/Thumbnail.png";
+import ImgOutransCounterScreen1 from "@/assets/projects/outransCounter/Screen1.png";
+import ImgOutransCounterScreen2 from "@/assets/projects/outransCounter/Screen2.png";
+import ImgOutransCounterScreen3 from "@/assets/projects/outransCounter/Screen3.png";
+import ImgOutransCounterThumbnail from "@/assets/projects/outransCounter/Thumbnail.png";
 import ImgPortfolioV5Screen1 from "@/assets/projects/portfoliov5/Screen1.png";
 import ImgPortfolioV5Screen2 from "@/assets/projects/portfoliov5/Screen2.png";
 import ImgPortfolioV5Screen3 from "@/assets/projects/portfoliov5/Screen3.png";
 import ImgPortfolioV5Screen4 from "@/assets/projects/portfoliov5/Screen4.png";
-
-import ImgOutransCounterThumbnail from "@/assets/projects/outransCounter/Thumbnail.png";
-import ImgOutransCounterScreen1 from "@/assets/projects/outransCounter/Screen1.png";
-import ImgOutransCounterScreen2 from "@/assets/projects/outransCounter/Screen2.png";
-import ImgOutransCounterScreen3 from "@/assets/projects/outransCounter/Screen3.png";
-
-import { StaticImageData } from "next/image";
+import ImgPortfolioV5Thumbnail from "@/assets/projects/portfoliov5/Thumbnail.png";
+import ImgPortfolioV6Screen1 from "@/assets/projects/portfoliov6/Screen1.png";
+import ImgPortfolioV6Screen2 from "@/assets/projects/portfoliov6/Screen2.png";
+import ImgPortfolioV6Screen3 from "@/assets/projects/portfoliov6/Screen3.png";
+import ImgPortfolioV6Thumbnail from "@/assets/projects/portfoliov6/Thumbnail.png";
+import ImgVSCodeGitCommitDemo from "@/assets/projects/vscodeGitCommitMessage/Demo.gif";
+import ImgVSCodeGitCommitScreen1 from "@/assets/projects/vscodeGitCommitMessage/Screen1.png";
+import ImgVSCodeGitCommitScreen2 from "@/assets/projects/vscodeGitCommitMessage/Screen2.png";
+import ImgVSCodeGitCommitThumbnail from "@/assets/projects/vscodeGitCommitMessage/Thumbnail.png";
 import { useScopedI18n } from "@/lib/locales/client";
-import { useMemo } from "react";
 
 export enum ProjectType {
   DISPLAY_WEBSITE = "display-website",

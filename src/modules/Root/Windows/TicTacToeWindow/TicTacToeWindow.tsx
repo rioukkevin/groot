@@ -1,12 +1,15 @@
-import { FC, useState, useEffect, useCallback } from "react";
-import { DrawSVG, LooserSVG, WinnerSVG } from "./TicTacToeSVG";
-import { computerMove } from "./computer";
-import { useCalculateWinner } from "./utils";
-import { FishSymbol, PawPrint } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FishSymbol, PawPrint } from "lucide-react";
+import { FC, useState, useEffect, useCallback } from "react";
+
 import { useScopedI18n } from "@/lib/locales/client";
-import { WindowComponentProps } from "@/modules/WindowManager";
 import { useUmami } from "@/lib/umami";
+import { WindowComponentProps } from "@/modules/WindowManager";
+
+import { computerMove } from "./computer";
+import { DrawSVG, LooserSVG, WinnerSVG } from "./TicTacToeSVG";
+import { useCalculateWinner } from "./utils";
+
 
 export const TicTacToeWindow: FC<WindowComponentProps> = () => {
   const { track } = useUmami();

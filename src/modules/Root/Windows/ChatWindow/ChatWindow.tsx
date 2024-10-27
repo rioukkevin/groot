@@ -1,14 +1,17 @@
 "use client";
 
-import { FC, useEffect, useRef, useState } from "react";
-import { useChatUser, useSetupChatUser } from "./ChatUserProvider";
-import { ChatBubble } from "./ChatBubble";
-import { useScopedI18n } from "@/lib/locales/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader } from "lucide-react";
+import { FC, useEffect, useRef, useState } from "react";
+
+import { useScopedI18n } from "@/lib/locales/client";
 import { profanity } from "@/lib/profanity";
-import { useAddChatMessage, useChatMessages } from "../../appwrite";
 import { WindowComponentProps } from "@/modules/WindowManager";
+
+import { useAddChatMessage, useChatMessages } from "../../appwrite";
+
+import { ChatBubble } from "./ChatBubble";
+import { useChatUser, useSetupChatUser } from "./ChatUserProvider";
 
 export const ChatWindow: FC<WindowComponentProps> = () => {
   const t = useScopedI18n("chat");

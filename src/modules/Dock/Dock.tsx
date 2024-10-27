@@ -1,6 +1,7 @@
 "use cleint";
 
 import { AnimatePresence, motion } from "framer-motion";
+
 import { DockContainer, DockIcon, DockItem, DockLabel } from "./index";
 
 export interface DockElement {

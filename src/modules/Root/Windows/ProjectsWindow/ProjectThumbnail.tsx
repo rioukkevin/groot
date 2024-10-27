@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ProjectThumbnail as ProjectThumbnailType } from "./data";
+import Image from "next/image";
+import React, { useState } from "react";
+
 import { useScopedI18n } from "@/lib/locales/client";
+
+import { ProjectThumbnail as ProjectThumbnailType } from "./data";
 
 interface ProjectThumbnailProps
   extends Omit<

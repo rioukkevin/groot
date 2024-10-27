@@ -1,9 +1,13 @@
-import React from "react";
-import { ProjectThumbnail } from "../data";
-import { Link } from "lucide-react";
-import { useProjectTypeTranslations } from "../useProjectTypeTranslation";
 import { AnimatePresence, motion } from "framer-motion";
+import { Link } from "lucide-react";
+import React from "react";
+
 import { TextEffect } from "@/modules/TextEffect/TextEffect";
+
+import { ProjectThumbnail } from "../data";
+import { useProjectTypeTranslations } from "../useProjectTypeTranslation";
+
+
 
 interface ProjectWindowDescriptionProps {
   project: ProjectThumbnail;

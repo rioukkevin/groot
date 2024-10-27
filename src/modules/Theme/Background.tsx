@@ -1,14 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import React, {
   createContext,
   useState,
   useContext,
   useEffect,
   ReactNode,
-} from "react";
-import { ChangeEvent } from "react";
-import Image from "next/image";
+ ChangeEvent } from "react";
+
 import IMGBackground from "@/assets/background.jpg";
 import { useScopedI18n } from "@/lib/locales/client";
 import { useUmami } from "@/lib/umami";

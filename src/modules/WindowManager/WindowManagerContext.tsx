@@ -10,6 +10,7 @@ import React, {
   RefObject,
   FC,
 } from "react";
+
 import { Window } from "../Window";
 
 export interface WindowComponentProps

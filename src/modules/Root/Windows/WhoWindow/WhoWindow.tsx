@@ -1,9 +1,9 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { FC } from "react";
-import { useScopedI18n } from "@/lib/locales/client";
-import { motion } from "framer-motion";
 
 import IMGMe from "@/assets/me.png";
+import { useScopedI18n } from "@/lib/locales/client";
 import { TextEffect } from "@/modules/TextEffect/TextEffect";
 import { WindowComponentProps } from "@/modules/WindowManager";
 

@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
-import { Dock, DockElement } from "../Dock";
 import {
   BriefcaseBusinessIcon,
   JoystickIcon,
@@ -12,6 +10,14 @@ import {
   PersonStandingIcon,
   SettingsIcon,
 } from "lucide-react";
+import { useEffect, useMemo } from "react";
+
+import { useScopedI18n } from "@/lib/locales/client";
+import useScreenSize from "@/lib/screen";
+
+import { Dock, DockElement } from "../Dock";
+import { useRootWindow, WindowProps, WindowsRenderer } from "../WindowManager";
+
 import {
   ContactWindow,
   WhoWindow,
@@ -20,11 +26,10 @@ import {
   ExperiencesWindow,
   TicTacToeWindow,
 } from "./Windows";
-import { useScopedI18n } from "@/lib/locales/client";
-import { ProjectsWindow } from "./Windows/ProjectsWindow";
-import useScreenSize from "@/lib/screen";
 import { ChatWindow } from "./Windows/ChatWindow";
-import { useRootWindow, WindowProps, WindowsRenderer } from "../WindowManager";
+import { ProjectsWindow } from "./Windows/ProjectsWindow";
+
+
 
 export const Page = () => {
   const t = useScopedI18n("dock");

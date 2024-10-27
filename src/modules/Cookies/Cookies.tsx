@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Cookie } from "lucide-react";
+import { useState, useEffect } from "react";
+
 import { cn } from "@/lib/cn";
 import { useScopedI18n } from "@/lib/locales/client";
-import { Cookie } from "lucide-react";
+
+
 import { useRootWindow } from "../WindowManager";
 
 export const Cookies = () => {

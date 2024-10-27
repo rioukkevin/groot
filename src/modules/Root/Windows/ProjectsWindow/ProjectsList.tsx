@@ -1,7 +1,8 @@
-import React, { FC, useMemo, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ProjectThumbnail } from "./ProjectThumbnail";
+import React, { FC, useMemo, useRef } from "react";
+
 import { ProjectThumbnail as ProjectThumbnailType } from "./data";
+import { ProjectThumbnail } from "./ProjectThumbnail";
 const IS_EVENLY_DIVIDED_CONFIG = [-200, 0, -100];
 const IS_ODD_CONFIG = [400, -200, 300];
 const IS_EVEN_CONFIG = [-200, 400, -200];

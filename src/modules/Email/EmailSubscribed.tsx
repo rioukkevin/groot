@@ -1,11 +1,13 @@
 "use server";
 
+import { Heading, Hr, Text } from "@react-email/components";
 import * as React from "react";
 import { FC } from "react";
+
 import { getScopedI18n } from "@/lib/locales/server";
+
 import { EmailProps } from "./email";
 import { EmailBase } from "./EmailBase";
-import { Heading, Hr, Text } from "@react-email/components";
 
 type EmailSubscribedProps = EmailProps;
 

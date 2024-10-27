@@ -1,13 +1,15 @@
+import { AnimatePresence, motion } from "framer-motion";
+import { Search } from "lucide-react";
 import React, { useState, useEffect } from "react";
+
+import { useScopedI18n } from "@/lib/locales/client";
+
 import {
   ProjectType,
   ProjectThumbnail,
   FilterableTechnologies,
   Technology,
 } from "./data";
-import { Search } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
-import { useScopedI18n } from "@/lib/locales/client";
 import { useProjectTypeTranslations } from "./useProjectTypeTranslation";
 
 interface ProjectsFilterProps {

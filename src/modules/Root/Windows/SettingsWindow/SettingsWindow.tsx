@@ -1,14 +1,17 @@
+import { motion } from "framer-motion";
+import { FC, useEffect, useState } from "react";
+
 import {
   useChangeLocale,
   useCurrentLocale,
   useScopedI18n,
 } from "@/lib/locales/client";
-import { BackgroundFileSelector } from "@/modules/Theme";
-import { FC, useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { useChatUserContext } from "../ChatWindow/ChatUserProvider";
-import { WindowComponentProps } from "@/modules/WindowManager";
 import { useUmami } from "@/lib/umami";
+import { BackgroundFileSelector } from "@/modules/Theme";
+import { WindowComponentProps } from "@/modules/WindowManager";
+
+import { useChatUserContext } from "../ChatWindow/ChatUserProvider";
+
 
 enum Language {
   English = "en",

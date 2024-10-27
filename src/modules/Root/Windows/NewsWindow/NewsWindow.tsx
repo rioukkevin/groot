@@ -1,9 +1,12 @@
-import { FC, useMemo, useState } from "react";
-import { useNewsData } from "./data";
-import { useScopedI18n } from "@/lib/locales/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader } from "lucide-react";
+import { FC, useMemo, useState } from "react";
+
+import { useScopedI18n } from "@/lib/locales/client";
+
 import { useSubscribeToNews } from "../../appwrite";
+
+import { useNewsData } from "./data";
 
 export const NewsWindow: FC = () => {
   const [emailInput, setEmailInput] = useState("");

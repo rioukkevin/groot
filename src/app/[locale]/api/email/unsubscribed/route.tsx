@@ -1,18 +1,19 @@
 "use server";
 
-import { NextResponse } from "next/server";
 import { render } from "@react-email/render";
-import { sendEmail } from "@/lib/nodemailer";
-import { getCurrentLocale, getScopedI18n } from "@/lib/locales/server";
-import { EmailErrors, validateEmail } from "@/modules/Email/email";
-import { UnsubscribeResponse } from "@/modules/Unsubscribe/appwrite";
+import { AppwriteException } from "appwrite";
+import { NextResponse } from "next/server";
+
 import {
   databases,
   DEFAULT_NEWS_COLLECTION_ID,
   DEFAULT_NEWS_DATABASE_ID,
 } from "@/lib/appwrite";
-import { AppwriteException } from "appwrite";
+import { getCurrentLocale, getScopedI18n } from "@/lib/locales/server";
+import { sendEmail } from "@/lib/nodemailer";
+import { EmailErrors, validateEmail } from "@/modules/Email/email";
 import { EmailUnsubscribed } from "@/modules/Email/EmailUnsubscribed";
+import { UnsubscribeResponse } from "@/modules/Unsubscribe/appwrite";
 
 const unsubscribe = async (
   token: string,

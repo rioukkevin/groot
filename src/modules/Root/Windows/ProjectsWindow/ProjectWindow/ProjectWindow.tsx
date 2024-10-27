@@ -1,16 +1,20 @@
-import React, { FC, useEffect, useRef } from "react";
-import Image from "next/image";
-import { useProjectData } from "./data";
-import ProjectWindowDescription from "./ProjectWindowDescription";
-import ProjectWindowGallery from "./ProjectWindowGallery";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import React, { FC, useEffect, useRef } from "react";
 import { ScrollSync, ScrollSyncPane } from "react-scroll-sync";
+
+import { useScopedI18n } from "@/lib/locales/client";
+import useScreenSize from "@/lib/screen";
 import {
   useWindowActions,
   WindowComponentProps,
 } from "@/modules/WindowManager";
-import useScreenSize from "@/lib/screen";
-import { useScopedI18n } from "@/lib/locales/client";
+
+import { useProjectData } from "./data";
+import ProjectWindowDescription from "./ProjectWindowDescription";
+import ProjectWindowGallery from "./ProjectWindowGallery";
+
+
 
 const parseProjectId = (id: string) => {
   return id.split(":")[1];

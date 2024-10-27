@@ -1,9 +1,10 @@
 "use client";
 
-import { useScopedI18n } from "@/lib/locales/client";
-import useScreenSize from "@/lib/screen";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect, FC } from "react";
+
+import { useScopedI18n } from "@/lib/locales/client";
+import useScreenSize from "@/lib/screen";
 
 const SCREEN_SIZE_WARNING_TIMEOUT = 10000;
 const SCREEN_MIN_WIDTH = 1280;

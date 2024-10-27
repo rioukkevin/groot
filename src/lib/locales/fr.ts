@@ -1,9 +1,10 @@
 import { ProjectType } from "@/modules/Root/Windows/ProjectsWindow/data";
+
 import contactFr from "./contact/fr";
+import emailFr from "./email/fr";
 import experiencesFr from "./experiences/fr";
 import newsFr from "./news/fr";
 import { projectsFr } from "./projects/fr";
-import emailFr from "./email/fr";
 
 const fr = {
   // Root/Page

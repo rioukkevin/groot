@@ -1,7 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import { StaticImageData } from "next/image";
 import { motion } from "framer-motion";
+import Image, { StaticImageData } from "next/image";
+import React from "react";
 
 interface ProjectWindowGalleryProps {
   images: StaticImageData[];

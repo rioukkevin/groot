@@ -1,4 +1,5 @@
 import { useScopedI18n } from "@/lib/locales/client";
+
 import { ProjectType } from "./data";
 
 export const useProjectTypeTranslations = () => {

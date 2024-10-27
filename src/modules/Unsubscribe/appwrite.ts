@@ -1,11 +1,12 @@
 "use server";
 
+import { Query } from "appwrite";
+
 import {
   databases,
   DEFAULT_NEWS_COLLECTION_ID,
   DEFAULT_NEWS_DATABASE_ID,
 } from "@/lib/appwrite";
-import { Query } from "appwrite";
 
 export interface UnsubscribeResponse {
   isSuccess: boolean;

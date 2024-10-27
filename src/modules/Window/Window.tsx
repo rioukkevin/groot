@@ -1,18 +1,22 @@
 "use client";
 
-import React, { FC, RefObject, useMemo, useRef, useState } from "react";
 import { motion, useDragControls, useMotionValue } from "framer-motion";
-import { WindowButtonTooltip } from "./WindowButtonTooltip";
+import React, { FC, RefObject, useMemo, useRef, useState } from "react";
+
+
 import { cn } from "@/lib/cn";
-import { BorderTrail } from "../BorderTrail";
 import { useScopedI18n } from "@/lib/locales/client";
 import useScreenSize from "@/lib/screen";
+
+import { BorderTrail } from "../BorderTrail";
 import {
   useWindowActions,
   WindowPosition,
   WindowSize,
   WindowState,
 } from "../WindowManager";
+
+import { WindowButtonTooltip } from "./WindowButtonTooltip";
 
 const FULLSCREEN_INSET = 0;
 

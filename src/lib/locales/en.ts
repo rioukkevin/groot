@@ -1,9 +1,10 @@
 import { ProjectType } from "@/modules/Root/Windows/ProjectsWindow/data";
+
 import contactEn from "./contact/en";
+import emailEn from "./email/en";
 import experiencesEn from "./experiences/en";
 import newsEn from "./news/en";
 import { projectsEn } from "./projects/en";
-import emailEn from "./email/en";
 
 const en = {
   // Root/Page

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { Children } from "react";
 import { motion } from "framer-motion";
+import React, { Children } from "react";
 
 interface WidgetsProps {
   children: React.ReactNode;

@@ -6,6 +6,7 @@ import {
   TwitterIcon,
 } from "lucide-react";
 import { ReactNode, useMemo } from "react";
+
 import { useScopedI18n } from "@/lib/locales/client";
 
 export interface ContactData {

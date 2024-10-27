@@ -8,9 +8,12 @@ import {
   useTransform,
 } from "framer-motion";
 import { Children, cloneElement, useRef } from "react";
+
 import { cn } from "@/lib/cn";
-import { useDock } from "./DockContext";
+
 import { useWindowCountById } from "../WindowManager";
+
+import { useDock } from "./DockContext";
 
 type DockItemProps = {
   className?: string;

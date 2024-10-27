@@ -1,11 +1,14 @@
 "use client";
 
 /* eslint-disable react/display-name */
-import { FC, ReactNode, useRef } from "react";
 import Image from "next/image";
-import { WindowManagerProvider } from "../WindowManager";
-import { useBackground } from "../Theme";
+import { FC, ReactNode, useRef } from "react";
+
 import { useUmami } from "@/lib/umami";
+
+import { useBackground } from "../Theme";
+import { WindowManagerProvider } from "../WindowManager";
+
 
 interface ScreenProps {
   children: ReactNode;

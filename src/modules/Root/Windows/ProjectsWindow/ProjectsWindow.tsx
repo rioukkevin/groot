@@ -1,13 +1,16 @@
 import React, { FC, useEffect, useState } from "react";
-import { ProjectThumbnail, useProjectsData } from "./data";
-import { ProjectsList } from "./ProjectsList";
-import { ProjectsFilter } from "./ProjectsFilter";
+
+import useScreenSize from "@/lib/screen";
 import {
   useWindowActions,
   WindowComponentProps,
 } from "@/modules/WindowManager";
+
+import { ProjectThumbnail, useProjectsData } from "./data";
+import { ProjectsFilter } from "./ProjectsFilter";
+import { ProjectsList } from "./ProjectsList";
 import { ProjectWindow } from "./ProjectWindow";
-import useScreenSize from "@/lib/screen";
+
 
 export const ProjectsWindow: FC<WindowComponentProps> = ({
   id,

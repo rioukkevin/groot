@@ -1,5 +1,4 @@
-import { Client } from "appwrite";
-import { Databases } from "appwrite";
+import { Client , Databases } from "appwrite";
 
 export const DEFAULT_CHAT_DATABASE_ID = "671250cb000fd45f7a7b";
 export const DEFAULT_CHAT_COLLECTION_ID = "671250d60030823cccc8";

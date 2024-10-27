@@ -1,5 +1,6 @@
-import { LoadingOverlay } from "@/modules/Loading";
 import { Metadata } from "next";
+
+import { LoadingOverlay } from "@/modules/Loading";
 import { UnsubscribePage } from "@/modules/Unsubscribe";
 
 export const metadata: Metadata = {

@@ -1,10 +1,12 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { FC, useMemo, useState } from "react";
-import { ExperienceData, useExperiencesData } from "./data";
+
 import { cn } from "@/lib/cn";
 import { useScopedI18n } from "@/lib/locales/client";
-import { AnimatePresence, motion } from "framer-motion";
 import { TextEffect } from "@/modules/TextEffect/TextEffect";
 import { WindowComponentProps } from "@/modules/WindowManager";
+
+import { ExperienceData, useExperiencesData } from "./data";
 
 export const ExperiencesWindow: FC<WindowComponentProps> = ({
   isFullscreen,

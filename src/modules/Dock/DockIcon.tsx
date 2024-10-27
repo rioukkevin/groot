@@ -1,7 +1,8 @@
 "use client";
 
-import { cn } from "@/lib/cn";
 import { motion, MotionValue, useTransform } from "framer-motion";
+
+import { cn } from "@/lib/cn";
 
 type DockIconProps = {
   className?: string;

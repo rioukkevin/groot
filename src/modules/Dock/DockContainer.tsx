@@ -2,14 +2,16 @@
 
 import {
   motion,
-  SpringOptions,
+  type SpringOptions,
   useMotionValue,
   useSpring,
   useTransform,
 } from "framer-motion";
 import { useMemo } from "react";
-import { DockProvider } from "./DockContext";
+
 import { cn } from "@/lib/cn";
+
+import { DockProvider } from "./DockContext";
 
 const DOCK_HEIGHT = 128;
 const DEFAULT_MAGNIFICATION = 80;

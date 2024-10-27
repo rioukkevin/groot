@@ -1,15 +1,17 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useBackground } from "../Theme";
 import {
   motion,
   AnimatePresence,
-  SpringOptions,
+  type SpringOptions,
   useSpring,
   useTransform,
 } from "framer-motion";
+import React, { useState, useEffect } from "react";
+
 import { cn } from "@/lib/cn";
+
+import { useBackground } from "../Theme";
 
 type AnimatedNumber = {
   value: number;

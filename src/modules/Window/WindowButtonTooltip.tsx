@@ -1,8 +1,9 @@
 "use client";
 
-import { cn } from "@/lib/cn";
 import { AnimatePresence, motion, MotionValue } from "framer-motion";
 import { FC, useEffect, useState } from "react";
+
+import { cn } from "@/lib/cn";
 
 interface WindowButtonTooltipProps {
   children: React.ReactNode;
