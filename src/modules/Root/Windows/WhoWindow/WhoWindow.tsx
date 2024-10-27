@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { FC } from "react";
-import { WindowChildrenProps } from "@/modules/Window";
 import { useScopedI18n } from "@/lib/locales/client";
 import { motion } from "framer-motion";
 
 import IMGMe from "@/assets/me.png";
 import { TextEffect } from "@/modules/TextEffect/TextEffect";
+import { WindowComponentProps } from "@/modules/WindowManager";
 
-export const WhoWindow: FC<WindowChildrenProps> = () => {
+export const WhoWindow: FC<WindowComponentProps> = () => {
   const t = useScopedI18n("who");
 
   return (

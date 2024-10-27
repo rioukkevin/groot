@@ -4,7 +4,7 @@ import { FC } from "react";
 import { cn } from "@/lib/cn";
 import { CheckCircle, XCircle } from "lucide-react";
 
-export interface UnsubscribePageProps {
+interface UnsubscribePageProps {
   locale: string;
   token: string;
   email: string;

@@ -1,12 +1,11 @@
 import { FC, useMemo, useState } from "react";
-import { WindowChildrenProps } from "@/modules/Window";
 import { useNewsData } from "./data";
 import { useScopedI18n } from "@/lib/locales/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader } from "lucide-react";
 import { useSubscribeToNews } from "../../appwrite";
 
-export const NewsWindow: FC<WindowChildrenProps> = () => {
+export const NewsWindow: FC = () => {
   const [emailInput, setEmailInput] = useState("");
   const [hasBeenSubscribed, setHasBeenSubscribed] = useState(false);
   const { subscribeEmail, error, isLoading } = useSubscribeToNews();

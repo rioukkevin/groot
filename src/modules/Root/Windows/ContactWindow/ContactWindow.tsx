@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { ContactData, useContactData } from "./data";
 import Link from "next/link";
-import { WindowChildrenProps } from "@/modules/Window";
+import { WindowComponentProps } from "@/modules/WindowManager";
 import { motion } from "framer-motion";
 
 const ContactItem: FC<ContactData> = ({ label, value, href, icon }) => {
@@ -22,7 +22,7 @@ const ContactItem: FC<ContactData> = ({ label, value, href, icon }) => {
   );
 };
 
-export const ContactWindow: FC<WindowChildrenProps> = () => {
+export const ContactWindow: FC<WindowComponentProps> = () => {
   const data = useContactData();
 
   return (

@@ -1,21 +1,90 @@
-import React, { FC, useRef } from "react";
-import { WindowChildrenProps } from "@/modules/Window";
+import React, { FC, useEffect, useRef } from "react";
+import Image from "next/image";
 import { useProjectData } from "./data";
 import ProjectWindowDescription from "./ProjectWindowDescription";
 import ProjectWindowGallery from "./ProjectWindowGallery";
 import { motion } from "framer-motion";
 import { ScrollSync, ScrollSyncPane } from "react-scroll-sync";
+import {
+  useWindowActions,
+  WindowComponentProps,
+} from "@/modules/WindowManager";
+import useScreenSize from "@/lib/screen";
+import { useScopedI18n } from "@/lib/locales/client";
 
 const parseProjectId = (id: string) => {
-  return id.split("-")[2];
+  return id.split(":")[1];
 };
 
-export const ProjectWindow: FC<WindowChildrenProps> = ({ id }) => {
+export const ProjectWindow: FC<WindowComponentProps> = ({
+  id,
+  registerWindows,
+  unregisterWindows,
+}) => {
+  const { open } = useWindowActions(id);
+
+  const t = useScopedI18n("projects.gallery");
+  const { width: screenWidth, height: screenHeight } = useScreenSize();
+
   const projectId = parseProjectId(id);
   const project = useProjectData(projectId);
 
   const descriptionRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const windows = (project?.images ?? []).map((image) => {
+      const maxImageWidth = screenWidth
+        ? Math.min(screenWidth * 0.8, image.width)
+        : image.width;
+      const maxImageHeight = screenHeight
+        ? Math.min(screenHeight * 0.8, image.height)
+        : image.height;
+
+      let newWidth = image.width;
+      let newHeight = image.height;
+
+      if (image.width > maxImageWidth || image.height > maxImageHeight) {
+        const widthRatio = maxImageWidth / image.width;
+        const heightRatio = maxImageHeight / image.height;
+        const scaleFactor = Math.min(widthRatio, heightRatio);
+
+        newWidth = Math.round(image.width * scaleFactor);
+        newHeight = Math.round(image.height * scaleFactor);
+      }
+
+      return {
+        title: t("previewTitle"),
+        id: image.src,
+        component: () => (
+          <div className="flex size-full max-h-[80vh] max-w-[80vw] items-center justify-center overflow-hidden rounded-lg">
+            <Image
+              src={image}
+              alt="Project image"
+              width={newWidth}
+              height={newHeight}
+            />
+          </div>
+        ),
+        size: {
+          width: newWidth + 32,
+          height: newHeight + 40 + 32,
+        },
+        isFullscreenAllowed: false,
+      };
+    });
+
+    const ids = registerWindows(windows);
+    return () => unregisterWindows(ids);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    registerWindows,
+    unregisterWindows,
+    id,
+    screenWidth,
+    screenHeight,
+    project?.images,
+  ]);
 
   if (!project) return <div>Project not found</div>;
 
@@ -30,6 +99,7 @@ export const ProjectWindow: FC<WindowChildrenProps> = ({ id }) => {
             <ProjectWindowGallery
               images={project.images}
               color={project.color}
+              onImageZoom={open}
             />
           </motion.div>
         </ScrollSyncPane>

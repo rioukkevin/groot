@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useWindowManager } from "../WindowManager/WindowManagerContext";
 import { cn } from "@/lib/cn";
 import { useScopedI18n } from "@/lib/locales/client";
 import { Cookie } from "lucide-react";
+import { useRootWindow } from "../WindowManager";
 
 export const Cookies = () => {
   const [isVisible, setIsVisible] = useState(false);
   const t = useScopedI18n("cookies");
-  const { openWindow } = useWindowManager();
+  const { openWindow, registerWindows, unregisterWindows } = useRootWindow();
 
   useEffect(() => {
     const hasAcceptedCookies = localStorage.getItem("cookiesAccepted");
@@ -19,17 +19,25 @@ export const Cookies = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const ids = registerWindows([
+      {
+        id: "cookies-details",
+        title: t("cookiePolicy"),
+        component: () => <div>{t("cookiePolicyContent")}</div>,
+        defaultSize: { width: 400, height: 300 },
+      },
+    ]);
+    return () => unregisterWindows(ids);
+  }, [t, registerWindows, unregisterWindows]);
+
   const handleAccept = () => {
     localStorage.setItem("cookiesAccepted", "true");
     setIsVisible(false);
   };
 
   const handleMoreInfo = () => {
-    openWindow({
-      title: t("cookiePolicy"),
-      children: () => <div>{t("cookiePolicyContent")}</div>,
-      size: { width: 400, height: 300 },
-    });
+    openWindow("cookies-details");
   };
 
   if (!isVisible) return null;

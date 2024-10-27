@@ -39,11 +39,11 @@ const ProjectWindowDescription: React.FC<ProjectWindowDescriptionProps> = ({
       >
         {project.name}
       </motion.h2>
-      <p className="text-3xl font-bold">
+      <span className="text-3xl font-bold">
         <TextEffect per="word" preset="fade">
           {project.shortDescription}
         </TextEffect>
-      </p>
+      </span>
 
       <div className="text-lg text-neutral-400">
         <TextEffect per="char" preset="fade">

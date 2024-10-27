@@ -3,11 +3,12 @@ import {
   useCurrentLocale,
   useScopedI18n,
 } from "@/lib/locales/client";
-import { BackgroundFileSelector } from "@/modules/Theme/Background";
-import { WindowChildrenProps } from "@/modules/Window";
+import { BackgroundFileSelector } from "@/modules/Theme";
 import { FC, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useChatUserContext } from "../ChatWindow/ChatUserProvider";
+import { WindowComponentProps } from "@/modules/WindowManager";
+import { useUmami } from "@/lib/umami";
 
 enum Language {
   English = "en",
@@ -16,7 +17,8 @@ enum Language {
 
 const DEFAULT_USERNAME = "Anonymous";
 
-export const SettingsWindow: FC<WindowChildrenProps> = () => {
+export const SettingsWindow: FC<WindowComponentProps> = () => {
+  const { track } = useUmami();
   const changeLocale = useChangeLocale();
   const locale = useCurrentLocale();
   const t = useScopedI18n("settings");
@@ -40,6 +42,7 @@ export const SettingsWindow: FC<WindowChildrenProps> = () => {
   const handleChangeLanguage = (language: Language) => {
     setLanguage(language);
     changeLocale(language);
+    track?.("changeLanguage", { language });
   };
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,6 +54,7 @@ export const SettingsWindow: FC<WindowChildrenProps> = () => {
     } else {
       setUsername(DEFAULT_USERNAME);
     }
+    track?.("changePseudonyme", { username: newValue });
   };
 
   return (

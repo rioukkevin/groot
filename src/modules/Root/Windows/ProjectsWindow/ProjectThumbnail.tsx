@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProjectThumbnail as ProjectThumbnailType } from "./data";
-import { useOpenWindow } from "@/modules/WindowManager";
-import { ProjectWindow } from "./ProjectWindow";
 import { useScopedI18n } from "@/lib/locales/client";
-import useScreenSize from "@/lib/screen";
 
-export interface ProjectThumbnailProps
+interface ProjectThumbnailProps
   extends Omit<
     ProjectThumbnailType,
     "technologies" | "type" | "date" | "images" | "descriptions" | "links"
@@ -23,29 +20,14 @@ export const ProjectThumbnail: React.FC<ProjectThumbnailProps> = ({
   onClick,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const openWindow = useOpenWindow();
   const t = useScopedI18n("projects.thumbnail");
-  const { height: screenHeight } = useScreenSize();
-  const handleClick = () => {
-    onClick?.();
-    openWindow({
-      id: `projects-detail-${name}`,
-      title: name,
-      children: (props) => <ProjectWindow {...props} />,
-      isFullscreenAllowed: true,
-      size: {
-        width: 1024,
-        height: screenHeight * 0.6,
-      },
-    });
-  };
 
   return (
     <motion.div
       className="flex flex-col items-center gap-2 p-6"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={handleClick}
+      onClick={() => onClick?.()}
       initial={{ scale: 1, opacity: 1 }}
       whileTap={{ scale: 0.9 }}
       transition={{ type: "spring", bounce: 0 }}

@@ -1,55 +1,32 @@
 "use client";
 
-import React, {
-  FC,
-  ReactNode,
-  RefObject,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { FC, RefObject, useMemo, useRef, useState } from "react";
 import { motion, useDragControls, useMotionValue } from "framer-motion";
 import { WindowButtonTooltip } from "./WindowButtonTooltip";
 import { cn } from "@/lib/cn";
-import { useWindow } from "../WindowManager";
 import { BorderTrail } from "../BorderTrail";
 import { useScopedI18n } from "@/lib/locales/client";
 import useScreenSize from "@/lib/screen";
+import {
+  useWindowActions,
+  WindowPosition,
+  WindowSize,
+  WindowState,
+} from "../WindowManager";
 
-const FULLSCREEN_INSET = 12;
+const FULLSCREEN_INSET = 0;
 
-export interface WindowChildrenProps {
-  isFullscreen: boolean;
-  id: string;
-  isFocused: boolean;
-  title: string;
-}
-
-export interface WindowProps {
-  children: (props: WindowChildrenProps) => ReactNode;
-  containerRef: RefObject<HTMLDivElement>;
-  title?: string;
-  id: string;
-  isFocused?: boolean;
-  isFullscreenAllowed?: boolean;
-  size?: {
-    width?: number;
-    height?: number;
-  };
-  position?: {
-    left?: number;
-    top?: number;
-    right?: number;
-    bottom?: number;
-  };
-}
-
-const getMaxSize = (
-  size: WindowProps["size"],
-  screenWidth: number,
-  screenHeight: number,
-  position: WindowProps["position"],
-) => {
+const getMaxSize = ({
+  size,
+  screenWidth,
+  screenHeight,
+  position,
+}: {
+  size?: WindowSize;
+  screenWidth: number;
+  screenHeight: number;
+  position?: WindowPosition;
+}) => {
   const maxWidth =
     screenWidth - ((position?.left ?? 0) + (position?.right ?? 0));
   const maxHeight =
@@ -61,36 +38,38 @@ const getMaxSize = (
   };
 };
 
-export const Window: FC<WindowProps> = ({
-  children,
-  title = "Window Title",
-  containerRef,
+export const Window: FC<
+  WindowState & { screenRef: RefObject<HTMLDivElement> }
+> = ({
+  title,
   id,
-  isFullscreenAllowed = false,
+  component: Component,
+  defaultSize,
+  defaultPosition,
+  isFullscreenAllowed,
   isFocused,
-  size,
-  position,
+  isFullscreen,
+  isOpened,
+  screenRef,
 }) => {
+  const { focusSelf, closeSelf, toggleFullscreenSelf, register, unregister } =
+    useWindowActions(id);
   const windowRef = useRef<HTMLDivElement>(null);
-  const t = useScopedI18n("window");
 
   const { width: screenWidth, height: screenHeight } = useScreenSize();
-
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const [previousTransformX, setPreviousTransformX] = useState(0);
   const [previousTransformY, setPreviousTransformY] = useState(0);
 
+  const t = useScopedI18n("window");
   const closeHovered = useMotionValue(0);
   const minimizeHovered = useMotionValue(0);
   const maximizeHovered = useMotionValue(0);
 
-  const { focusWindow, closeWindow } = useWindow(id);
-
   const dragControls = useDragControls();
 
   const startDrag = (event: React.PointerEvent<Element>) => {
-    focusWindow();
+    focusSelf();
     dragControls.start(event, { snapToCursor: false });
   };
 
@@ -102,29 +81,29 @@ export const Window: FC<WindowProps> = ({
     }
   };
 
-  const handleMaximize = () => {
-    setIsFullscreen(true);
-  };
-
   const handleReduce = () => {
     if (isFullscreen) {
-      setIsFullscreen(false);
-    } else closeWindow();
-  };
-
-  const handlePointerDown = () => {
-    focusWindow();
+      toggleFullscreenSelf();
+    } else closeSelf();
   };
 
   const maxSize = useMemo(() => {
-    return getMaxSize(size, screenWidth, screenHeight, position);
-  }, [size, screenWidth, screenHeight, position]);
+    if (!defaultSize || !defaultPosition) return undefined;
+    return getMaxSize({
+      size: defaultSize,
+      screenWidth,
+      screenHeight,
+      position: defaultPosition,
+    });
+  }, [defaultSize, screenWidth, screenHeight, defaultPosition]);
+
+  if (!isOpened) return <></>;
 
   return (
     <motion.div
       ref={windowRef}
       drag={!isFullscreen}
-      dragConstraints={containerRef}
+      dragConstraints={screenRef}
       dragElastic={0.1}
       className={cn(
         "max-w-screen -m-1/2 pointer-events-none absolute max-h-full select-none overflow-hidden rounded-lg border border-transparent shadow-2xl brightness-75 backdrop-blur-md",
@@ -144,8 +123,8 @@ export const Window: FC<WindowProps> = ({
       }}
       animate={{
         opacity: 1,
-        height: isFullscreen ? `100%` : (size?.height ?? "fit-content"),
-        width: isFullscreen ? `100%` : (size?.width ?? "fit-content"),
+        height: isFullscreen ? `100%` : (defaultSize?.height ?? "fit-content"),
+        width: isFullscreen ? `100%` : (defaultSize?.width ?? "fit-content"),
         left: isFullscreen ? 0 - previousTransformX : undefined,
         top: isFullscreen ? 0 - previousTransformY : undefined,
         padding: isFullscreen ? FULLSCREEN_INSET : 0,
@@ -162,10 +141,14 @@ export const Window: FC<WindowProps> = ({
       transition={{ type: "spring", bounce: 0 }}
       key={id}
       style={{
-        ...(position?.left && { left: position.left + "px" }),
-        ...(position?.top && { top: position.top + "px" }),
-        ...(position?.right && { right: position.right + "px" }),
-        ...(position?.bottom && { bottom: position.bottom + "px" }),
+        ...(defaultPosition?.left && { left: defaultPosition.left + "px" }),
+        ...(defaultPosition?.top && { top: defaultPosition.top + "px" }),
+        ...(defaultPosition?.right && {
+          right: defaultPosition.right + "px",
+        }),
+        ...(defaultPosition?.bottom && {
+          bottom: defaultPosition.bottom + "px",
+        }),
       }}
     >
       <div
@@ -180,7 +163,7 @@ export const Window: FC<WindowProps> = ({
             !isFullscreen && "cursor-grab",
           )}
           onPointerDown={startDrag}
-          onClick={handlePointerDown}
+          onClick={() => focusSelf()}
         >
           <div className="relative flex cursor-move select-none space-x-2">
             <motion.button
@@ -188,7 +171,7 @@ export const Window: FC<WindowProps> = ({
               aria-label={t("close")}
               onHoverStart={() => closeHovered.set(1)}
               onHoverEnd={() => closeHovered.set(0)}
-              onClick={() => closeWindow()}
+              onClick={() => closeSelf()}
             >
               <WindowButtonTooltip isHovered={closeHovered}>
                 {t("close")}
@@ -215,7 +198,7 @@ export const Window: FC<WindowProps> = ({
                   aria-label={isFullscreen ? t("restore") : t("maximize")}
                   onHoverStart={() => maximizeHovered.set(1)}
                   onHoverEnd={() => maximizeHovered.set(0)}
-                  onClick={handleMaximize}
+                  onClick={() => toggleFullscreenSelf()}
                 >
                   {!isFullscreen && (
                     <WindowButtonTooltip isHovered={maximizeHovered}>
@@ -230,22 +213,29 @@ export const Window: FC<WindowProps> = ({
             {title}
           </div>
           <div className={cn("w-16", !isFullscreenAllowed && "w-5")}></div>{" "}
-          {/* Spacer to balance the title */}
         </div>
         <div
           className={cn(
             "pointer-events-auto relative h-[calc(100%-40px)] max-h-[calc(100vh-40px)] overflow-y-auto overflow-x-hidden p-4",
           )}
-          onScroll={() => focusWindow()}
-          onClick={handlePointerDown}
+          onScroll={() => focusSelf()}
+          onClick={() => focusSelf()}
         >
           <div className="relative size-full">
-            {children({
-              isFullscreen,
-              id,
-              isFocused: !!isFocused,
-              title,
-            })}
+            <Component
+              {...{
+                isFullscreen,
+                id,
+                isFocused,
+                title,
+                isOpened,
+                defaultPosition,
+                defaultSize,
+                isFullscreenAllowed,
+                registerWindows: register,
+                unregisterWindows: unregister,
+              }}
+            />
             {!isFocused && <div className="absolute -inset-4 bg-black/30" />}
           </div>
         </div>

@@ -11,6 +11,7 @@ import { ChangeEvent } from "react";
 import Image from "next/image";
 import IMGBackground from "@/assets/background.jpg";
 import { useScopedI18n } from "@/lib/locales/client";
+import { useUmami } from "@/lib/umami";
 
 interface BackgroundContextType {
   currentBackground: string;
@@ -39,6 +40,8 @@ export const BackgroundProvider: React.FC<BackgroundProviderProps> = ({
   children,
   defaultBackground = IMGBackground.src,
 }) => {
+  const { track } = useUmami();
+
   const [currentBackground, setCurrentBackground] =
     useState<string>(defaultBackground);
 
@@ -52,6 +55,7 @@ export const BackgroundProvider: React.FC<BackgroundProviderProps> = ({
   const setBackground = (background: string) => {
     setCurrentBackground(background);
     localStorage.setItem("background", background);
+    track?.("changeBackground", { background });
   };
 
   return (

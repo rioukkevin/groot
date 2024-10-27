@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   ProjectType,
   ProjectThumbnail,
-  useProjectsData,
   FilterableTechnologies,
   Technology,
 } from "./data";
@@ -12,32 +11,33 @@ import { useScopedI18n } from "@/lib/locales/client";
 import { useProjectTypeTranslations } from "./useProjectTypeTranslation";
 
 interface ProjectsFilterProps {
+  projects: ProjectThumbnail[];
   onFilterChange: (filteredProjects: ProjectThumbnail[]) => void;
 }
 
 export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
+  projects,
   onFilterChange,
 }) => {
   const t = useScopedI18n("projects.filter");
   const translatedTypes = useProjectTypeTranslations();
-  const allProjects = useProjectsData();
   const [selectedTechnology, setSelectedTechnology] = useState<string>("");
   const [selectedType, setSelectedType] = useState<ProjectType | "">("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredCount, setFilteredCount] = useState(allProjects.length);
+  const [filteredCount, setFilteredCount] = useState(projects.length);
 
   const allTechnologies = Array.from(
-    new Set(allProjects.flatMap((project) => project.technologies)),
+    new Set(projects.flatMap((project) => project.technologies)),
   )
     .sort()
     .filter((tech) => FilterableTechnologies[tech as Technology]);
 
   const allProjectTypes = Object.values(ProjectType).filter((type) =>
-    allProjects.some((project) => project.type === type),
+    projects.some((project) => project.type === type),
   );
 
   useEffect(() => {
-    const filteredProjects = allProjects.filter((project) => {
+    const filteredProjects = projects.filter((project) => {
       const matchesTechnology =
         selectedTechnology === "" ||
         project.technologies.includes(selectedTechnology);
@@ -55,13 +55,7 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
 
     setFilteredCount(filteredProjects.length);
     onFilterChange(filteredProjects);
-  }, [
-    selectedTechnology,
-    selectedType,
-    searchTerm,
-    allProjects,
-    onFilterChange,
-  ]);
+  }, [selectedTechnology, selectedType, searchTerm, projects, onFilterChange]);
 
   const filterVariants = {
     hidden: { opacity: 0, x: -20 },
@@ -130,7 +124,7 @@ export const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
           className="w-full rounded-lg border border-neutral-600/50 bg-neutral-700 p-2 pr-24 text-sm text-neutral-200 focus:border-neutral-600"
         />
         <AnimatePresence>
-          {(searchTerm.length > 0 || filteredCount !== allProjects.length) && (
+          {(searchTerm.length > 0 || filteredCount !== projects.length) && (
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}

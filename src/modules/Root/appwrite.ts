@@ -6,6 +6,7 @@ import {
 } from "@/lib/appwrite";
 import { getIp } from "@/lib/ip";
 import { useCurrentLocale, useScopedI18n } from "@/lib/locales/client";
+import { useUmami } from "@/lib/umami";
 import { ID, Query, RealtimeResponseEvent } from "appwrite";
 import { useEffect, useState } from "react";
 
@@ -123,6 +124,8 @@ const useAddChatMessage = (
 };
 
 const useSubscribeToNews = () => {
+  const { track } = useUmami();
+
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -152,6 +155,8 @@ const useSubscribeToNews = () => {
 
         throw new Error(result.message);
       }
+
+      track?.("subscribe", { email });
 
       setError(null);
       return response;

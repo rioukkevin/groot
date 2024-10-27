@@ -1,13 +1,15 @@
 import { FC, useState, useEffect, useCallback } from "react";
-import { WindowChildrenProps } from "@/modules/Window";
 import { DrawSVG, LooserSVG, WinnerSVG } from "./TicTacToeSVG";
 import { computerMove } from "./computer";
 import { useCalculateWinner } from "./utils";
 import { FishSymbol, PawPrint } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useScopedI18n } from "@/lib/locales/client";
+import { WindowComponentProps } from "@/modules/WindowManager";
+import { useUmami } from "@/lib/umami";
 
-export const TicTacToeWindow: FC<WindowChildrenProps> = () => {
+export const TicTacToeWindow: FC<WindowComponentProps> = () => {
+  const { track } = useUmami();
   const t = useScopedI18n("tictactoe");
   type Board = Array<"X" | "O" | null>;
 
@@ -46,6 +48,13 @@ export const TicTacToeWindow: FC<WindowChildrenProps> = () => {
       const timer = setTimeout(() => {
         setShowResult(true);
       }, 500);
+      if (result.winner === "X") {
+        track?.("ticTacToeWin");
+      } else if (result.winner === "O") {
+        track?.("ticTacToeLoss");
+      } else {
+        track?.("ticTacToeDraw");
+      }
       return () => clearTimeout(timer);
     }
   }, [result.isGameFinished]);

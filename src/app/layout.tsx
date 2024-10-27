@@ -4,6 +4,7 @@ import "./globals.css";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
+import { UmamiAnalytics } from "@/lib/umami";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,7 +27,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const shouldInjectToolbar = process.env.NODE_ENV === "development";
+  const shouldInjectToolbar = false; // process.env.NODE_ENV === "development";
 
   return (
     <html lang="en">
@@ -35,7 +36,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <UmamiAnalytics>{children}</UmamiAnalytics>
         {shouldInjectToolbar && <VercelToolbar />}
       </body>
     </html>

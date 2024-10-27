@@ -1,14 +1,19 @@
 import React, { FC, useMemo, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useProjectsData } from "./data";
 import { ProjectThumbnail } from "./ProjectThumbnail";
-
+import { ProjectThumbnail as ProjectThumbnailType } from "./data";
 const IS_EVENLY_DIVIDED_CONFIG = [-200, 0, -100];
 const IS_ODD_CONFIG = [400, -200, 300];
 const IS_EVEN_CONFIG = [-200, 400, -200];
 
-export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
+interface ProjectsListProps {
+  data: ProjectThumbnailType[];
+  onOpenProject: (id: string) => void;
+}
+
+export const ProjectsList: FC<ProjectsListProps> = ({
   data,
+  onOpenProject,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -75,6 +80,7 @@ export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
               name={item.name}
               shortDescription={item.shortDescription}
               color={item.color}
+              onClick={() => onOpenProject(item.name)}
             />
           ))}
         </motion.div>
@@ -91,6 +97,7 @@ export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
               name={item.name}
               shortDescription={item.shortDescription}
               color={item.color}
+              onClick={() => onOpenProject(item.name)}
             />
           ))}
         </motion.div>
@@ -107,6 +114,7 @@ export const ProjectsList: FC<{ data: ReturnType<typeof useProjectsData> }> = ({
               name={item.name}
               shortDescription={item.shortDescription}
               color={item.color}
+              onClick={() => onOpenProject(item.name)}
             />
           ))}
         </motion.div>

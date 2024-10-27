@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useBackground } from "../Theme/Background";
+import { useBackground } from "../Theme";
 import {
   motion,
   AnimatePresence,

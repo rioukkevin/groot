@@ -1,12 +1,12 @@
 import { FC, useMemo, useState } from "react";
 import { ExperienceData, useExperiencesData } from "./data";
-import { WindowChildrenProps } from "@/modules/Window";
 import { cn } from "@/lib/cn";
 import { useScopedI18n } from "@/lib/locales/client";
 import { AnimatePresence, motion } from "framer-motion";
 import { TextEffect } from "@/modules/TextEffect/TextEffect";
+import { WindowComponentProps } from "@/modules/WindowManager";
 
-export const ExperiencesWindow: FC<WindowChildrenProps> = ({
+export const ExperiencesWindow: FC<WindowComponentProps> = ({
   isFullscreen,
 }) => {
   const t = useScopedI18n("experiences");
@@ -105,11 +105,11 @@ export const ExperiencesWindow: FC<WindowChildrenProps> = ({
                     {experience.company}
                   </TextEffect>
                 </h3>
-                <p className="text-xl font-normal text-neutral-100">
+                <span className="text-xl font-normal text-neutral-100">
                   <TextEffect preset="fade" delay={index * 0.1 + 0.3}>
                     {experience.job}
                   </TextEffect>
-                </p>
+                </span>
               </motion.div>
             </li>
           ))}
