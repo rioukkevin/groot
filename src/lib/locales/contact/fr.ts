@@ -7,6 +7,8 @@ const contactFr = {
   "contact.linkedin.value": "@kevinatooof",
   "contact.twitter.label": "Twitter",
   "contact.twitter.value": "@kevinatooof",
+  "contact.calendar.label": "Calendrier",
+  "contact.calendar.value": "Prendre rendez-vous",
 } as const;
 
 export default contactFr;

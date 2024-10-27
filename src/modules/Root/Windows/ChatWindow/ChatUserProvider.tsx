@@ -21,12 +21,15 @@ const ChatUserContext = createContext<UserContextType | undefined>(undefined);
 export const ChatUserProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [username, setUsername] = useState<string | null>(() => {
-    return localStorage.getItem("username") || null;
-  });
-  const [userId, setUserId] = useState<string | null>(() => {
-    return localStorage.getItem("userId") || null;
-  });
+  const [username, setUsername] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (localStorage) {
+      setUsername(localStorage.getItem("username") || null);
+      setUserId(localStorage.getItem("userId") || null);
+    }
+  }, []);
 
   useEffect(() => {
     if (username) {

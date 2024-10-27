@@ -124,6 +124,7 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
       return prev;
     });
     setTimeout(() => focusWindow(id), 100);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const closeWindow = useCallback((id: string) => {
@@ -139,6 +140,7 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
       }
       return prev;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const focusWindow = useCallback((id: string) => {
@@ -152,6 +154,7 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
       }
       return prev;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleFullscreen = useCallback((id: string) => {
@@ -165,6 +168,7 @@ export const WindowManagerProvider: FC<WindowManagerProviderProps> = ({
       }
       return prev;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const value = {
@@ -225,6 +229,7 @@ export const useWindowActions = (id: string) => {
       }));
       return registerWindows(newWindows);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [registerWindows],
   );
 

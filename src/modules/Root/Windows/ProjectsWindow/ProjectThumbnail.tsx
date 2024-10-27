@@ -44,8 +44,7 @@ export const ProjectThumbnail: React.FC<ProjectThumbnailProps> = ({
           src={imageSrc}
           alt={name}
           layout="fill"
-          objectFit="cover"
-          className="rounded-lg"
+          className="rounded-lg object-cover"
         />
       </motion.div>
       <div className="relative flex w-full flex-col">

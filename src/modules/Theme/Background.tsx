@@ -103,7 +103,7 @@ export const BackgroundFileSelector: React.FC = () => {
             src={currentBackground}
             alt={t("background.currentBackgroundPreview")}
             layout="fill"
-            objectFit="cover"
+            className="object-cover"
           />
         </div>
       )}

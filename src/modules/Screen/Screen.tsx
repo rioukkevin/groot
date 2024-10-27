@@ -28,9 +28,8 @@ export const Screen: FC<ScreenProps> = ({ children }) => {
         src={currentBackground}
         alt="Background"
         fill
-        objectFit="cover"
         quality={100}
-        className="z-0"
+        className="z-0 object-cover"
         priority
         placeholder="blur"
         blurDataURL={currentBackground}

@@ -85,7 +85,7 @@ export const Page = () => {
         id: "contact",
         defaultSize: {
           width: 350,
-          height: 230,
+          height: 270,
         },
         defaultPosition: {
           right: 20,
@@ -190,6 +190,7 @@ export const Page = () => {
       openWindow(WINDOWS[4].id);
       openWindow(WINDOWS[0].id);
     }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

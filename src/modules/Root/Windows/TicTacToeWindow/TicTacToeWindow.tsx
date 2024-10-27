@@ -57,6 +57,7 @@ export const TicTacToeWindow: FC<WindowComponentProps> = () => {
       }
       return () => clearTimeout(timer);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result.isGameFinished]);
 
   const handleReplay = () => {

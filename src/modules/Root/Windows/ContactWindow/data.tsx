@@ -1,4 +1,10 @@
-import { LinkedinIcon, MailIcon, PhoneIcon, TwitterIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  LinkedinIcon,
+  MailIcon,
+  PhoneIcon,
+  TwitterIcon,
+} from "lucide-react";
 import { ReactNode, useMemo } from "react";
 import { useScopedI18n } from "@/lib/locales/client";
 
@@ -37,6 +43,12 @@ export const useContactData = () => {
         value: t("twitter.value"),
         href: "https://twitter.com/kevinatooof",
         icon: <TwitterIcon />,
+      },
+      {
+        label: t("calendar.label"),
+        value: t("calendar.value"),
+        href: "https://plo.ooof.dev/meet",
+        icon: <CalendarIcon />,
       },
     ],
     [t],
