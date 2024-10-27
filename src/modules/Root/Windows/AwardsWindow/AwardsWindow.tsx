@@ -1,11 +1,11 @@
-import { WindowComponentProps } from "@/modules/WindowManager";
 import Image from "next/image";
 import React, { FC, ReactNode } from "react";
 
-import IMGGrootAward1 from "@/assets/awards/groot/kudos.jpg";
 import IMGGrootAward2 from "@/assets/awards/groot/innovation.jpg";
-import IMGGrootAward3 from "@/assets/awards/groot/ux.jpg";
+import IMGGrootAward1 from "@/assets/awards/groot/kudos.jpg";
 import IMGGrootAward4 from "@/assets/awards/groot/ui.jpg";
+import IMGGrootAward3 from "@/assets/awards/groot/ux.jpg";
+import { WindowComponentProps } from "@/modules/WindowManager";
 
 interface Award {
   id: string;
@@ -21,41 +21,45 @@ const awards: Award[] = [
     websiteName: "kevin.riou.pro (This website)",
     components: [
       <Image
-        src={IMGGrootAward1}
-        height={AWARD_IMG_HEIGHT}
+        key={1}
         alt="Groot Award 1"
+        height={AWARD_IMG_HEIGHT}
         quality={100}
+        src={IMGGrootAward1}
       />,
       <Image
-        src={IMGGrootAward2}
-        height={AWARD_IMG_HEIGHT}
+        key={2}
         alt="Groot Award 2"
+        height={AWARD_IMG_HEIGHT}
         quality={100}
+        src={IMGGrootAward2}
       />,
       <Image
-        src={IMGGrootAward3}
-        height={AWARD_IMG_HEIGHT}
+        key={3}
         alt="Groot Award 3"
+        height={AWARD_IMG_HEIGHT}
         quality={100}
+        src={IMGGrootAward3}
       />,
       <Image
-        src={IMGGrootAward4}
-        height={AWARD_IMG_HEIGHT}
+        key={4}
         alt="Groot Award 4"
+        height={AWARD_IMG_HEIGHT}
         quality={100}
+        src={IMGGrootAward4}
       />,
     ],
   },
 ];
 
-const Award: FC<Award> = ({ websiteName, components, id }) => (
+const Award: FC<Award> = ({ websiteName, components }) => (
   <div className="flex w-full flex-col items-center">
     <h3 className="w-full border-b border-neutral-500 pb-2 text-lg font-bold uppercase text-neutral-300">
       {websiteName}
     </h3>
     <div className="flex w-full flex-nowrap gap-4 overflow-x-auto pt-4">
       {components.map((component, index) => (
-        <div key={index} className="h-fit min-h-[300px] w-fit min-w-[200px]">
+        <div key={index} className="size-fit min-h-[300px] min-w-[200px]">
           {component}
         </div>
       ))}

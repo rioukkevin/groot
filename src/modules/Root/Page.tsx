@@ -27,9 +27,9 @@ import {
   ExperiencesWindow,
   TicTacToeWindow,
 } from "./Windows";
+import { AwardsWindow } from "./Windows/AwardsWindow/AwardsWindow";
 import { ChatWindow } from "./Windows/ChatWindow";
 import { ProjectsWindow } from "./Windows/ProjectsWindow";
-import { AwardsWindow } from "./Windows/AwardsWindow/AwardsWindow";
 
 export const Page = () => {
   const t = useScopedI18n("dock");
