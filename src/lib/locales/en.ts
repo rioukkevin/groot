@@ -15,6 +15,7 @@ const en = {
   "dock.contact": "Contact",
   "dock.tictactoe": "TicTacToe",
   "dock.settings": "Settings",
+  "dock.awards": "Awards",
 
   // Root/Windows/WhoWindow
   "who.title": "Fullstack web developer",

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  AwardIcon,
   BriefcaseBusinessIcon,
   JoystickIcon,
   MailIcon,
@@ -28,6 +29,7 @@ import {
 } from "./Windows";
 import { ChatWindow } from "./Windows/ChatWindow";
 import { ProjectsWindow } from "./Windows/ProjectsWindow";
+import { AwardsWindow } from "./Windows/AwardsWindow/AwardsWindow";
 
 export const Page = () => {
   const t = useScopedI18n("dock");
@@ -45,8 +47,8 @@ export const Page = () => {
           height: screenHeight * 0.8,
         },
         defaultPosition: {
-          left: 50,
-          top: 50,
+          left: 20,
+          top: 20,
         },
       },
       {
@@ -93,6 +95,18 @@ export const Page = () => {
         defaultPosition: {
           right: 20,
           top: 250,
+        },
+      },
+      {
+        title: t("awards"),
+        component: AwardsWindow,
+        id: "awards",
+        defaultSize: {
+          width: 500,
+          height: 420,
+        },
+        defaultPosition: {
+          top: 20,
         },
       },
       {
@@ -160,6 +174,12 @@ export const Page = () => {
         title: t("contact"),
         icon: <MailIcon className="size-full text-neutral-300" />,
         onPress: () => openWindow(WINDOWS[4].id),
+      },
+      {
+        id: "awards",
+        title: t("awards"),
+        icon: <AwardIcon className="size-full text-neutral-300" />,
+        onPress: () => openWindow(WINDOWS[5].id),
       },
       {
         id: "chat",
