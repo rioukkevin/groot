@@ -1,7 +1,7 @@
-import type { FC } from "react"
+import type { FC } from "react";
 
 interface ModelsProps {
-  name: string
+  name: string;
 }
 
 export const Models: FC<ModelsProps> = ({ name }) => {
@@ -9,5 +9,5 @@ export const Models: FC<ModelsProps> = ({ name }) => {
     <div>
       <h1>{name}</h1>
     </div>
-  )
-}
+  );
+};
