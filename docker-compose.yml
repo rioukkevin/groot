@@ -1,0 +1,26 @@
+# Local Postgres for Payload. Production uses Vercel Postgres (Neon); this is
+# the same major so the schema Payload pushes here is the schema it pushes
+# there.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: groot-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: groot
+      POSTGRES_PASSWORD: groot
+      POSTGRES_DB: groot
+    # 5433 on the host: 5432 is commonly already taken by another project's
+    # database, and borrowing it would break whatever is using it.
+    ports:
+      - "5433:5432"
+    volumes:
+      - groot-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U groot -d groot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  groot-pgdata:

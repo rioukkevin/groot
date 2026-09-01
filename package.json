@@ -6,14 +6,27 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "cms:types": "bun run --env-file=.env.local node_modules/payload/dist/bin/index.js generate:types",
+    "cms:seed": "bun run --env-file=.env.local cms/seed.ts",
+    "content:export": "bun run cms/export-content.ts"
   },
   "dependencies": {
+    "@payloadcms/db-postgres": "^3.88.0",
+    "@payloadcms/next": "^3.88.0",
+    "@payloadcms/plugin-mcp": "^3.88.0",
+    "@payloadcms/richtext-lexical": "^3.88.0",
+    "@payloadcms/storage-vercel-blob": "^3.88.0",
     "blobatar": "^2.7.0",
+    "graphql": "^17.0.2",
     "next": "16.3.4",
+    "payload": "^3.88.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "resend": "^6.25.0"
+    "resend": "^6.25.0",
+    "sharp": "^0.35.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

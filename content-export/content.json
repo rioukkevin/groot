@@ -1,6 +1,6 @@
 {
-  "exportedAt": "2026-09-01T21:35:39.544Z",
-  "note": "Snapshot of all shell content before the CMS migration. Source of truth is still lib/terminal/content.ts until Payload lands.",
+  "exportedAt": "2026-09-01T21:52:35.361Z",
+  "note": "Snapshot of the shell's content. Regenerate with `bun run content:export`.",
   "commands": [
     [
       "/projects",
@@ -452,14 +452,96 @@
     ]
   ],
   "stack": [
-    "languages   TypeScript · JavaScript · PHP · C#",
-    "frontend    React · Next.js · Vue · Nuxt · Tailwind · Sass · CSS-in-JS",
-    "backend     Node · NestJS · Express · Koa · GraphQL · REST · Socket.io",
-    "mobile      React Native · Expo · Cordova · NativeScript",
-    "data        PostgreSQL · MongoDB · Prisma · Firebase · Supabase",
-    "ai          LLM APIs · agents & MCP · RAG · embeddings · AI-assisted delivery",
-    "infra       Docker · Kubernetes · Helm · Vercel · Netlify · OVHcloud · Scaleway",
-    "testing     Playwright · Vitest · Jest"
+    [
+      "languages",
+      "var(--accent)",
+      [
+        "TypeScript",
+        "JavaScript",
+        "PHP",
+        "C#"
+      ]
+    ],
+    [
+      "frontend",
+      "var(--accent2)",
+      [
+        "React",
+        "Next.js",
+        "Vue",
+        "Nuxt",
+        "Tailwind",
+        "Sass",
+        "CSS-in-JS"
+      ]
+    ],
+    [
+      "backend",
+      "var(--add)",
+      [
+        "Node",
+        "NestJS",
+        "Express",
+        "Koa",
+        "GraphQL",
+        "REST",
+        "Socket.io"
+      ]
+    ],
+    [
+      "mobile",
+      "var(--warn)",
+      [
+        "React Native",
+        "Expo",
+        "Cordova",
+        "NativeScript"
+      ]
+    ],
+    [
+      "data",
+      "var(--accent2)",
+      [
+        "PostgreSQL",
+        "MongoDB",
+        "Prisma",
+        "Firebase",
+        "Supabase"
+      ]
+    ],
+    [
+      "ai",
+      "var(--accent)",
+      [
+        "LLM APIs",
+        "Agents & MCP",
+        "RAG",
+        "Embeddings",
+        "AI-assisted delivery"
+      ]
+    ],
+    [
+      "infra",
+      "var(--warn)",
+      [
+        "Docker",
+        "Kubernetes",
+        "Helm",
+        "Vercel",
+        "Netlify",
+        "OVHcloud",
+        "Scaleway"
+      ]
+    ],
+    [
+      "testing",
+      "var(--add)",
+      [
+        "Playwright",
+        "Vitest",
+        "Jest"
+      ]
+    ]
   ],
   "rates": [
     "development   €600 / day · fullstack, web and mobile",
