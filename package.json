@@ -11,7 +11,9 @@
     "db:down": "docker compose down",
     "cms:types": "bun run --env-file=.env.local cms/gen-types.ts",
     "cms:seed": "bun run --env-file=.env.local cms/seed.ts",
-    "content:export": "bun run cms/export-content.ts"
+    "content:export": "bun run cms/export-content.ts",
+    "ml:train": "python3 ml/train.py",
+    "ml:parity": "node ml/parity.mjs"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.88.0",

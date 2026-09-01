@@ -336,7 +336,9 @@ const seed = async () => {
         { key: "photo.portraitCaption", text: "portrait · hover to resolve" },
         { key: "spotlight.unavailable", text: "unavailable" },
         { key: "spotlight.close", text: "close" },
-        { key: "spotlight.controls", text: "wheel zoom · drag pan · dbl-click toggle" }
+        { key: "spotlight.controls", text: "wheel zoom · drag pan · dbl-click toggle" },
+        { key: "ask.fromContent", text: "from the site's content" },
+        { key: "ask.noMatch", text: "no match in the site's content" }
       ],
       introHints: [
         { key: "try", label: "try", text: "/roles" },
@@ -561,7 +563,9 @@ const seed = async () => {
         { key: "photo.portraitCaption", text: "portrait · survolez pour révéler" },
         { key: "spotlight.unavailable", text: "indisponible" },
         { key: "spotlight.close", text: "fermer" },
-        { key: "spotlight.controls", text: "molette zoom · glisser déplacer · double-clic basculer" }
+        { key: "spotlight.controls", text: "molette zoom · glisser déplacer · double-clic basculer" },
+        { key: "ask.fromContent", text: "depuis le contenu du site" },
+        { key: "ask.noMatch", text: "aucune correspondance dans le contenu du site" }
       ],
       introHints: [
         { key: "try", label: "essayez", text: "/roles" },

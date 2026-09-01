@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ask, llmStatus } from "@/lib/terminal/browser-llm";
+import { preloadIntent } from "@/lib/terminal/intent";
+import { retrieve } from "@/lib/terminal/retrieval";
 import { CLEAR, intro, matches, route } from "@/lib/terminal/commands";
 import { L } from "@/lib/terminal/format";
 import { maxWrappedLines } from "@/lib/terminal/format";
@@ -329,6 +331,38 @@ export function Terminal({
     [patch, push, run],
   );
 
+  /**
+   * Answers from the site's data without a model.
+   *
+   * Every browser can do this, and it costs nothing: it picks the tool the
+   * question is asking for and quotes what that tool returned. Plainer than the
+   * on-device model, and correct by construction — it selects content rather
+   * than composing prose about it.
+   */
+  const answerFromData = useCallback(
+    async (question: string) => {
+      const c = contentRef.current;
+      const found = await retrieve(question, c, c.locale);
+      const how =
+        found.via === "model"
+          ? `${found.tool} · ${Math.round(found.confidence * 100)}%`
+          : found.tool;
+      run([
+        {
+          kind: "tool",
+          name: "Look up",
+          arg: `(${how})`,
+          meta: found.empty
+            ? c.s("ask.noMatch", "no match in the site's content")
+            : c.s("ask.fromContent", "from the site's content"),
+          out: found.lines.map((l) => L(l, "var(--dim)")),
+          dur: 260,
+        },
+      ]);
+    },
+    [run],
+  );
+
   const submit = useCallback(
     (raw?: string) => {
       const q = (raw === undefined ? input : raw).trim();
@@ -351,8 +385,9 @@ export function Terminal({
       if (!q.startsWith("/")) {
         void askLocally(q).then((handled) => {
           if (handled) return;
-          const out = route(q, ctxRef.current);
-          if (out !== CLEAR && out.length) run(out);
+          // No on-device model here: answer from the data instead of routing
+          // the question to whichever command a keyword happened to match.
+          void answerFromData(q);
         });
         return;
       }
@@ -364,7 +399,7 @@ export function Terminal({
       }
       if (out.length) run(out);
     },
-    [askLocally, busy, halt, input, push, reset, run],
+    [answerFromData, askLocally, busy, halt, input, push, reset, run],
   );
 
   // Intro transcript. Clearing first makes this idempotent: StrictMode's
@@ -373,10 +408,11 @@ export function Terminal({
   // skipped by a guard.
   useEffect(() => {
     inputRef.current?.focus();
+    preloadIntent(locale);
     reset();
     push({ kind: "echo", text: "/intro" });
     run(intro(ctxRef.current));
-  }, [push, reset, run]);
+  }, [locale, push, reset, run]);
 
   // The design pinned the transcript to the bottom on every update, which
   // yanks the view away while you are reading back. Follow the output only
