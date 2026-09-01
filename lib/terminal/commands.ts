@@ -617,13 +617,23 @@ export function intro(ctx: CommandContext): BlockSpec[] {
     say(
       v(ctx, "intro"),
     ),
-    lines([
-      L("/roles", "var(--dim)", "  try  ", "var(--faint)"),
-      L('"are you free in September?"', "var(--dim)", "       ", "var(--faint)"),
-      L("/photos", "var(--dim)", "       ", "var(--faint)"),
-      L(""),
-      L("lists are selectable — ↑↓ to move, ↵ to open", "var(--faint)", "  ", ""),
-    ]),
+    // The blank line between the examples and the note is layout, so it is
+    // inserted here rather than stored as an empty row in the CMS.
+    lines(
+      ctx.content.introHints.flatMap((h, i, all) => {
+        const first = all.findIndex((x) => x[0] === "note");
+        const row =
+          h[0] === "note"
+            ? L(h[1], "var(--faint)", "  ", "")
+            : L(
+                h[1],
+                "var(--dim)",
+                h[2] ? `  ${h[2]}  ` : "       ",
+                "var(--faint)",
+              );
+        return i === first && i > 0 ? [L(""), row] : [row];
+      }),
+    ),
   ];
 }
 

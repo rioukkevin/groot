@@ -76,6 +76,8 @@ export interface ShellContent {
     banner: string;
     modeHint: string;
   };
+  /** The lines under the intro: [kind, text, label] per row. */
+  introHints: [string, string, string][];
   /** The voiced copy for this locale, keyed. Empty entries fall back to code. */
   voiced: Record<string, { warm: string; brief: string; terse: string }>;
   wizard: CmsWizardStep[];
@@ -188,6 +190,9 @@ export async function getShellContent(locale: Locale): Promise<ShellContent> {
       banner: str(ui.banner),
       modeHint: str(ui.modeHint),
     },
+    introHints: arr(ui.introHints).map(
+      (h) => [str(h.key, "try"), str(h.text), str(h.label)] as [string, string, string],
+    ),
     voiced: Object.fromEntries(
       VOICED_KEYS.map((k) => {
         const g = (ui as unknown as Record<string, unknown>)[k] as

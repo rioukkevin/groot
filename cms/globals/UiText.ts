@@ -42,7 +42,21 @@ export const UiText: GlobalConfig = {
               type: "array",
               localized: true,
               fields: [
-                { name: "key", type: "text" },
+                {
+                  name: "key",
+                  type: "select",
+                  required: true,
+                  defaultValue: "try",
+                  options: [
+                    { label: "example to try", value: "try" },
+                    { label: "note", value: "note" },
+                  ],
+                },
+                {
+                  name: "label",
+                  type: "text",
+                  admin: { description: "Prefix beside the first example, e.g. try." },
+                },
                 { name: "text", type: "text", required: true },
               ],
             },

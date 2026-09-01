@@ -843,7 +843,11 @@ export interface UiText {
   };
   introHints?:
     | {
-        key?: string | null;
+        key: 'try' | 'note';
+        /**
+         * Prefix beside the first example, e.g. try.
+         */
+        label?: string | null;
         text: string;
         id?: string | null;
       }[]
@@ -865,6 +869,11 @@ export interface UiText {
     terse?: string | null;
   };
   projects?: {
+    warm?: string | null;
+    brief?: string | null;
+    terse?: string | null;
+  };
+  about?: {
     warm?: string | null;
     brief?: string | null;
     terse?: string | null;
@@ -1040,6 +1049,7 @@ export interface UiTextSelect<T extends boolean = true> {
     | T
     | {
         key?: T;
+        label?: T;
         text?: T;
         id?: T;
       };
@@ -1059,6 +1069,13 @@ export interface UiTextSelect<T extends boolean = true> {
         terse?: T;
       };
   projects?:
+    | T
+    | {
+        warm?: T;
+        brief?: T;
+        terse?: T;
+      };
+  about?:
     | T
     | {
         warm?: T;

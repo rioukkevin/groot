@@ -272,6 +272,12 @@ const seed = async () => {
         description,
         hidden: false,
       })),
+      introHints: [
+        { key: "try", label: "try", text: "/roles" },
+        { key: "try", text: '"are you free in September?"' },
+        { key: "try", text: "/photos" },
+        { key: "note", text: "lists are selectable — ↑↓ to move, ↵ to open" },
+      ],
       wizardSteps: data.contactWizard.steps.map((s) => ({
         key: s.key,
         group: s.group,
@@ -425,6 +431,15 @@ const seed = async () => {
         description: FR_COMMANDS[command] ?? description,
         hidden: false,
       })),
+      introHints: [
+        { key: "try", label: "essayez", text: "/roles" },
+        { key: "try", text: '"êtes-vous libre en septembre ?"' },
+        { key: "try", text: "/photos" },
+        {
+          key: "note",
+          text: "les listes sont sélectionnables — ↑↓ pour se déplacer, ↵ pour ouvrir",
+        },
+      ],
       wizardSteps: data.contactWizard.steps.map((s) => {
         const t = FR_WIZARD[s.key];
         return {
