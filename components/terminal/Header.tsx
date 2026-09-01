@@ -42,7 +42,7 @@ export function Header({ mood }: { mood: BuddyMood }) {
               <span style={{ color: "var(--faint)" }}>{MOOD_NOTE[mood]}</span>
             </div>
             <div style={{ color: "var(--dim)" }}>
-              portfolio shell · Kevin Riou · fullstack web developer, freelance
+              portfolio shell · Kévin Riou · fullstack web & mobile, freelance
             </div>
             <div style={{ color: "var(--dim)" }}>~/work/kevin-riou</div>
           </div>
@@ -56,7 +56,7 @@ export function Header({ mood }: { mood: BuddyMood }) {
         className="mb-3 mt-2 whitespace-pre-wrap"
         style={{ color: "var(--warn)" }}
       >
-        ▲ Booked through October 2026{" "}
+        ▲ Available for new work from mid-September{" "}
         <span style={{ color: "var(--dim)" }}>· run /now for what changed</span>
       </div>
     </>

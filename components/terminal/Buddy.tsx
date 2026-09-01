@@ -33,7 +33,7 @@ interface BuddyProps {
  * reads as part of the terminal rather than as a pasted-in avatar. Hovering
  * still dissolves it to the original artwork.
  */
-export function Buddy({ name = "kev", mood, size = 60 }: BuddyProps) {
+export function Buddy({ name = "kevin-riou", mood, size = 60 }: BuddyProps) {
   // Warm the other expressions once so switching mood does not flash.
   useEffect(() => {
     const moods: BuddyMood[] = ["idle", "thinking", "happy", "sleepy"];

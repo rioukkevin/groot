@@ -25,7 +25,7 @@ const jetbrainsMono = localFont({
 export const metadata: Metadata = {
   title: "kr — portfolio shell",
   description:
-    "Kevin Riou · fullstack web developer, freelance. A portfolio you drive like a terminal.",
+    "Kévin Riou · fullstack web and mobile developer, freelance, Paris. A portfolio you drive like a terminal.",
 };
 
 export const viewport: Viewport = {

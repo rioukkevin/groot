@@ -2,9 +2,9 @@ import { diff, lines, say, select, think, tool } from "./blocks";
 import {
   CMDS,
   CONTACT_ROWS,
+  EDUCATION,
   EXP,
   NOW_ROWS,
-  POSTS,
   PROJECTS,
   RATES_ROWS,
   SKILL_ROWS,
@@ -62,15 +62,15 @@ function cProjects(ctx: CommandContext): BlockSpec[] {
     tool(
       "Read",
       "(work/projects.json)",
-      "4 records · 312 tokens",
-      [L("ferme-du-clos, atlas-booking, nomad-invoices, kr-ui", "var(--faint)")],
+      Object.keys(PROJECTS).length + " records · 312 tokens",
+      [L(Object.keys(PROJECTS).join(", "), "var(--faint)")],
       600,
     ),
     say(
       v(
         ctx,
-        "Four worth showing. The interesting part is usually the constraint, not the stack.",
-        "Four projects.",
+        "Side projects, mostly. The client work lives under /experience — this is what gets built when nobody is asking.",
+        "Side projects. Client work is under /experience.",
       ),
     ),
     select(
@@ -122,7 +122,7 @@ function cExperience(): BlockSpec[] {
     color: "var(--fg)",
   }));
   return [
-    tool("Read", "(cv/experience.md)", "3 entries · 208 tokens", [], 480),
+    tool("Read", "(cv/experience.md)", EXP.length + " entries · 208 tokens", [], 480),
     select(
       "role",
       pad("WHEN", 14) + pad("ROLE", 34) + "WHERE",
@@ -164,8 +164,8 @@ function cAbout(ctx: CommandContext): BlockSpec[] {
     say(
       v(
         ctx,
-        "I'm Kevin — fullstack web developer, freelance, based in Nantes.\n\nI build for small teams who need one person to own the whole thing: the database, the interface, the deploy, and the phone call when it breaks. Six years in, I've stopped being precious about tools. I pick boring ones that will still be here in three years, and I ship the small version first.\n\nOff the clock: long walks, film photography, and a stubborn attachment to the terminal — which you may have noticed.",
-        "Kevin Riou. Fullstack, freelance, Nantes.\nSix years. Small teams, whole stack, boring tools.\nShip small. Iterate.",
+        "I'm Kévin — fullstack web and mobile developer, freelance, based in Paris.\n\nI run Nareli, in partnership with @StartAndBrand, and before that traded as ooof.dev. Nine years in, across a cooperative, a food manufacturer, a SaaS and a Swiss sensor company, the pattern is the same: small teams that need one person to own the architecture, the interface, the deploy, and the phone call when it breaks.\n\nI've led teams and projects end to end, and I still prefer writing the thing. Off the clock: side projects since 2016 — bots, tools, and nine versions of this portfolio.",
+        "Kévin Riou. Fullstack web and mobile, freelance, Paris.\nNareli, ex ooof.dev. Nine years, whole stack.\nArchitecture to support call.",
       ),
     ),
     {
@@ -195,16 +195,16 @@ function cSkills(): BlockSpec[] {
   ls.push(L(""));
   ls.push(
     L(
-      "Fluent enough to be useful: Go, Stripe, Playwright, Terraform, Figma.",
+      "Also in reach: NestJS, Socket.io, Kubernetes, Helm, Firebase, Supabase.",
       "var(--dim)",
     ),
   );
   return [
     tool(
       "Analyze",
-      "(git log --author=kevin --since=24.months)",
-      "6 dimensions · 441 tokens",
-      [L("2 148 commits across 14 repositories", "var(--faint)")],
+      "(cv/* · weighted by years, ownership and recency)",
+      "7 dimensions · 441 tokens",
+      [L("nine years · seven roles · one stack that keeps paying off", "var(--faint)")],
       720,
     ),
     lines(ls),
@@ -213,53 +213,14 @@ function cSkills(): BlockSpec[] {
 
 const cStack = (): BlockSpec[] => [lines(box(STACK_ROWS, 68))];
 
-function cWriting(ctx: CommandContext): BlockSpec[] {
-  const items: SelectItem[] = POSTS.map((p) => ({
-    key: p.slug,
-    cmd: "/post " + p.slug,
-    k: pad(p.date, 10),
-    kcolor: "var(--dim)",
-    text: pad(p.title, 38) + p.mins,
-    color: "var(--fg)",
-  }));
+function cEducation(): BlockSpec[] {
   return [
-    say(v(ctx, "Three I'd stand behind.", "Three posts.")),
-    select(
-      "post",
-      pad("DATE", 10) + pad("TITLE", 38) + "READ",
-      52,
-      items,
-      "↑↓ select · ↵ read excerpt · esc release",
-    ),
-  ];
-}
-
-function cPost(slug: string): BlockSpec[] {
-  const p = POSTS.filter(
-    (x) => x.slug.indexOf((slug || "").toLowerCase()) === 0,
-  )[0];
-  if (!p)
-    return [
-      say(
-        "No post by that name. Known: " +
-          POSTS.map((x) => x.slug).join(", ") +
-          ".",
-      ),
-    ];
-  return [
-    tool(
-      "Read",
-      "(writing/" + p.date + "-" + p.slug + ".md)",
-      p.mins + " read · excerpt",
-      [],
-      440,
-    ),
+    tool("Read", "(cv/education.md)", "3 entries", [], 380),
     lines(
-      [
-        L(p.title, "var(--fg)", "", ""),
-        L(p.date + " · " + p.mins, "var(--faint)"),
-        L(""),
-      ].concat(p.detail.map((d) => L(d, "var(--dim)"))),
+      EDUCATION.flatMap((e) => [
+        L(e.what, "var(--fg)", pad(e.when, 14), "var(--accent)"),
+        L(pad("", 14) + e.where, "var(--dim)"),
+      ]),
     ),
   ];
 }
@@ -275,8 +236,8 @@ function cNow(ctx: CommandContext): BlockSpec[] {
     say(
       v(
         ctx,
-        "Short version: the calendar is full until November, and the interesting work right now is the Remix → Next migration on atlas-booking.",
-        "Full until November. Current work: atlas-booking v2 migration.",
+        "Short version: I'm free from mid-September, and the work right now is Nareli — fullstack and mobile builds for small teams.",
+        "Free from mid-September. Current work: Nareli client builds.",
       ),
     ),
   ];
@@ -288,8 +249,8 @@ function cRates(ctx: CommandContext): BlockSpec[] {
     say(
       v(
         ctx,
-        "I'd rather quote fixed price. It means we both had to think about scope before starting.",
-        "Fixed price preferred. Forces real scoping.",
+        "Three rates because they are three different jobs. I'd rather quote fixed price where the scope is clear — it means we both thought about it before starting.",
+        "Three rates, three jobs. Fixed price where scope allows.",
       ),
     ),
   ];
@@ -471,8 +432,8 @@ function cContact(ctx: CommandContext): BlockSpec[] {
     say(
       v(
         ctx,
-        "Email is fastest. Tell me what you're building and roughly when you need it.",
-        "Email. Include scope and timeline.",
+        "Email is fastest. Tell me what you're building and roughly when you need it — I'm free from mid-September.",
+        "Email. Include scope and timeline. Free from mid-September.",
       ),
     ),
   ];
@@ -529,16 +490,22 @@ function freeform(q: string, ctx: CommandContext): BlockSpec[] {
     return pre.concat(cNow(ctx));
   if (has("rate") || has("price") || has("cost") || has("charge") || has("tarif") || has("budget"))
     return pre.concat(cRates(ctx));
-  if (has("ferme") || has("atlas") || has("nomad") || has("kr-ui")) {
+  if (has("nareli") || has("ooof") || has("technis") || has("alpha8") || has("pasquier") || has("triskalia")) {
+    const k = ["nareli", "technis", "alpha8", "pasquier", "triskalia"].filter((n) => has(n))[0];
+    return pre.concat(cRole(k === undefined ? "nareli" : k));
+  }
+  if (has("portfolio") || has("vscode") || has("twitch") || has("chariteam") || has("counter") || has("betting")) {
     const k = Object.keys(PROJECTS).filter((n) => has(n.split("-")[0]))[0];
     return pre.concat(cProject(k));
   }
   if (has("react") || has("next") || has("node") || has("stack") || has("postgres") || has("typescript"))
     return pre.concat(cSkills());
-  if (has("ship") || has("project") || has("work") || has("built") || has("portfolio"))
+  if (has("ship") || has("project") || has("work") || has("built"))
     return pre.concat(cProjects(ctx));
   if (has("experience") || has("worked") || has("job") || has("year"))
     return pre.concat(cExperience());
+  if (has("stud") || has("school") || has("degree") || has("diplom") || has("education"))
+    return pre.concat(cEducation());
   if (has("who") || has("about") || has("yourself")) return pre.concat(cAbout(ctx));
   if (has("contact") || has("email") || has("reach") || has("call"))
     return pre.concat(cContact(ctx));
@@ -581,12 +548,11 @@ export function route(
       projects: () => cProjects(ctx),
       project: () => cProject(arg),
       experience: () => cExperience(),
+      education: () => cEducation(),
       role: () => cRole(arg),
-      post: () => cPost(arg),
       about: () => cAbout(ctx),
       skills: () => cSkills(),
       stack: () => cStack(),
-      writing: () => cWriting(ctx),
       now: () => cNow(ctx),
       photos: () => cPhotos(ctx),
       rates: () => cRates(ctx),
@@ -610,13 +576,13 @@ export function intro(ctx: CommandContext): BlockSpec[] {
     say(
       v(
         ctx,
-        "Hey — I'm Kevin. This is my portfolio, but it runs like a shell, so you drive it.\n\nType a command or just ask a question in plain words. /projects is the usual first stop; /now tells you whether I'm free.",
-        "Kevin Riou. Fullstack web developer, freelance.\nType a command or a question. /help lists everything.",
+        "Hey — I'm Kévin. This is my portfolio, but it runs like a shell, so you drive it.\n\nType a command or just ask a question in plain words. /experience is the usual first stop; /now tells you whether I'm free.",
+        "Kévin Riou. Fullstack web and mobile developer, freelance.\nType a command or a question. /help lists everything.",
       ),
     ),
     lines([
-      L("/projects", "var(--dim)", "  try  ", "var(--faint)"),
-      L('"are you free in November?"', "var(--dim)", "       ", "var(--faint)"),
+      L("/experience", "var(--dim)", "  try  ", "var(--faint)"),
+      L('"are you free in September?"', "var(--dim)", "       ", "var(--faint)"),
       L("/photos", "var(--dim)", "       ", "var(--faint)"),
       L(""),
       L("lists are selectable — ↑↓ to move, ↵ to open", "var(--faint)", "  ", ""),
