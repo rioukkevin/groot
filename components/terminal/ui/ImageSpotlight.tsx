@@ -217,6 +217,7 @@ function useBodyScrollLock() {
 /* ── overlay ───────────────────────────────────────────────────────────── */
 
 interface SpotlightOverlayProps {
+  strings: { unavailable: string; close: string; controls: string };
   src: string;
   title: string;
   /** Thumbnail rect measured at click time — the morph's starting box. */
@@ -231,6 +232,7 @@ interface SpotlightOverlayProps {
 }
 
 function SpotlightOverlay({
+  strings,
   src,
   title,
   origin,
@@ -664,7 +666,9 @@ function SpotlightOverlay({
           <span className="truncate" style={{ color: "var(--dim)" }}>
             {title}
           </span>
-          {failed && <span style={{ color: "var(--err)" }}>· unavailable</span>}
+          {failed && (
+            <span style={{ color: "var(--err)" }}>· {strings.unavailable}</span>
+          )}
           <span className="flex-1" />
           <span style={{ color: "var(--faint)" }}>{shown.z.toFixed(1)}x</span>
           <button
@@ -674,14 +678,14 @@ function SpotlightOverlay({
             className="pointer-events-auto uppercase tracking-[.09em] opacity-80 transition-opacity hover:opacity-100 focus-visible:underline"
             style={{ color: "var(--dim)" }}
           >
-            <span style={{ color: "var(--faint)" }}>[esc]</span> close ✕
+            <span style={{ color: "var(--faint)" }}>[esc]</span> {strings.close} ✕
           </button>
         </div>
         <div
           className="absolute inset-x-0 bottom-0 flex items-center px-4 text-[10px] uppercase leading-[1.5] tracking-[.09em]"
           style={{ height: PAD_BOTTOM, color: "var(--faint)", textShadow: "0 1px 3px var(--bg)" }}
         >
-          <span>wheel zoom · drag pan · dbl-click toggle</span>
+          <span>{strings.controls}</span>
         </div>
       </div>
     </div>
@@ -704,6 +708,8 @@ interface ImageSpotlightProps {
    * means "never asked", so a freshly mounted slide does not open itself.
    */
   openSignal?: number;
+  /** Chrome wording, from the CMS. Defaults keep the component standalone. */
+  strings?: { unavailable: string; close: string; controls: string };
 }
 
 export function ImageSpotlight({
@@ -714,6 +720,11 @@ export function ImageSpotlight({
   className,
   children,
   openSignal = 0,
+  strings = {
+    unavailable: "unavailable",
+    close: "close",
+    controls: "wheel zoom · drag pan · dbl-click toggle",
+  },
 }: ImageSpotlightProps) {
   const triggerRef = useRef<HTMLDivElement>(null);
   const [mode, setMode] = useState<Mode>("closed");
@@ -794,6 +805,7 @@ export function ImageSpotlight({
       {shot && mode !== "closed" && typeof document !== "undefined"
         ? createPortal(
             <SpotlightOverlay
+          strings={strings}
               src={src}
               title={title}
               origin={shot.origin}
@@ -808,4 +820,18 @@ export function ImageSpotlight({
         : null}
     </>
   );
+}
+
+/** The overlay's wording for a locale, read from the CMS string map. */
+export function spotlightStrings(content: {
+  s: (key: string, fallback: string) => string;
+}) {
+  return {
+    unavailable: content.s("spotlight.unavailable", "unavailable"),
+    close: content.s("spotlight.close", "close"),
+    controls: content.s(
+      "spotlight.controls",
+      "wheel zoom · drag pan · dbl-click toggle",
+    ),
+  };
 }

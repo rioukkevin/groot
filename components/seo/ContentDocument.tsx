@@ -36,6 +36,7 @@ export function ContentDocument({
           {content.name} — {content.tagline}
         </h1>
         <p>{content.about}</p>
+        <p>{content.location}</p>
         {content.nowHeadline && (
           <p>
             <strong>{t("seo.availability", "Availability")}:</strong>{" "}

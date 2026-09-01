@@ -152,6 +152,9 @@ export function VoicePicker({
           {TONES.map((t, n) => {
             const on = live && n === i;
             const inUse = t.value === current;
+            // The label and hint are the CMS's; amp/duty/freq stay here
+            // because they are the waveform's shape, not words.
+            const hint = content.voiceHints[t.value] ?? t.hint;
             return (
               <button
                 key={t.value}
@@ -175,7 +178,7 @@ export function VoicePicker({
                   {(t.label + "        ").slice(0, 8)}
                 </span>
                 <span style={{ color: "var(--faint)" }}>
-                  {(t.hint + " ".repeat(30)).slice(0, 30)}
+                  {(hint + " ".repeat(30)).slice(0, 30)}
                 </span>
                 <span style={{ color: "var(--accent2)" }}>
                   {inUse ? " ● " + content.s("label.inUse", "in use") : "         "}

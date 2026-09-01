@@ -45,7 +45,7 @@ export function personJsonLd(content: ShellContentData, locale: Locale) {
         knowsLanguage: ["fr", "en"],
         address: {
           "@type": "PostalAddress",
-          addressLocality: "Paris",
+          addressLocality: content.location.split(",")[0].trim(),
           addressCountry: "FR",
         },
         alumniOf: content.education.map((e) => ({
@@ -55,7 +55,10 @@ export function personJsonLd(content: ShellContentData, locale: Locale) {
         hasOccupation: {
           "@type": "Occupation",
           name: content.tagline,
-          occupationLocation: { "@type": "City", name: "Paris" },
+          occupationLocation: {
+            "@type": "City",
+            name: content.location.split(",")[0].trim(),
+          },
         },
       },
       {

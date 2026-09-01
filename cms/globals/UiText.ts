@@ -34,7 +34,6 @@ export const UiText: GlobalConfig = {
           fields: [
             { name: "promptPlaceholder", type: "text", localized: true, required: true },
             { name: "banner", type: "text", localized: true },
-            { name: "shortcuts", type: "textarea", localized: true },
             { name: "modeHint", type: "text", localized: true },
             voiced("intro", "Intro message"),
             {
@@ -115,16 +114,6 @@ export const UiText: GlobalConfig = {
                     { name: "icon", type: "text" },
                   ],
                 },
-              ],
-            },
-            { name: "wizardSent", type: "textarea", localized: true },
-            {
-              name: "wizardErrors",
-              type: "array",
-              localized: true,
-              fields: [
-                { name: "key", type: "text", required: true },
-                { name: "message", type: "text", required: true },
               ],
             },
           ],

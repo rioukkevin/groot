@@ -124,6 +124,7 @@ export async function getShellContent(
     nowHeadline: str(site.headline),
     resume: str(site.resume),
     name: str(site.name, "Kévin Riou"),
+    location: str(site.location, "Paris, France"),
     about: str(site.about),
     tagline: str(site.tagline),
     ui: {

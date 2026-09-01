@@ -907,7 +907,7 @@ export function Terminal({
               />
             )}
             {b.kind === "photos" && <PhotosBlock items={b.items} />}
-            {b.kind === "shots" && <ShotsBlock items={b.items} />}
+            {b.kind === "shots" && <ShotsBlock items={b.items} content={content} />}
             {b.kind === "action" && (
               <ActionBlock actionLabel={b.actionLabel} act={b.act} />
             )}

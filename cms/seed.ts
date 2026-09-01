@@ -333,7 +333,10 @@ const seed = async () => {
         { key: "now.summary", text: "what changed this month" },
         { key: "now.footer", text: "git log --since=1.month" },
         { key: "photo.portrait", text: "portrait" },
-        { key: "photo.portraitCaption", text: "portrait · hover to resolve" }
+        { key: "photo.portraitCaption", text: "portrait · hover to resolve" },
+        { key: "spotlight.unavailable", text: "unavailable" },
+        { key: "spotlight.close", text: "close" },
+        { key: "spotlight.controls", text: "wheel zoom · drag pan · dbl-click toggle" }
       ],
       introHints: [
         { key: "try", label: "try", text: "/roles" },
@@ -555,7 +558,10 @@ const seed = async () => {
         { key: "now.summary", text: "ce qui a changé ce mois-ci" },
         { key: "now.footer", text: "git log --since=1.month" },
         { key: "photo.portrait", text: "portrait" },
-        { key: "photo.portraitCaption", text: "portrait · survolez pour révéler" }
+        { key: "photo.portraitCaption", text: "portrait · survolez pour révéler" },
+        { key: "spotlight.unavailable", text: "indisponible" },
+        { key: "spotlight.close", text: "fermer" },
+        { key: "spotlight.controls", text: "molette zoom · glisser déplacer · double-clic basculer" }
       ],
       introHints: [
         { key: "try", label: "essayez", text: "/roles" },

@@ -1,9 +1,16 @@
 import { ShaderPhoto } from "../ShaderPhoto";
-import { ImageSpotlight } from "../ui/ImageSpotlight";
+import { ImageSpotlight, spotlightStrings } from "../ui/ImageSpotlight";
 
+import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { ShotItem } from "@/lib/terminal/types";
 
-export function ShotsBlock({ items }: { items: ShotItem[] }) {
+export function ShotsBlock({
+  items,
+  content,
+}: {
+  items: ShotItem[];
+  content: ShellContent;
+}) {
   return (
     <div
       className="mb-3 flex flex-wrap gap-[18px] pl-5"
@@ -15,6 +22,7 @@ export function ShotsBlock({ items }: { items: ShotItem[] }) {
           src={p.src}
           caption={p.caption}
           className="[&_canvas]:cursor-zoom-in"
+          strings={spotlightStrings(content)}
         >
           <ShaderPhoto
             src={p.src}

@@ -30,18 +30,16 @@ const THEMES: readonly Theme[] = [
   "linen",
 ];
 
-/** [value, label, hint, ink, ground] — the swatch previews both. */
-const THEME_CARDS: ReadonlyArray<
-  readonly [Theme, string, string, string, string]
-> = [
-  ["green", "green", "phosphor on near-black", "oklch(0.80 0.115 152)", "#0c0c0c"],
-  ["ember", "ember", "warm amber, softer", "oklch(0.80 0.115 42)", "#0d0b0a"],
-  ["ice", "ice", "cool blue, low glare", "oklch(0.82 0.10 220)", "#0a0c0e"],
-  ["plum", "plum", "violet on near-black", "oklch(0.78 0.13 310)", "#0d0a0e"],
-  ["mono", "mono", "greyscale, no hue", "oklch(0.88 0 0)", "#0b0b0b"],
-  ["paper", "paper", "light, printed manual", "oklch(0.50 0.12 152)", "#f4f2ed"],
-  ["white", "white", "clean white, blue ink", "oklch(0.55 0.15 252)", "#ffffff"],
-  ["linen", "linen", "warm white, rust ink", "oklch(0.52 0.14 45)", "#faf7f2"],
+/** [value, label, ink, ground] — the hint comes from the CMS. */
+const THEME_CARDS: ReadonlyArray<readonly [Theme, string, string, string]> = [
+  ["green", "green", "oklch(0.80 0.115 152)", "#0c0c0c"],
+  ["ember", "ember", "oklch(0.80 0.115 42)", "#0d0b0a"],
+  ["ice", "ice", "oklch(0.82 0.10 220)", "#0a0c0e"],
+  ["plum", "plum", "oklch(0.78 0.13 310)", "#0d0a0e"],
+  ["mono", "mono", "oklch(0.88 0 0)", "#0b0b0b"],
+  ["paper", "paper", "oklch(0.50 0.12 152)", "#f4f2ed"],
+  ["white", "white", "oklch(0.55 0.15 252)", "#ffffff"],
+  ["linen", "linen", "oklch(0.52 0.14 45)", "#faf7f2"],
 ];
 
 /**
@@ -473,8 +471,10 @@ function cContact(ctx: CommandContext): BlockSpec[] {
   ];
 }
 
-function cEmail(): BlockSpec[] {
-  return [lines([L("kevin@nare.li", "var(--accent)", "  ", "")])];
+function cEmail(ctx: CommandContext): BlockSpec[] {
+  const email =
+    ctx.content.contact.find(([, v]) => v.includes("@"))?.[1] ?? "";
+  return [lines([L(email, "var(--accent)", "  ", "")])];
 }
 
 function cResume(ctx: CommandContext): BlockSpec[] {
@@ -496,14 +496,14 @@ function cTheme(arg: string, ctx: CommandContext): BlockSpec[] {
   return [
     {
       kind: "picker",
-      title: "THEME · 5 dark · 3 light",
+      title: ctx.content.s("label.theme", "THEME · 5 dark · 3 light"),
       perRow: 4,
       current: ctx.theme,
       onSelect: (v) => ctx.setTheme(v as Theme),
-      options: THEME_CARDS.map(([value, label, hint, ink, ground]) => ({
+      options: THEME_CARDS.map(([value, label, ink, ground]) => ({
         value,
         label,
-        hint,
+        hint: ctx.content.themeHints[value] ?? "",
         icon: "████████████",
         iconColor: ink,
         iconBg: ground,
@@ -596,7 +596,7 @@ export function route(
       role: () => cRole(arg, ctx),
       about: () => cAbout(ctx),
       skills: () => cSkills(ctx),
-      email: () => cEmail(),
+      email: () => cEmail(ctx),
       stack: () => cStack(ctx),
       techs: () => cStack(ctx),
       now: () => cNow(ctx),

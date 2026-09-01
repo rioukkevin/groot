@@ -60,6 +60,7 @@ export interface ShellContentData {
   nowHeadline: string;
   resume: string;
   name: string;
+  location: string;
   about: string;
   tagline: string;
   ui: {

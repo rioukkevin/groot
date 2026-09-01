@@ -834,7 +834,6 @@ export interface UiText {
   id: number;
   promptPlaceholder: string;
   banner?: string | null;
-  shortcuts?: string | null;
   modeHint?: string | null;
   intro?: {
     warm?: string | null;
@@ -928,14 +927,6 @@ export interface UiText {
               id?: string | null;
             }[]
           | null;
-        id?: string | null;
-      }[]
-    | null;
-  wizardSent?: string | null;
-  wizardErrors?:
-    | {
-        key: string;
-        message: string;
         id?: string | null;
       }[]
     | null;
@@ -1039,7 +1030,6 @@ export interface SiteContentSelect<T extends boolean = true> {
 export interface UiTextSelect<T extends boolean = true> {
   promptPlaceholder?: T;
   banner?: T;
-  shortcuts?: T;
   modeHint?: T;
   intro?:
     | T
@@ -1150,14 +1140,6 @@ export interface UiTextSelect<T extends boolean = true> {
               icon?: T;
               id?: T;
             };
-        id?: T;
-      };
-  wizardSent?: T;
-  wizardErrors?:
-    | T
-    | {
-        key?: T;
-        message?: T;
         id?: T;
       };
   themes?:

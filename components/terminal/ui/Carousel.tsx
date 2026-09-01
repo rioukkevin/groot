@@ -1,7 +1,7 @@
 "use client";
 
 import { EdgePhoto } from "./EdgePhoto";
-import { ImageSpotlight } from "./ImageSpotlight";
+import { ImageSpotlight, spotlightStrings } from "./ImageSpotlight";
 
 import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { CarouselSlide } from "@/lib/terminal/types";
@@ -65,6 +65,7 @@ export function Carousel({
                 src={slide.shot.src}
                 caption={slide.shot.caption}
                 openSignal={openSignal}
+                strings={spotlightStrings(content)}
               >
                 <EdgePhoto
                   src={slide.shot.src}
