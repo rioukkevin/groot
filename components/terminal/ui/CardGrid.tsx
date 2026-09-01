@@ -79,7 +79,13 @@ export function CardGrid({
               <div style={{ color: border }}>{top}</div>
               <div>
                 <span style={{ color: border }}>│ </span>
-                <span style={{ color: on ? "var(--accent)" : "var(--faint)" }}>
+                <span
+                  style={{
+                    color:
+                      opt.iconColor ?? (on ? "var(--accent)" : "var(--faint)"),
+                    background: opt.iconBg,
+                  }}
+                >
                   {pad(opt.icon, INNER)}
                 </span>
                 <span style={{ color: border }}> │</span>

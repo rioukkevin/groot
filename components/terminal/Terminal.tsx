@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { CLEAR, intro, matches, route } from "@/lib/terminal/commands";
+import { gridStep } from "@/lib/terminal/grid";
 import {
   CONTACT_STEPS,
   currentStep,
@@ -20,6 +21,7 @@ import { Prompt } from "./Prompt";
 import { Shortcuts } from "./Shortcuts";
 import { StatusBar } from "./StatusBar";
 import { ActionBlock } from "./blocks/ActionBlock";
+import { ChipsBlock } from "./blocks/ChipsBlock";
 import { DemoBlock } from "./blocks/DemoBlock";
 import { DiffBlock } from "./blocks/DiffBlock";
 import { EchoBlock } from "./blocks/EchoBlock";
@@ -32,6 +34,8 @@ import { ThinkBlock } from "./blocks/ThinkBlock";
 import { ToolBlock } from "./blocks/ToolBlock";
 import { Carousel } from "./ui/Carousel";
 import { ContactForm } from "./ui/ContactForm";
+import { Picker } from "./ui/Picker";
+import { ProjectView } from "./ui/ProjectView";
 import { ScrollView } from "./ui/ScrollView";
 
 import type { CommandContext } from "@/lib/terminal/commands";
@@ -79,8 +83,10 @@ export function Terminal() {
     forId: number;
     claimId: number | null;
     idx: number;
+    /** Second cursor, for a block driving two panes (project: shot + scroll). */
+    idx2: number;
     off: boolean;
-  }>({ forId: -1, claimId: null, idx: 0, off: false });
+  }>({ forId: -1, claimId: null, idx: 0, idx2: 0, off: false });
 
   const [contact, setContact] = useState<ContactState>(initialContact);
   const contactRef = useRef(contact);
@@ -94,13 +100,14 @@ export function Terminal() {
 
   const ctx = useMemo<CommandContext>(
     () => ({
+      theme,
       voice,
       photoGap: PHOTO_GAP,
       download: downloadResume,
       setTheme,
       setVoice,
     }),
-    [voice],
+    [theme, voice],
   );
   const ctxRef = useRef(ctx);
   useEffect(() => {
@@ -114,6 +121,7 @@ export function Terminal() {
 
   const uiCurrent = uiState.forId === lastInteractiveId;
   const selIdx = uiCurrent ? uiState.idx : 0;
+  const selIdx2 = uiCurrent ? uiState.idx2 : 0;
   const selOff = uiCurrent ? uiState.off : false;
   const claimId = uiCurrent ? uiState.claimId : null;
 
@@ -123,6 +131,19 @@ export function Terminal() {
         forId: lastInteractiveId,
         claimId: u.forId === lastInteractiveId ? u.claimId : null,
         idx,
+        idx2: u.forId === lastInteractiveId ? u.idx2 : 0,
+        off: false,
+      })),
+    [lastInteractiveId],
+  );
+  /** Move the second cursor, leaving the first alone. */
+  const moveSel2 = useCallback(
+    (idx2: number) =>
+      setUiState((u) => ({
+        forId: lastInteractiveId,
+        claimId: u.forId === lastInteractiveId ? u.claimId : null,
+        idx: u.forId === lastInteractiveId ? u.idx : 0,
+        idx2,
         off: false,
       })),
     [lastInteractiveId],
@@ -133,6 +154,7 @@ export function Terminal() {
         forId: lastInteractiveId,
         claimId: u.forId === lastInteractiveId ? u.claimId : null,
         idx: u.forId === lastInteractiveId ? u.idx : 0,
+        idx2: u.forId === lastInteractiveId ? u.idx2 : 0,
         off: true,
       })),
     [lastInteractiveId],
@@ -140,7 +162,13 @@ export function Terminal() {
   /** Clicking an interactive block hands it the arrows and resets its cursor. */
   const claim = useCallback(
     (id: number) =>
-      setUiState({ forId: lastInteractiveId, claimId: id, idx: 0, off: false }),
+      setUiState({
+        forId: lastInteractiveId,
+        claimId: id,
+        idx: 0,
+        idx2: 0,
+        off: false,
+      }),
     [lastInteractiveId],
   );
 
@@ -333,34 +361,36 @@ export function Terminal() {
         // The cards are a grid, so ←→ step one card and ↑↓ step a whole row.
         // Both wrap, and ↑↓ clamps to the last card rather than falling off a
         // short final row.
-        if (step?.kind === "choice") {
-          const n = step.options.length;
-          const per = step.perRow;
-          if (k === "ArrowLeft" || k === "ArrowRight") {
-            e.preventDefault();
-            const d = k === "ArrowLeft" ? -1 : 1;
-            setContact((c) => ({ ...c, choice: (c.choice + d + n) % n }));
-            return;
-          }
-          if (k === "ArrowUp" || k === "ArrowDown") {
-            e.preventDefault();
-            setContact((c) => {
-              const lastRow = Math.floor((n - 1) / per);
-              const row = Math.floor(c.choice / per);
-              if (k === "ArrowUp") {
-                return row === 0 ? c : { ...c, choice: c.choice - per };
-              }
-              // Dropping into a short final row lands on its last card rather
-              // than falling off the end and refusing to move.
-              if (row === lastRow) return c;
-              return { ...c, choice: Math.min(n - 1, c.choice + per) };
-            });
-            return;
-          }
+        if (
+          step?.kind === "choice" &&
+          ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(k)
+        ) {
+          e.preventDefault();
+          const { options, perRow } = step;
+          setContact((c) => ({
+            ...c,
+            choice: gridStep(c.choice, options.length, perRow, k),
+          }));
+          return;
         }
         if (k === "ArrowLeft" && !input) {
           e.preventDefault();
           goBack();
+          return;
+        }
+      }
+
+      // A picker applies the moment you confirm, and takes both axes.
+      if (act?.kind === "picker") {
+        if (k === "Enter") {
+          e.preventDefault();
+          const opt = act.options[Math.min(selIdx, act.options.length - 1)];
+          if (opt) act.onSelect(opt.value);
+          return;
+        }
+        if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(k)) {
+          e.preventDefault();
+          moveSel(gridStep(selIdx, act.options.length, act.perRow, k));
           return;
         }
       }
@@ -389,6 +419,8 @@ export function Terminal() {
           moveSel(clamp(selIdx + d, act.items.length - 1));
         else if (act?.kind === "scroll")
           moveSel(clamp(selIdx + d, Math.max(0, act.lines.length - act.rows)));
+        else if (act?.kind === "project")
+          moveSel2(clamp(selIdx2 + d, Math.max(0, act.lines.length - act.rows)));
         // A carousel takes ↑↓ as well as ←→. Letting them fall through to
         // history instead would quietly fill the input, and a non-empty input
         // hands the arrows back to the prompt — so the carousel would stop
@@ -400,9 +432,14 @@ export function Terminal() {
         e.preventDefault();
         const d = k === "PageUp" ? -act.rows : act.rows;
         moveSel(clamp(selIdx + d, Math.max(0, act.lines.length - act.rows)));
+      } else if ((k === "PageUp" || k === "PageDown") && act?.kind === "project") {
+        e.preventDefault();
+        const d = k === "PageUp" ? -act.rows : act.rows;
+        moveSel2(clamp(selIdx2 + d, Math.max(0, act.lines.length - act.rows)));
       } else if (
         (k === "ArrowLeft" || k === "ArrowRight") &&
-        act?.kind === "carousel" &&
+        (act?.kind === "carousel" || act?.kind === "project") &&
+        act.slides.length > 0 &&
         !input
       ) {
         e.preventDefault();
@@ -416,6 +453,8 @@ export function Terminal() {
         if (act.kind === "select") moveSel(act.items.length - 1);
         else if (act.kind === "scroll")
           moveSel(Math.max(0, act.lines.length - act.rows));
+        else if (act.kind === "project")
+          moveSel2(Math.max(0, act.lines.length - act.rows));
         else if (act.kind === "carousel") moveSel(act.slides.length - 1);
       } else if (k === "Escape") {
         if (busy) halt("interrupted by user");
@@ -450,7 +489,9 @@ export function Terminal() {
       histIdx,
       input,
       moveSel,
+      moveSel2,
       openSelected,
+      selIdx2,
       palIdx,
       releaseSel,
       reset,
@@ -527,6 +568,36 @@ export function Terminal() {
               />
             )}
             {b.kind === "demo" && <DemoBlock />}
+            {b.kind === "chips" && <ChipsBlock groups={b.groups} />}
+            {b.kind === "picker" && (
+              <Picker
+                title={b.title}
+                options={b.options}
+                perRow={b.perRow}
+                current={b.current}
+                index={b.id === activeId ? selIdx : 0}
+                live={b.id === activeId}
+                onPick={(i) => {
+                  moveSel(i);
+                  b.onSelect(b.options[i].value);
+                }}
+                onClaim={() => b.id !== activeId && claim(b.id)}
+              />
+            )}
+            {b.kind === "project" && (
+              <ProjectView
+                title={b.title}
+                slides={b.slides}
+                lines={b.lines}
+                rows={b.rows}
+                live={b.id === activeId}
+                slide={b.id === activeId ? selIdx : 0}
+                offset={b.id === activeId ? selIdx2 : 0}
+                onSlide={moveSel}
+                onOffset={moveSel2}
+                onClaim={() => b.id !== activeId && claim(b.id)}
+              />
+            )}
             {b.kind === "contact" && (
               <ContactForm
                 state={contact}

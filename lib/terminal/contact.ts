@@ -11,6 +11,10 @@ export interface ChoiceOption {
   label: string;
   hint?: string;
   icon: string;
+  /** Overrides the sigil colour — used for theme swatches and waveforms. */
+  iconColor?: string;
+  /** Backs the sigil, so a theme swatch previews its ground as well as its ink. */
+  iconBg?: string;
 }
 
 export type ContactStep =

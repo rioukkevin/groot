@@ -43,6 +43,8 @@ export interface ShotItem {
   src: string;
 }
 
+import type { ChoiceOption } from "./contact";
+
 /** One slide in a carousel: either a rendered photo or a block of text. */
 export type CarouselSlide =
   | { key: string; label: string; kind: "shot"; shot: ShotItem }
@@ -83,7 +85,23 @@ export type BlockSpec =
   | { kind: "scroll"; title: string; lines: Line[]; rows: number }
   | { kind: "carousel"; title: string; slides: CarouselSlide[] }
   | { kind: "demo"; panel: "primitives" }
-  | { kind: "contact" };
+  | { kind: "contact" }
+  | { kind: "chips"; groups: [string, string[]][] }
+  | {
+      kind: "picker";
+      title: string;
+      options: ChoiceOption[];
+      perRow: number;
+      current: string;
+      onSelect: (value: string) => void;
+    }
+  | {
+      kind: "project";
+      title: string;
+      slides: CarouselSlide[];
+      lines: Line[];
+      rows: number;
+    };
 
 export type Block = BlockSpec & { id: number };
 
@@ -100,6 +118,8 @@ export const INTERACTIVE_KINDS = [
   "scroll",
   "carousel",
   "contact",
+  "project",
+  "picker",
 ] as const;
 
 export type InteractiveBlock = Extract<

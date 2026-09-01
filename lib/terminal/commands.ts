@@ -7,17 +7,16 @@ import {
   NOW_ROWS,
   PROJECTS,
   RATES_ROWS,
-  SKILL_ROWS,
+  SOFT_SKILLS,
   STACK_ROWS,
-  THEME_ROWS,
-  VOICE_ROWS,
 } from "./content";
-import { L, bar, box, pad } from "./format";
+import { L, box, pad, wrap } from "./format";
 
 import type { BlockSpec, Line, SelectItem, Theme, Voice } from "./types";
 
 /** Everything the command layer needs from the shell, so routing stays pure. */
 export interface CommandContext {
+  theme: Theme;
   voice: Voice;
   photoGap: number;
   download: () => void;
@@ -89,26 +88,49 @@ function cProject(name: string): BlockSpec[] {
   if (!key)
     return [say("No project by that name. Known: " + keys.join(", ") + ".")];
   const p = PROJECTS[key];
+
+  const body: Line[] = [
+    L(p.what, "var(--fg)"),
+    L(""),
+    L(pad("stack", 10) + p.stack, "var(--dim)"),
+    L(pad("year", 10) + p.year + "   ● " + p.status, p.statusColor),
+    ...(p.links.length ? [L(pad("links", 10) + p.links.join(" · "), "var(--dim)")] : []),
+    L(""),
+    ...p.detail.flatMap((para) => [
+      ...wrap(para, 62).map((l) => L(l, "var(--dim)")),
+      L(""),
+    ]),
+  ];
+
   return [
     tool(
       "Read",
       "(work/" + key + "/case-study.md)",
-      p.detail.length + " sections · 1.2 kB",
+      p.detail.length + " sections · " + p.images.length + " screenshots",
       [],
-      560,
+      520,
     ),
-    say(p.what),
-    lines(
-      [
-        L(pad("stack", 10) + p.stack, "var(--dim)"),
-        L(pad("year", 10) + p.year + "   ● " + p.status, p.statusColor),
-        L(""),
-      ].concat(
-        p.detail.map((d) =>
-          L(d, d.indexOf("  ") === 0 ? "var(--dim)" : "var(--fg)"),
-        ),
-      ),
-    ),
+    {
+      kind: "project",
+      title: p.name.toUpperCase() + " · ←→",
+      rows: 14,
+      lines: body,
+      slides: p.images.map((src, i) => ({
+        key: src,
+        label: i === 0 ? "thumbnail" : "screen " + i,
+        kind: "shot" as const,
+        shot: {
+          w: 300,
+          h: 220,
+          cellW: 5,
+          cellH: 9,
+          gap: 1,
+          label: p.name,
+          caption: p.name + " · " + (i === 0 ? "thumbnail" : "screen " + i),
+          src,
+        },
+      })),
+    },
   ];
 }
 
@@ -183,31 +205,19 @@ function cAbout(ctx: CommandContext): BlockSpec[] {
   ];
 }
 
-function cSkills(): BlockSpec[] {
-  const ls = SKILL_ROWS.map((r) =>
-    L(
-      " " + bar(r[1]) + "  " + r[1] + "%",
-      r[1] > 85 ? "var(--accent)" : "var(--dim)",
-      pad(r[0], 20),
-      "var(--fg)",
-    ),
-  );
-  ls.push(L(""));
-  ls.push(
-    L(
-      "Also in reach: NestJS, Socket.io, Kubernetes, Helm, Firebase, Supabase.",
-      "var(--dim)",
-    ),
-  );
+function cSkills(ctx: CommandContext): BlockSpec[] {
   return [
-    tool(
-      "Analyze",
-      "(cv/* · weighted by years, ownership and recency)",
-      "7 dimensions · 441 tokens",
-      [L("nine years · seven roles · one stack that keeps paying off", "var(--faint)")],
-      720,
+    say(
+      v(
+        ctx,
+        "The part of the job that isn't typing. Nine years across a cooperative, a manufacturer, a SaaS and a sensor company taught me more about people than about frameworks.",
+        "Soft skills. The part that isn't typing.",
+      ),
     ),
-    lines(ls),
+    { kind: "chips", groups: SOFT_SKILLS.map((g) => [g[0], [...g[1]]] as [string, string[]]) },
+    lines([
+      L("/stack for the hard skills · /techs does the same", "var(--faint)", "  ", ""),
+    ]),
   ];
 }
 
@@ -440,6 +450,10 @@ function cContact(ctx: CommandContext): BlockSpec[] {
   ];
 }
 
+function cEmail(): BlockSpec[] {
+  return [lines([L("kevin@nare.li", "var(--accent)", "  ", "")])];
+}
+
 function cResume(ctx: CommandContext): BlockSpec[] {
   return [
     tool("Write", "(dist/kevin-riou.txt)", "1 file · 4.1 kB", [], 620),
@@ -452,33 +466,84 @@ function cResume(ctx: CommandContext): BlockSpec[] {
 }
 
 function cTheme(arg: string, ctx: CommandContext): BlockSpec[] {
-  if (!THEMES.includes(arg as Theme)) {
-    return [
-      lines(
-        THEME_ROWS.map((t) => L(pad(t[0], 9) + t[1], "var(--dim)", "  ", "")).concat([
-          L(""),
-          L("/theme <name>", "var(--accent)", "  ", ""),
-        ]),
-      ),
-    ];
+  if (THEMES.includes(arg as Theme)) {
+    ctx.setTheme(arg as Theme);
+    return [say("Theme: " + arg + ".")];
   }
-  ctx.setTheme(arg as Theme);
-  return [say("Theme: " + arg + ".")];
+  return [
+    {
+      kind: "picker",
+      title: "THEME",
+      perRow: 3,
+      current: ctx.theme,
+      onSelect: (v) => ctx.setTheme(v as Theme),
+      options: [
+        {
+          value: "green",
+          iconBg: "#0c0c0c",
+          label: "green",
+          hint: "phosphor on near-black",
+          icon: "████████████",
+          iconColor: "oklch(0.80 0.115 152)",
+        },
+        {
+          value: "ember",
+          iconBg: "#0d0b0a",
+          label: "ember",
+          hint: "warm amber, softer",
+          icon: "████████████",
+          iconColor: "oklch(0.80 0.115 42)",
+        },
+        {
+          value: "paper",
+          iconBg: "#f4f2ed",
+          label: "paper",
+          hint: "light, printed manual",
+          icon: "████████████",
+          iconColor: "oklch(0.50 0.12 152)",
+        },
+      ],
+    },
+  ];
 }
 
 function cVoice(arg: string, ctx: CommandContext): BlockSpec[] {
-  if (arg !== "warm" && arg !== "terse") {
+  if (arg === "warm" || arg === "terse") {
+    ctx.setVoice(arg);
     return [
-      lines(VOICE_ROWS.map((r) => L(pad(r[0], 9) + r[1], "var(--dim)", "  ", ""))),
+      say(
+        arg === "terse"
+          ? "Voice: terse. Fewer words from here."
+          : "Voice: warm. Back to full sentences.",
+      ),
     ];
   }
-  ctx.setVoice(arg);
   return [
-    say(
-      arg === "terse"
-        ? "Voice: terse. Fewer words from here."
-        : "Voice: warm. Back to full sentences.",
-    ),
+    {
+      kind: "picker",
+      title: "VOICE · the shape of the answer",
+      perRow: 2,
+      current: ctx.voice,
+      onSelect: (v) => ctx.setVoice(v as Voice),
+      options: [
+        {
+          value: "warm",
+          label: "warm",
+          hint: "warm, in full sentences",
+          // Rolling amplitude: long phrases, few stops.
+          icon: "▂▃▅▆▇█▇▆▅▄▃▂▃▅▆▇▆▅▃▂▁▂▃▄",
+          iconColor: "var(--accent)",
+        },
+        {
+          value: "terse",
+          label: "terse",
+          hint: "clipped, sysadmin energy",
+          // Clipped and gappy: short bursts, hard stops.
+          icon: "█▁▁█▁█▁▁▁█▁▁█▁▁█▁▁▁█▁▁█▁",
+          iconColor: "var(--accent2)",
+        },
+      ],
+    },
   ];
 }
 
@@ -499,8 +564,10 @@ function freeform(q: string, ctx: CommandContext): BlockSpec[] {
     const k = Object.keys(PROJECTS).filter((n) => has(n.split("-")[0]))[0];
     return pre.concat(cProject(k));
   }
-  if (has("react") || has("next") || has("node") || has("stack") || has("postgres") || has("typescript"))
-    return pre.concat(cSkills());
+  if (has("react") || has("next") || has("node") || has("stack") || has("postgres") || has("typescript") || has("tech") || has(" ai"))
+    return pre.concat(cStack());
+  if (has("soft skill") || has("leader") || has("manage") || has("mentor") || has("empath"))
+    return pre.concat(cSkills(ctx));
   if (has("ship") || has("project") || has("work") || has("built"))
     return pre.concat(cProjects(ctx));
   if (has("experience") || has("worked") || has("job") || has("year"))
@@ -522,7 +589,7 @@ function freeform(q: string, ctx: CommandContext): BlockSpec[] {
       ),
     ),
     lines([
-      L("/projects  /experience  /skills  /rates  /now  /contact", "var(--accent)", "  ", ""),
+      L("/projects  /roles  /stack  /rates  /now  /contact", "var(--accent)", "  ", ""),
     ]),
   ]);
 }
@@ -548,12 +615,14 @@ export function route(
       help: () => cHelp(ctx),
       projects: () => cProjects(ctx),
       project: () => cProject(arg),
-      experience: () => cExperience(),
+      roles: () => cExperience(),
       education: () => cEducation(),
       role: () => cRole(arg),
       about: () => cAbout(ctx),
-      skills: () => cSkills(),
+      skills: () => cSkills(ctx),
+      email: () => cEmail(),
       stack: () => cStack(),
+      techs: () => cStack(),
       now: () => cNow(ctx),
       photos: () => cPhotos(ctx),
       rates: () => cRates(ctx),
@@ -582,7 +651,7 @@ export function intro(ctx: CommandContext): BlockSpec[] {
       ),
     ),
     lines([
-      L("/experience", "var(--dim)", "  try  ", "var(--faint)"),
+      L("/roles", "var(--dim)", "  try  ", "var(--faint)"),
       L('"are you free in September?"', "var(--dim)", "       ", "var(--faint)"),
       L("/photos", "var(--dim)", "       ", "var(--faint)"),
       L(""),

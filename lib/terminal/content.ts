@@ -1,12 +1,17 @@
 import type { DiffRow } from "./types";
 
 export interface Project {
+  name: string;
   stack: string;
   year: string;
   status: string;
   statusColor: string;
   what: string;
+  /** Prose paragraphs, wrapped to the viewport at render time. */
   detail: string[];
+  /** Screenshots, newest-first, served from public/projects. */
+  images: string[];
+  links: string[];
 }
 
 export interface Experience {
@@ -23,110 +28,197 @@ export interface Study {
   where: string;
 }
 
+/**
+ * Drives both /help and the command palette. /photos and /components are
+ * deliberately absent: they still route, they are just not advertised.
+ */
 export const CMDS: ReadonlyArray<readonly [string, string]> = [
   ["/projects", "side projects — stack, status, what they solved"],
   ["/project", "one project in detail · /project portfolio"],
-  ["/experience", "roles, dates, what I actually did"],
+  ["/roles", "roles, dates, what I actually did"],
   ["/role", "one role in detail · /role nareli"],
   ["/education", "degrees and where they came from"],
   ["/about", "the short version, with a face"],
-  ["/skills", "stack proficiency, honestly rated"],
-  ["/stack", "tools I reach for by default"],
+  ["/skills", "soft skills — how I work with people"],
+  ["/stack", "hard skills, AI included · alias /techs"],
+  ["/email", "just the address, nothing else"],
   ["/now", "what changed this month (diff)"],
-  ["/photos", "work, screens, logos"],
   ["/rates", "day rates and how I price work"],
   ["/contact", "email, github, linkedin"],
   ["/resume", "download a plain-text CV"],
   ["/theme", "green · ember · paper"],
   ["/voice", "warm · terse"],
   ["/clear", "clear the transcript"],
-  ["/components", "the terminal UI kit, live"],
   ["/help", "everything above"],
 ] as const;
 
+const IMG_VSCODE = ["/projects/vscodeGitCommitMessage/Thumbnail.png", "/projects/vscodeGitCommitMessage/Screen1.png", "/projects/vscodeGitCommitMessage/Screen2.png", "/projects/vscodeGitCommitMessage/Demo.gif"];
+const IMG_BRITCH = ["/projects/britch/Thumbnail.png", "/projects/britch/Screen1.png", "/projects/britch/Screen2.png"];
+const IMG_CONTROLLER = ["/projects/controller/Thumbnail.png", "/projects/controller/Screen1.png", "/projects/controller/Screen2.png", "/projects/controller/Screen3.png", "/projects/controller/Screen4.png"];
+const IMG_OUTRANS = ["/projects/outransCounter/Thumbnail.png", "/projects/outransCounter/Screen1.png", "/projects/outransCounter/Screen2.png", "/projects/outransCounter/Screen3.png"];
+const IMG_DIAGEVOL = ["/projects/diagevol/Thumbnail.png", "/projects/diagevol/Screen1.png", "/projects/diagevol/Screen2.png", "/projects/diagevol/Screen3.png", "/projects/diagevol/Screen4.png", "/projects/diagevol/Screen5.png"];
+const IMG_OOOF = ["/projects/ooof/Thumbnail.png", "/projects/ooof/Screen1.png", "/projects/ooof/Screen2.png", "/projects/ooof/Screen3.png"];
+const IMG_PV6 = ["/projects/portfoliov6/Thumbnail.png", "/projects/portfoliov6/Screen1.png", "/projects/portfoliov6/Screen2.png", "/projects/portfoliov6/Screen3.png"];
+const IMG_PV5 = ["/projects/portfoliov5/Thumbnail.png", "/projects/portfoliov5/Screen1.png", "/projects/portfoliov5/Screen2.png", "/projects/portfoliov5/Screen3.png", "/projects/portfoliov5/Screen4.png"];
+
 export const PROJECTS: Record<string, Project> = {
-  portfolio: {
-    stack: "Next.js · React · Tailwind · TypeScript",
-    year: "2016 — now",
+  "vscode-commit": {
+    name: "VSCode Git Commit",
+    stack: "TypeScript · VSCode API",
+    year: "2022",
+    status: "on hold",
+    statusColor: "var(--warn)",
+    what: "A VSCode extension that templates commit messages in the editor.",
+    detail: [
+      "An extension that standardises Git commit messages from inside VSCode: an interface that generates structured, consistent messages, so a project's history stays readable.",
+      "The idea came out of company work, where every developer wrote commit messages their own way and the history became hard to follow. A uniform frame makes the convention the path of least resistance rather than a document nobody opens.",
+      "Over 40 stars on GitHub and more than 20 000 downloads. The numbers say it found the developers who had the same problem.",
+      "After the first release I added a dedicated site: a configuration generator with a real interface, and a web version of the documentation.",
+      "Development is on hold, deliberately. The successor extends the same idea across multiple editors from a single, more flexible configuration file.",
+    ],
+    images: IMG_VSCODE,
+    links: ["Marketplace", "Documentation", "UI settings generator"],
+  },
+  britch: {
+    name: "Britch",
+    stack: "Chrome extension · JavaScript",
+    year: "—",
     status: "live",
     statusColor: "var(--add)",
-    what: "This site. The ninth version, and the excuse to try things.",
+    what: "A Chrome extension adding a brightness and contrast gauge to Twitch.",
     detail: [
-      "Why       A portfolio is the one project with no client and no",
-      "          deadline, so it is where new tools get tried first.",
-      "Built     Six published versions since 2016, each a rewrite rather",
-      "          than a reskin. This one runs as a shell you drive.",
-      "Result    Every version taught the stack that came after it.",
-      "Mine      All of it — design, build, deploy.",
+      "Britch gives Twitch viewers precise control over the brightness and contrast of a live stream, so the picture can be tuned to the screen it is actually being watched on.",
+      "It started from a complaint heard often: viewers could not clearly make out what was happening on screen.",
+      "Twitch's video is frequently darker than what the streamer sent, which hurts most on horror games and dark scenes. Every viewer's display is different too, so the adjustment has to be per-person rather than global.",
     ],
+    images: IMG_BRITCH,
+    links: ["Chrome Web Store"],
   },
-  "vscode-commits": {
-    stack: "TypeScript · VSCode API",
+  overlays: {
+    name: "Custom controller overlays",
+    stack: "JavaScript · animated sprites",
     year: "—",
-    status: "open source",
+    status: "ongoing",
     statusColor: "var(--accent2)",
-    what: "VSCode extension for writing commit messages from a template.",
+    what: "Interactive controller overlays built for Twitch streamers.",
     detail: [
-      "Problem   Commit conventions live in a README nobody opens, so",
-      "          messages drift within a week.",
-      "Built     A customizable template the extension fills in from the",
-      "          editor, so the convention is the path of least effort.",
-      "Mine      Everything. Published open source.",
+      "Overlays I build now and then for streamers — a way of putting something back into the community that adds visible value to a stream.",
+      "They render the streamer's inputs in real time, so viewers can see the movements behind the play rather than only its result. It turns skill into something legible.",
+      "Technically they are images animated with JavaScript, which keeps them flexible enough to tailor per streamer.",
+      "For Dgifou, a bespoke overlay following his graphic charter exactly, so it reads as part of his channel rather than an add-on.",
+      "For Amphirae the project evolved with the hardware: a PS4 version first, then a PS5 one.",
+      "Oxidya_ shows how far the customisation goes — a general version first, then a specific build for each game she streams daily.",
     ],
+    images: IMG_CONTROLLER,
+    links: ["GitHub"],
+  },
+  "outrans-counter": {
+    name: "Outrans Counter",
+    stack: "Web · multi-device sync",
+    year: "—",
+    status: "shipped",
+    statusColor: "var(--dim)",
+    what: "A synced entry counter for the Outrans association's 15-year event.",
+    detail: [
+      "A mobile web app built for the Outrans association's fifteenth anniversary. Capacity was limited, so volunteers needed a counter synchronised across several devices to manage entries precisely.",
+      "Access is gated with hashed codes — light, but enough that only the volunteers running the door can reach the data.",
+      "Beyond counting, custom scripts generate detailed statistics, giving the association a picture of how the event actually ran and something to plan the next one against.",
+    ],
+    images: IMG_OUTRANS,
+    links: ["Outrans website"],
+  },
+  diagevol: {
+    name: "Diagevol",
+    stack: "Web · design & build",
+    year: "2021",
+    status: "live",
+    statusColor: "var(--add)",
+    what: "The showcase site for Alpha8's SaaS product, DiagEvol.",
+    detail: [
+      "Built during full-time work at Alpha8: the showcase site diagevol.fr, taken from partial mockups through to production.",
+      "Diagevol is Alpha8's questionnaire and diagnostics SaaS. The site had to make its features legible — custom questionnaires, automatic analysis of responses, generated professional reports — and show how it changes the way a company collects and reads its own data.",
+      "I produced the graphics and built most of the site alone, against a tight deadline, which meant prioritising the modules that carried the business case and letting the rest wait.",
+    ],
+    images: IMG_DIAGEVOL,
+    links: ["Website"],
+  },
+  ooof: {
+    name: "OOOF.dev",
+    stack: "Next.js · React",
+    year: "2024",
+    status: "succeeded by Nareli",
+    statusColor: "var(--dim)",
+    what: "The site for ooof.dev, the freelance practice that became Nareli.",
+    detail: [
+      "An interactive portfolio for the freelance practice — skills, projects, and a way in for clients looking for someone to build the thing.",
+      "The name is the sound of the moment a client finds the developer they had been looking for. Memorable, and honest about what the job is.",
+      "The site sets out the method in full: needs analysis, short development cycles, transparent communication, delivery. Structure is what makes the collaboration predictable.",
+      "Services ran from responsive sites and iOS/Android applications to training and architecture work.",
+    ],
+    images: IMG_OOOF,
+    links: ["GitHub profile"],
+  },
+  "portfolio-v6": {
+    name: "Portfolio V6",
+    stack: "Next.js · Storyblok · i18n",
+    year: "2022",
+    status: "retired 2024",
+    statusColor: "var(--dim)",
+    what: "The portfolio that ran for two years, until October 2024.",
+    detail: [
+      "Designed in 2022 to catch the attention of recruiters for a full-time role, and online for two years.",
+      "Deliberately minimal: a clean design so a visitor looks at the work rather than the wrapper.",
+      "Performance and SEO got real attention — partly to learn them properly, partly because most of the traffic was mobile. The result was fast, responsive and well indexed.",
+      "It carried endorsements for projects worth backing, including the poachiclash.com tournament and an Alsatian artisan's products.",
+      "The hardest and best part was writing a translation system from scratch, which meant taking apart how the existing packages actually work.",
+      "Storyblok handled content — a headless CMS chosen to learn on, and the experience carried straight into freelance work.",
+    ],
+    images: IMG_PV6,
+    links: ["GitHub"],
+  },
+  "portfolio-v5": {
+    name: "Portfolio V5",
+    stack: "CSS animation · Docker → Vercel",
+    year: "2021",
+    status: "retired",
+    statusColor: "var(--dim)",
+    what: "The 2021 portfolio, built for the Brioche Pasquier application.",
+    detail: [
+      "Version five, from 2021 — the digital business card written for the Brioche Pasquier recruitment process.",
+      "It was also a laboratory: an excuse to push CSS animation further than any client project would have allowed, and to find out what could be built without reaching for a library.",
+      "Its hosting tells its own story — a Docker machine first, then Netlify, then Vercel, each move buying simpler deploys and better performance.",
+    ],
+    images: IMG_PV5,
+    links: ["GitHub"],
   },
   "twitch-bot": {
+    name: "Poachimpa stream bot",
     stack: "Node · Socket.io · Twitch API",
     year: "—",
     status: "live",
     statusColor: "var(--add)",
-    what: "Engagement bot for Poachimpa's stream — events, stats, viewers.",
+    what: "An engagement bot for Poachimpa's stream — events, stats, viewers.",
     detail: [
-      "Problem   A live channel generates events faster than anyone can",
-      "          watch them, and none of it was being kept.",
-      "Built     Event tracking, viewer management, statistics, and the",
-      "          engagement mechanics that run during a stream.",
-      "Mine      All of it, and the support when it breaks mid-stream.",
+      "A live channel produces events faster than anyone can watch them, and none of it was being kept.",
+      "The bot tracks what happens, manages viewers, builds statistics, and runs the engagement mechanics during a stream.",
+      "Mine end to end, including the support when it breaks mid-broadcast.",
     ],
+    images: [],
+    links: [],
   },
   chariteam: {
+    name: "Chariteam",
     stack: "Web · events & donations",
     year: "—",
     status: "live",
     statusColor: "var(--add)",
-    what: "Site for the Chariteam association to track events and donations.",
+    what: "A site for the Chariteam association to track events and donations.",
     detail: [
-      "Problem   Donations and events were tracked by hand across the",
-      "          people organising them.",
-      "Built     One place for events and the donations attached to them.",
-      "Mine      Built and run for the association.",
+      "Donations and events were tracked by hand, across whoever happened to be organising them.",
+      "One place for the events and the donations attached to them, built and run for the association.",
     ],
-  },
-  "outrans-counter": {
-    stack: "Node · Socket.io · WebSockets",
-    year: "—",
-    status: "shipped",
-    statusColor: "var(--dim)",
-    what: "Multi-device synced entry counter for Outrans' 15-year event.",
-    detail: [
-      "Problem   Several doors, several phones, one number that had to",
-      "          agree everywhere, live.",
-      "Built     A counter synced across every device on the event, so",
-      "          any door could add and everyone saw the same total.",
-      "Result    Ran the event's entries end to end.",
-    ],
-  },
-  "betting-app": {
-    stack: "React Native · Expo",
-    year: "—",
-    status: "cancelled",
-    statusColor: "var(--del)",
-    what: "A betting mobile app, cancelled before it reached the stores.",
-    detail: [
-      "Built     A full React Native application, taken to working state.",
-      "Ended     Cancelled before publication.",
-      "Learned   Shipping is a decision, not a milestone — and it is not",
-      "          always yours to make.",
-    ],
+    images: [],
+    links: [],
   },
 };
 
@@ -260,27 +352,33 @@ export const EDUCATION: readonly Study[] = [
   },
 ];
 
-/**
- * Weightings are a read of the CV, not a measurement — years on the tool,
- * whether it was led or merely used, and how recently.
- */
-export const SKILL_ROWS: ReadonlyArray<readonly [string, number]> = [
-  ["TypeScript / JS", 95],
-  ["React / Next.js", 92],
-  ["Leadership", 88],
-  ["Node / NestJS / GraphQL", 86],
-  ["Vue / Nuxt", 80],
-  ["React Native / Expo", 72],
-  ["Infra & CI", 70],
+/** Soft skills, shown as chips. Grouped by what they are for. */
+export const SOFT_SKILLS: ReadonlyArray<
+  readonly [string, readonly string[]]
+> = [
+  [
+    "leading",
+    ["Team management", "Project ownership", "Technical direction", "Hiring input"],
+  ],
+  [
+    "working with people",
+    ["Mentoring", "Teaching", "Empathy", "Client communication", "Saying no to scope creep"],
+  ],
+  [
+    "how I work",
+    ["Documentation", "Pragmatism", "Autonomy", "Support after delivery", "Ship the small version"],
+  ],
 ] as const;
 
 export const STACK_ROWS: readonly string[] = [
-  "languages   TypeScript · JavaScript",
-  "frontend    React · Next.js · Vue · Nuxt · Tailwind · Sass",
+  "languages   TypeScript · JavaScript · PHP · C#",
+  "frontend    React · Next.js · Vue · Nuxt · Tailwind · Sass · CSS-in-JS",
   "backend     Node · NestJS · Express · Koa · GraphQL · REST · Socket.io",
-  "mobile      React Native · Expo",
-  "data        PostgreSQL · MongoDB · Firebase · Supabase",
-  "infra       Docker · Kubernetes · Helm · Vercel · OVHcloud · Scaleway",
+  "mobile      React Native · Expo · Cordova · NativeScript",
+  "data        PostgreSQL · MongoDB · Prisma · Firebase · Supabase",
+  "ai          LLM APIs · agents & MCP · RAG · embeddings · AI-assisted delivery",
+  "infra       Docker · Kubernetes · Helm · Vercel · Netlify · OVHcloud · Scaleway",
+  "testing     Playwright · Vitest · Jest",
 ] as const;
 
 export const RATES_ROWS: readonly string[] = [
@@ -346,13 +444,3 @@ export const RESUME_TXT: string = [
   "Available from mid-September 2026.",
 ].join("\n");
 
-export const THEME_ROWS: ReadonlyArray<readonly [string, string]> = [
-  ["green", "phosphor green on near-black (default)"],
-  ["ember", "warm amber, softer contrast"],
-  ["paper", "light, printed-manual feel"],
-] as const;
-
-export const VOICE_ROWS: ReadonlyArray<readonly [string, string]> = [
-  ["warm", "full sentences, first person (default)"],
-  ["terse", "clipped, sysadmin energy"],
-] as const;

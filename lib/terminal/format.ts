@@ -35,3 +35,20 @@ export function box(rows: readonly string[], w = 64): Line[] {
   out.push(L("└" + "─".repeat(w - 2) + "┘", "var(--faint)"));
   return out;
 }
+
+/** Greedy word wrap, for prose that has to sit on the character grid. */
+export function wrap(text: string, width: number): string[] {
+  const out: string[] = [];
+  let line = "";
+  for (const word of text.split(/\s+/)) {
+    if (!word) continue;
+    if (line && line.length + 1 + word.length > width) {
+      out.push(line);
+      line = word;
+    } else {
+      line = line ? line + " " + word : word;
+    }
+  }
+  if (line) out.push(line);
+  return out;
+}
