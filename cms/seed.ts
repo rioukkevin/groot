@@ -16,6 +16,7 @@ import type { RequiredDataFromCollectionSlug, Where } from "payload";
 
 import config from "@payload-config";
 
+import { EN_VOICED } from "./voiced.en";
 import {
   FR_COMMANDS,
   FR_EDUCATION,
@@ -25,6 +26,7 @@ import {
   FR_THEMES,
   FR_UI,
   FR_VOICES,
+  FR_VOICED,
   FR_WIZARD,
 } from "./translations.fr";
 
@@ -282,6 +284,9 @@ const seed = async () => {
           icon: o.icon,
         })),
       })),
+      ...Object.fromEntries(
+        Object.entries(EN_VOICED).map(([k, v]) => [k, v]),
+      ),
       themes: [
         { value: "green", label: "green", hint: "phosphor on near-black" },
         { value: "ember", label: "ember", hint: "warm amber, softer" },
@@ -438,6 +443,12 @@ const seed = async () => {
           }),
         };
       }),
+      ...Object.fromEntries(
+        Object.entries(EN_VOICED).map(([k, en]) => [
+          k,
+          FR_VOICED[k] ?? en,
+        ]),
+      ),
       themes: Object.entries(FR_THEMES).map(([value, hint]) => ({
         value,
         label: value,

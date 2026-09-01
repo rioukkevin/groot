@@ -385,3 +385,65 @@ export const FR_UI = {
   banner: "Disponible pour de nouvelles missions à partir de mi-septembre",
   modeHint: "(shift+tab pour changer de langue) · ? pour les raccourcis",
 };
+
+/**
+ * The voiced copy: the same line in three registers. Keys match the `voiced()`
+ * groups in the UI Text global.
+ */
+export const FR_VOICED: Record<string, { warm: string; brief: string; terse: string }> = {
+  intro: {
+    warm: "Salut — moi c'est Kévin. C'est mon portfolio, mais il fonctionne comme un shell : c'est vous qui le pilotez.\n\nTapez une commande, ou posez simplement une question. /roles est le premier arrêt habituel ; /now vous dit si je suis disponible.",
+    brief: "Salut — moi c'est Kévin. Un portfolio qui fonctionne comme un shell, c'est vous qui le pilotez.\n\nTapez une commande ou posez une question. /roles est le premier arrêt habituel ; /now dit si je suis libre.",
+    terse: "Kévin Riou. Développeur web et mobile fullstack, freelance.\nUne commande ou une question. /help liste tout.",
+  },
+  about: {
+    warm: "Je m'appelle Kévin — développeur web et mobile fullstack, freelance, basé à Paris.\n\nJe dirige Nareli, en partenariat avec @StartAndBrand, après avoir exercé sous le nom ooof.dev. Neuf ans plus tard, entre une coopérative, un industriel, un SaaS et une société de capteurs, le motif est le même : de petites équipes qui ont besoin d'une personne pour porter l'ensemble — la base de données, l'interface, le déploiement, et l'appel quand ça casse.\n\nJ'ai dirigé des équipes et des projets de bout en bout, et je préfère toujours écrire la chose. En dehors : des projets personnels depuis 2016 — des bots, des outils, et neuf versions de ce portfolio.",
+    brief: "Kévin — développeur web et mobile fullstack, freelance, à Paris.\n\nJe dirige Nareli, après ooof.dev. Neuf ans entre une coopérative, un industriel, un SaaS et une société de capteurs : de petites équipes qui ont besoin d'une personne pour porter l'ensemble.",
+    terse: "Kévin Riou. Fullstack web et mobile, freelance, Paris.\nNareli, ex ooof.dev. Neuf ans, toute la stack.\nDe l'architecture à l'appel de support.",
+  },
+  help: {
+    warm: "Tout ce que je peux afficher est ci-dessous. Les questions en langage courant fonctionnent aussi — essayez « êtes-vous libre en septembre ? » ou « quels sont vos tarifs ? ».",
+    brief: "Tout est ci-dessous. Les questions en langage courant fonctionnent aussi — essayez « êtes-vous libre en septembre ? ».",
+    terse: "Commandes ci-dessous. Les questions passent aussi.",
+  },
+  projects: {
+    warm: "Des projets personnels, surtout. Le travail client est sous /roles — ici, c'est ce qui se construit quand personne ne le demande.",
+    brief: "Des projets personnels. Le travail client est sous /roles — ici, ce qui se construit quand personne ne le demande.",
+    terse: "Projets personnels. Le client est sous /roles.",
+  },
+  skills: {
+    warm: "La partie du métier qui n'est pas de la frappe. Neuf ans entre une coopérative, un industriel, un SaaS et une société de capteurs m'ont appris plus sur les gens que sur les frameworks.",
+    brief: "La partie du métier qui n'est pas de la frappe. Neuf ans m'ont appris plus sur les gens que sur les frameworks.",
+    terse: "Savoir-être. La partie qui n'est pas de la frappe.",
+  },
+  stack: {
+    warm: "Ce vers quoi je vais sans y penser. Le savoir-être est sous /skills.",
+    brief: "La boîte à outils par défaut. Le savoir-être est sous /skills.",
+    terse: "Stack technique. /skills pour le reste.",
+  },
+  rates: {
+    warm: "Trois tarifs parce que ce sont trois métiers différents. Je préfère chiffrer au forfait quand le périmètre est assez clair pour être honnête — ça oblige à y réfléchir avant de commencer.",
+    brief: "Trois tarifs, trois métiers différents. Forfait quand le périmètre est assez clair pour être honnête.",
+    terse: "Trois tarifs, trois métiers. Forfait si le périmètre le permet.",
+  },
+  contact: {
+    warm: "L'email marche très bien si vous préférez. Sinon, répondez aux quatre questions ci-dessous et ça arrive dans ma boîte — les flèches pour choisir, ↵ pour valider.",
+    brief: "L'email marche si vous préférez. Sinon répondez aux quatre questions ci-dessous — flèches pour choisir, ↵ pour valider.",
+    terse: "Email, ou répondez ci-dessous. ↑↓ choisir, ↵ valider.",
+  },
+  now: {
+    warm: "Version courte : je suis libre à partir de mi-septembre, et le travail du moment c'est Nareli — des développements fullstack et mobile pour de petites équipes.",
+    brief: "Libre à partir de mi-septembre. Le travail du moment, c'est Nareli — fullstack et mobile pour de petites équipes.",
+    terse: "Libre à partir de mi-septembre. En cours : missions Nareli.",
+  },
+  photos: {
+    warm: "Chaque bloc est un curseur de terminal, de la même taille que celui qui clignote sous l'invite. Les couleurs viennent directement de l'image. Survolez, et les blocs se dissolvent dans la photographie.",
+    brief: "Un bloc de la taille d'un curseur par cellule, couleurs prises sur l'image. Au survol, les blocs se dissolvent dans la photo.",
+    terse: "Un bloc-curseur par cellule, couleurs d'origine. Survol pour la photo.",
+  },
+  noMatch: {
+    warm: "Pas de réponse toute prête pour celle-là — écrivez-moi et vous en aurez une vraie. En attendant, voici ce que j'ai :",
+    brief: "Pas de réponse toute prête. Écrivez-moi pour une vraie. En attendant :",
+    terse: "Aucune correspondance. Disponible :",
+  },
+};

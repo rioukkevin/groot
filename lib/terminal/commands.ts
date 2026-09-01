@@ -1,6 +1,9 @@
 import { diff, lines, say, select, think, tool } from "./blocks";
+import { EN_VOICED } from "../../cms/voiced.en";
+
 import { L, box, pad } from "./format";
 
+import type { Voiced } from "../../cms/voiced.en";
 import type { ShellContent } from "./cms";
 import type { BlockSpec, Line, SelectItem, Theme, Voice } from "./types";
 
@@ -41,23 +44,29 @@ const THEME_CARDS: ReadonlyArray<
   ["linen", "linen", "warm white, rust ink", "oklch(0.52 0.14 45)", "#faf7f2"],
 ];
 
-/** Pick the phrasing for the active voice: three registers, long to short. */
-const v = (
-  ctx: CommandContext,
-  warm: string,
-  brief: string,
-  terse: string,
-) => (ctx.voice === "terse" ? terse : ctx.voice === "brief" ? brief : warm);
+/**
+ * The line for `key` in the active voice.
+ *
+ * The CMS wins when it carries the line for the active locale; the English
+ * file backs it, so an empty CMS still renders and a translation lands the
+ * moment it is written. There is one register ladder, not two.
+ */
+const v = (ctx: CommandContext, key: string): string => {
+  const pick = (o: Voiced | undefined) =>
+    o
+      ? ctx.voice === "terse"
+        ? o.terse || o.warm
+        : ctx.voice === "brief"
+          ? o.brief || o.warm
+          : o.warm
+      : "";
+  return pick(ctx.content.voiced[key]) || pick(EN_VOICED[key]);
+};
 
 function cHelp(ctx: CommandContext): BlockSpec[] {
   return [
     say(
-      v(
-        ctx,
-        'Everything I can pull up is below. Plain questions work too — try "are you free in November?" or "what do you charge?".',
-        "Everything I can pull up is below. Plain questions route too — try \"are you free in September?\".",
-        "Commands below. Plain questions also route.",
-      ),
+      v(ctx, "help"),
     ),
     lines(
       ctx.content.commands.map((c) => L("  " + c[1], "var(--dim)", pad(c[0], 15), "var(--accent)")),
@@ -86,12 +95,7 @@ function cProjects(ctx: CommandContext): BlockSpec[] {
       600,
     ),
     say(
-      v(
-        ctx,
-        "Side projects, mostly. The client work lives under /roles — this is what gets built when nobody is asking.",
-        "Side projects. The client work is under /roles — this is what gets built when nobody is asking.",
-        "Side projects. Client work is under /roles.",
-      ),
+      v(ctx, "projects"),
     ),
     select(
       "project",
@@ -204,12 +208,7 @@ function cRole(key: string, ctx: CommandContext): BlockSpec[] {
 function cAbout(ctx: CommandContext): BlockSpec[] {
   return [
     say(
-      v(
-        ctx,
-        "I'm Kévin — fullstack web and mobile developer, freelance, based in Paris.\n\nI run Nareli, in partnership with @StartAndBrand, and before that traded as ooof.dev. Nine years in, across a cooperative, a food manufacturer, a SaaS and a Swiss sensor company, the pattern is the same: small teams that need one person to own the architecture, the interface, the deploy, and the phone call when it breaks.\n\nI've led teams and projects end to end, and I still prefer writing the thing. Off the clock: side projects since 2016 — bots, tools, and nine versions of this portfolio.",
-        "Kévin — fullstack web and mobile developer, freelance, in Paris.\n\nI run Nareli, in partnership with @StartAndBrand, and traded as ooof.dev before that. Nine years across a cooperative, a manufacturer, a SaaS and a sensor company: small teams that need one person to own the whole thing.",
-        "Kévin Riou. Fullstack web and mobile, freelance, Paris.\nNareli, ex ooof.dev. Nine years, whole stack.\nArchitecture to support call.",
-      ),
+      v(ctx, "about"),
     ),
     {
       kind: "photos",
@@ -229,22 +228,12 @@ function cAbout(ctx: CommandContext): BlockSpec[] {
 function cSkills(ctx: CommandContext): BlockSpec[] {
   return [
     say(
-      v(
-        ctx,
-        "The part of the job that isn't typing. Nine years across a cooperative, a manufacturer, a SaaS and a sensor company taught me more about people than about frameworks.",
-        "The part of the job that isn't typing. Nine years taught me more about people than about frameworks.",
-        "Soft skills. The part that isn't typing.",
-      ),
+      v(ctx, "skills"),
     ),
     {
       kind: "chips",
       groups: ctx.content.softSkills.map(
-        (g, i) =>
-          [g[0], [...g[1]], ["var(--accent)", "var(--accent2)", "var(--warn)"][i % 3]] as [
-            string,
-            string[],
-            string?,
-          ],
+        (g) => [g[0], [...g[2]], g[1]] as [string, string[], string?],
       ),
     },
     lines([
@@ -256,12 +245,7 @@ function cSkills(ctx: CommandContext): BlockSpec[] {
 function cStack(ctx: CommandContext): BlockSpec[] {
   return [
     say(
-      v(
-        ctx,
-        "What I reach for without thinking about it. The soft side is under /skills.",
-        "The default toolkit. Soft skills are under /skills.",
-        "Hard stack. /skills for the rest.",
-      ),
+      v(ctx, "stack"),
     ),
     {
       kind: "chips",
@@ -293,12 +277,7 @@ function cNow(ctx: CommandContext): BlockSpec[] {
       "Ran 1 shell command · git log --since=1.month",
     ),
     say(
-      v(
-        ctx,
-        "Short version: I'm free from mid-September, and the work right now is Nareli — fullstack and mobile builds for small teams.",
-        "Free from mid-September. The work right now is Nareli — fullstack and mobile builds for small teams.",
-        "Free from mid-September. Current work: Nareli client builds.",
-      ),
+      v(ctx, "now"),
     ),
   ];
 }
@@ -307,12 +286,7 @@ function cRates(ctx: CommandContext): BlockSpec[] {
   return [
     lines(box(ctx.content.rates.map(([l, v]) => pad(l, 14) + v), 62)),
     say(
-      v(
-        ctx,
-        "Three rates because they are three different jobs. I'd rather quote fixed price where the scope is clear — it means we both thought about it before starting.",
-        "Three rates because they are three different jobs. Fixed price where the scope is clear enough to be honest.",
-        "Three rates, three jobs. Fixed price where scope allows.",
-      ),
+      v(ctx, "rates"),
     ),
   ];
 }
@@ -333,12 +307,7 @@ function cPhotos(ctx: CommandContext): BlockSpec[] {
       820,
     ),
     say(
-      v(
-        ctx,
-        "Each block is one terminal cursor, same size as the one blinking below the prompt. Colours come straight off the image. Hover and the blocks dissolve into the photograph.",
-        "One cursor-sized block per cell, colours straight off the image. Hover and the blocks dissolve into the photograph.",
-        "One cursor-sized block per cell, original colours. Hover shows the photo.",
-      ),
+      v(ctx, "photos"),
     ),
     {
       kind: "shots",
@@ -416,12 +385,7 @@ function cComponents(ctx: CommandContext): BlockSpec[] {
 
   return [
     say(
-      v(
-        ctx,
-        "Seven components, all built on the character grid. Each one below is live — the scroll view and the carousel take the arrow keys the same way the lists do, and esc hands them back.",
-        "Seven components, all on the character grid and all live. Arrows drive them, esc hands them back.",
-        "Seven components. Arrow keys drive them; esc releases.",
-      ),
+      v(ctx, "components"),
     ),
     { kind: "demo", panel: "primitives" },
     {
@@ -480,12 +444,7 @@ function cComponents(ctx: CommandContext): BlockSpec[] {
       ],
     },
     say(
-      v(
-        ctx,
-        "The images above and in /photos open full screen on click — the spotlight morphs the photo out of its slot, drops the shader so you see the original, and lets you zoom and pan.",
-        "Images open full screen on click — the shader drops away, so you get the original, with zoom and pan.",
-        "Click any image: spotlight, original resolution, zoom and pan.",
-      ),
+      v(ctx, "componentsSpotlight"),
     ),
   ];
 }
@@ -503,12 +462,7 @@ function cContact(ctx: CommandContext): BlockSpec[] {
       ),
     ),
     say(
-      v(
-        ctx,
-        "Email works if you'd rather. Otherwise answer the four questions below and it lands in my inbox — arrows to choose, ↵ to confirm.",
-        "Email works if you'd rather. Otherwise answer the four below — arrows to choose, ↵ to confirm.",
-        "Email, or answer below. ↑↓ choose, ↵ confirm.",
-      ),
+      v(ctx, "contact"),
     ),
     { kind: "contact" },
   ];
@@ -603,12 +557,7 @@ function freeform(q: string, ctx: CommandContext): BlockSpec[] {
   return pre.concat([
     tool("Search", '(index, "' + q.slice(0, 30) + '")', "no exact match", [], 520),
     say(
-      v(
-        ctx,
-        "No canned answer for that one — email me and you'll get a real one. Meanwhile, here's what I do have:",
-        "No canned answer for that one — email me and you'll get a real one. Meanwhile:",
-        "No match. Available:",
-      ),
+      v(ctx, "noMatch"),
     ),
     lines([
       L("/projects  /roles  /stack  /rates  /now  /contact", "var(--accent)", "  ", ""),
@@ -666,12 +615,7 @@ export function route(
 export function intro(ctx: CommandContext): BlockSpec[] {
   return [
     say(
-      v(
-        ctx,
-        "Hey — I'm Kévin. This is my portfolio, but it runs like a shell, so you drive it.\n\nType a command or just ask a question in plain words. /roles is the usual first stop; /now tells you whether I'm free.",
-        "Hey — I'm Kévin. A portfolio that runs like a shell, so you drive it.\n\nType a command or ask a question in plain words. /roles is the usual first stop; /now says whether I'm free.",
-        "Kévin Riou. Fullstack web and mobile developer, freelance.\nType a command or a question. /help lists everything.",
-      ),
+      v(ctx, "intro"),
     ),
     lines([
       L("/roles", "var(--dim)", "  try  ", "var(--faint)"),

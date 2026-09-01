@@ -69,6 +69,7 @@ export const UiText: GlobalConfig = {
             },
             voiced("help", "/help preamble"),
             voiced("projects", "/projects preamble"),
+            voiced("about", "/about preamble"),
             voiced("skills", "/skills preamble"),
             voiced("stack", "/stack preamble"),
             voiced("rates", "/rates preamble"),

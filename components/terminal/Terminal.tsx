@@ -1,9 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { CLEAR, intro, matches, route } from "@/lib/terminal/commands";
+import { L } from "@/lib/terminal/format";
 import { maxWrappedLines } from "@/lib/terminal/format";
 import { gridStep } from "@/lib/terminal/grid";
 import {
@@ -73,20 +73,32 @@ function downloadResume(text: string) {
 }
 
 export function Terminal({
-  locale,
-  content,
+  initialLocale,
+  content: byLocale,
 }: {
-  locale: Locale;
-  content: ShellContent;
+  initialLocale: Locale;
+  content: Record<Locale, ShellContent>;
 }) {
-  const router = useRouter();
+  const [locale, setLocale] = useState<Locale>(initialLocale);
+  const content = byLocale[locale];
   const next = otherLocale(locale);
 
-  /** Writes the choice down, then moves to the other locale's path. */
+  /**
+   * Swaps language in place. The content for both locales is already here, so
+   * there is nothing to fetch and no navigation: the transcript stays, and the
+   * address bar is corrected with replaceState so the URL still tells the
+   * truth and a reload or a shared link lands in the right language.
+   */
   const switchLocale = useCallback(() => {
     document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
-    router.push(pathForLocale(window.location.pathname, next));
-  }, [next, router]);
+    window.history.replaceState(
+      null,
+      "",
+      pathForLocale(window.location.pathname, next) + window.location.search,
+    );
+    document.documentElement.lang = next;
+    setLocale(next);
+  }, [next]);
 
   const engine = useEngine(STREAM_SPEED);
   const { blocks, busy, run, push, patch, halt, reset, lastInteractiveId } = engine;
@@ -230,21 +242,25 @@ export function Terminal({
         });
       }, SLOW_MS);
 
-      const finish = (meta: string, colour: string) => {
+      const finish = (meta: string, detail?: string) => {
         clearTimeout(timer);
         const ms = Math.round(performance.now() - started);
-        if (id !== null) {
-          patch(id, { done: true, meta: `${meta} · ${ms}ms`, out: [] });
-        }
-        return colour;
+        if (id === null) return;
+        patch(id, {
+          done: true,
+          meta: `${meta} · ${ms}ms`,
+          out: detail ? [L(detail, "var(--err)")] : [],
+        });
       };
 
       try {
         const result = await job();
-        finish("done", "");
+        finish("done");
         return result;
       } catch (err) {
-        finish("failed", "");
+        // A failed request is reported where the request is, not only in
+        // whatever form started it.
+        finish("failed", err instanceof Error ? err.message : "request failed");
         throw err;
       }
     },
@@ -289,13 +305,35 @@ export function Terminal({
     run(intro(ctxRef.current));
   }, [push, reset, run]);
 
-  // UX addition: the design pinned the transcript to the bottom on every
-  // update, which yanks the view away while you are reading back. Follow the
-  // output only while the reader is already at the bottom.
+  // The design pinned the transcript to the bottom on every update, which
+  // yanks the view away while you are reading back. Follow the output only
+  // while the reader is already at the bottom.
   useEffect(() => {
     const el = scrollRef.current;
     if (el && stick.current) el.scrollTop = el.scrollHeight;
   });
+
+  // Blocks keep growing after they are rendered — a canvas sizes itself once
+  // its image loads, prose re-wraps when the pane is measured, a say block
+  // streams. Scrolling once when the block appears therefore leaves the tail
+  // off screen, so follow the height itself for as long as it is still moving.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => {
+      if (stick.current) el.scrollTop = el.scrollHeight;
+    });
+    for (const child of Array.from(el.children)) ro.observe(child);
+    const mo = new MutationObserver(() => {
+      for (const child of Array.from(el.children)) ro.observe(child);
+      if (stick.current) el.scrollTop = el.scrollHeight;
+    });
+    mo.observe(el, { childList: true, subtree: true });
+    return () => {
+      ro.disconnect();
+      mo.disconnect();
+    };
+  }, []);
 
   const onScroll = useCallback(() => {
     const el = scrollRef.current;
@@ -374,20 +412,23 @@ export function Terminal({
   const send = useCallback(() => {
     setContact((c) => (c.status === "sending" ? c : { ...c, status: "sending", error: null }));
     const body = { ...contactRef.current.answers, website: "" };
-    track("Send", "(api/contact)", () =>
-      fetch("/api/contact", {
+    // The ok-check lives inside the tracked job: fetch resolves on a 502, so
+    // checking afterwards would mark a refused send as "done".
+    track("Send", "(api/contact)", async () => {
+      const r = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
-      }),
-    )
-      .then(async (r) => {
-        const data: unknown = await r.json().catch(() => ({}));
-        const err =
-          typeof data === "object" && data !== null && "error" in data
-            ? String((data as { error: unknown }).error)
-            : null;
-        if (!r.ok) throw new Error(err ?? `send failed (${r.status})`);
+      });
+      const data: unknown = await r.json().catch(() => ({}));
+      const err =
+        typeof data === "object" && data !== null && "error" in data
+          ? String((data as { error: unknown }).error)
+          : null;
+      if (!r.ok) throw new Error(err ?? `send failed (${r.status})`);
+      return r;
+    })
+      .then(() => {
         setContact((c) => ({ ...c, status: "sent", error: null }));
       })
       .catch((e: unknown) => {

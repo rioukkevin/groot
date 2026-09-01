@@ -76,10 +76,27 @@ export interface ShellContent {
     banner: string;
     modeHint: string;
   };
+  /** The voiced copy for this locale, keyed. Empty entries fall back to code. */
+  voiced: Record<string, { warm: string; brief: string; terse: string }>;
   wizard: CmsWizardStep[];
   themeHints: Record<string, string>;
   voiceHints: Record<string, string>;
 }
+
+/** The voiced groups the UI Text global carries. */
+const VOICED_KEYS = [
+  "intro",
+  "help",
+  "projects",
+  "about",
+  "skills",
+  "stack",
+  "rates",
+  "contact",
+  "now",
+  "photos",
+  "noMatch",
+] as const;
 
 /** Payload returns `T | null | undefined` for optional arrays; this flattens. */
 const arr = <T,>(v: T[] | null | undefined): T[] => v ?? [];
@@ -171,6 +188,21 @@ export async function getShellContent(locale: Locale): Promise<ShellContent> {
       banner: str(ui.banner),
       modeHint: str(ui.modeHint),
     },
+    voiced: Object.fromEntries(
+      VOICED_KEYS.map((k) => {
+        const g = (ui as unknown as Record<string, unknown>)[k] as
+          | { warm?: string | null; brief?: string | null; terse?: string | null }
+          | undefined;
+        return [
+          k,
+          {
+            warm: str(g?.warm),
+            brief: str(g?.brief),
+            terse: str(g?.terse),
+          },
+        ];
+      }),
+    ),
     wizard: arr(ui.wizardSteps).map((s) => ({
       key: str(s.key),
       group: str(s.group),
