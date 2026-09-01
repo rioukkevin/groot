@@ -149,11 +149,21 @@ function prefersReducedMotion(): boolean {
  */
 function probeNatural(src: string): Size | null {
   if (typeof Image === "undefined") return null;
-  const probe = new Image();
-  probe.src = src;
-  return probe.complete && probe.naturalWidth > 0
-    ? { w: probe.naturalWidth, h: probe.naturalHeight }
-    : null;
+  // Two probes, because a CORS-mode load and a plain one are separate cache
+  // entries. ShaderPhoto fetches with crossOrigin="anonymous", so on a host
+  // that sends CORS headers only the matching probe finds the decoded image;
+  // on a host that does not, ShaderPhoto falls back to a plain load and only
+  // the other one does. naturalWidth is not gated by tainting, so reading the
+  // size off either is safe, and neither probe issues a request when the entry
+  // is already there.
+  for (const cors of [false, true]) {
+    const probe = new Image();
+    if (cors) probe.crossOrigin = "anonymous";
+    probe.src = src;
+    if (probe.complete && probe.naturalWidth > 0)
+      return { w: probe.naturalWidth, h: probe.naturalHeight };
+  }
+  return null;
 }
 
 /** Distance and midpoint of the first two live pointers. */

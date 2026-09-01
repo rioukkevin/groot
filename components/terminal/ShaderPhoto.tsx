@@ -394,14 +394,12 @@ export function ShaderPhoto({
       target = 0;
       wake();
     };
-    const tap = () => {
-      target = target ? 0 : 1;
-      wake();
-    };
-
+    // No touch toggle: every ShaderPhoto is wrapped in an ImageSpotlight, so a
+    // tap opens the real photograph. Keeping the reveal toggle here would give
+    // one tap two meanings and leave the thumbnail in the opposite state after
+    // the spotlight closes. Hover reveal stays for pointer devices.
     canvas.addEventListener("mouseenter", enter);
     canvas.addEventListener("mouseleave", leave);
-    canvas.addEventListener("touchstart", tap, { passive: true });
 
     if (!src) {
       begin(placeholder(), true);
@@ -425,7 +423,6 @@ export function ShaderPhoto({
       cancelAnimationFrame(raf);
       canvas.removeEventListener("mouseenter", enter);
       canvas.removeEventListener("mouseleave", leave);
-      canvas.removeEventListener("touchstart", tap);
     };
   }, [src, width, height, cellW, cellH, gap, label]);
 
