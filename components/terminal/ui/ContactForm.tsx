@@ -71,6 +71,37 @@ function HorizontalProgress({ reached }: { reached: number }) {
 }
 
 /**
+ * Selections as chips, sat under the card grid. The end caps are half-blocks
+ * in the fill colour, which is how a monospace grid draws a rounded pill —
+ * the cell either side is filled to its inner edge and nothing else.
+ */
+function Chips({ state }: { state: ContactState }) {
+  const rows = summary(state.answers);
+  if (!rows.length) return null;
+  const fill = "color-mix(in oklab, var(--accent) 18%, transparent)";
+
+  return (
+    <div className="pt-1">
+      <div className="whitespace-pre" style={{ color: "var(--faint)" }}>
+        YOUR SELECTIONS
+      </div>
+      <div className="flex flex-wrap items-center gap-x-2">
+        {rows.map(([label, value]) => (
+          <div key={label} className="whitespace-pre">
+            <span style={{ color: fill }}>▐</span>
+            <span style={{ background: fill }}>
+              <span style={{ color: "var(--dim)" }}>{label + "  "}</span>
+              <span style={{ color: "var(--fg)" }}>{value}</span>
+            </span>
+            <span style={{ color: fill }}>▌</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/**
  * Vertical recap, used from the details step onward: every choice already made
  * and every field already filled, one per line, so the whole answer is visible
  * while the last of it is typed.
@@ -182,13 +213,16 @@ export function ContactForm({ state, live, onPick, onClaim }: ContactFormProps) 
       </div>
 
       {step?.kind === "choice" && (
-        <CardGrid
-          options={step.options}
-          perRow={step.perRow}
-          index={state.choice}
-          live={live}
-          onPick={onPick}
-        />
+        <>
+          <CardGrid
+            options={step.options}
+            perRow={step.perRow}
+            index={state.choice}
+            live={live}
+            onPick={onPick}
+          />
+          <Chips state={state} />
+        </>
       )}
 
       {step?.kind === "text" && (
