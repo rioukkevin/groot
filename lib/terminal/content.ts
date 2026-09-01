@@ -370,15 +370,38 @@ export const SOFT_SKILLS: ReadonlyArray<
   ],
 ] as const;
 
-export const STACK_ROWS: readonly string[] = [
-  "languages   TypeScript · JavaScript · PHP · C#",
-  "frontend    React · Next.js · Vue · Nuxt · Tailwind · Sass · CSS-in-JS",
-  "backend     Node · NestJS · Express · Koa · GraphQL · REST · Socket.io",
-  "mobile      React Native · Expo · Cordova · NativeScript",
-  "data        PostgreSQL · MongoDB · Prisma · Firebase · Supabase",
-  "ai          LLM APIs · agents & MCP · RAG · embeddings · AI-assisted delivery",
-  "infra       Docker · Kubernetes · Helm · Vercel · Netlify · OVHcloud · Scaleway",
-  "testing     Playwright · Vitest · Jest",
+/** [group, tint, items] — the tint colours that group's chips. */
+export const STACK_GROUPS: ReadonlyArray<
+  readonly [string, string, readonly string[]]
+> = [
+  ["languages", "var(--accent)", ["TypeScript", "JavaScript", "PHP", "C#"]],
+  [
+    "frontend",
+    "var(--accent2)",
+    ["React", "Next.js", "Vue", "Nuxt", "Tailwind", "Sass", "CSS-in-JS"],
+  ],
+  [
+    "backend",
+    "var(--add)",
+    ["Node", "NestJS", "Express", "Koa", "GraphQL", "REST", "Socket.io"],
+  ],
+  ["mobile", "var(--warn)", ["React Native", "Expo", "Cordova", "NativeScript"]],
+  [
+    "data",
+    "var(--accent2)",
+    ["PostgreSQL", "MongoDB", "Prisma", "Firebase", "Supabase"],
+  ],
+  [
+    "ai",
+    "var(--accent)",
+    ["LLM APIs", "Agents & MCP", "RAG", "Embeddings", "AI-assisted delivery"],
+  ],
+  [
+    "infra",
+    "var(--warn)",
+    ["Docker", "Kubernetes", "Helm", "Vercel", "Netlify", "OVHcloud", "Scaleway"],
+  ],
+  ["testing", "var(--add)", ["Playwright", "Vitest", "Jest"]],
 ] as const;
 
 export const RATES_ROWS: readonly string[] = [

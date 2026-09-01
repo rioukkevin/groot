@@ -699,6 +699,11 @@ interface ImageSpotlightProps {
   measureSelector?: string;
   className?: string;
   children: ReactNode;
+  /**
+   * Increment to open the spotlight from outside — the keyboard route. Zero
+   * means "never asked", so a freshly mounted slide does not open itself.
+   */
+  openSignal?: number;
 }
 
 export function ImageSpotlight({
@@ -708,6 +713,7 @@ export function ImageSpotlight({
   measureSelector = "canvas,img,video",
   className,
   children,
+  openSignal = 0,
 }: ImageSpotlightProps) {
   const triggerRef = useRef<HTMLDivElement>(null);
   const [mode, setMode] = useState<Mode>("closed");
@@ -729,11 +735,23 @@ export function ImageSpotlight({
     triggerRef.current?.focus({ preventScroll: true });
   }, []);
 
-  const open = () => {
+  const open = useCallback(() => {
     if (!src || mode !== "closed") return;
     setShot({ origin: measureOrigin(), seed: probeNatural(src) });
     setMode("open");
-  };
+  }, [src, mode, measureOrigin]);
+
+  // The keyboard route in. Each signal is served exactly once: `open` changes
+  // identity when `mode` does, so without the guard, closing would re-run this
+  // effect and immediately reopen the overlay. Opening is scheduled rather
+  // than applied inline so the effect never sets state synchronously.
+  const servedSignal = useRef(0);
+  useEffect(() => {
+    if (openSignal === 0 || servedSignal.current === openSignal) return;
+    servedSignal.current = openSignal;
+    const t = setTimeout(open, 0);
+    return () => clearTimeout(t);
+  }, [openSignal, open]);
 
   const onTriggerKeyDown = (e: ReactKeyboardEvent<HTMLDivElement>) => {
     if (e.key !== "Enter" && e.key !== " ") return;

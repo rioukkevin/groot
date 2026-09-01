@@ -8,7 +8,7 @@ import {
   PROJECTS,
   RATES_ROWS,
   SOFT_SKILLS,
-  STACK_ROWS,
+  STACK_GROUPS,
 } from "./content";
 import { L, box, pad } from "./format";
 
@@ -244,14 +244,41 @@ function cSkills(ctx: CommandContext): BlockSpec[] {
         "Soft skills. The part that isn't typing.",
       ),
     ),
-    { kind: "chips", groups: SOFT_SKILLS.map((g) => [g[0], [...g[1]]] as [string, string[]]) },
+    {
+      kind: "chips",
+      groups: SOFT_SKILLS.map(
+        (g, i) =>
+          [g[0], [...g[1]], ["var(--accent)", "var(--accent2)", "var(--warn)"][i % 3]] as [
+            string,
+            string[],
+            string?,
+          ],
+      ),
+    },
     lines([
       L("/stack for the hard skills · /techs does the same", "var(--faint)", "  ", ""),
     ]),
   ];
 }
 
-const cStack = (): BlockSpec[] => [lines(box(STACK_ROWS, 68))];
+function cStack(ctx: CommandContext): BlockSpec[] {
+  return [
+    say(
+      v(
+        ctx,
+        "What I reach for without thinking about it. The soft side is under /skills.",
+        "The default toolkit. Soft skills are under /skills.",
+        "Hard stack. /skills for the rest.",
+      ),
+    ),
+    {
+      kind: "chips",
+      groups: STACK_GROUPS.map(
+        (g) => [g[0], [...g[2]], g[1]] as [string, string[], string?],
+      ),
+    },
+  ];
+}
 
 function cEducation(): BlockSpec[] {
   return [
@@ -558,7 +585,7 @@ function freeform(q: string, ctx: CommandContext): BlockSpec[] {
     return pre.concat(cProject(k));
   }
   if (has("react") || has("next") || has("node") || has("stack") || has("postgres") || has("typescript") || has("tech") || has(" ai"))
-    return pre.concat(cStack());
+    return pre.concat(cStack(ctx));
   if (has("soft skill") || has("leader") || has("manage") || has("mentor") || has("empath"))
     return pre.concat(cSkills(ctx));
   if (has("ship") || has("project") || has("work") || has("built"))
@@ -615,8 +642,8 @@ export function route(
       about: () => cAbout(ctx),
       skills: () => cSkills(ctx),
       email: () => cEmail(),
-      stack: () => cStack(),
-      techs: () => cStack(),
+      stack: () => cStack(ctx),
+      techs: () => cStack(ctx),
       now: () => cNow(ctx),
       photos: () => cPhotos(ctx),
       rates: () => cRates(ctx),

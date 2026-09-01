@@ -80,6 +80,28 @@ interface BuddyProps {
  */
 const TRACK_TRAVEL = "5px";
 
+/**
+ * Trait overrides are the raw uniform the generator maps into each range, so 1
+ * is the top of it. `eye.ratio` spans 1.9–3.2 height-over-width, and pushing it
+ * high gives the tall, narrow eyes the shell wants.
+ */
+const TRAITS = { "eye.ratio": 0.92, "eye.stretch": 0.85 };
+
+/**
+ * A grid of holes punched through the buddy, so the live SVG reads as cells
+ * the way the photos do. Two repeating gradients intersected: opaque for the
+ * cell, transparent for the gutter. The animation runs underneath it, which a
+ * rasterising shader could not allow.
+ */
+const CELL = 5;
+const GUTTER = 1;
+const squareMask = {
+  WebkitMaskImage: `repeating-linear-gradient(to right, #000 0 ${CELL}px, transparent ${CELL}px ${CELL + GUTTER}px), repeating-linear-gradient(to bottom, #000 0 ${CELL}px, transparent ${CELL}px ${CELL + GUTTER}px)`,
+  maskImage: `repeating-linear-gradient(to right, #000 0 ${CELL}px, transparent ${CELL}px ${CELL + GUTTER}px), repeating-linear-gradient(to bottom, #000 0 ${CELL}px, transparent ${CELL}px ${CELL + GUTTER}px)`,
+  WebkitMaskComposite: "source-in",
+  maskComposite: "intersect",
+} as const;
+
 export function Buddy({ name = "kevin-riou", mood, size = 56 }: BuddyProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const [ink, setInk] = useState({ head: "#8fd6a8", eye: "#0c0c0c" });
@@ -123,6 +145,7 @@ export function Buddy({ name = "kevin-riou", mood, size = 56 }: BuddyProps) {
         width: size,
         height: size,
         ["--mo-track-travel" as string]: TRACK_TRAVEL,
+        ...squareMask,
       }}
     >
       <Blobatar
@@ -132,6 +155,7 @@ export function Buddy({ name = "kevin-riou", mood, size = 56 }: BuddyProps) {
         animate="always"
         expression={FACE[mood]}
         palette={{ head: ink.head, eye: ink.eye }}
+        traits={TRAITS}
         title={`${name}, ${mood}`}
         style={{ display: "block" }}
       />

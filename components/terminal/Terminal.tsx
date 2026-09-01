@@ -83,6 +83,8 @@ export function Terminal() {
    */
   /** Bumped on every submitted command, so the buddy visibly reacts. */
   const [pulse, setPulse] = useState(0);
+  /** Bumped by ↵ on a carousel, to open its current slide full screen. */
+  const [openShot, setOpenShot] = useState(0);
 
   const [uiState, setUiState] = useState<{
     forId: number;
@@ -417,6 +419,20 @@ export function Terminal() {
         }
       }
 
+      // ↵ on a carousel opens the slide rather than submitting: with an empty
+      // input there is nothing to send, and the picture is the obvious target.
+      if (
+        k === "Enter" &&
+        !input &&
+        !mm.length &&
+        (act?.kind === "carousel" || act?.kind === "project") &&
+        act.slides.length > 0
+      ) {
+        e.preventDefault();
+        setOpenShot((n) => n + 1);
+        return;
+      }
+
       if (k === "Enter") {
         e.preventDefault();
         if (mm.length) submit(mm[Math.min(palIdx, mm.length - 1)][0]);
@@ -651,6 +667,7 @@ export function Terminal() {
                 offset={b.id === activeId ? selIdx2 : 0}
                 onSlide={moveSel}
                 onOffset={moveSel2}
+                openSignal={b.id === activeId ? openShot : 0}
                 onClaim={() => b.id !== activeId && claim(b.id)}
               />
             )}
@@ -684,6 +701,7 @@ export function Terminal() {
                 index={b.id === activeId ? selIdx : 0}
                 onIndexChange={moveSel}
                 onClaim={() => b.id !== activeId && claim(b.id)}
+                openSignal={b.id === activeId ? openShot : 0}
               />
             )}
             {b.kind === "photos" && <PhotosBlock items={b.items} />}

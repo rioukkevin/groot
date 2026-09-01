@@ -86,7 +86,7 @@ export type BlockSpec =
   | { kind: "carousel"; title: string; slides: CarouselSlide[] }
   | { kind: "demo"; panel: "primitives" }
   | { kind: "contact" }
-  | { kind: "chips"; groups: [string, string[]][] }
+  | { kind: "chips"; groups: [string, string[], string?][] }
   | { kind: "voice"; current: Voice; onSelect: (v: Voice) => void }
   | {
       kind: "picker";

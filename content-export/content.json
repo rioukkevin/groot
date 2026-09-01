@@ -1,0 +1,720 @@
+{
+  "exportedAt": "2026-09-01T21:35:39.544Z",
+  "note": "Snapshot of all shell content before the CMS migration. Source of truth is still lib/terminal/content.ts until Payload lands.",
+  "commands": [
+    [
+      "/projects",
+      "side projects — stack, status, what they solved"
+    ],
+    [
+      "/project",
+      "one project in detail · /project portfolio"
+    ],
+    [
+      "/roles",
+      "roles, dates, what I actually did"
+    ],
+    [
+      "/role",
+      "one role in detail · /role nareli"
+    ],
+    [
+      "/education",
+      "degrees and where they came from"
+    ],
+    [
+      "/about",
+      "the short version, with a face"
+    ],
+    [
+      "/skills",
+      "soft skills — how I work with people"
+    ],
+    [
+      "/stack",
+      "hard skills, AI included · alias /techs"
+    ],
+    [
+      "/email",
+      "just the address, nothing else"
+    ],
+    [
+      "/now",
+      "what changed this month (diff)"
+    ],
+    [
+      "/rates",
+      "day rates and how I price work"
+    ],
+    [
+      "/contact",
+      "email, github, linkedin"
+    ],
+    [
+      "/resume",
+      "download a plain-text CV"
+    ],
+    [
+      "/theme",
+      "eight palettes, five dark and three light"
+    ],
+    [
+      "/voice",
+      "warm · brief · terse"
+    ],
+    [
+      "/clear",
+      "clear the transcript"
+    ],
+    [
+      "/help",
+      "everything above"
+    ]
+  ],
+  "projects": {
+    "vscode-commit": {
+      "name": "VSCode Git Commit",
+      "stack": "TypeScript · VSCode API",
+      "year": "2022",
+      "status": "on hold",
+      "statusColor": "var(--warn)",
+      "what": "A VSCode extension that templates commit messages in the editor.",
+      "detail": [
+        "An extension that standardises Git commit messages from inside VSCode: an interface that generates structured, consistent messages, so a project's history stays readable.",
+        "The idea came out of company work, where every developer wrote commit messages their own way and the history became hard to follow. A uniform frame makes the convention the path of least resistance rather than a document nobody opens.",
+        "Over 40 stars on GitHub and more than 20 000 downloads. The numbers say it found the developers who had the same problem.",
+        "After the first release I added a dedicated site: a configuration generator with a real interface, and a web version of the documentation.",
+        "Development is on hold, deliberately. The successor extends the same idea across multiple editors from a single, more flexible configuration file."
+      ],
+      "images": [
+        "/projects/vscodeGitCommitMessage/Thumbnail.png",
+        "/projects/vscodeGitCommitMessage/Screen1.png",
+        "/projects/vscodeGitCommitMessage/Screen2.png",
+        "/projects/vscodeGitCommitMessage/Demo.gif"
+      ],
+      "links": [
+        "Marketplace",
+        "Documentation",
+        "UI settings generator"
+      ]
+    },
+    "britch": {
+      "name": "Britch",
+      "stack": "Chrome extension · JavaScript",
+      "year": "—",
+      "status": "live",
+      "statusColor": "var(--add)",
+      "what": "A Chrome extension adding a brightness and contrast gauge to Twitch.",
+      "detail": [
+        "Britch gives Twitch viewers precise control over the brightness and contrast of a live stream, so the picture can be tuned to the screen it is actually being watched on.",
+        "It started from a complaint heard often: viewers could not clearly make out what was happening on screen.",
+        "Twitch's video is frequently darker than what the streamer sent, which hurts most on horror games and dark scenes. Every viewer's display is different too, so the adjustment has to be per-person rather than global."
+      ],
+      "images": [
+        "/projects/britch/Thumbnail.png",
+        "/projects/britch/Screen1.png",
+        "/projects/britch/Screen2.png"
+      ],
+      "links": [
+        "Chrome Web Store"
+      ]
+    },
+    "overlays": {
+      "name": "Custom controller overlays",
+      "stack": "JavaScript · animated sprites",
+      "year": "—",
+      "status": "ongoing",
+      "statusColor": "var(--accent2)",
+      "what": "Interactive controller overlays built for Twitch streamers.",
+      "detail": [
+        "Overlays I build now and then for streamers — a way of putting something back into the community that adds visible value to a stream.",
+        "They render the streamer's inputs in real time, so viewers can see the movements behind the play rather than only its result. It turns skill into something legible.",
+        "Technically they are images animated with JavaScript, which keeps them flexible enough to tailor per streamer.",
+        "For Dgifou, a bespoke overlay following his graphic charter exactly, so it reads as part of his channel rather than an add-on.",
+        "For Amphirae the project evolved with the hardware: a PS4 version first, then a PS5 one.",
+        "Oxidya_ shows how far the customisation goes — a general version first, then a specific build for each game she streams daily."
+      ],
+      "images": [
+        "/projects/controller/Thumbnail.png",
+        "/projects/controller/Screen1.png",
+        "/projects/controller/Screen2.png",
+        "/projects/controller/Screen3.png",
+        "/projects/controller/Screen4.png"
+      ],
+      "links": [
+        "GitHub"
+      ]
+    },
+    "outrans-counter": {
+      "name": "Outrans Counter",
+      "stack": "Web · multi-device sync",
+      "year": "—",
+      "status": "shipped",
+      "statusColor": "var(--dim)",
+      "what": "A synced entry counter for the Outrans association's 15-year event.",
+      "detail": [
+        "A mobile web app built for the Outrans association's fifteenth anniversary. Capacity was limited, so volunteers needed a counter synchronised across several devices to manage entries precisely.",
+        "Access is gated with hashed codes — light, but enough that only the volunteers running the door can reach the data.",
+        "Beyond counting, custom scripts generate detailed statistics, giving the association a picture of how the event actually ran and something to plan the next one against."
+      ],
+      "images": [
+        "/projects/outransCounter/Thumbnail.png",
+        "/projects/outransCounter/Screen1.png",
+        "/projects/outransCounter/Screen2.png",
+        "/projects/outransCounter/Screen3.png"
+      ],
+      "links": [
+        "Outrans website"
+      ]
+    },
+    "diagevol": {
+      "name": "Diagevol",
+      "stack": "Web · design & build",
+      "year": "2021",
+      "status": "live",
+      "statusColor": "var(--add)",
+      "what": "The showcase site for Alpha8's SaaS product, DiagEvol.",
+      "detail": [
+        "Built during full-time work at Alpha8: the showcase site diagevol.fr, taken from partial mockups through to production.",
+        "Diagevol is Alpha8's questionnaire and diagnostics SaaS. The site had to make its features legible — custom questionnaires, automatic analysis of responses, generated professional reports — and show how it changes the way a company collects and reads its own data.",
+        "I produced the graphics and built most of the site alone, against a tight deadline, which meant prioritising the modules that carried the business case and letting the rest wait."
+      ],
+      "images": [
+        "/projects/diagevol/Thumbnail.png",
+        "/projects/diagevol/Screen1.png",
+        "/projects/diagevol/Screen2.png",
+        "/projects/diagevol/Screen3.png",
+        "/projects/diagevol/Screen4.png",
+        "/projects/diagevol/Screen5.png"
+      ],
+      "links": [
+        "Website"
+      ]
+    },
+    "ooof": {
+      "name": "OOOF.dev",
+      "stack": "Next.js · React",
+      "year": "2024",
+      "status": "succeeded by Nareli",
+      "statusColor": "var(--dim)",
+      "what": "The site for ooof.dev, the freelance practice that became Nareli.",
+      "detail": [
+        "An interactive portfolio for the freelance practice — skills, projects, and a way in for clients looking for someone to build the thing.",
+        "The name is the sound of the moment a client finds the developer they had been looking for. Memorable, and honest about what the job is.",
+        "The site sets out the method in full: needs analysis, short development cycles, transparent communication, delivery. Structure is what makes the collaboration predictable.",
+        "Services ran from responsive sites and iOS/Android applications to training and architecture work."
+      ],
+      "images": [
+        "/projects/ooof/Thumbnail.png",
+        "/projects/ooof/Screen1.png",
+        "/projects/ooof/Screen2.png",
+        "/projects/ooof/Screen3.png"
+      ],
+      "links": [
+        "GitHub profile"
+      ]
+    },
+    "portfolio-v6": {
+      "name": "Portfolio V6",
+      "stack": "Next.js · Storyblok · i18n",
+      "year": "2022",
+      "status": "retired 2024",
+      "statusColor": "var(--dim)",
+      "what": "The portfolio that ran for two years, until October 2024.",
+      "detail": [
+        "Designed in 2022 to catch the attention of recruiters for a full-time role, and online for two years.",
+        "Deliberately minimal: a clean design so a visitor looks at the work rather than the wrapper.",
+        "Performance and SEO got real attention — partly to learn them properly, partly because most of the traffic was mobile. The result was fast, responsive and well indexed.",
+        "It carried endorsements for projects worth backing, including the poachiclash.com tournament and an Alsatian artisan's products.",
+        "The hardest and best part was writing a translation system from scratch, which meant taking apart how the existing packages actually work.",
+        "Storyblok handled content — a headless CMS chosen to learn on, and the experience carried straight into freelance work."
+      ],
+      "images": [
+        "/projects/portfoliov6/Thumbnail.png",
+        "/projects/portfoliov6/Screen1.png",
+        "/projects/portfoliov6/Screen2.png",
+        "/projects/portfoliov6/Screen3.png"
+      ],
+      "links": [
+        "GitHub"
+      ]
+    },
+    "portfolio-v5": {
+      "name": "Portfolio V5",
+      "stack": "CSS animation · Docker → Vercel",
+      "year": "2021",
+      "status": "retired",
+      "statusColor": "var(--dim)",
+      "what": "The 2021 portfolio, built for the Brioche Pasquier application.",
+      "detail": [
+        "Version five, from 2021 — the digital business card written for the Brioche Pasquier recruitment process.",
+        "It was also a laboratory: an excuse to push CSS animation further than any client project would have allowed, and to find out what could be built without reaching for a library.",
+        "Its hosting tells its own story — a Docker machine first, then Netlify, then Vercel, each move buying simpler deploys and better performance."
+      ],
+      "images": [
+        "/projects/portfoliov5/Thumbnail.png",
+        "/projects/portfoliov5/Screen1.png",
+        "/projects/portfoliov5/Screen2.png",
+        "/projects/portfoliov5/Screen3.png",
+        "/projects/portfoliov5/Screen4.png"
+      ],
+      "links": [
+        "GitHub"
+      ]
+    },
+    "twitch-bot": {
+      "name": "Poachimpa stream bot",
+      "stack": "Node · Socket.io · Twitch API",
+      "year": "—",
+      "status": "live",
+      "statusColor": "var(--add)",
+      "what": "An engagement bot for Poachimpa's stream — events, stats, viewers.",
+      "detail": [
+        "A live channel produces events faster than anyone can watch them, and none of it was being kept.",
+        "The bot tracks what happens, manages viewers, builds statistics, and runs the engagement mechanics during a stream.",
+        "Mine end to end, including the support when it breaks mid-broadcast."
+      ],
+      "images": [],
+      "links": []
+    },
+    "chariteam": {
+      "name": "Chariteam",
+      "stack": "Web · events & donations",
+      "year": "—",
+      "status": "live",
+      "statusColor": "var(--add)",
+      "what": "A site for the Chariteam association to track events and donations.",
+      "detail": [
+        "Donations and events were tracked by hand, across whoever happened to be organising them.",
+        "One place for the events and the donations attached to them, built and run for the association."
+      ],
+      "images": [],
+      "links": []
+    }
+  },
+  "roles": [
+    {
+      "key": "nareli",
+      "when": "2024 — now",
+      "what": "CEO · Nareli",
+      "where": "Paris / remote",
+      "detail": [
+        "Scope     Founded Nareli, in partnership with @StartAndBrand. All",
+        "          freelance fullstack work runs through it — scoping,",
+        "          architecture, delivery, and the support call after.",
+        "History   Traded as ooof.dev from August 2024; the practice became",
+        "          Nareli in October 2025. Same work, one name.",
+        "Doing     Fullstack and mobile builds for teams that need one",
+        "          person to own the whole thing."
+      ]
+    },
+    {
+      "key": "technis",
+      "when": "2022 — 2024",
+      "what": "Fullstack developer · Technis",
+      "where": "Paris",
+      "detail": [
+        "Company   Swiss smart-flooring company: sensor floors that track",
+        "          movement across sport, healthcare and retail spaces.",
+        "Scope     Web applications presenting the results of that data,",
+        "          plus the architecture behind them for an experiment team.",
+        "Led       A developer team for three months at international level,",
+        "          and one project end to end — idea, production, support,",
+        "          timeline, and the people on it.",
+        "Shipped   Worked the Olympics project at its start, while the",
+        "          company recruited a dedicated team for it.",
+        "Left      A documentation habit in the web team, and better",
+        "          frontend practice than I found."
+      ]
+    },
+    {
+      "key": "freelance",
+      "when": "2020 — 2022",
+      "what": "Freelance web developer",
+      "where": "France",
+      "detail": [
+        "Scope     Independent web development, run alongside the Alpha8",
+        "          contract for most of its length.",
+        "Doing     Fullstack builds for whoever needed one, under my own",
+        "          name before ooof.dev existed."
+      ]
+    },
+    {
+      "key": "alpha8",
+      "when": "2020 — 2022",
+      "what": "Fullstack developer · Alpha8",
+      "where": "Denée",
+      "detail": [
+        "Company   An all-in-one SaaS in the shape of Google Workspace,",
+        "          aimed at consultants.",
+        "Scope     Fullstack on part of the platform, then the architecture",
+        "          for scaling it. Two years, two contracts, same work.",
+        "Led       A team building the customizable report generator — the",
+        "          most complex section of the product.",
+        "Solved    Made the systems talk to each other with Apollo",
+        "          federation, and built a dev environment people would",
+        "          actually use.",
+        "Also      Designed the application's UI, and advised the founders",
+        "          on where the company should go."
+      ]
+    },
+    {
+      "key": "pasquier",
+      "when": "2019 — 2020",
+      "what": "R&D assistant · Brioche Pasquier",
+      "where": "Les Cerqueux",
+      "detail": [
+        "Company   French food manufacturer with an IT department running",
+        "          its own R&D on internal tooling.",
+        "Built     A UI kit in Vue 2, designed around how internal users",
+        "          actually worked, and the ecosystem around it.",
+        "Shipped   Modular reusable components teams assembled software",
+        "          from, cutting build time on internal projects.",
+        "Taught    Trained the department's developers on the ecosystem and",
+        "          wrote the documentation for every choice in it."
+      ]
+    },
+    {
+      "key": "triskalia",
+      "when": "2018 — 2019",
+      "what": "Web developer · Triskalia",
+      "where": "Landerneau",
+      "detail": [
+        "Company   Major French agricultural cooperative, now Eureden, in",
+        "          the middle of a digital transformation.",
+        "Scope     Frontend for web and mobile, and the architecture for",
+        "          Vue-based applications.",
+        "Led       The move to Vue as the primary frontend framework, with",
+        "          the team.",
+        "Built     An accounting management app, a parcel-tracking web app",
+        "          farmers used to follow their land, and a complex timeline",
+        "          view written in plain JavaScript for the old systems."
+      ]
+    },
+    {
+      "key": "cdg29",
+      "when": "2017 — 2018",
+      "what": "IT technician · CDG29",
+      "where": "Quimper",
+      "detail": [
+        "Where     Centre de Gestion de la Fonction Publique Territoriale",
+        "          du Finistère.",
+        "Scope     IT technician, on apprenticeship. The first one."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "when": "2019 — 2021",
+      "what": "MBA · Expert en Système d'information",
+      "where": "MyDigitalSchool Angers"
+    },
+    {
+      "when": "2018 — 2019",
+      "what": "Licence pro · Web technologies",
+      "where": "Université de Rennes I"
+    },
+    {
+      "when": "2016 — 2018",
+      "what": "DUT Informatique",
+      "where": "Université de Rennes I"
+    }
+  ],
+  "softSkills": [
+    [
+      "leading",
+      [
+        "Team management",
+        "Project ownership",
+        "Technical direction",
+        "Hiring input"
+      ]
+    ],
+    [
+      "working with people",
+      [
+        "Mentoring",
+        "Teaching",
+        "Empathy",
+        "Client communication",
+        "Saying no to scope creep"
+      ]
+    ],
+    [
+      "how I work",
+      [
+        "Documentation",
+        "Pragmatism",
+        "Autonomy",
+        "Support after delivery",
+        "Ship the small version"
+      ]
+    ]
+  ],
+  "stack": [
+    "languages   TypeScript · JavaScript · PHP · C#",
+    "frontend    React · Next.js · Vue · Nuxt · Tailwind · Sass · CSS-in-JS",
+    "backend     Node · NestJS · Express · Koa · GraphQL · REST · Socket.io",
+    "mobile      React Native · Expo · Cordova · NativeScript",
+    "data        PostgreSQL · MongoDB · Prisma · Firebase · Supabase",
+    "ai          LLM APIs · agents & MCP · RAG · embeddings · AI-assisted delivery",
+    "infra       Docker · Kubernetes · Helm · Vercel · Netlify · OVHcloud · Scaleway",
+    "testing     Playwright · Vitest · Jest"
+  ],
+  "rates": [
+    "development   €600 / day · fullstack, web and mobile",
+    "management    €500 / day · leading a team or a project",
+    "consulting    €1 000 / day · architecture and technical direction",
+    "",
+    "fixed price   when the scope is clear enough to be honest"
+  ],
+  "contact": [
+    "email       kevin@nare.li",
+    "github      github.com/rioukkevin",
+    "linkedin    in/kevinatooof",
+    "",
+    "Paris, France · CET · français, english"
+  ],
+  "now": [
+    {
+      "num": 19,
+      "sign": " ",
+      "text": "## Availability"
+    },
+    {
+      "num": 20,
+      "sign": " ",
+      "text": ""
+    },
+    {
+      "num": 21,
+      "sign": "-",
+      "text": "Booked through the summer."
+    },
+    {
+      "num": 22,
+      "sign": "-",
+      "text": "Not taking new scoping calls."
+    },
+    {
+      "num": 21,
+      "sign": "+",
+      "text": "Available from mid-September 2026."
+    },
+    {
+      "num": 22,
+      "sign": "+",
+      "text": "Taking new work now — scoping calls are free."
+    },
+    {
+      "num": 23,
+      "sign": "+",
+      "text": ""
+    },
+    {
+      "num": 24,
+      "sign": "+",
+      "text": "## Now"
+    },
+    {
+      "num": 25,
+      "sign": "+",
+      "text": "Running Nareli, in partnership with @StartAndBrand."
+    },
+    {
+      "num": 26,
+      "sign": "+",
+      "text": "Fullstack and mobile work for small teams."
+    },
+    {
+      "num": 27,
+      "sign": " ",
+      "text": ""
+    },
+    {
+      "num": 28,
+      "sign": " ",
+      "text": "## Shipping"
+    },
+    {
+      "num": 29,
+      "sign": "+",
+      "text": "Portfolio v9 · a terminal you drive. You are in it."
+    },
+    {
+      "num": 30,
+      "sign": " ",
+      "text": "Side projects · bots, tools, and the counter."
+    },
+    {
+      "num": 31,
+      "sign": " ",
+      "text": ""
+    },
+    {
+      "num": 32,
+      "sign": " ",
+      "text": "## Rates"
+    },
+    {
+      "num": 33,
+      "sign": " ",
+      "text": "€600 dev · €500 management · €1 000 consulting"
+    }
+  ],
+  "nowHeadline": "Available from mid-September 2026.",
+  "resume": "KÉVIN RIOU — FULLSTACK WEB & MOBILE DEVELOPER (FREELANCE)\nParis, France · kevin@nare.li · github.com/rioukkevin · in/kevinatooof\n\nEXPERIENCE\n2024—now   CEO · Nareli (ooof.dev until Oct 2025) · Paris / remote\n2022—2024  Fullstack developer · Technis · Paris\n2020—2022  Freelance web developer · France\n2020—2022  Fullstack developer · Alpha8 · Denée\n2019—2020  R&D assistant · Brioche Pasquier · Les Cerqueux\n2018—2019  Web developer · Triskalia (Eureden) · Landerneau\n2017—2018  IT technician · CDG29 · Quimper\n\nEDUCATION\n2019—2021  MBA Expert en Système d'information · MyDigitalSchool Angers\n2018—2019  Licence pro Web technologies · Université de Rennes I\n2016—2018  DUT Informatique · Université de Rennes I\n\nSTACK\nTypeScript, React/Next.js, Vue/Nuxt, Node/NestJS, GraphQL, React Native,\nPostgreSQL, MongoDB, Docker, Kubernetes\n\nRATES\n€600/day development · €500/day management · €1 000/day consulting\nAvailable from mid-September 2026.",
+  "contactWizard": {
+    "groups": [
+      "Project",
+      "Budget",
+      "Timeline",
+      "Details"
+    ],
+    "steps": [
+      {
+        "key": "project",
+        "group": "Project",
+        "kind": "choice",
+        "question": "What kind of project do you have in mind?",
+        "perRow": 3,
+        "options": [
+          {
+            "value": "Web application",
+            "label": "Web application",
+            "hint": "fullstack, front to deploy",
+            "icon": "</>"
+          },
+          {
+            "value": "Mobile application",
+            "label": "Mobile app",
+            "hint": "React Native · Expo",
+            "icon": "[·]"
+          },
+          {
+            "value": "Architecture & consulting",
+            "label": "Architecture",
+            "hint": "consulting · direction",
+            "icon": "◈"
+          },
+          {
+            "value": "Team lead / management",
+            "label": "Team lead",
+            "hint": "leading a team or project",
+            "icon": "▲"
+          },
+          {
+            "value": "Something else",
+            "label": "Something else",
+            "hint": "tell me below",
+            "icon": "*"
+          }
+        ]
+      },
+      {
+        "key": "budget",
+        "group": "Budget",
+        "kind": "choice",
+        "question": "What budget range are you working with?",
+        "perRow": 3,
+        "options": [
+          {
+            "value": "Under €6K",
+            "label": "Under €6K",
+            "hint": "around 10 days",
+            "icon": "▪"
+          },
+          {
+            "value": "€6K – €15K",
+            "label": "€6K – €15K",
+            "hint": "around a month",
+            "icon": "▪▪"
+          },
+          {
+            "value": "€15K – €40K",
+            "label": "€15K – €40K",
+            "hint": "two to three months",
+            "icon": "▪▪▪"
+          },
+          {
+            "value": "€40K+",
+            "label": "€40K+",
+            "hint": "a longer engagement",
+            "icon": "▪▪▪▪"
+          },
+          {
+            "value": "Not sure yet",
+            "label": "Not sure yet",
+            "hint": "we can scope it together",
+            "icon": "?"
+          }
+        ]
+      },
+      {
+        "key": "timeline",
+        "group": "Timeline",
+        "kind": "choice",
+        "question": "When do you need it?",
+        "perRow": 2,
+        "options": [
+          {
+            "value": "As soon as possible",
+            "label": "As soon as possible",
+            "hint": "free from mid-September",
+            "icon": "⚡"
+          },
+          {
+            "value": "1–2 months",
+            "label": "1–2 months",
+            "hint": "starting soon",
+            "icon": "▶"
+          },
+          {
+            "value": "3–6 months",
+            "label": "3–6 months",
+            "hint": "planning ahead",
+            "icon": "▷"
+          },
+          {
+            "value": "Flexible",
+            "label": "Flexible",
+            "hint": "no fixed date",
+            "icon": "~"
+          }
+        ]
+      },
+      {
+        "key": "name",
+        "group": "Details",
+        "kind": "text",
+        "question": "Who am I talking to?",
+        "label": "name",
+        "required": true
+      },
+      {
+        "key": "email",
+        "group": "Details",
+        "kind": "text",
+        "question": "Where should I reply?",
+        "label": "email",
+        "required": true
+      },
+      {
+        "key": "company",
+        "group": "Details",
+        "kind": "text",
+        "question": "Company, if there is one.",
+        "label": "company",
+        "required": false
+      },
+      {
+        "key": "details",
+        "group": "Details",
+        "kind": "text",
+        "question": "Tell me about it — what are you building, and what is in the way?",
+        "label": "details",
+        "required": true
+      }
+    ]
+  }
+}

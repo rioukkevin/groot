@@ -1,6 +1,6 @@
 "use client";
 
-import { ShaderPhoto } from "../ShaderPhoto";
+import { EdgePhoto } from "./EdgePhoto";
 import { ImageSpotlight } from "./ImageSpotlight";
 
 import type { CarouselSlide } from "@/lib/terminal/types";
@@ -14,6 +14,8 @@ interface CarouselProps {
   onIndexChange: (index: number) => void;
   /** Called when the user clicks the carousel, to take the arrow keys back. */
   onClaim: () => void;
+  /** Bumped by the shell to open the current slide full screen from a key. */
+  openSignal?: number;
 }
 
 /**
@@ -28,6 +30,7 @@ export function Carousel({
   index,
   onIndexChange,
   onClaim,
+  openSignal = 0,
 }: CarouselProps) {
   if (!slides.length) return null;
   const i = Math.min(Math.max(0, index), slides.length - 1);
@@ -53,14 +56,14 @@ export function Carousel({
 
         <div className="min-w-0 flex-1">
           {slide.kind === "shot" ? (
-            <div style={{ color: "var(--accent)" }}>
+            <div className="flex justify-center" style={{ color: "var(--accent)" }}>
               <ImageSpotlight
                 key={slide.key}
                 src={slide.shot.src}
                 caption={slide.shot.caption}
-                className="[&_canvas]:cursor-zoom-in"
+                openSignal={openSignal}
               >
-                <ShaderPhoto
+                <EdgePhoto
                   src={slide.shot.src}
                   width={slide.shot.w}
                   height={slide.shot.h}
@@ -94,24 +97,28 @@ export function Carousel({
         </button>
       </div>
 
-      <div className="flex gap-2 whitespace-pre pt-1">
-        <span style={{ color: "var(--faint)" }}>{"  "}</span>
-        <span aria-hidden="true">
-          {slides.map((s, n) => (
-            <span
-              key={s.key}
-              style={{ color: n === i ? "var(--accent)" : "var(--hair)" }}
-            >
-              {n === i ? "●" : "○"}
-            </span>
-          ))}
-        </span>
-        <span style={{ color: "var(--dim)" }}>{slide.label}</span>
-        <span style={{ color: "var(--faint)" }}>
-          {live
-            ? `· ←→ move · ${i + 1}/${slides.length} · esc release`
-            : `· ←→ released · ${i + 1}/${slides.length} · click to take the arrows`}
-        </span>
+      <div className="flex flex-col items-center gap-0.5 pt-1">
+        <div className="flex items-center gap-2 whitespace-pre">
+          <span aria-hidden="true">
+            {slides.map((s, n) => (
+              <span
+                key={s.key}
+                style={{ color: n === i ? "var(--accent)" : "var(--hair)" }}
+              >
+                {n === i ? "●" : "○"}
+              </span>
+            ))}
+          </span>
+          <span style={{ color: "var(--dim)" }}>
+            {`${i + 1}/${slides.length} · ${slide.label}`}
+          </span>
+        </div>
+        <div
+          className="max-w-full truncate text-center"
+          style={{ color: "var(--faint)" }}
+        >
+          {live ? "←→ move · ↵ open full screen · esc release" : "released · click to take the arrows"}
+        </div>
       </div>
     </div>
   );

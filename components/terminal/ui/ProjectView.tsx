@@ -22,6 +22,8 @@ interface ProjectViewProps {
   onSlide: (i: number) => void;
   onOffset: (i: number) => void;
   onClaim: () => void;
+  /** Forwarded to the carousel: opens the current shot full screen. */
+  openSignal?: number;
 }
 
 /** Carousel column width. Fixed, so the write-up gets everything else. */
@@ -52,6 +54,7 @@ export function ProjectView({
   onSlide,
   onOffset,
   onClaim,
+  openSignal = 0,
 }: ProjectViewProps) {
   const hasShots = slides.length > 0;
   const paneRef = useRef<HTMLDivElement>(null);
@@ -108,6 +111,7 @@ export function ProjectView({
               index={slide}
               onIndexChange={onSlide}
               onClaim={onClaim}
+              openSignal={openSignal}
             />
           </div>
         )}
@@ -126,7 +130,7 @@ export function ProjectView({
       {hasShots && (
         <div className="whitespace-pre pl-5" style={{ color: "var(--faint)" }}>
           {live
-            ? "  ←→ screenshots · ↑↓ write-up · click a shot to open it full screen"
+            ? "  ←→ screenshots · ↑↓ write-up · ↵ open full screen"
             : "  released · click to take the keyboard back"}
         </div>
       )}
