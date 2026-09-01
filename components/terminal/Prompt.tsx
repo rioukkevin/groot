@@ -12,6 +12,9 @@ interface PromptProps {
   onChange: (value: string, caret: number) => void;
   onCaret: (caret: number) => void;
   onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
+  /** Status shown at the right of the prompt row; runs /now when clicked. */
+  headline: string;
+  onHeadline: () => void;
 }
 
 /** Measured width of one monospace cell, used to place the block caret. */
@@ -44,6 +47,8 @@ export function Prompt({
   onChange,
   onCaret,
   onKeyDown,
+  headline,
+  onHeadline,
 }: PromptProps) {
   const charW = useCharWidth(inputRef);
   const caretX = +(Math.min(caretPos, value.length) * charW).toFixed(1);
@@ -92,6 +97,15 @@ export function Prompt({
           }}
         />
       </div>
+      <button
+        className="hidden flex-none whitespace-pre sm:block"
+        style={{ color: "var(--dim)" }}
+        onClick={onHeadline}
+        title="run /now"
+      >
+        <span style={{ color: "var(--accent)" }}>● </span>
+        {headline}
+      </button>
     </div>
   );
 }

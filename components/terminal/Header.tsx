@@ -2,15 +2,13 @@ import { Buddy } from "./Buddy";
 
 import type { BuddyMood } from "./Buddy";
 
-const LOGO = `▗▄▄▄▄▄▄▄▖
-▐ ❯_    ▌
-▝▀▀▀▀▀▀▀▘`;
-
 const MOOD_NOTE: Record<BuddyMood, string> = {
   idle: "",
   thinking: "thinking…",
   happy: "done",
   sleepy: "zzz",
+  surprised: "",
+  smug: "",
 };
 
 /**
@@ -26,12 +24,6 @@ export function Header({ mood }: { mood: BuddyMood }) {
         style={{ background: "var(--bg)" }}
       >
         <div className="flex items-start gap-[14px]">
-          <div
-            className="flex-none whitespace-pre pt-px text-[13px] leading-[1.15]"
-            style={{ color: "var(--accent)" }}
-          >
-            {LOGO}
-          </div>
           <div className="flex-none" style={{ color: "var(--accent)" }}>
             <Buddy mood={mood} />
           </div>

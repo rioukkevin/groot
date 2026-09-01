@@ -100,7 +100,10 @@ export type BlockSpec =
       kind: "project";
       title: string;
       slides: CarouselSlide[];
-      lines: Line[];
+      /** Fixed head matter — stack, year, links. Never re-wrapped. */
+      meta: Line[];
+      /** Prose, wrapped to the measured width at render time. */
+      paragraphs: string[];
       rows: number;
     };
 

@@ -52,3 +52,23 @@ export function wrap(text: string, width: number): string[] {
   if (line) out.push(line);
   return out;
 }
+
+/**
+ * Upper bound on how many lines a project's write-up can occupy, used to stop
+ * the scroll cursor running past the end.
+ *
+ * The real count depends on the measured width, which only the view knows, so
+ * this assumes the narrowest wrap the view permits. That over-estimates, which
+ * is the safe direction: the end always stays reachable, and the cursor still
+ * cannot run away.
+ */
+export function maxWrappedLines(
+  metaLines: number,
+  paragraphs: readonly string[],
+  minCols: number,
+): number {
+  return (
+    metaLines +
+    paragraphs.reduce((n, p) => n + Math.ceil(p.length / minCols) + 1, 0)
+  );
+}

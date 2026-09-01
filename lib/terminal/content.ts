@@ -417,6 +417,10 @@ export const NOW_ROWS: readonly DiffRow[] = [
   { num: 33, sign: " ", text: "€600 dev · €500 management · €1 000 consulting" },
 ] as const;
 
+/** The first line /now reports — shown beside the prompt. */
+export const NOW_HEADLINE: string =
+  NOW_ROWS.find((r) => r.sign === "+" && r.text.trim())?.text ?? "";
+
 export const RESUME_TXT: string = [
   "KÉVIN RIOU — FULLSTACK WEB & MOBILE DEVELOPER (FREELANCE)",
   "Paris, France · kevin@nare.li · github.com/rioukkevin · in/kevinatooof",

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { CLEAR, intro, matches, route } from "@/lib/terminal/commands";
+import { maxWrappedLines } from "@/lib/terminal/format";
 import { gridStep } from "@/lib/terminal/grid";
 import {
   CONTACT_STEPS,
@@ -10,7 +11,7 @@ import {
   initialContact,
   isReview,
 } from "@/lib/terminal/contact";
-import { RESUME_TXT } from "@/lib/terminal/content";
+import { NOW_HEADLINE, RESUME_TXT } from "@/lib/terminal/content";
 import { MODES, SPINNER_FRAMES, isInteractive } from "@/lib/terminal/types";
 import { useEngine } from "@/lib/terminal/useEngine";
 
@@ -80,6 +81,9 @@ export function Terminal() {
    * drive the last one. `idx` means row for a list, first visible line for a
    * scroll view, and slide for a carousel.
    */
+  /** Bumped on every submitted command, so the buddy visibly reacts. */
+  const [pulse, setPulse] = useState(0);
+
   const [uiState, setUiState] = useState<{
     forId: number;
     claimId: number | null;
@@ -180,6 +184,7 @@ export function Terminal() {
       if (busy) halt();
 
       stick.current = true;
+      setPulse((n) => n + 1);
       push({ kind: "echo", text: q });
       setInput("");
       setHist((h) => h.concat([q]));
@@ -246,7 +251,7 @@ export function Terminal() {
     currentStep(contact)?.kind === "text";
   const pal = inWizard ? [] : palAll;
   const palSel = Math.min(palIdx, Math.max(0, pal.length - 1));
-  const mood = useBuddyMood(busy);
+  const mood = useBuddyMood(busy, voice, pulse);
 
   const openSelected = useCallback(() => {
     if (!activeSelect) return;
@@ -437,7 +442,15 @@ export function Terminal() {
         else if (act?.kind === "scroll")
           moveSel(clamp(selIdx + d, Math.max(0, act.lines.length - act.rows)));
         else if (act?.kind === "project")
-          moveSel2(clamp(selIdx2 + d, Math.max(0, act.lines.length - act.rows)));
+          moveSel2(
+            clamp(
+              selIdx2 + d,
+              Math.max(
+                0,
+                maxWrappedLines(act.meta.length, act.paragraphs, 34) - act.rows,
+              ),
+            ),
+          );
         // A carousel takes ↑↓ as well as ←→. Letting them fall through to
         // history instead would quietly fill the input, and a non-empty input
         // hands the arrows back to the prompt — so the carousel would stop
@@ -452,7 +465,15 @@ export function Terminal() {
       } else if ((k === "PageUp" || k === "PageDown") && act?.kind === "project") {
         e.preventDefault();
         const d = k === "PageUp" ? -act.rows : act.rows;
-        moveSel2(clamp(selIdx2 + d, Math.max(0, act.lines.length - act.rows)));
+        moveSel2(
+          clamp(
+            selIdx2 + d,
+            Math.max(
+              0,
+              maxWrappedLines(act.meta.length, act.paragraphs, 34) - act.rows,
+            ),
+          ),
+        );
       } else if (
         (k === "ArrowLeft" || k === "ArrowRight") &&
         (act?.kind === "carousel" || act?.kind === "project") &&
@@ -471,7 +492,12 @@ export function Terminal() {
         else if (act.kind === "scroll")
           moveSel(Math.max(0, act.lines.length - act.rows));
         else if (act.kind === "project")
-          moveSel2(Math.max(0, act.lines.length - act.rows));
+          moveSel2(
+            Math.max(
+              0,
+              maxWrappedLines(act.meta.length, act.paragraphs, 34) - act.rows,
+            ),
+          );
         else if (act.kind === "carousel") moveSel(act.slides.length - 1);
       } else if (k === "Escape") {
         if (busy) halt("interrupted by user");
@@ -617,7 +643,8 @@ export function Terminal() {
               <ProjectView
                 title={b.title}
                 slides={b.slides}
-                lines={b.lines}
+                meta={b.meta}
+                paragraphs={b.paragraphs}
                 rows={b.rows}
                 live={b.id === activeId}
                 slide={b.id === activeId ? selIdx : 0}
@@ -711,6 +738,8 @@ export function Terminal() {
         }}
         onCaret={setCaretPos}
         onKeyDown={onKeyDown}
+        headline={NOW_HEADLINE}
+        onHeadline={() => submit("/now")}
       />
 
       <StatusBar

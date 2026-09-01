@@ -10,7 +10,7 @@ import {
   SOFT_SKILLS,
   STACK_ROWS,
 } from "./content";
-import { L, box, pad, wrap } from "./format";
+import { L, box, pad } from "./format";
 
 import type { BlockSpec, Line, SelectItem, Theme, Voice } from "./types";
 
@@ -118,17 +118,15 @@ function cProject(name: string): BlockSpec[] {
     return [say("No project by that name. Known: " + keys.join(", ") + ".")];
   const p = PROJECTS[key];
 
-  const body: Line[] = [
+  const meta: Line[] = [
     L(p.what, "var(--fg)"),
     L(""),
     L(pad("stack", 10) + p.stack, "var(--dim)"),
     L(pad("year", 10) + p.year + "   ● " + p.status, p.statusColor),
-    ...(p.links.length ? [L(pad("links", 10) + p.links.join(" · "), "var(--dim)")] : []),
+    ...(p.links.length
+      ? [L(pad("links", 10) + p.links.join(" · "), "var(--dim)")]
+      : []),
     L(""),
-    ...p.detail.flatMap((para) => [
-      ...wrap(para, 62).map((l) => L(l, "var(--dim)")),
-      L(""),
-    ]),
   ];
 
   return [
@@ -143,7 +141,8 @@ function cProject(name: string): BlockSpec[] {
       kind: "project",
       title: p.name.toUpperCase() + " · ←→",
       rows: 14,
-      lines: body,
+      meta,
+      paragraphs: [...p.detail],
       slides: p.images.map((src, i) => ({
         key: src,
         label: i === 0 ? "thumbnail" : "screen " + i,
