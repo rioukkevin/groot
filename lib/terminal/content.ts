@@ -48,6 +48,7 @@ export const CMDS: ReadonlyArray<readonly [string, string]> = [
   ["/theme", "green · ember · paper"],
   ["/voice", "warm · terse"],
   ["/clear", "clear the transcript"],
+  ["/components", "the terminal UI kit, live"],
   ["/help", "everything above"],
 ] as const;
 

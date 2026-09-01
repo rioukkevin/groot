@@ -4,15 +4,17 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { CLEAR, intro, matches, route } from "@/lib/terminal/commands";
 import { RESUME_TXT } from "@/lib/terminal/content";
-import { MODES, SPINNER_FRAMES } from "@/lib/terminal/types";
+import { MODES, SPINNER_FRAMES, isInteractive } from "@/lib/terminal/types";
 import { useEngine } from "@/lib/terminal/useEngine";
 
+import { useBuddyMood } from "./Buddy";
 import { Header } from "./Header";
 import { Palette } from "./Palette";
 import { Prompt } from "./Prompt";
 import { Shortcuts } from "./Shortcuts";
 import { StatusBar } from "./StatusBar";
 import { ActionBlock } from "./blocks/ActionBlock";
+import { DemoBlock } from "./blocks/DemoBlock";
 import { DiffBlock } from "./blocks/DiffBlock";
 import { EchoBlock } from "./blocks/EchoBlock";
 import { LinesBlock } from "./blocks/LinesBlock";
@@ -22,6 +24,8 @@ import { SelectBlock } from "./blocks/SelectBlock";
 import { ShotsBlock } from "./blocks/ShotsBlock";
 import { ThinkBlock } from "./blocks/ThinkBlock";
 import { ToolBlock } from "./blocks/ToolBlock";
+import { Carousel } from "./ui/Carousel";
+import { ScrollView } from "./ui/ScrollView";
 
 import type { CommandContext } from "@/lib/terminal/commands";
 import type { Theme, Voice } from "@/lib/terminal/types";
@@ -42,7 +46,7 @@ function downloadResume() {
 
 export function Terminal() {
   const engine = useEngine(STREAM_SPEED);
-  const { blocks, busy, run, push, halt, reset, lastSelectId } = engine;
+  const { blocks, busy, run, push, halt, reset, lastInteractiveId } = engine;
 
   const [input, setInput] = useState("");
   const [caretPos, setCaretPos] = useState(0);
@@ -53,9 +57,22 @@ export function Terminal() {
   const [hist, setHist] = useState<string[]>([]);
   const [histIdx, setHistIdx] = useState(-1);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
-  // Selection is stamped with the list it belongs to, so a newly pushed list
-  // resets the cursor by derivation rather than by a cascading effect.
-  const [selState, setSelState] = useState({ forId: -1, idx: 0, off: false });
+  /**
+   * Arrow-key ownership, stamped with the newest interactive block's id so a
+   * freshly pushed block resets it by derivation rather than by a cascading
+   * effect.
+   *
+   * `claimId` lets an older block take the arrows back when it is clicked —
+   * without it a transcript holding two interactive blocks could only ever
+   * drive the last one. `idx` means row for a list, first visible line for a
+   * scroll view, and slide for a carousel.
+   */
+  const [uiState, setUiState] = useState<{
+    forId: number;
+    claimId: number | null;
+    idx: number;
+    off: boolean;
+  }>({ forId: -1, claimId: null, idx: 0, off: false });
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -81,17 +98,36 @@ export function Terminal() {
     document.body.setAttribute("data-theme", theme);
   }, [theme]);
 
-  const selCurrent = selState.forId === lastSelectId;
-  const selIdx = selCurrent ? selState.idx : 0;
-  const selOff = selCurrent ? selState.off : false;
+  const uiCurrent = uiState.forId === lastInteractiveId;
+  const selIdx = uiCurrent ? uiState.idx : 0;
+  const selOff = uiCurrent ? uiState.off : false;
+  const claimId = uiCurrent ? uiState.claimId : null;
 
   const moveSel = useCallback(
-    (idx: number) => setSelState({ forId: lastSelectId, idx, off: false }),
-    [lastSelectId],
+    (idx: number) =>
+      setUiState((u) => ({
+        forId: lastInteractiveId,
+        claimId: u.forId === lastInteractiveId ? u.claimId : null,
+        idx,
+        off: false,
+      })),
+    [lastInteractiveId],
   );
   const releaseSel = useCallback(
-    () => setSelState({ forId: lastSelectId, idx: selIdx, off: true }),
-    [lastSelectId, selIdx],
+    () =>
+      setUiState((u) => ({
+        forId: lastInteractiveId,
+        claimId: u.forId === lastInteractiveId ? u.claimId : null,
+        idx: u.forId === lastInteractiveId ? u.idx : 0,
+        off: true,
+      })),
+    [lastInteractiveId],
+  );
+  /** Clicking an interactive block hands it the arrows and resets its cursor. */
+  const claim = useCallback(
+    (id: number) =>
+      setUiState({ forId: lastInteractiveId, claimId: id, idx: 0, off: false }),
+    [lastInteractiveId],
   );
 
   const submit = useCallback(
@@ -147,11 +183,19 @@ export function Terminal() {
   const pal = matches(input);
   const palSel = Math.min(palIdx, Math.max(0, pal.length - 1));
 
-  const activeSelect = useMemo(() => {
+  /** The claimed block, else the newest one, unless esc has released it. */
+  const active = useMemo(() => {
     if (selOff) return null;
-    const sel = blocks.filter((b) => b.kind === "select");
-    return sel.length ? sel[sel.length - 1] : null;
-  }, [blocks, selOff]);
+    const xs = blocks.filter(isInteractive);
+    if (claimId != null) {
+      const claimed = xs.find((b) => b.id === claimId);
+      if (claimed) return claimed;
+    }
+    return xs.length ? xs[xs.length - 1] : null;
+  }, [blocks, selOff, claimId]);
+
+  const activeSelect = active?.kind === "select" ? active : null;
+  const mood = useBuddyMood(busy);
 
   const openSelected = useCallback(() => {
     if (!activeSelect) return;
@@ -165,6 +209,18 @@ export function Terminal() {
       const mm = matches(input);
       const k = e.key;
       const sel = input ? null : activeSelect;
+      const act = input ? null : active;
+      const clamp = (n: number, hi: number) => Math.min(Math.max(0, n), hi);
+      const stepHistory = (d: number) => {
+        const i =
+          d < 0
+            ? histIdx < 0
+              ? hist.length - 1
+              : Math.max(0, histIdx - 1)
+            : Math.min(hist.length - 1, histIdx + 1);
+        setHistIdx(i);
+        setInput(hist[i] || "");
+      };
 
       if (k === "Enter") {
         e.preventDefault();
@@ -180,35 +236,47 @@ export function Terminal() {
       } else if (k === "Tab") {
         e.preventDefault();
         if (mm.length) setInput(mm[Math.min(palIdx, mm.length - 1)][0] + " ");
-      } else if (k === "ArrowUp") {
+      } else if (k === "ArrowUp" || k === "ArrowDown") {
         e.preventDefault();
+        const d = k === "ArrowUp" ? -1 : 1;
         // UX addition: the palette wraps, so a long list is reachable from
         // either end without walking the whole way back.
-        if (mm.length) setPalIdx((i) => (i - 1 + mm.length) % mm.length);
-        else if (sel) moveSel(Math.max(0, selIdx - 1));
-        else if (hist.length) {
-          const i = histIdx < 0 ? hist.length - 1 : Math.max(0, histIdx - 1);
-          setHistIdx(i);
-          setInput(hist[i] || "");
-        }
-      } else if (k === "ArrowDown") {
+        if (mm.length) setPalIdx((i) => (i + d + mm.length) % mm.length);
+        else if (act?.kind === "select")
+          moveSel(clamp(selIdx + d, act.items.length - 1));
+        else if (act?.kind === "scroll")
+          moveSel(clamp(selIdx + d, Math.max(0, act.lines.length - act.rows)));
+        // A carousel takes ↑↓ as well as ←→. Letting them fall through to
+        // history instead would quietly fill the input, and a non-empty input
+        // hands the arrows back to the prompt — so the carousel would stop
+        // responding with no visible reason why.
+        else if (act?.kind === "carousel")
+          moveSel((selIdx + d + act.slides.length) % act.slides.length);
+        else if (hist.length) stepHistory(d);
+      } else if ((k === "PageUp" || k === "PageDown") && act?.kind === "scroll") {
         e.preventDefault();
-        if (mm.length) setPalIdx((i) => (i + 1) % mm.length);
-        else if (sel) moveSel(Math.min(sel.items.length - 1, selIdx + 1));
-        else if (hist.length) {
-          const i = Math.min(hist.length - 1, histIdx + 1);
-          setHistIdx(i);
-          setInput(hist[i] || "");
-        }
-      } else if (k === "Home" && sel) {
+        const d = k === "PageUp" ? -act.rows : act.rows;
+        moveSel(clamp(selIdx + d, Math.max(0, act.lines.length - act.rows)));
+      } else if (
+        (k === "ArrowLeft" || k === "ArrowRight") &&
+        act?.kind === "carousel" &&
+        !input
+      ) {
+        e.preventDefault();
+        const d = k === "ArrowLeft" ? -1 : 1;
+        moveSel((selIdx + d + act.slides.length) % act.slides.length);
+      } else if (k === "Home" && act) {
         e.preventDefault();
         moveSel(0);
-      } else if (k === "End" && sel) {
+      } else if (k === "End" && act) {
         e.preventDefault();
-        moveSel(sel.items.length - 1);
+        if (act.kind === "select") moveSel(act.items.length - 1);
+        else if (act.kind === "scroll")
+          moveSel(Math.max(0, act.lines.length - act.rows));
+        else moveSel(act.slides.length - 1);
       } else if (k === "Escape") {
         if (busy) halt("interrupted by user");
-        else if (sel) {
+        else if (act) {
           releaseSel();
           setShortcutsOpen(false);
         } else {
@@ -227,6 +295,7 @@ export function Terminal() {
       }
     },
     [
+      active,
       activeSelect,
       busy,
       halt,
@@ -243,7 +312,7 @@ export function Terminal() {
     ],
   );
 
-  const activeId = activeSelect ? activeSelect.id : -1;
+  const activeId = active ? active.id : -1;
   const spinner = SPINNER_FRAMES[engine.spin % SPINNER_FRAMES.length];
   const kTokens = (engine.tokens / 1000).toFixed(1);
 
@@ -255,10 +324,10 @@ export function Terminal() {
     >
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto overflow-x-hidden px-4 pb-1 pt-[14px]"
+        className="flex-1 overflow-y-auto overflow-x-hidden px-4 pb-1"
         onScroll={onScroll}
       >
-        <Header />
+        <Header mood={mood} />
 
         {blocks.map((b) => (
           <div key={b.id}>
@@ -295,10 +364,33 @@ export function Terminal() {
                 onHover={(i) => {
                   if (b.id === activeId) moveSel(i);
                 }}
+                onClaim={() => b.id !== activeId && claim(b.id)}
                 onPick={(i, cmd) => {
                   moveSel(i);
                   submit(cmd);
                 }}
+              />
+            )}
+            {b.kind === "demo" && <DemoBlock />}
+            {b.kind === "scroll" && (
+              <ScrollView
+                title={b.title}
+                lines={b.lines}
+                rows={b.rows}
+                live={b.id === activeId}
+                offset={b.id === activeId ? selIdx : 0}
+                onOffsetChange={moveSel}
+                onClaim={() => b.id !== activeId && claim(b.id)}
+              />
+            )}
+            {b.kind === "carousel" && (
+              <Carousel
+                title={b.title}
+                slides={b.slides}
+                live={b.id === activeId}
+                index={b.id === activeId ? selIdx : 0}
+                onIndexChange={moveSel}
+                onClaim={() => b.id !== activeId && claim(b.id)}
               />
             )}
             {b.kind === "photos" && <PhotosBlock items={b.items} />}

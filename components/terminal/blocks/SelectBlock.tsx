@@ -14,6 +14,8 @@ interface SelectBlockProps {
   selIdx: number;
   onHover: (i: number) => void;
   onPick: (i: number, cmd: string) => void;
+  /** Called when the user clicks the list, to take the arrow keys back. */
+  onClaim: () => void;
 }
 
 export function SelectBlock({
@@ -25,6 +27,7 @@ export function SelectBlock({
   selIdx,
   onHover,
   onPick,
+  onClaim,
 }: SelectBlockProps) {
   const idx = Math.min(selIdx, items.length - 1);
   const activeRow = useRef<HTMLButtonElement>(null);
@@ -38,7 +41,7 @@ export function SelectBlock({
   }, [live, idx]);
 
   return (
-    <div className="mb-[10px] pl-5">
+    <div className="mb-[10px] pl-5" onClick={onClaim}>
       <div className="whitespace-pre" style={{ color: "var(--faint)" }}>
         {header}
       </div>

@@ -43,6 +43,11 @@ export interface ShotItem {
   src: string;
 }
 
+/** One slide in a carousel: either a rendered photo or a block of text. */
+export type CarouselSlide =
+  | { key: string; label: string; kind: "shot"; shot: ShotItem }
+  | { key: string; label: string; kind: "lines"; lines: Line[] };
+
 export type BlockSpec =
   | { kind: "echo"; text: string }
   | { kind: "think"; text: string }
@@ -74,11 +79,31 @@ export type BlockSpec =
     }
   | { kind: "photos"; items: PhotoItem[] }
   | { kind: "shots"; items: ShotItem[] }
-  | { kind: "action"; actionLabel: string; act: () => void };
+  | { kind: "action"; actionLabel: string; act: () => void }
+  | { kind: "scroll"; title: string; lines: Line[]; rows: number }
+  | { kind: "carousel"; title: string; slides: CarouselSlide[] }
+  | { kind: "demo"; panel: "primitives" };
 
 export type Block = BlockSpec & { id: number };
 
 export type SelectBlock = Extract<Block, { kind: "select" }>;
+export type ScrollBlock = Extract<Block, { kind: "scroll" }>;
+export type CarouselBlock = Extract<Block, { kind: "carousel" }>;
+
+/**
+ * Block kinds that can own the arrow keys. The newest one on screen holds
+ * them until esc releases it, so there is only ever one arrow target.
+ */
+export const INTERACTIVE_KINDS = ["select", "scroll", "carousel"] as const;
+
+export type InteractiveBlock = Extract<
+  Block,
+  { kind: (typeof INTERACTIVE_KINDS)[number] }
+>;
+
+export function isInteractive(b: Block): b is InteractiveBlock {
+  return (INTERACTIVE_KINDS as readonly string[]).includes(b.kind);
+}
 export type SayBlock = Extract<Block, { kind: "say" }>;
 export type ToolBlock = Extract<Block, { kind: "tool" }>;
 

@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { isInteractive } from "./types";
+
 import type { Block, BlockSpec } from "./types";
 
 export interface Engine {
@@ -11,8 +13,11 @@ export interface Engine {
   elapsed: number;
   tokens: number;
   spin: number;
-  /** Id of the most recently pushed select block; drives selection reset. */
-  lastSelectId: number;
+  /**
+   * Id of the newest block that can own the arrow keys. Changing it hands the
+   * arrows to that block and resets its cursor.
+   */
+  lastInteractiveId: number;
   run: (items: BlockSpec[]) => void;
   push: (spec: BlockSpec) => number;
   halt: (note?: string) => void;
@@ -33,7 +38,7 @@ export function useEngine(streamSpeed: number): Engine {
   const [elapsed, setElapsed] = useState(0);
   const [tokens, setTokens] = useState(0);
   const [spin, setSpin] = useState(0);
-  const [lastSelectId, setLastSelectId] = useState(-1);
+  const [lastInteractiveId, setLastInteractiveId] = useState(-1);
 
   const uid = useRef(0);
   const gen = useRef(0);
@@ -63,7 +68,7 @@ export function useEngine(streamSpeed: number): Engine {
     const id = ++uid.current;
     const block = { ...spec, id } as Block;
     setBlocks((bs) => bs.concat([block]));
-    if (block.kind === "select") setLastSelectId(id);
+    if (isInteractive(block)) setLastInteractiveId(id);
     return id;
   }, []);
 
@@ -172,7 +177,7 @@ export function useEngine(streamSpeed: number): Engine {
   const reset = useCallback(() => {
     halt();
     setBlocks([]);
-    setLastSelectId(-1);
+    setLastInteractiveId(-1);
   }, [halt]);
 
   return {
@@ -182,7 +187,7 @@ export function useEngine(streamSpeed: number): Engine {
     elapsed,
     tokens,
     spin,
-    lastSelectId,
+    lastInteractiveId,
     run,
     push,
     halt,

@@ -14,7 +14,7 @@ import {
 } from "./content";
 import { L, bar, box, pad } from "./format";
 
-import type { BlockSpec, SelectItem, Theme, Voice } from "./types";
+import type { BlockSpec, Line, SelectItem, Theme, Voice } from "./types";
 
 /** Everything the command layer needs from the shell, so routing stays pure. */
 export interface CommandContext {
@@ -355,6 +355,116 @@ function cPhotos(ctx: CommandContext): BlockSpec[] {
   ];
 }
 
+/** Showcase for the reusable terminal UI components. */
+function cComponents(ctx: CommandContext): BlockSpec[] {
+  const shot = (
+    label: string,
+    caption: string,
+    src: string,
+    w: number,
+    h: number,
+  ) => ({
+    w,
+    h,
+    cellW: 8,
+    cellH: 19,
+    gap: ctx.photoGap,
+    label,
+    caption,
+    src,
+  });
+
+  // A long enough run of lines that the viewport genuinely has to scroll.
+  const manual: Line[] = [
+    L("scroll view", "var(--fg)", "", ""),
+    L("a fixed window over a long run of lines.", "var(--dim)"),
+    L(""),
+    ...Object.keys(PROJECTS).flatMap((k) => {
+      const pr = PROJECTS[k];
+      return [
+        L(pr.what, "var(--fg)", pad(k, 17), "var(--accent)"),
+        L(pad("", 17) + pr.stack + "  ·  " + pr.year, "var(--dim)"),
+        ...pr.detail.map((d) => L(pad("", 17) + d, "var(--faint)")),
+        L(""),
+      ];
+    }),
+    L("end of buffer", "var(--faint)"),
+  ];
+
+  return [
+    say(
+      v(
+        ctx,
+        "Seven components, all built on the character grid. Each one below is live — the scroll view and the carousel take the arrow keys the same way the lists do, and esc hands them back.",
+        "Seven components. Arrow keys drive them; esc releases.",
+      ),
+    ),
+    { kind: "demo", panel: "primitives" },
+    {
+      kind: "scroll",
+      title: "SCROLL VIEW · ↑↓ pgup/pgdn",
+      lines: manual,
+      rows: 12,
+    },
+    {
+      kind: "carousel",
+      title: "CAROUSEL · ←→ · images or whole projects",
+      slides: [
+        {
+          key: "thumb",
+          label: "image slide",
+          kind: "shot",
+          shot: shot(
+            "thumbnail",
+            "kevin.riou.pro · thumbnail",
+            "https://kevin.riou.pro/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FThumbnail.8c8374b3.png&w=3840&q=75",
+            336,
+            266,
+          ),
+        },
+        ...Object.keys(PROJECTS)
+          .slice(0, 3)
+          .map((k) => {
+            const pr = PROJECTS[k];
+            return {
+              key: k,
+              label: "project slide",
+              kind: "lines" as const,
+              lines: [
+                L(pr.what, "var(--fg)", pad(k, 17), "var(--accent)"),
+                L(pad("stack", 10) + pr.stack, "var(--dim)"),
+                L(pad("year", 10) + pr.year + "   ● " + pr.status, pr.statusColor),
+                L(""),
+                ...pr.detail.map((d) =>
+                  L(d, d.indexOf("  ") === 0 ? "var(--faint)" : "var(--fg)"),
+                ),
+              ],
+            };
+          }),
+        {
+          key: "logo",
+          label: "image slide",
+          kind: "shot",
+          shot: shot(
+            "logo",
+            "nare.li · logo",
+            "https://app.nare.li/_next/image?url=%2Flogo.png&w=96&q=75",
+            264,
+            266,
+          ),
+        },
+      ],
+    },
+    say(
+      v(
+        ctx,
+        "The images above and in /photos open full screen on click — the spotlight morphs the photo out of its slot, drops the shader so you see the original, and lets you zoom and pan.",
+        "Click any image: spotlight, original resolution, zoom and pan.",
+      ),
+    ),
+  ];
+}
+
 function cContact(ctx: CommandContext): BlockSpec[] {
   return [
     lines(box(CONTACT_ROWS, 62)),
@@ -481,6 +591,7 @@ export function route(
       photos: () => cPhotos(ctx),
       rates: () => cRates(ctx),
       contact: () => cContact(ctx),
+      components: () => cComponents(ctx),
       resume: () => cResume(ctx),
       theme: () => cTheme(arg, ctx),
       voice: () => cVoice(arg, ctx),

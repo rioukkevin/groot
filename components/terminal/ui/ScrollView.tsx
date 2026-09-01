@@ -1,0 +1,110 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
+import type { Line } from "@/lib/terminal/types";
+
+interface ScrollViewProps {
+  title: string;
+  lines: Line[];
+  /** Height of the viewport, in character rows. */
+  rows: number;
+  /** True when this view owns the arrow keys. */
+  live: boolean;
+  /** Index of the first visible line. */
+  offset: number;
+  onOffsetChange: (offset: number) => void;
+  /** Called when the user clicks the view, to take the arrow keys back. */
+  onClaim: () => void;
+}
+
+/**
+ * A fixed-height window over a long run of lines, with an ASCII scrollbar.
+ *
+ * Scrolling is expressed in whole lines rather than pixels so the viewport can
+ * never come to rest half-way through a row and break the character grid. The
+ * arrow keys are handled by the shell, which owns key routing; this component
+ * renders the resulting offset and keeps the wheel and the keys in sync.
+ */
+export function ScrollView({
+  title,
+  lines,
+  rows,
+  live,
+  offset,
+  onOffsetChange,
+  onClaim,
+}: ScrollViewProps) {
+  const maxOffset = Math.max(0, lines.length - rows);
+  const clamped = Math.min(Math.max(0, offset), maxOffset);
+  const visible = lines.slice(clamped, clamped + rows);
+  const boxRef = useRef<HTMLDivElement>(null);
+
+  // Wheel scrolls in whole lines, and only while this view holds the arrows,
+  // so a stray wheel over an old view cannot move it.
+  useEffect(() => {
+    const el = boxRef.current;
+    if (!el || !live) return;
+    const onWheel = (e: WheelEvent) => {
+      if (maxOffset === 0) return;
+      e.preventDefault();
+      const step = e.deltaY > 0 ? 1 : -1;
+      onOffsetChange(Math.min(maxOffset, Math.max(0, clamped + step)));
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, [live, clamped, maxOffset, onOffsetChange]);
+
+  // Scrollbar thumb: at least one cell, positioned proportionally.
+  const thumbSize = maxOffset === 0 ? rows : Math.max(1, Math.round((rows / lines.length) * rows));
+  const thumbAt =
+    maxOffset === 0 ? 0 : Math.round((clamped / maxOffset) * (rows - thumbSize));
+
+  const pct = maxOffset === 0 ? 100 : Math.round((clamped / maxOffset) * 100);
+
+  return (
+    <div className="mb-[10px] pl-5" onClick={onClaim}>
+      <div className="whitespace-pre" style={{ color: "var(--faint)" }}>
+        {`  ${title}`}
+      </div>
+      <div ref={boxRef} className="flex gap-2">
+        <div
+          className="whitespace-pre"
+          style={{ color: live ? "var(--fg)" : "var(--dim)" }}
+        >
+          {visible.map((l, i) => (
+            <div key={clamped + i} className="min-h-[1.5em]" style={{ color: l.color }}>
+              <span style={{ color: l.kcolor }}>{l.k}</span>
+              {l.text}
+            </div>
+          ))}
+          {/* Hold the box open when the tail is shorter than the viewport. */}
+          {Array.from({ length: Math.max(0, rows - visible.length) }).map((_, i) => (
+            <div key={`pad-${i}`} className="min-h-[1.5em]">
+              {" "}
+            </div>
+          ))}
+        </div>
+        <div className="whitespace-pre" aria-hidden="true">
+          {Array.from({ length: rows }).map((_, i) => {
+            const on = i >= thumbAt && i < thumbAt + thumbSize;
+            return (
+              <div
+                key={i}
+                className="min-h-[1.5em]"
+                style={{ color: on ? "var(--accent)" : "var(--hair)" }}
+              >
+                {on ? "▐" : "│"}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div className="whitespace-pre pt-1" style={{ color: "var(--faint)" }}>
+        {live
+          ? `  ↑↓ scroll · pgup/pgdn page · ${pct}% · esc release`
+          : `  ↑↓ released · ${pct}% · click to take the arrows`}
+      </div>
+    </div>
+  );
+}
