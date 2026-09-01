@@ -82,7 +82,8 @@ export type BlockSpec =
   | { kind: "action"; actionLabel: string; act: () => void }
   | { kind: "scroll"; title: string; lines: Line[]; rows: number }
   | { kind: "carousel"; title: string; slides: CarouselSlide[] }
-  | { kind: "demo"; panel: "primitives" };
+  | { kind: "demo"; panel: "primitives" }
+  | { kind: "contact" };
 
 export type Block = BlockSpec & { id: number };
 
@@ -94,7 +95,12 @@ export type CarouselBlock = Extract<Block, { kind: "carousel" }>;
  * Block kinds that can own the arrow keys. The newest one on screen holds
  * them until esc releases it, so there is only ever one arrow target.
  */
-export const INTERACTIVE_KINDS = ["select", "scroll", "carousel"] as const;
+export const INTERACTIVE_KINDS = [
+  "select",
+  "scroll",
+  "carousel",
+  "contact",
+] as const;
 
 export type InteractiveBlock = Extract<
   Block,

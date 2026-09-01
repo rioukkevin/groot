@@ -432,10 +432,11 @@ function cContact(ctx: CommandContext): BlockSpec[] {
     say(
       v(
         ctx,
-        "Email is fastest. Tell me what you're building and roughly when you need it — I'm free from mid-September.",
-        "Email. Include scope and timeline. Free from mid-September.",
+        "Email works if you'd rather. Otherwise answer the four questions below and it lands in my inbox — arrows to choose, ↵ to confirm.",
+        "Email, or answer below. ↑↓ choose, ↵ confirm.",
       ),
     ),
+    { kind: "contact" },
   ];
 }
 

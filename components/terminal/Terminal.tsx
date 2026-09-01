@@ -3,6 +3,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { CLEAR, intro, matches, route } from "@/lib/terminal/commands";
+import {
+  CONTACT_STEPS,
+  currentStep,
+  initialContact,
+  isReview,
+} from "@/lib/terminal/contact";
 import { RESUME_TXT } from "@/lib/terminal/content";
 import { MODES, SPINNER_FRAMES, isInteractive } from "@/lib/terminal/types";
 import { useEngine } from "@/lib/terminal/useEngine";
@@ -25,9 +31,11 @@ import { ShotsBlock } from "./blocks/ShotsBlock";
 import { ThinkBlock } from "./blocks/ThinkBlock";
 import { ToolBlock } from "./blocks/ToolBlock";
 import { Carousel } from "./ui/Carousel";
+import { ContactForm } from "./ui/ContactForm";
 import { ScrollView } from "./ui/ScrollView";
 
 import type { CommandContext } from "@/lib/terminal/commands";
+import type { ContactState } from "@/lib/terminal/contact";
 import type { Theme, Voice } from "@/lib/terminal/types";
 import type { KeyboardEvent } from "react";
 
@@ -73,6 +81,12 @@ export function Terminal() {
     idx: number;
     off: boolean;
   }>({ forId: -1, claimId: null, idx: 0, off: false });
+
+  const [contact, setContact] = useState<ContactState>(initialContact);
+  const contactRef = useRef(contact);
+  useEffect(() => {
+    contactRef.current = contact;
+  }, [contact]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -144,6 +158,8 @@ export function Terminal() {
       setPalIdx(0);
       setCaretPos(0);
 
+      if (q.trim().toLowerCase().startsWith("/contact")) setContact(initialContact());
+
       const out = route(q, ctxRef.current);
       if (out === CLEAR) {
         reset();
@@ -180,8 +196,7 @@ export function Terminal() {
       el.scrollHeight - el.scrollTop - el.clientHeight <= STICK_PX;
   }, []);
 
-  const pal = matches(input);
-  const palSel = Math.min(palIdx, Math.max(0, pal.length - 1));
+  const palAll = matches(input);
 
   /** The claimed block, else the newest one, unless esc has released it. */
   const active = useMemo(() => {
@@ -195,6 +210,13 @@ export function Terminal() {
   }, [blocks, selOff, claimId]);
 
   const activeSelect = active?.kind === "select" ? active : null;
+  // A slash typed into an answer should not raise the command palette.
+  const inWizard =
+    active?.kind === "contact" &&
+    contact.status !== "sent" &&
+    currentStep(contact)?.kind === "text";
+  const pal = inWizard ? [] : palAll;
+  const palSel = Math.min(palIdx, Math.max(0, pal.length - 1));
   const mood = useBuddyMood(busy);
 
   const openSelected = useCallback(() => {
@@ -203,6 +225,69 @@ export function Terminal() {
       activeSelect.items[Math.min(selIdx, activeSelect.items.length - 1)];
     if (it) submit(it.cmd);
   }, [activeSelect, selIdx, submit]);
+
+  /** Advance past the current step, skipping to review when done. */
+  const advance = useCallback(
+    (value: string) => {
+      setContact((c) => {
+        const step = currentStep(c);
+        if (!step) return c;
+        const v = value.trim();
+        const required = step.kind === "choice" || step.required;
+        if (required && !v)
+          return { ...c, error: `${step.kind === "choice" ? step.group : step.label} is needed` };
+        const invalid = v && step.kind === "text" ? (step.validate?.(v) ?? null) : null;
+        if (invalid) return { ...c, error: invalid };
+        return {
+          ...c,
+          answers: v ? { ...c.answers, [step.key]: v } : c.answers,
+          step: c.step + 1,
+          choice: 0,
+          error: null,
+        };
+      });
+      setInput("");
+      setCaretPos(0);
+    },
+    [],
+  );
+
+  const goBack = useCallback(() => {
+    setContact((c) => {
+      if (c.step === 0) return c;
+      const prev = CONTACT_STEPS[c.step - 1];
+      const restored = prev.kind === "text" ? (c.answers[prev.key] ?? "") : "";
+      setInput(restored);
+      setCaretPos(restored.length);
+      return { ...c, step: c.step - 1, choice: 0, error: null, status: "editing" };
+    });
+  }, []);
+
+  const send = useCallback(() => {
+    setContact((c) => (c.status === "sending" ? c : { ...c, status: "sending", error: null }));
+    const body = { ...contactRef.current.answers, website: "" };
+    fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    })
+      .then(async (r) => {
+        const data: unknown = await r.json().catch(() => ({}));
+        const err =
+          typeof data === "object" && data !== null && "error" in data
+            ? String((data as { error: unknown }).error)
+            : null;
+        if (!r.ok) throw new Error(err ?? `send failed (${r.status})`);
+        setContact((c) => ({ ...c, status: "sent", error: null }));
+      })
+      .catch((e: unknown) => {
+        setContact((c) => ({
+          ...c,
+          status: "error",
+          error: e instanceof Error ? e.message : "could not send",
+        }));
+      });
+  }, []);
 
   const onKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -221,6 +306,35 @@ export function Terminal() {
         setHistIdx(i);
         setInput(hist[i] || "");
       };
+
+      // The contact wizard owns the prompt while it is running: Enter commits
+      // the current answer instead of running a command, so a plain sentence
+      // cannot be mistaken for one. It tests `active` rather than `act`
+      // precisely because `act` is nulled the moment you type — the rule that
+      // hands the arrows back to the prompt everywhere else would otherwise
+      // send the answer off as a command.
+      if (active?.kind === "contact" && contact.status !== "sent") {
+        const step = currentStep(contact);
+        if (k === "Enter") {
+          e.preventDefault();
+          if (isReview(contact)) send();
+          else if (step?.kind === "choice") advance(step.options[contact.choice]);
+          else advance(input);
+          return;
+        }
+        if (k === "ArrowLeft" && !input) {
+          e.preventDefault();
+          goBack();
+          return;
+        }
+        if ((k === "ArrowUp" || k === "ArrowDown") && step?.kind === "choice") {
+          e.preventDefault();
+          const d = k === "ArrowUp" ? -1 : 1;
+          const n = step.options.length;
+          setContact((c) => ({ ...c, choice: (c.choice + d + n) % n }));
+          return;
+        }
+      }
 
       if (k === "Enter") {
         e.preventDefault();
@@ -265,15 +379,15 @@ export function Terminal() {
         e.preventDefault();
         const d = k === "ArrowLeft" ? -1 : 1;
         moveSel((selIdx + d + act.slides.length) % act.slides.length);
-      } else if (k === "Home" && act) {
+      } else if (k === "Home" && act && act.kind !== "contact") {
         e.preventDefault();
         moveSel(0);
-      } else if (k === "End" && act) {
+      } else if (k === "End" && act && act.kind !== "contact") {
         e.preventDefault();
         if (act.kind === "select") moveSel(act.items.length - 1);
         else if (act.kind === "scroll")
           moveSel(Math.max(0, act.lines.length - act.rows));
-        else moveSel(act.slides.length - 1);
+        else if (act.kind === "carousel") moveSel(act.slides.length - 1);
       } else if (k === "Escape") {
         if (busy) halt("interrupted by user");
         else if (act) {
@@ -297,7 +411,11 @@ export function Terminal() {
     [
       active,
       activeSelect,
+      advance,
       busy,
+      contact,
+      goBack,
+      send,
       halt,
       hist,
       histIdx,
@@ -313,6 +431,14 @@ export function Terminal() {
   );
 
   const activeId = active ? active.id : -1;
+  const contactStep =
+    active?.kind === "contact" && contact.status !== "sent"
+      ? currentStep(contact)
+      : null;
+  const contactPrompt =
+    contactStep?.kind === "text"
+      ? `${contactStep.label}${contactStep.required ? "" : " (optional)"} …`
+      : null;
   const spinner = SPINNER_FRAMES[engine.spin % SPINNER_FRAMES.length];
   const kTokens = (engine.tokens / 1000).toFixed(1);
 
@@ -372,6 +498,17 @@ export function Terminal() {
               />
             )}
             {b.kind === "demo" && <DemoBlock />}
+            {b.kind === "contact" && (
+              <ContactForm
+                state={contact}
+                live={b.id === activeId}
+                onPick={(i) => {
+                  const step = currentStep(contact);
+                  if (step?.kind === "choice") advance(step.options[i]);
+                }}
+                onClaim={() => b.id !== activeId && claim(b.id)}
+              />
+            )}
             {b.kind === "scroll" && (
               <ScrollView
                 title={b.title}
@@ -430,7 +567,13 @@ export function Terminal() {
       <Prompt
         inputRef={inputRef}
         value={input}
-        placeholder={busy ? "" : "ask anything, or / for commands"}
+        placeholder={
+          busy
+            ? ""
+            : contactPrompt
+              ? contactPrompt
+              : "ask anything, or / for commands"
+        }
         caretPos={caretPos}
         onChange={(v, caret) => {
           setInput(v);
