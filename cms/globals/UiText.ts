@@ -54,6 +54,7 @@ export const UiText: GlobalConfig = {
             {
               name: "commands",
               type: "array",
+              localized: true,
               label: "Command list (/help and the palette)",
               fields: [
                 { name: "command", type: "text", required: true },
@@ -119,19 +120,21 @@ export const UiText: GlobalConfig = {
             {
               name: "themes",
               type: "array",
+              localized: true,
               fields: [
                 { name: "value", type: "text", required: true },
                 { name: "label", type: "text", required: true },
-                { name: "hint", type: "text", localized: true },
+                { name: "hint", type: "text" },
               ],
             },
             {
               name: "voices",
               type: "array",
+              localized: true,
               fields: [
                 { name: "value", type: "text", required: true },
                 { name: "label", type: "text", required: true },
-                { name: "hint", type: "text", localized: true },
+                { name: "hint", type: "text" },
               ],
             },
             {

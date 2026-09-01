@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { CLEAR, intro, matches, route } from "@/lib/terminal/commands";
@@ -12,7 +13,14 @@ import {
   isReview,
 } from "@/lib/terminal/contact";
 import { NOW_HEADLINE, RESUME_TXT } from "@/lib/terminal/content";
-import { MODES, SPINNER_FRAMES, isInteractive } from "@/lib/terminal/types";
+import { dict } from "@/lib/terminal/dictionary";
+import {
+  LOCALE_COOKIE,
+  LOCALE_LABEL,
+  otherLocale,
+  pathForLocale,
+} from "@/lib/terminal/locale";
+import { SPINNER_FRAMES, isInteractive } from "@/lib/terminal/types";
 import { useEngine } from "@/lib/terminal/useEngine";
 
 import { useBuddyMood } from "./Buddy";
@@ -42,6 +50,7 @@ import { ScrollView } from "./ui/ScrollView";
 
 import type { CommandContext } from "@/lib/terminal/commands";
 import type { ContactState } from "@/lib/terminal/contact";
+import type { Locale } from "@/lib/terminal/locale";
 import type { Theme, Voice } from "@/lib/terminal/types";
 import type { KeyboardEvent } from "react";
 
@@ -58,7 +67,17 @@ function downloadResume() {
   URL.revokeObjectURL(a.href);
 }
 
-export function Terminal() {
+export function Terminal({ locale }: { locale: Locale }) {
+  const router = useRouter();
+  const t = useMemo(() => dict(locale), [locale]);
+  const next = otherLocale(locale);
+
+  /** Writes the choice down, then moves to the other locale's path. */
+  const switchLocale = useCallback(() => {
+    document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+    router.push(pathForLocale(window.location.pathname, next));
+  }, [next, router]);
+
   const engine = useEngine(STREAM_SPEED);
   const { blocks, busy, run, push, halt, reset, lastInteractiveId } = engine;
 
@@ -66,7 +85,6 @@ export function Terminal() {
   const [caretPos, setCaretPos] = useState(0);
   const [theme, setTheme] = useState<Theme>("green");
   const [voice, setVoice] = useState<Voice>("warm");
-  const [mode, setMode] = useState(0);
   const [palIdx, setPalIdx] = useState(0);
   const [hist, setHist] = useState<string[]>([]);
   const [histIdx, setHistIdx] = useState(-1);
@@ -443,7 +461,7 @@ export function Terminal() {
         openSelected();
       } else if (k === "Tab" && e.shiftKey) {
         e.preventDefault();
-        setMode((m) => (m + 1) % MODES.length);
+        switchLocale();
       } else if (k === "Tab") {
         e.preventDefault();
         if (mm.length) setInput(mm[Math.min(palIdx, mm.length - 1)][0] + " ");
@@ -546,6 +564,8 @@ export function Terminal() {
       halt,
       hist,
       histIdx,
+      switchLocale,
+      t,
       input,
       moveSel,
       moveSel2,
@@ -582,7 +602,7 @@ export function Terminal() {
         className="flex-1 overflow-y-auto overflow-x-hidden px-4 pb-1"
         onScroll={onScroll}
       >
-        <Header mood={mood} />
+        <Header mood={mood} t={t} />
 
         {blocks.map((b) => (
           <div key={b.id}>
@@ -722,7 +742,7 @@ export function Terminal() {
           </span>
           <span style={{ color: "var(--fg)" }}>{engine.busyLabel}</span>
           <span style={{ color: "var(--faint)" }}>
-            {`(${engine.elapsed.toFixed(1)}s · ↑ ${kTokens}k tokens · esc to interrupt)`}
+            {`(${engine.elapsed.toFixed(1)}s · ↑ ${kTokens}k ${t("tokens")} · ${t("interrupt")})`}
           </span>
         </div>
       )}
@@ -746,7 +766,7 @@ export function Terminal() {
             ? ""
             : contactPrompt
               ? contactPrompt
-              : "ask anything, or / for commands"
+              : t("promptPlaceholder")
         }
         caretPos={caretPos}
         onChange={(v, caret) => {
@@ -761,10 +781,12 @@ export function Terminal() {
       />
 
       <StatusBar
-        usageLabel={`Est. usage: $${(engine.tokens * 0.000012).toFixed(4)}`}
-        ctxLabel={`context ${Math.min(99, Math.round(engine.tokens / 240))}% · ${kTokens}k tokens`}
-        modeLabel={MODES[mode][0]}
-        modeColor={MODES[mode][1]}
+        usageLabel={`${t("usage")} $${(engine.tokens * 0.000012).toFixed(4)}`}
+        ctxLabel={`${t("context")} ${Math.min(99, Math.round(engine.tokens / 240))}% · ${kTokens}k ${t("tokens")}`}
+        modeLabel={LOCALE_LABEL[locale]}
+        modeColor="var(--accent)"
+        modeHint={t("langHint")}
+        onMode={switchLocale}
         onHelp={() => submit("/help")}
       />
     </div>

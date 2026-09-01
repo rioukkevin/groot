@@ -149,11 +149,4 @@ export type Theme =
   | "linen";
 export type Voice = "warm" | "brief" | "terse";
 
-/** [label, colour] pairs cycled with shift+tab. */
-export const MODES: ReadonlyArray<readonly [string, string]> = [
-  ["browse mode on", "var(--accent)"],
-  ["deep-dive mode on", "var(--accent2)"],
-  ["hire mode on", "var(--warn)"],
-] as const;
-
 export const SPINNER_FRAMES = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏";

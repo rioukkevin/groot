@@ -1,6 +1,6 @@
 const SHORTCUTS = `↑↓ move selection   ↵ open selected row     → / space open too
 ↵ send (typing)     ⇥ complete command      ↑↓ history when typing
-esc release list    shift+⇥ cycle mode       ? toggle this
+esc release list    shift+⇥ language        ? toggle this
 / commands          ctrl+l clear transcript  ctrl+c reset input`;
 
 export function Shortcuts() {

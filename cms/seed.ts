@@ -16,6 +16,18 @@ import type { Where } from "payload";
 
 import config from "@payload-config";
 
+import {
+  FR_COMMANDS,
+  FR_EDUCATION,
+  FR_PROJECTS,
+  FR_ROLES,
+  FR_SITE,
+  FR_THEMES,
+  FR_UI,
+  FR_VOICES,
+  FR_WIZARD,
+} from "./translations.fr";
+
 interface Export {
   projects: Record<
     string,
@@ -262,7 +274,159 @@ const seed = async () => {
     },
   });
   console.log("· ui text");
-  console.log("\nSeeded English. French is empty and falls back until filled.");
+
+  // ── french ─────────────────────────────────────────────────────────────
+  // Written into the same documents under the `fr` locale. Anything not
+  // translated is simply not written, and Payload's fallback serves English.
+  const fr = "fr" as const;
+
+  let frProjects = 0;
+  for (const [key, t] of Object.entries(FR_PROJECTS)) {
+    const found = await payload.find({
+      collection: "projects",
+      where: { key: { equals: key } },
+      limit: 1,
+    });
+    if (!found.docs.length) continue;
+    await payload.update({
+      collection: "projects",
+      id: found.docs[0].id,
+      locale: fr,
+      data: {
+        // `name` is required per locale, and Payload does not fall back on
+        // write. Most of these are proper nouns that do not translate, so the
+        // English value is carried across unless a French one was written.
+        name: t.name ?? found.docs[0].name,
+        what: t.what,
+        status: t.status,
+        detail: t.detail.map((text) => ({ text })),
+        ...(t.links ? { links: t.links.map((label) => ({ label })) } : {}),
+      },
+    });
+    frProjects++;
+  }
+  console.log(`· fr projects ${frProjects}`);
+
+  let frRoles = 0;
+  for (const [key, t] of Object.entries(FR_ROLES)) {
+    const found = await payload.find({
+      collection: "roles",
+      where: { key: { equals: key } },
+      limit: 1,
+    });
+    if (!found.docs.length) continue;
+    await payload.update({
+      collection: "roles",
+      id: found.docs[0].id,
+      locale: fr,
+      data: {
+        when: t.when,
+        what: t.what,
+        where: t.where,
+        detail: t.detail.map(([label, text]) => ({ label, text })),
+      },
+    });
+    frRoles++;
+  }
+  console.log(`· fr roles ${frRoles}`);
+
+  let frEdu = 0;
+  for (const [when, what] of Object.entries(FR_EDUCATION)) {
+    const found = await payload.find({
+      collection: "education",
+      where: { when: { equals: when } },
+      limit: 1,
+    });
+    if (!found.docs.length) continue;
+    await payload.update({
+      collection: "education",
+      id: found.docs[0].id,
+      locale: fr,
+      data: { what },
+    });
+    frEdu++;
+  }
+  console.log(`· fr education ${frEdu}`);
+
+  // The /now diff keeps its line numbers and signs from English; only the
+  // prose is translated, positionally.
+  const frNow = data.now.map((r, i) => ({
+    num: r.num,
+    sign: r.sign,
+    text: FR_SITE.nowRows[i] ?? r.text,
+  }));
+
+  await payload.updateGlobal({
+    slug: "site-content",
+    locale: fr,
+    data: {
+      tagline: FR_SITE.tagline,
+      location: FR_SITE.location,
+      about: FR_SITE.about,
+      headline: FR_SITE.headline,
+      nowRows: frNow,
+      softSkills: FR_SITE.softSkills.map(([group, items], i) => ({
+        group,
+        tint: ["var(--accent)", "var(--accent2)", "var(--warn)"][i % 3],
+        items: items.map((label) => ({ label })),
+      })),
+      stack: FR_SITE.stackGroups.map(([group, items], i) => ({
+        group,
+        tint: data.stack[i]?.[1] ?? "var(--accent)",
+        items: items.map((label) => ({ label })),
+      })),
+      rates: FR_SITE.rates.map(([label, value]) => ({ label, value })),
+      contactFooter: FR_SITE.contactFooter,
+      resume: FR_SITE.resume,
+    },
+  });
+  console.log("· fr site content");
+
+  await payload.updateGlobal({
+    slug: "ui-text",
+    locale: fr,
+    data: {
+      promptPlaceholder: FR_UI.promptPlaceholder,
+      banner: FR_UI.banner,
+      modeHint: FR_UI.modeHint,
+      commands: data.commands.map(([command, description]) => ({
+        command,
+        description: FR_COMMANDS[command] ?? description,
+        hidden: false,
+      })),
+      wizardSteps: data.contactWizard.steps.map((s) => {
+        const t = FR_WIZARD[s.key];
+        return {
+          key: s.key,
+          group: t?.group ?? s.group,
+          question: t?.question ?? s.question,
+          label: t?.label ?? s.label ?? "",
+          options: (s.options ?? []).map((o, i) => {
+            const to = t?.options?.[i];
+            return {
+              value: o.value,
+              label: to?.label ?? o.label,
+              hint: to?.hint ?? o.hint ?? "",
+              icon: o.icon,
+            };
+          }),
+        };
+      }),
+      themes: Object.entries(FR_THEMES).map(([value, hint]) => ({
+        value,
+        label: value,
+        hint,
+      })),
+      voices: Object.entries(FR_VOICES).map(([value, hint]) => ({
+        value,
+        label: value,
+        hint,
+      })),
+    },
+  });
+  console.log("· fr ui text");
+
+  console.log("\nSeeded English and French.");
   process.exit(0);
 };
 

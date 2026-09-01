@@ -1,5 +1,7 @@
 import { Buddy } from "./Buddy";
 
+import type { UiKey } from "@/lib/terminal/dictionary";
+
 import type { BuddyMood } from "./Buddy";
 
 const MOOD_NOTE: Record<BuddyMood, string> = {
@@ -16,7 +18,13 @@ const MOOD_NOTE: Record<BuddyMood, string> = {
  * while you scroll; the availability banner below it scrolls away normally so
  * the pinned strip stays short.
  */
-export function Header({ mood }: { mood: BuddyMood }) {
+export function Header({
+  mood,
+  t,
+}: {
+  mood: BuddyMood;
+  t: (key: UiKey) => string;
+}) {
   return (
     <>
       <div
@@ -34,7 +42,7 @@ export function Header({ mood }: { mood: BuddyMood }) {
               <span style={{ color: "var(--faint)" }}>{MOOD_NOTE[mood]}</span>
             </div>
             <div style={{ color: "var(--dim)" }}>
-              portfolio shell · Kévin Riou · fullstack web & mobile, freelance
+              {t("tagline")}
             </div>
             <div style={{ color: "var(--dim)" }}>~/work/kevin-riou</div>
           </div>
@@ -48,8 +56,8 @@ export function Header({ mood }: { mood: BuddyMood }) {
         className="mb-3 mt-2 whitespace-pre-wrap"
         style={{ color: "var(--warn)" }}
       >
-        ▲ Available for new work from mid-September{" "}
-        <span style={{ color: "var(--dim)" }}>· run /now for what changed</span>
+        {"▲ " + t("banner")}{" "}
+        <span style={{ color: "var(--dim)" }}>{t("bannerRun")}</span>
       </div>
     </>
   );

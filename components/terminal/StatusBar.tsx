@@ -3,7 +3,9 @@ interface StatusBarProps {
   ctxLabel: string;
   modeLabel: string;
   modeColor: string;
+  modeHint: string;
   onHelp: () => void;
+  onMode: () => void;
 }
 
 export function StatusBar({
@@ -11,7 +13,9 @@ export function StatusBar({
   ctxLabel,
   modeLabel,
   modeColor,
+  modeHint,
   onHelp,
+  onMode,
 }: StatusBarProps) {
   return (
     <div className="flex-none px-4 pb-2 pt-[5px]">
@@ -24,13 +28,13 @@ export function StatusBar({
         </button>
       </div>
       <div className="flex items-baseline gap-2">
-        <span className="flex-none" style={{ color: modeColor }}>
-          ⏵⏵
-        </span>
-        <span style={{ color: modeColor }}>{modeLabel}</span>
-        <span style={{ color: "var(--faint)" }}>
-          (shift+tab to cycle) · ? for shortcuts
-        </span>
+        <button className="flex items-baseline gap-2" onClick={onMode}>
+          <span className="flex-none" style={{ color: modeColor }}>
+            ⏵⏵
+          </span>
+          <span style={{ color: modeColor }}>{modeLabel}</span>
+        </button>
+        <span style={{ color: "var(--faint)" }}>{modeHint}</span>
       </div>
     </div>
   );
