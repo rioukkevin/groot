@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
+import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { Line } from "@/lib/terminal/types";
 
 interface ScrollViewProps {
@@ -16,6 +17,7 @@ interface ScrollViewProps {
   onOffsetChange: (offset: number) => void;
   /** Called when the user clicks the view, to take the arrow keys back. */
   onClaim: () => void;
+  content: ShellContent;
 }
 
 /**
@@ -34,6 +36,7 @@ export function ScrollView({
   offset,
   onOffsetChange,
   onClaim,
+  content,
 }: ScrollViewProps) {
   const maxOffset = Math.max(0, lines.length - rows);
   const clamped = Math.min(Math.max(0, offset), maxOffset);
@@ -102,8 +105,8 @@ export function ScrollView({
       </div>
       <div className="whitespace-pre pt-1" style={{ color: "var(--faint)" }}>
         {live
-          ? `  ↑↓ scroll · pgup/pgdn page · ${pct}% · esc release`
-          : `  ↑↓ released · ${pct}% · click to take the arrows`}
+          ? `  ${content.s("hint.scroll", "↑↓ scroll · pgup/pgdn page")} · ${pct}% · ${content.s("word.escRelease", "esc release")}`
+          : `  ${content.s("hint.scrollReleased", "↑↓ released · click to take the arrows")} · ${pct}%`}
       </div>
     </div>
   );

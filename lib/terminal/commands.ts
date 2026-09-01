@@ -4,7 +4,7 @@ import { EN_VOICED } from "../../cms/voiced.en";
 import { L, box, pad } from "./format";
 
 import type { Voiced } from "../../cms/voiced.en";
-import type { ShellContent } from "./cms";
+import type { ShellContent } from "./shell-content";
 import type { BlockSpec, Line, SelectItem, Theme, Voice } from "./types";
 
 /** Everything the command layer needs from the shell, so routing stays pure. */
@@ -99,10 +99,13 @@ function cProjects(ctx: CommandContext): BlockSpec[] {
     ),
     select(
       "project",
-      pad("NAME", 17) + pad("STACK", 41) + pad("YEAR", 7) + "STATUS",
+      pad(ctx.content.s("col.name", "NAME"), 17) +
+        pad(ctx.content.s("col.stack", "STACK"), 41) +
+        pad(ctx.content.s("col.year", "YEAR"), 7) +
+        ctx.content.s("col.status", "STATUS"),
       76,
       items,
-      "↑↓ select · ↵ open case study · esc release",
+      ctx.content.s("hint.selectProject", "↑↓ select · ↵ open case study · esc release"),
     ),
   ];
 }
@@ -111,16 +114,16 @@ function cProject(name: string, ctx: CommandContext): BlockSpec[] {
   const keys = Object.keys(ctx.content.projects);
   const key = keys.filter((k) => k.indexOf((name || "").toLowerCase()) === 0)[0];
   if (!key)
-    return [say("No project by that name. Known: " + keys.join(", ") + ".")];
+    return [say(`${ctx.content.s("err.noProject", "No project by that name. Known:")} ${keys.join(", ")}.`)];
   const p = ctx.content.projects[key];
 
   const meta: Line[] = [
     L(p.what, "var(--fg)"),
     L(""),
-    L(pad("stack", 10) + p.stack, "var(--dim)"),
-    L(pad("year", 10) + p.year + "   ● " + p.status, p.statusColor),
+    L(pad(ctx.content.s("meta.stack", "stack"), 10) + p.stack, "var(--dim)"),
+    L(pad(ctx.content.s("meta.year", "year"), 10) + p.year + "   ● " + p.status, p.statusColor),
     ...(p.links.length
-      ? [L(pad("links", 10) + p.links.join(" · "), "var(--dim)")]
+      ? [L(pad(ctx.content.s("meta.links", "links"), 10) + p.links.join(" · "), "var(--dim)")]
       : []),
     L(""),
   ];
@@ -171,10 +174,12 @@ function cExperience(ctx: CommandContext): BlockSpec[] {
     tool("Read", "(cv/experience.md)", ctx.content.roles.length + " entries · 208 tokens", [], 480),
     select(
       "role",
-      pad("WHEN", 14) + pad("ROLE", 34) + "WHERE",
+      pad(ctx.content.s("col.when", "WHEN"), 14) +
+        pad(ctx.content.s("col.role", "ROLE"), 34) +
+        ctx.content.s("col.where", "WHERE"),
       62,
       items,
-      "↑↓ select · ↵ open role · esc release",
+      ctx.content.s("hint.selectRole", "↑↓ select · ↵ open role · esc release"),
     ),
   ];
 }
@@ -184,9 +189,9 @@ function cRole(key: string, ctx: CommandContext): BlockSpec[] {
   if (!e)
     return [
       say(
-        "No role by that name. Known: " +
-          ctx.content.roles.map((x) => x.key).join(", ") +
-          ".",
+        `${ctx.content.s("err.noRole", "No role by that name. Known:")} ${ctx.content.roles
+          .map((x) => x.key)
+          .join(", ")}.`,
       ),
     ];
   return [
@@ -217,8 +222,8 @@ function cAbout(ctx: CommandContext): BlockSpec[] {
           w: 246,
           h: 188,
           cols: 46,
-          label: "portrait",
-          caption: "portrait · hover to resolve",
+          label: ctx.content.s("photo.portrait", "portrait"),
+          caption: ctx.content.s("photo.portraitCaption", "portrait · hover to resolve"),
         },
       ],
     },
@@ -237,7 +242,7 @@ function cSkills(ctx: CommandContext): BlockSpec[] {
       ),
     },
     lines([
-      L("/stack for the hard skills · /techs does the same", "var(--faint)", "  ", ""),
+      L(ctx.content.s("skills.footer", "/stack for the hard skills · /techs does the same"), "var(--faint)", "  ", ""),
     ]),
   ];
 }
@@ -258,7 +263,7 @@ function cStack(ctx: CommandContext): BlockSpec[] {
 
 function cEducation(ctx: CommandContext): BlockSpec[] {
   return [
-    tool("Read", "(cv/education.md)", "3 entries", [], 380),
+    tool("Read", "(cv/education.md)", ctx.content.education.length + " " + ctx.content.s("meta.entries", "entries"), [], 380),
     lines(
       ctx.content.education.flatMap((e) => [
         L(e.what, "var(--fg)", pad(e.when, 14), "var(--accent)"),
@@ -272,9 +277,9 @@ function cNow(ctx: CommandContext): BlockSpec[] {
   return [
     diff(
       "work/status.md",
-      "Added 9 lines, removed 4 lines",
+      ctx.content.s("now.summary", "what changed this month"),
       ctx.content.nowRows,
-      "Ran 1 shell command · git log --since=1.month",
+      ctx.content.s("now.footer", "git log --since=1.month"),
     ),
     say(
       v(ctx, "now"),
@@ -605,7 +610,11 @@ export function route(
     };
 
     if (map[c]) return map[c]();
-    return [say("Unknown command /" + c + " — /help lists them all.")];
+    return [
+      say(
+        `${ctx.content.s("err.unknownCommand", "Unknown command")} /${c} ${ctx.content.s("err.helpLists", "— /help lists them all.")}`,
+      ),
+    ];
   }
 
   return freeform(q, ctx);

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
+import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { SelectItem } from "@/lib/terminal/types";
 
 interface SelectBlockProps {
@@ -16,6 +17,7 @@ interface SelectBlockProps {
   onPick: (i: number, cmd: string) => void;
   /** Called when the user clicks the list, to take the arrow keys back. */
   onClaim: () => void;
+  content: ShellContent;
 }
 
 export function SelectBlock({
@@ -28,6 +30,7 @@ export function SelectBlock({
   onHover,
   onPick,
   onClaim,
+  content,
 }: SelectBlockProps) {
   const idx = Math.min(selIdx, items.length - 1);
   const activeRow = useRef<HTMLButtonElement>(null);
@@ -78,7 +81,7 @@ export function SelectBlock({
         className="whitespace-pre pt-1"
         style={{ color: "var(--faint)" }}
       >
-        {live ? hint : "  ↑↓ released · click a row to open"}
+        {live ? hint : "  " + content.s("hint.listReleased", "↑↓ released · click a row to open")}
       </div>
     </div>
   );

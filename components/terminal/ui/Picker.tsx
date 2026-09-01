@@ -2,6 +2,7 @@
 
 import { CardGrid } from "./CardGrid";
 
+import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { ChoiceOption } from "@/lib/terminal/contact";
 
 interface PickerProps {
@@ -14,6 +15,7 @@ interface PickerProps {
   live: boolean;
   onPick: (index: number) => void;
   onClaim: () => void;
+  content: ShellContent;
 }
 
 /**
@@ -29,6 +31,7 @@ export function Picker({
   live,
   onPick,
   onClaim,
+  content,
 }: PickerProps) {
   const active = options.findIndex((o) => o.value === current);
 
@@ -45,10 +48,10 @@ export function Picker({
         onPick={onPick}
       />
       <div className="whitespace-pre pt-1" style={{ color: "var(--faint)" }}>
-        {(active >= 0 ? `in use: ${options[active].label}   ` : "") +
+        {(active >= 0 ? `${content.s("label.inUse", "in use")}: ${options[active].label}   ` : "") +
           (live
-            ? "←→ ↑↓ move · ↵ apply · esc release"
-            : "released · click to take the keyboard back")}
+            ? content.s("hint.picker", "←→ ↑↓ move · ↵ apply · esc release")
+            : content.s("hint.released", "released · click to take the keyboard back"))}
       </div>
     </div>
   );

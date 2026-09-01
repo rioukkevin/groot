@@ -174,8 +174,9 @@ export const currentStep = (s: ContactState): ContactStep | null =>
 /** Every answered step, in order, for the selections panel and the email. */
 export function summary(
   answers: ContactAnswers,
+  steps: readonly ContactStep[] = CONTACT_STEPS,
 ): ReadonlyArray<readonly [string, string]> {
-  return CONTACT_STEPS.filter((s) => answers[s.key]).map(
+  return steps.filter((s) => answers[s.key]).map(
     (s) => [s.kind === "choice" ? s.group : s.label, answers[s.key] as string] as const,
   );
 }
@@ -186,3 +187,53 @@ export function missingRequired(answers: ContactAnswers): ContactKey[] {
     return required && !answers[s.key]?.trim();
   }).map((s) => s.key);
 }
+
+/**
+ * Overlays the CMS copy onto the step definitions.
+ *
+ * The shape stays in code — keys, kinds, whether a field is required, and the
+ * validators — because those are logic and the server validates against them
+ * too; trusting the CMS for that would put validation behind an editor. Only
+ * the words come from the CMS: the group, the question, the field label, and
+ * each option's label and hint. Option *values* stay in code as well, so a
+ * translated label never changes what gets emailed.
+ */
+export function localizeSteps(
+  cms: {
+    key: string;
+    group: string;
+    question: string;
+    label: string;
+    options: { value: string; label: string; hint: string }[];
+  }[],
+): readonly ContactStep[] {
+  if (!cms.length) return CONTACT_STEPS;
+  const byKey = new Map(cms.map((c) => [c.key, c]));
+
+  return CONTACT_STEPS.map((step) => {
+    const t = byKey.get(step.key);
+    if (!t) return step;
+    const base = {
+      ...step,
+      group: t.group || step.group,
+      question: t.question || step.question,
+    };
+    if (base.kind === "text") {
+      return { ...base, label: t.label || base.label };
+    }
+    return {
+      ...base,
+      options: base.options.map((o, i) => {
+        const to = t.options[i];
+        return to
+          ? { ...o, label: to.label || o.label, hint: to.hint || o.hint }
+          : o;
+      }),
+    };
+  });
+}
+
+/** Group names, from whichever step list is in play. */
+export const groupsOf = (steps: readonly ContactStep[]): string[] => [
+  ...new Set(steps.map((s) => s.group)),
+];

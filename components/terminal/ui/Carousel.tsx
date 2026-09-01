@@ -3,6 +3,7 @@
 import { EdgePhoto } from "./EdgePhoto";
 import { ImageSpotlight } from "./ImageSpotlight";
 
+import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { CarouselSlide } from "@/lib/terminal/types";
 
 interface CarouselProps {
@@ -16,6 +17,7 @@ interface CarouselProps {
   onClaim: () => void;
   /** Bumped by the shell to open the current slide full screen from a key. */
   openSignal?: number;
+  content: ShellContent;
 }
 
 /**
@@ -31,6 +33,7 @@ export function Carousel({
   onIndexChange,
   onClaim,
   openSignal = 0,
+  content,
 }: CarouselProps) {
   if (!slides.length) return null;
   const i = Math.min(Math.max(0, index), slides.length - 1);
@@ -117,7 +120,7 @@ export function Carousel({
           className="max-w-full truncate text-center"
           style={{ color: "var(--faint)" }}
         >
-          {live ? "←→ move · ↵ open full screen · esc release" : "released · click to take the arrows"}
+          {live ? content.s("hint.carousel", "←→ move · ↵ open full screen · esc release") : content.s("hint.released", "released · click to take the keyboard back")}
         </div>
       </div>
     </div>

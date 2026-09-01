@@ -5,6 +5,11 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 
 import type { Locale } from "./locale";
+import type {
+  CmsChipGroup,
+  CmsProject,
+  ShellContentData,
+} from "./shell-content";
 import type { DiffRow } from "./types";
 
 /**
@@ -15,75 +20,6 @@ import type { DiffRow } from "./types";
  * `fallback: true`. Nothing here re-implements that rule — there is one locale
  * system and this is a read against it.
  */
-
-export interface CmsProject {
-  key: string;
-  name: string;
-  stack: string;
-  year: string;
-  status: string;
-  statusColor: string;
-  what: string;
-  detail: string[];
-  images: string[];
-  links: string[];
-}
-
-export interface CmsRole {
-  key: string;
-  when: string;
-  what: string;
-  where: string;
-  detail: string[];
-}
-
-export interface CmsStudy {
-  when: string;
-  what: string;
-  where: string;
-}
-
-/** [group, tint, items] */
-export type CmsChipGroup = [string, string, string[]];
-
-export interface CmsWizardStep {
-  key: string;
-  group: string;
-  question: string;
-  label: string;
-  options: { value: string; label: string; hint: string; icon: string }[];
-}
-
-export interface ShellContent {
-  locale: Locale;
-  commands: [string, string][];
-  projects: Record<string, CmsProject>;
-  roles: CmsRole[];
-  education: CmsStudy[];
-  softSkills: CmsChipGroup[];
-  stack: CmsChipGroup[];
-  rates: [string, string][];
-  contact: [string, string][];
-  contactFooter: string;
-  nowRows: DiffRow[];
-  nowHeadline: string;
-  resume: string;
-  name: string;
-  about: string;
-  tagline: string;
-  ui: {
-    promptPlaceholder: string;
-    banner: string;
-    modeHint: string;
-  };
-  /** The lines under the intro: [kind, text, label] per row. */
-  introHints: [string, string, string][];
-  /** The voiced copy for this locale, keyed. Empty entries fall back to code. */
-  voiced: Record<string, { warm: string; brief: string; terse: string }>;
-  wizard: CmsWizardStep[];
-  themeHints: Record<string, string>;
-  voiceHints: Record<string, string>;
-}
 
 /** The voiced groups the UI Text global carries. */
 const VOICED_KEYS = [
@@ -105,7 +41,9 @@ const arr = <T,>(v: T[] | null | undefined): T[] => v ?? [];
 const str = (v: string | null | undefined, fallback = ""): string =>
   typeof v === "string" && v.length ? v : fallback;
 
-export async function getShellContent(locale: Locale): Promise<ShellContent> {
+export async function getShellContent(
+  locale: Locale,
+): Promise<ShellContentData> {
   const payload = await getPayload({ config });
 
   const [projects, roles, education, site, ui] = await Promise.all([
@@ -149,6 +87,9 @@ export async function getShellContent(locale: Locale): Promise<ShellContent> {
 
   return {
     locale,
+    strings: Object.fromEntries(
+      arr(ui.strings).map((r) => [str(r.key), str(r.text)]),
+    ),
     commands: arr(ui.commands)
       .filter((c) => !c.hidden)
       .map((c) => [str(c.command), str(c.description)] as [string, string]),
@@ -228,3 +169,4 @@ export async function getShellContent(locale: Locale): Promise<ShellContent> {
     ),
   };
 }
+

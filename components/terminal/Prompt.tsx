@@ -14,6 +14,7 @@ interface PromptProps {
   onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
   /** Status shown at the right of the prompt row; runs /now when clicked. */
   headline: string;
+  headlineTitle: string;
   onHeadline: () => void;
 }
 
@@ -48,6 +49,7 @@ export function Prompt({
   onCaret,
   onKeyDown,
   headline,
+  headlineTitle,
   onHeadline,
 }: PromptProps) {
   const charW = useCharWidth(inputRef);
@@ -101,7 +103,7 @@ export function Prompt({
         className="hidden flex-none whitespace-pre sm:block"
         style={{ color: "var(--dim)" }}
         onClick={onHeadline}
-        title="run /now"
+        title={headlineTitle}
       >
         <span style={{ color: "var(--accent)" }}>● </span>
         {headline}

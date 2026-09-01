@@ -955,7 +955,10 @@ export interface UiText {
         id?: string | null;
       }[]
     | null;
-  keyHints?:
+  /**
+   * Every short label, hint and message the interface uses, by key. One row per string so a new one costs an entry rather than a schema change.
+   */
+  strings?:
     | {
         key: string;
         text: string;
@@ -1173,7 +1176,7 @@ export interface UiTextSelect<T extends boolean = true> {
         hint?: T;
         id?: T;
       };
-  keyHints?:
+  strings?:
     | T
     | {
         key?: T;

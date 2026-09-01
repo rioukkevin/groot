@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { Voice } from "@/lib/terminal/types";
 
 interface VoicePickerProps {
@@ -10,6 +11,7 @@ interface VoicePickerProps {
   live: boolean;
   onPick: (index: number) => void;
   onClaim: () => void;
+  content: ShellContent;
 }
 
 interface Tone {
@@ -88,6 +90,7 @@ export function VoicePicker({
   live,
   onPick,
   onClaim,
+  content,
 }: VoicePickerProps) {
   const i = Math.min(Math.max(0, index), TONES.length - 1);
   const [trace, setTrace] = useState<string>(" ".repeat(COLS));
@@ -141,7 +144,7 @@ export function VoicePicker({
   return (
     <div className="mb-3 pl-5" onClick={onClaim}>
       <div className="whitespace-pre" style={{ color: "var(--faint)" }}>
-        VOICE · the shape of the answer
+        {content.s("label.voice", "VOICE · the shape of the answer")}
       </div>
 
       <div className="flex flex-col gap-x-6 gap-y-1 pt-1 md:flex-row md:items-center">
@@ -175,7 +178,7 @@ export function VoicePicker({
                   {(t.hint + " ".repeat(30)).slice(0, 30)}
                 </span>
                 <span style={{ color: "var(--accent2)" }}>
-                  {inUse ? " ● in use" : "         "}
+                  {inUse ? " ● " + content.s("label.inUse", "in use") : "         "}
                 </span>
               </button>
             );
@@ -193,8 +196,8 @@ export function VoicePicker({
 
       <div className="whitespace-pre pt-1" style={{ color: "var(--faint)" }}>
         {live
-          ? "↑↓ move · ↵ apply · esc release"
-          : "released · click to take the keyboard back"}
+          ? content.s("hint.voice", "↑↓ move · ↵ apply · esc release")
+          : content.s("hint.released", "released · click to take the keyboard back")}
       </div>
     </div>
   );

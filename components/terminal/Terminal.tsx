@@ -7,10 +7,9 @@ import { L } from "@/lib/terminal/format";
 import { maxWrappedLines } from "@/lib/terminal/format";
 import { gridStep } from "@/lib/terminal/grid";
 import {
-  CONTACT_STEPS,
-  currentStep,
   initialContact,
   isReview,
+  localizeSteps,
 } from "@/lib/terminal/contact";
 
 import {
@@ -49,7 +48,9 @@ import { ScrollView } from "./ui/ScrollView";
 
 import type { CommandContext } from "@/lib/terminal/commands";
 import type { ContactState } from "@/lib/terminal/contact";
-import type { ShellContent } from "@/lib/terminal/cms";
+import { hydrate } from "@/lib/terminal/shell-content";
+
+import type { ShellContentData } from "@/lib/terminal/shell-content";
 import type { Locale } from "@/lib/terminal/locale";
 import type { Theme, Voice } from "@/lib/terminal/types";
 import type { KeyboardEvent } from "react";
@@ -77,10 +78,11 @@ export function Terminal({
   content: byLocale,
 }: {
   initialLocale: Locale;
-  content: Record<Locale, ShellContent>;
+  content: Record<Locale, ShellContentData>;
 }) {
   const [locale, setLocale] = useState<Locale>(initialLocale);
-  const content = byLocale[locale];
+  // The lookup is attached here: the server sent data, not functions.
+  const content = useMemo(() => hydrate(byLocale[locale]), [byLocale, locale]);
   const next = otherLocale(locale);
 
   /**
@@ -135,7 +137,24 @@ export function Terminal({
     off: boolean;
   }>({ forId: -1, claimId: null, idx: 0, idx2: 0, off: false });
 
+  // The wizard's copy for this locale; its shape and validators stay in code.
+  const wizardSteps = useMemo(
+    () => localizeSteps(content.wizard),
+    [content.wizard],
+  );
+  // The step callbacks live outside the render, so they read the list here.
+  const wizardStepsRef = useRef(wizardSteps);
+  useEffect(() => {
+    wizardStepsRef.current = wizardSteps;
+  }, [wizardSteps]);
+
   const [contact, setContact] = useState<ContactState>(initialContact);
+  // Callbacks defined outside the render read the content through a ref.
+  const contentRef = useRef(content);
+  useEffect(() => {
+    contentRef.current = content;
+  }, [content]);
+
   const contactRef = useRef(contact);
   useEffect(() => {
     contactRef.current = contact;
@@ -260,7 +279,7 @@ export function Terminal({
       } catch (err) {
         // A failed request is reported where the request is, not only in
         // whatever form started it.
-        finish("failed", err instanceof Error ? err.message : "request failed");
+        finish("failed", err instanceof Error ? err.message : content.s("err.requestFailed", "request failed"));
         throw err;
       }
     },
@@ -360,7 +379,7 @@ export function Terminal({
   const inWizard =
     active?.kind === "contact" &&
     contact.status !== "sent" &&
-    currentStep(contact)?.kind === "text";
+    wizardSteps[Math.min(contact.step, wizardSteps.length - 1)]?.kind === "text";
   const pal = inWizard ? [] : palAll;
   const palSel = Math.min(palIdx, Math.max(0, pal.length - 1));
   const mood = useBuddyMood(busy, voice, pulse);
@@ -376,12 +395,15 @@ export function Terminal({
   const advance = useCallback(
     (value: string) => {
       setContact((c) => {
-        const step = currentStep(c);
+        const step = wizardStepsRef.current[c.step];
         if (!step) return c;
         const v = value.trim();
         const required = step.kind === "choice" || step.required;
         if (required && !v)
-          return { ...c, error: `${step.kind === "choice" ? step.group : step.label} is needed` };
+          return {
+            ...c,
+            error: `${step.kind === "choice" ? step.group : step.label} ${contentRef.current.s("err.needed", "is needed")}`,
+          };
         const invalid = v && step.kind === "text" ? (step.validate?.(v) ?? null) : null;
         if (invalid) return { ...c, error: invalid };
         return {
@@ -401,7 +423,7 @@ export function Terminal({
   const goBack = useCallback(() => {
     setContact((c) => {
       if (c.step === 0) return c;
-      const prev = CONTACT_STEPS[c.step - 1];
+      const prev = wizardStepsRef.current[c.step - 1];
       const restored = prev.kind === "text" ? (c.answers[prev.key] ?? "") : "";
       setInput(restored);
       setCaretPos(restored.length);
@@ -435,7 +457,7 @@ export function Terminal({
         setContact((c) => ({
           ...c,
           status: "error",
-          error: e instanceof Error ? e.message : "could not send",
+          error: e instanceof Error ? e.message : content.s("err.couldNotSend", "could not send"),
         }));
       });
   }, [track]);
@@ -465,7 +487,7 @@ export function Terminal({
       // hands the arrows back to the prompt everywhere else would otherwise
       // send the answer off as a command.
       if (active?.kind === "contact" && contact.status !== "sent") {
-        const step = currentStep(contact);
+        const step = wizardSteps[Math.min(contact.step, wizardSteps.length - 1)];
         if (k === "Enter") {
           e.preventDefault();
           if (isReview(contact)) send();
@@ -631,7 +653,7 @@ export function Terminal({
           );
         else if (act.kind === "carousel") moveSel(act.slides.length - 1);
       } else if (k === "Escape") {
-        if (busy) halt("interrupted by user");
+        if (busy) halt(content.s("err.interrupted", "interrupted by user"));
         else if (act) {
           releaseSel();
           setShortcutsOpen(false);
@@ -677,9 +699,10 @@ export function Terminal({
   );
 
   const activeId = active ? active.id : -1;
+
   const contactStep =
     active?.kind === "contact" && contact.status !== "sent"
-      ? currentStep(contact)
+      ? wizardSteps[Math.min(contact.step, wizardSteps.length - 1)]
       : null;
   const contactPrompt =
     contactStep?.kind === "text"
@@ -727,6 +750,7 @@ export function Terminal({
             )}
             {b.kind === "select" && (
               <SelectBlock
+                content={content}
                 header={b.header}
                 sep={b.sep}
                 hint={b.hint}
@@ -747,6 +771,7 @@ export function Terminal({
             {b.kind === "chips" && <ChipsBlock groups={b.groups} />}
             {b.kind === "voice" && (
               <VoicePicker
+                content={content}
                 current={b.current}
                 index={b.id === activeId ? selIdx : 0}
                 live={b.id === activeId}
@@ -759,6 +784,7 @@ export function Terminal({
             )}
             {b.kind === "picker" && (
               <Picker
+                content={content}
                 title={b.title}
                 options={b.options}
                 perRow={b.perRow}
@@ -774,6 +800,7 @@ export function Terminal({
             )}
             {b.kind === "project" && (
               <ProjectView
+                content={content}
                 title={b.title}
                 slides={b.slides}
                 meta={b.meta}
@@ -790,10 +817,12 @@ export function Terminal({
             )}
             {b.kind === "contact" && (
               <ContactForm
+                steps={wizardSteps}
+                content={content}
                 state={contact}
                 live={b.id === activeId}
                 onPick={(i) => {
-                  const step = currentStep(contact);
+                  const step = wizardSteps[Math.min(contact.step, wizardSteps.length - 1)];
                   if (step?.kind === "choice") advance(step.options[i].value);
                 }}
                 onClaim={() => b.id !== activeId && claim(b.id)}
@@ -801,6 +830,7 @@ export function Terminal({
             )}
             {b.kind === "scroll" && (
               <ScrollView
+                content={content}
                 title={b.title}
                 lines={b.lines}
                 rows={b.rows}
@@ -812,6 +842,7 @@ export function Terminal({
             )}
             {b.kind === "carousel" && (
               <Carousel
+                content={content}
                 title={b.title}
                 slides={b.slides}
                 live={b.id === activeId}
@@ -844,7 +875,7 @@ export function Terminal({
         </div>
       )}
 
-      {shortcutsOpen && <Shortcuts />}
+      {shortcutsOpen && <Shortcuts content={content} />}
 
       {pal.length > 0 && (
         <Palette
@@ -874,6 +905,7 @@ export function Terminal({
         onCaret={setCaretPos}
         onKeyDown={onKeyDown}
         headline={content.nowHeadline}
+        headlineTitle={content.s("prompt.runNow", "run /now")}
         onHeadline={() => submit("/now")}
       />
 

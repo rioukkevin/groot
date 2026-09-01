@@ -153,10 +153,14 @@ export const UiText: GlobalConfig = {
               ],
             },
             {
-              name: "keyHints",
+              name: "strings",
               type: "array",
               localized: true,
-              label: "Keyboard hint lines",
+              label: "Interface strings",
+              admin: {
+                description:
+                  "Every short label, hint and message the interface uses, by key. One row per string so a new one costs an entry rather than a schema change.",
+              },
               fields: [
                 { name: "key", type: "text", required: true },
                 { name: "text", type: "text", required: true },

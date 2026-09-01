@@ -7,6 +7,7 @@ import { L, wrap } from "@/lib/terminal/format";
 import { Carousel } from "./Carousel";
 import { ScrollView } from "./ScrollView";
 
+import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { CarouselSlide, Line } from "@/lib/terminal/types";
 
 interface ProjectViewProps {
@@ -22,6 +23,7 @@ interface ProjectViewProps {
   onSlide: (i: number) => void;
   onOffset: (i: number) => void;
   onClaim: () => void;
+  content: ShellContent;
   /** Forwarded to the carousel: opens the current shot full screen. */
   openSignal?: number;
 }
@@ -55,6 +57,7 @@ export function ProjectView({
   onOffset,
   onClaim,
   openSignal = 0,
+  content,
 }: ProjectViewProps) {
   const hasShots = slides.length > 0;
   const paneRef = useRef<HTMLDivElement>(null);
@@ -112,26 +115,28 @@ export function ProjectView({
               onIndexChange={onSlide}
               onClaim={onClaim}
               openSignal={openSignal}
+              content={content}
             />
           </div>
         )}
         <div ref={paneRef} className="min-w-0 flex-1">
           <ScrollView
-            title={hasShots ? "WRITE-UP · ↑↓ pgup/pgdn" : title}
+            title={hasShots ? content.s("label.writeUp", "WRITE-UP · ↑↓ pgup/pgdn") : title}
             lines={lines}
             rows={rows}
             live={live}
             offset={offset}
             onOffsetChange={onOffset}
             onClaim={onClaim}
+            content={content}
           />
         </div>
       </div>
       {hasShots && (
         <div className="whitespace-pre pl-5" style={{ color: "var(--faint)" }}>
           {live
-            ? "  ←→ screenshots · ↑↓ write-up · ↵ open full screen"
-            : "  released · click to take the keyboard back"}
+            ? "  " + content.s("hint.project", "←→ screenshots · ↑↓ write-up · ↵ open full screen")
+            : "  " + content.s("hint.released", "released · click to take the keyboard back")}
         </div>
       )}
     </div>

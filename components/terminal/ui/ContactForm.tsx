@@ -1,18 +1,16 @@
 "use client";
 
-import {
-  CONTACT_GROUPS,
-  CONTACT_STEPS,
-  currentStep,
-  isReview,
-  summary,
-} from "@/lib/terminal/contact";
+import { groupsOf, isReview, summary } from "@/lib/terminal/contact";
 
 import { CardGrid } from "./CardGrid";
 
-import type { ContactState } from "@/lib/terminal/contact";
+import type { ShellContent } from "@/lib/terminal/shell-content";
+import type { ContactState, ContactStep } from "@/lib/terminal/contact";
 
 interface ContactFormProps {
+  /** Steps with the CMS copy already applied, for the active locale. */
+  steps: readonly ContactStep[];
+  content: ShellContent;
   state: ContactState;
   /** True when this block owns the keyboard. */
   live: boolean;
@@ -27,11 +25,17 @@ const SEG = 14;
  * Horizontal coloured progress, used while the three choice steps run: one
  * filled segment per group, the current one half-lit.
  */
-function HorizontalProgress({ reached }: { reached: number }) {
+function HorizontalProgress({
+  reached,
+  groups,
+}: {
+  reached: number;
+  groups: string[];
+}) {
   return (
     <div className="pb-1">
       <div className="whitespace-pre">
-        {CONTACT_GROUPS.map((g, i) => (
+        {groups.map((g, i) => (
           <span
             key={g}
             style={{
@@ -44,12 +48,12 @@ function HorizontalProgress({ reached }: { reached: number }) {
             }}
           >
             {(i < reached ? "█" : i === reached ? "▓" : "░").repeat(SEG)}
-            {i < CONTACT_GROUPS.length - 1 ? " " : ""}
+            {i < groups.length - 1 ? " " : ""}
           </span>
         ))}
       </div>
       <div className="whitespace-pre">
-        {CONTACT_GROUPS.map((g, i) => (
+        {groups.map((g, i) => (
           <span
             key={g}
             style={{
@@ -62,7 +66,7 @@ function HorizontalProgress({ reached }: { reached: number }) {
             }}
           >
             {(g + " ".repeat(SEG)).slice(0, SEG)}
-            {i < CONTACT_GROUPS.length - 1 ? " " : ""}
+            {i < groups.length - 1 ? " " : ""}
           </span>
         ))}
       </div>
@@ -106,17 +110,26 @@ function Chips({ state }: { state: ContactState }) {
  * and every field already filled, one per line, so the whole answer is visible
  * while the last of it is typed.
  */
-function VerticalSummary({ state }: { state: ContactState }) {
-  const rows = summary(state.answers);
-  const step = currentStep(state);
-  const pending = CONTACT_STEPS.filter(
-    (s) => s.kind === "text" && !state.answers[s.key],
-  ) as Extract<(typeof CONTACT_STEPS)[number], { kind: "text" }>[];
+function VerticalSummary({
+  state,
+  steps,
+  content,
+}: {
+  state: ContactState;
+  steps: readonly ContactStep[];
+  content: ShellContent;
+}) {
+  const rows = summary(state.answers, steps);
+  const step = steps[state.step];
+  const pending = steps.filter(
+    (s): s is Extract<ContactStep, { kind: "text" }> =>
+      s.kind === "text" && !state.answers[s.key],
+  );
 
   return (
     <div className="pt-1">
       <div className="whitespace-pre" style={{ color: "var(--faint)" }}>
-        YOUR ANSWERS
+        {content.s("wizard.answers", "YOUR ANSWERS")}
       </div>
       {rows.map(([label, value]) => (
         <div key={label} className="whitespace-pre">
@@ -138,7 +151,11 @@ function VerticalSummary({ state }: { state: ContactState }) {
               {(s.label + "          ").slice(0, 10)}
             </span>
             <span style={{ color: "var(--faint)" }}>
-              {isNow ? "typing…" : s.required ? "" : "optional"}
+              {isNow
+                ? content.s("wizard.typing", "typing…")
+                : s.required
+                  ? ""
+                  : content.s("wizard.optional", "optional")}
             </span>
           </div>
         );
@@ -152,7 +169,13 @@ function VerticalSummary({ state }: { state: ContactState }) {
  * nearest a monospace grid gets to an airmail envelope, since no envelope
  * glyph exists in the face.
  */
-function SentEnvelope({ email }: { email: string }) {
+function SentEnvelope({
+  email,
+  content,
+}: {
+  email: string;
+  content: ShellContent;
+}) {
   const W = 46;
   const dash = "╌".repeat(W);
   const line = (content: string) => (
@@ -170,32 +193,38 @@ function SentEnvelope({ email }: { email: string }) {
         {"╳" + dash + "╳"}
       </div>
       {line("")}
-      {line("✓  Message sent")}
+      {line("✓  " + content.s("sent.title", "Message sent"))}
       {line("")}
-      {line("   It landed with Kévin. He'll reply to")}
-      {line("   " + email + ",")}
-      {line("   usually within a day.")}
+      {line("   " + content.s("sent.lead", "It landed with Kévin. He'll reply to"))}
+      {line("   " + (email || content.s("sent.you", "you")) + ",")}
+      {line("   " + content.s("sent.when", "usually within a day."))}
       {line("")}
       <div className="whitespace-pre" style={{ color: "var(--accent)" }}>
         {"╳" + dash + "╳"}
       </div>
       <div className="whitespace-pre pt-1" style={{ color: "var(--faint)" }}>
-        {"run /contact to send another"}
+        {content.s("sent.again", "run /contact to send another")}
       </div>
     </div>
   );
 }
 
-export function ContactForm({ state, live, onPick, onClaim }: ContactFormProps) {
-  const step = currentStep(state);
-  const reached = isReview(state)
-    ? CONTACT_GROUPS.length - 1
-    : CONTACT_GROUPS.indexOf(CONTACT_STEPS[state.step].group);
+export function ContactForm({
+  steps,
+  content,
+  state,
+  live,
+  onPick,
+  onClaim,
+}: ContactFormProps) {
+  const groups = groupsOf(steps);
+  const step = state.step < steps.length ? steps[state.step] : null;
+  const reached = step ? groups.indexOf(step.group) : groups.length - 1;
 
   if (state.status === "sent") {
     return (
       <div className="mb-3 pl-5">
-        <SentEnvelope email={state.answers.email ?? "you"} />
+        <SentEnvelope email={state.answers.email ?? ""} content={content} />
       </div>
     );
   }
@@ -206,10 +235,10 @@ export function ContactForm({ state, live, onPick, onClaim }: ContactFormProps) 
 
   return (
     <div className="mb-3 pl-5" onClick={onClaim}>
-      <HorizontalProgress reached={reached} />
+      <HorizontalProgress reached={reached} groups={groups} />
 
       <div className="whitespace-pre pt-1" style={{ color: "var(--fg)" }}>
-        {step ? step.question : "Ready to send?"}
+        {step ? step.question : content.s("wizard.review", "Ready to send?")}
       </div>
 
       {step?.kind === "choice" && (
@@ -227,16 +256,16 @@ export function ContactForm({ state, live, onPick, onClaim }: ContactFormProps) 
 
       {step?.kind === "text" && (
         <div className="whitespace-pre" style={{ color: "var(--faint)" }}>
-          {"type your answer at the prompt below" +
-            (step.required ? "" : " · ↵ to skip")}
+          {content.s("wizard.type", "type your answer at the prompt below") +
+            (step.required ? "" : " · " + content.s("wizard.skip", "↵ to skip"))}
         </div>
       )}
 
       {!step && (
         <div className="whitespace-pre pt-1" style={{ color: "var(--dim)" }}>
           {state.status === "sending"
-            ? "sending…"
-            : "↵ send · ⌫ back to change an answer"}
+            ? content.s("wizard.sending", "sending…")
+            : content.s("wizard.sendHint", "↵ send · ⌫ back to change an answer")}
         </div>
       )}
 
@@ -246,14 +275,16 @@ export function ContactForm({ state, live, onPick, onClaim }: ContactFormProps) 
         </div>
       )}
 
-      {vertical && <VerticalSummary state={state} />}
+      {vertical && (
+        <VerticalSummary state={state} steps={steps} content={content} />
+      )}
 
       <div className="whitespace-pre pt-2" style={{ color: "var(--faint)" }}>
         {live
           ? step?.kind === "choice"
-            ? "←→ ↑↓ choose · ↵ confirm · ⌫ back · esc release"
-            : "↵ confirm · ⌫ back · esc release"
-          : "released · click to take the keyboard back"}
+            ? content.s("hint.cards", "←→ ↑↓ choose · ↵ confirm · ⌫ back · esc release")
+            : content.s("hint.text", "↵ confirm · ⌫ back · esc release")
+          : content.s("hint.released", "released · click to take the keyboard back")}
       </div>
     </div>
   );
