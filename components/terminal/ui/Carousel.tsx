@@ -1,6 +1,7 @@
 "use client";
 
 import { ShaderPhoto } from "../ShaderPhoto";
+import { ImageSpotlight } from "./ImageSpotlight";
 
 import type { CarouselSlide } from "@/lib/terminal/types";
 
@@ -53,17 +54,23 @@ export function Carousel({
         <div className="min-w-0 flex-1">
           {slide.kind === "shot" ? (
             <div style={{ color: "var(--accent)" }}>
-              <ShaderPhoto
+              <ImageSpotlight
                 key={slide.key}
                 src={slide.shot.src}
-                width={slide.shot.w}
-                height={slide.shot.h}
-                cellW={slide.shot.cellW}
-                cellH={slide.shot.cellH}
-                gap={slide.shot.gap}
-                label={slide.shot.label}
                 caption={slide.shot.caption}
-              />
+                className="[&_canvas]:cursor-zoom-in"
+              >
+                <ShaderPhoto
+                  src={slide.shot.src}
+                  width={slide.shot.w}
+                  height={slide.shot.h}
+                  cellW={slide.shot.cellW}
+                  cellH={slide.shot.cellH}
+                  gap={slide.shot.gap}
+                  label={slide.shot.label}
+                  caption={slide.shot.caption}
+                />
+              </ImageSpotlight>
             </div>
           ) : (
             <div className="whitespace-pre">

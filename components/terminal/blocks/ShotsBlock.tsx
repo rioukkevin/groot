@@ -10,7 +10,12 @@ export function ShotsBlock({ items }: { items: ShotItem[] }) {
       style={{ color: "var(--accent)" }}
     >
       {items.map((p) => (
-        <ImageSpotlight key={p.label} src={p.src} caption={p.caption}>
+        <ImageSpotlight
+          key={p.label}
+          src={p.src}
+          caption={p.caption}
+          className="[&_canvas]:cursor-zoom-in"
+        >
           <ShaderPhoto
             src={p.src}
             width={p.w}
