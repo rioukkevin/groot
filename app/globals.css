@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
-/* Palette ported verbatim from the design. Blocks pass these through as
-   `var(--x)` colour strings, so they stay raw custom properties rather than
-   Tailwind tokens. */
+/* Palette ported from the design, then extended to seven.
+
+   --cursor is defined once as var(--accent): a custom property resolves where
+   it is used, and every theme block below redefines --accent on the same
+   element, so the caret follows the theme without each palette restating it. */
 :root {
   --bg: #0c0c0c;
   --fg: #cfcdc7;
@@ -16,8 +18,10 @@
   --err: oklch(0.72 0.15 28);
   --add: oklch(0.8 0.115 152);
   --del: oklch(0.72 0.15 28);
-  --cursor: oklch(0.62 0.17 258);
+  --cursor: var(--accent);
 }
+
+/* ── dark ─────────────────────────────────────────────────────────────── */
 
 [data-theme="ember"] {
   --bg: #0d0b0a;
@@ -29,7 +33,58 @@
   --accent: oklch(0.8 0.115 42);
   --accent2: oklch(0.8 0.115 168);
   --warn: oklch(0.85 0.13 92);
+  --err: oklch(0.72 0.15 28);
+  --add: oklch(0.8 0.115 152);
+  --del: oklch(0.72 0.15 28);
 }
+
+[data-theme="ice"] {
+  --bg: #0a0c0e;
+  --fg: #c7cfd6;
+  --dim: #7d8a94;
+  --faint: #4e585f;
+  --hair: #1e2428;
+  --echo: rgba(140, 160, 175, 0.15);
+  --accent: oklch(0.82 0.1 220);
+  --accent2: oklch(0.82 0.11 165);
+  --warn: oklch(0.85 0.13 92);
+  --err: oklch(0.72 0.15 28);
+  --add: oklch(0.82 0.11 165);
+  --del: oklch(0.72 0.15 28);
+}
+
+[data-theme="plum"] {
+  --bg: #0d0a0e;
+  --fg: #d2c9d6;
+  --dim: #8f8296;
+  --faint: #59505f;
+  --hair: #251f29;
+  --echo: rgba(165, 140, 180, 0.15);
+  --accent: oklch(0.78 0.13 310);
+  --accent2: oklch(0.8 0.11 200);
+  --warn: oklch(0.85 0.13 92);
+  --err: oklch(0.72 0.15 28);
+  --add: oklch(0.8 0.115 152);
+  --del: oklch(0.72 0.15 28);
+}
+
+/* Fully achromatic: add and del separate by lightness, not hue. */
+[data-theme="mono"] {
+  --bg: #0b0b0b;
+  --fg: #d4d4d4;
+  --dim: #8a8a8a;
+  --faint: #555555;
+  --hair: #232323;
+  --echo: rgba(150, 150, 150, 0.15);
+  --accent: oklch(0.88 0 0);
+  --accent2: oklch(0.68 0 0);
+  --warn: oklch(0.88 0 0);
+  --err: oklch(0.62 0 0);
+  --add: oklch(0.88 0 0);
+  --del: oklch(0.55 0 0);
+}
+
+/* ── light ────────────────────────────────────────────────────────────── */
 
 [data-theme="paper"] {
   --bg: #f4f2ed;
@@ -44,6 +99,36 @@
   --err: oklch(0.52 0.16 28);
   --add: oklch(0.5 0.12 152);
   --del: oklch(0.52 0.16 28);
+}
+
+[data-theme="white"] {
+  --bg: #ffffff;
+  --fg: #1a1d21;
+  --dim: #5b6570;
+  --faint: #9aa4ae;
+  --hair: #e4e8ec;
+  --echo: rgba(20, 30, 40, 0.07);
+  --accent: oklch(0.55 0.15 252);
+  --accent2: oklch(0.55 0.13 165);
+  --warn: oklch(0.58 0.14 70);
+  --err: oklch(0.53 0.18 28);
+  --add: oklch(0.52 0.13 158);
+  --del: oklch(0.53 0.18 28);
+}
+
+[data-theme="linen"] {
+  --bg: #faf7f2;
+  --fg: #2b2723;
+  --dim: #6e675f;
+  --faint: #a9a29a;
+  --hair: #e8e2d9;
+  --echo: rgba(60, 45, 30, 0.07);
+  --accent: oklch(0.52 0.14 45);
+  --accent2: oklch(0.52 0.12 200);
+  --warn: oklch(0.56 0.14 70);
+  --err: oklch(0.52 0.17 28);
+  --add: oklch(0.5 0.12 152);
+  --del: oklch(0.52 0.17 28);
 }
 
 @theme inline {

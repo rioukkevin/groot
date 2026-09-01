@@ -133,7 +133,15 @@ export function isInteractive(b: Block): b is InteractiveBlock {
 export type SayBlock = Extract<Block, { kind: "say" }>;
 export type ToolBlock = Extract<Block, { kind: "tool" }>;
 
-export type Theme = "green" | "ember" | "paper";
+export type Theme =
+  | "green"
+  | "ember"
+  | "ice"
+  | "plum"
+  | "mono"
+  | "paper"
+  | "white"
+  | "linen";
 export type Voice = "warm" | "terse";
 
 /** [label, colour] pairs cycled with shift+tab. */

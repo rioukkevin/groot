@@ -24,7 +24,30 @@ export interface CommandContext {
   setVoice: (v: Voice) => void;
 }
 
-const THEMES: readonly Theme[] = ["green", "ember", "paper"];
+const THEMES: readonly Theme[] = [
+  "green",
+  "ember",
+  "ice",
+  "plum",
+  "mono",
+  "paper",
+  "white",
+  "linen",
+];
+
+/** [value, label, hint, ink, ground] — the swatch previews both. */
+const THEME_CARDS: ReadonlyArray<
+  readonly [Theme, string, string, string, string]
+> = [
+  ["green", "green", "phosphor on near-black", "oklch(0.80 0.115 152)", "#0c0c0c"],
+  ["ember", "ember", "warm amber, softer", "oklch(0.80 0.115 42)", "#0d0b0a"],
+  ["ice", "ice", "cool blue, low glare", "oklch(0.82 0.10 220)", "#0a0c0e"],
+  ["plum", "plum", "violet on near-black", "oklch(0.78 0.13 310)", "#0d0a0e"],
+  ["mono", "mono", "greyscale, no hue", "oklch(0.88 0 0)", "#0b0b0b"],
+  ["paper", "paper", "light, printed manual", "oklch(0.50 0.12 152)", "#f4f2ed"],
+  ["white", "white", "clean white, blue ink", "oklch(0.55 0.15 252)", "#ffffff"],
+  ["linen", "linen", "warm white, rust ink", "oklch(0.52 0.14 45)", "#faf7f2"],
+];
 
 /** Pick the phrasing for the active voice. */
 const v = (ctx: CommandContext, warm: string, terse: string) =>
@@ -473,36 +496,18 @@ function cTheme(arg: string, ctx: CommandContext): BlockSpec[] {
   return [
     {
       kind: "picker",
-      title: "THEME",
-      perRow: 3,
+      title: "THEME · 5 dark · 3 light",
+      perRow: 4,
       current: ctx.theme,
       onSelect: (v) => ctx.setTheme(v as Theme),
-      options: [
-        {
-          value: "green",
-          iconBg: "#0c0c0c",
-          label: "green",
-          hint: "phosphor on near-black",
-          icon: "████████████",
-          iconColor: "oklch(0.80 0.115 152)",
-        },
-        {
-          value: "ember",
-          iconBg: "#0d0b0a",
-          label: "ember",
-          hint: "warm amber, softer",
-          icon: "████████████",
-          iconColor: "oklch(0.80 0.115 42)",
-        },
-        {
-          value: "paper",
-          iconBg: "#f4f2ed",
-          label: "paper",
-          hint: "light, printed manual",
-          icon: "████████████",
-          iconColor: "oklch(0.50 0.12 152)",
-        },
-      ],
+      options: THEME_CARDS.map(([value, label, hint, ink, ground]) => ({
+        value,
+        label,
+        hint,
+        icon: "████████████",
+        iconColor: ink,
+        iconBg: ground,
+      })),
     },
   ];
 }

@@ -46,7 +46,7 @@ export const CMDS: ReadonlyArray<readonly [string, string]> = [
   ["/rates", "day rates and how I price work"],
   ["/contact", "email, github, linkedin"],
   ["/resume", "download a plain-text CV"],
-  ["/theme", "green · ember · paper"],
+  ["/theme", "eight palettes, five dark and three light"],
   ["/voice", "warm · terse"],
   ["/clear", "clear the transcript"],
   ["/help", "everything above"],
