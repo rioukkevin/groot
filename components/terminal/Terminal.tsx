@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { ask, llmStatus } from "@/lib/terminal/browser-llm";
 import { CLEAR, intro, matches, route } from "@/lib/terminal/commands";
 import { L } from "@/lib/terminal/format";
 import { maxWrappedLines } from "@/lib/terminal/format";
@@ -286,6 +287,48 @@ export function Terminal({
     [patch, push],
   );
 
+  /**
+   * Answers a plain question with the on-device model, when the browser has
+   * one. It calls the same tools the MCP endpoint exposes, so it answers from
+   * the CMS rather than from the model's own memory. Returns false when there
+   * is no model, and the keyword router handles it as before.
+   */
+  const askLocally = useCallback(
+    async (question: string): Promise<boolean> => {
+      if ((await llmStatus()) !== "ready") return false;
+
+      const id = push({
+        kind: "tool",
+        name: "Ask",
+        arg: "(on-device model)",
+        meta: "thinking…",
+        out: [],
+        dur: 0,
+        done: false,
+      });
+
+      const c = contentRef.current;
+      const result = await ask(question, c, c.locale, (tool) =>
+        patch(id, { meta: `${tool}…` }),
+      );
+      if (!result) {
+        patch(id, { done: true, meta: "unavailable", out: [] });
+        return false;
+      }
+
+      patch(id, {
+        done: true,
+        meta: result.calls.length
+          ? result.calls.map((x) => x.name).join(" → ")
+          : "answered",
+        out: [],
+      });
+      run([{ kind: "say", full: result.answer }]);
+      return true;
+    },
+    [patch, push, run],
+  );
+
   const submit = useCallback(
     (raw?: string) => {
       const q = (raw === undefined ? input : raw).trim();
@@ -303,6 +346,17 @@ export function Terminal({
 
       if (q.trim().toLowerCase().startsWith("/contact")) setContact(initialContact());
 
+      // A plain question goes to the on-device model first; commands and
+      // anything it cannot answer fall through to the keyword router.
+      if (!q.startsWith("/")) {
+        void askLocally(q).then((handled) => {
+          if (handled) return;
+          const out = route(q, ctxRef.current);
+          if (out !== CLEAR && out.length) run(out);
+        });
+        return;
+      }
+
       const out = route(q, ctxRef.current);
       if (out === CLEAR) {
         reset();
@@ -310,7 +364,7 @@ export function Terminal({
       }
       if (out.length) run(out);
     },
-    [busy, halt, input, push, reset, run],
+    [askLocally, busy, halt, input, push, reset, run],
   );
 
   // Intro transcript. Clearing first makes this idempotent: StrictMode's
