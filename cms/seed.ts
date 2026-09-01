@@ -12,7 +12,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { getPayload } from "payload";
 
-import type { Where } from "payload";
+import type { RequiredDataFromCollectionSlug, Where } from "payload";
 
 import config from "@payload-config";
 
@@ -70,6 +70,21 @@ interface Export {
     }[];
   };
 }
+
+/** The colour tokens the schema actually offers, as the generated types spell them. */
+type StatusColor = "var(--add)" | "var(--accent2)" | "var(--warn)" | "var(--del)" | "var(--dim)";
+type Tint = "var(--accent)" | "var(--accent2)" | "var(--warn)" | "var(--add)";
+
+const STATUS_COLORS = new Set<string>([
+  "var(--add)", "var(--accent2)", "var(--warn)", "var(--del)", "var(--dim)",
+]);
+const TINTS = new Set<string>([
+  "var(--accent)", "var(--accent2)", "var(--warn)", "var(--add)",
+]);
+
+const statusColor = (v: string): StatusColor =>
+  STATUS_COLORS.has(v) ? (v as StatusColor) : "var(--dim)";
+const tint = (v: string): Tint => (TINTS.has(v) ? (v as Tint) : "var(--accent)");
 
 /** "Problem   Orders came in…" → { label: "Problem", text: "Orders came in…" } */
 function splitDetail(line: string): { label: string; text: string } {
@@ -131,19 +146,23 @@ const seed = async () => {
   }
 
   /** Update by key, or create. Keeps re-runs from duplicating. */
-  const upsert = async (
-    collection: "projects" | "roles" | "education",
+  const upsert = async <S extends "projects" | "roles" | "education">(
+    collection: S,
     where: Where,
-    data: Record<string, unknown>,
+    data: RequiredDataFromCollectionSlug<S>,
   ) => {
     const found = await payload.find({ collection, where, limit: 1, locale });
     if (found.docs.length) {
+      // update() is overloaded on `draft`, and TypeScript cannot relate the
+      // generic slug across both branches — the data is the create shape,
+      // which is a superset of the partial update takes. One cast, here, so
+      // the call sites stay checked.
       await payload.update({
         collection,
         id: found.docs[0].id,
         data,
         locale,
-      });
+      } as Parameters<typeof payload.update>[0]);
       return "updated";
     }
     await payload.create({ collection, data, locale });
@@ -164,7 +183,7 @@ const seed = async () => {
         stack: p.stack,
         year: p.year,
         status: p.status,
-        statusColor: p.statusColor,
+        statusColor: statusColor(p.statusColor),
         detail: p.detail.map((text) => ({ text })),
         links: p.links.map((label) => ({ label })),
         images: p.images.map((path) => ({ path })),
@@ -201,6 +220,9 @@ const seed = async () => {
   }
   console.log(`· education ${data.education.length}`);
 
+  const sign = (v: string): " " | "+" | "-" =>
+    v === "+" || v === "-" ? v : " ";
+
   // ── site content ───────────────────────────────────────────────────────
   await payload.updateGlobal({
     slug: "site-content",
@@ -212,15 +234,19 @@ const seed = async () => {
       about:
         "Fullstack web and mobile developer, freelance, based in Paris. Runs Nareli, in partnership with @StartAndBrand.",
       headline: data.nowHeadline,
-      nowRows: data.now.map((r) => ({ num: r.num, sign: r.sign, text: r.text })),
+      nowRows: data.now.map((r) => ({
+        num: r.num,
+        sign: sign(r.sign),
+        text: r.text,
+      })),
       softSkills: data.softSkills.map(([group, items]) => ({
         group,
-        tint: "var(--accent)",
+        tint: "var(--accent)" as Tint,
         items: items.map((label) => ({ label })),
       })),
-      stack: data.stack.map(([group, tint, items]) => ({
+      stack: data.stack.map(([group, t, items]) => ({
         group,
-        tint,
+        tint: tint(t),
         items: items.map((label) => ({ label })),
       })),
       rates: pairs(data.rates),
@@ -352,7 +378,7 @@ const seed = async () => {
   // prose is translated, positionally.
   const frNow = data.now.map((r, i) => ({
     num: r.num,
-    sign: r.sign,
+    sign: sign(r.sign),
     text: FR_SITE.nowRows[i] ?? r.text,
   }));
 
@@ -367,12 +393,12 @@ const seed = async () => {
       nowRows: frNow,
       softSkills: FR_SITE.softSkills.map(([group, items], i) => ({
         group,
-        tint: ["var(--accent)", "var(--accent2)", "var(--warn)"][i % 3],
+        tint: tint(["var(--accent)", "var(--accent2)", "var(--warn)"][i % 3]),
         items: items.map((label) => ({ label })),
       })),
       stack: FR_SITE.stackGroups.map(([group, items], i) => ({
         group,
-        tint: data.stack[i]?.[1] ?? "var(--accent)",
+        tint: tint(data.stack[i]?.[1] ?? "var(--accent)"),
         items: items.map((label) => ({ label })),
       })),
       rates: FR_SITE.rates.map(([label, value]) => ({ label, value })),

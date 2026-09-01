@@ -12,8 +12,7 @@ import {
   initialContact,
   isReview,
 } from "@/lib/terminal/contact";
-import { NOW_HEADLINE, RESUME_TXT } from "@/lib/terminal/content";
-import { dict } from "@/lib/terminal/dictionary";
+
 import {
   LOCALE_COOKIE,
   LOCALE_LABEL,
@@ -50,6 +49,7 @@ import { ScrollView } from "./ui/ScrollView";
 
 import type { CommandContext } from "@/lib/terminal/commands";
 import type { ContactState } from "@/lib/terminal/contact";
+import type { ShellContent } from "@/lib/terminal/cms";
 import type { Locale } from "@/lib/terminal/locale";
 import type { Theme, Voice } from "@/lib/terminal/types";
 import type { KeyboardEvent } from "react";
@@ -58,18 +58,28 @@ const STREAM_SPEED = 12;
 const PHOTO_GAP = 3;
 /** Distance from the bottom that still counts as "following the output". */
 const STICK_PX = 48;
+/**
+ * Below this, a request is not worth a line in the transcript. Above it, the
+ * wait is visible to a person, so the shell says what it is waiting on.
+ */
+const SLOW_MS = 35;
 
-function downloadResume() {
+function downloadResume(text: string) {
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([RESUME_TXT], { type: "text/plain" }));
+  a.href = URL.createObjectURL(new Blob([text], { type: "text/plain" }));
   a.download = "kevin-riou.txt";
   a.click();
   URL.revokeObjectURL(a.href);
 }
 
-export function Terminal({ locale }: { locale: Locale }) {
+export function Terminal({
+  locale,
+  content,
+}: {
+  locale: Locale;
+  content: ShellContent;
+}) {
   const router = useRouter();
-  const t = useMemo(() => dict(locale), [locale]);
   const next = otherLocale(locale);
 
   /** Writes the choice down, then moves to the other locale's path. */
@@ -79,7 +89,7 @@ export function Terminal({ locale }: { locale: Locale }) {
   }, [next, router]);
 
   const engine = useEngine(STREAM_SPEED);
-  const { blocks, busy, run, push, halt, reset, lastInteractiveId } = engine;
+  const { blocks, busy, run, push, patch, halt, reset, lastInteractiveId } = engine;
 
   const [input, setInput] = useState("");
   const [caretPos, setCaretPos] = useState(0);
@@ -125,14 +135,15 @@ export function Terminal({ locale }: { locale: Locale }) {
 
   const ctx = useMemo<CommandContext>(
     () => ({
+      content,
       theme,
       voice,
       photoGap: PHOTO_GAP,
-      download: downloadResume,
+      download: () => downloadResume(content.resume),
       setTheme,
       setVoice,
     }),
-    [theme, voice],
+    [content, theme, voice],
   );
   const ctxRef = useRef(ctx);
   useEffect(() => {
@@ -197,6 +208,49 @@ export function Terminal({ locale }: { locale: Locale }) {
     [lastInteractiveId],
   );
 
+  /**
+   * Runs an async job and, only if it is still going after SLOW_MS, shows it in
+   * the transcript the way a tool call appears — a spinner while it runs, then
+   * the outcome and how long it took. Anything faster finishes without leaving
+   * a trace, so the log stays quiet for work that was never worth mentioning.
+   */
+  const track = useCallback(
+    async <T,>(name: string, arg: string, job: () => Promise<T>): Promise<T> => {
+      const started = performance.now();
+      let id: number | null = null;
+      const timer = setTimeout(() => {
+        id = push({
+          kind: "tool",
+          name,
+          arg,
+          meta: "running…",
+          out: [],
+          dur: 0,
+          done: false,
+        });
+      }, SLOW_MS);
+
+      const finish = (meta: string, colour: string) => {
+        clearTimeout(timer);
+        const ms = Math.round(performance.now() - started);
+        if (id !== null) {
+          patch(id, { done: true, meta: `${meta} · ${ms}ms`, out: [] });
+        }
+        return colour;
+      };
+
+      try {
+        const result = await job();
+        finish("done", "");
+        return result;
+      } catch (err) {
+        finish("failed", "");
+        throw err;
+      }
+    },
+    [patch, push],
+  );
+
   const submit = useCallback(
     (raw?: string) => {
       const q = (raw === undefined ? input : raw).trim();
@@ -250,7 +304,7 @@ export function Terminal({ locale }: { locale: Locale }) {
       el.scrollHeight - el.scrollTop - el.clientHeight <= STICK_PX;
   }, []);
 
-  const palAll = matches(input);
+  const palAll = matches(input, content.commands);
 
   /** The claimed block, else the newest one, unless esc has released it. */
   const active = useMemo(() => {
@@ -320,11 +374,13 @@ export function Terminal({ locale }: { locale: Locale }) {
   const send = useCallback(() => {
     setContact((c) => (c.status === "sending" ? c : { ...c, status: "sending", error: null }));
     const body = { ...contactRef.current.answers, website: "" };
-    fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    })
+    track("Send", "(api/contact)", () =>
+      fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      }),
+    )
       .then(async (r) => {
         const data: unknown = await r.json().catch(() => ({}));
         const err =
@@ -341,11 +397,11 @@ export function Terminal({ locale }: { locale: Locale }) {
           error: e instanceof Error ? e.message : "could not send",
         }));
       });
-  }, []);
+  }, [track]);
 
   const onKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
-      const mm = matches(input);
+      const mm = matches(input, content.commands);
       const k = e.key;
       const sel = input ? null : activeSelect;
       const act = input ? null : active;
@@ -562,10 +618,10 @@ export function Terminal({ locale }: { locale: Locale }) {
       goBack,
       send,
       halt,
+      content,
       hist,
       histIdx,
       switchLocale,
-      t,
       input,
       moveSel,
       moveSel2,
@@ -602,7 +658,7 @@ export function Terminal({ locale }: { locale: Locale }) {
         className="flex-1 overflow-y-auto overflow-x-hidden px-4 pb-1"
         onScroll={onScroll}
       >
-        <Header mood={mood} t={t} />
+        <Header mood={mood} content={content} />
 
         {blocks.map((b) => (
           <div key={b.id}>
@@ -742,7 +798,7 @@ export function Terminal({ locale }: { locale: Locale }) {
           </span>
           <span style={{ color: "var(--fg)" }}>{engine.busyLabel}</span>
           <span style={{ color: "var(--faint)" }}>
-            {`(${engine.elapsed.toFixed(1)}s · ↑ ${kTokens}k ${t("tokens")} · ${t("interrupt")})`}
+            {`(${engine.elapsed.toFixed(1)}s · ↑ ${kTokens}k tokens · esc to interrupt)`}
           </span>
         </div>
       )}
@@ -766,7 +822,7 @@ export function Terminal({ locale }: { locale: Locale }) {
             ? ""
             : contactPrompt
               ? contactPrompt
-              : t("promptPlaceholder")
+              : content.ui.promptPlaceholder
         }
         caretPos={caretPos}
         onChange={(v, caret) => {
@@ -776,16 +832,16 @@ export function Terminal({ locale }: { locale: Locale }) {
         }}
         onCaret={setCaretPos}
         onKeyDown={onKeyDown}
-        headline={NOW_HEADLINE}
+        headline={content.nowHeadline}
         onHeadline={() => submit("/now")}
       />
 
       <StatusBar
-        usageLabel={`${t("usage")} $${(engine.tokens * 0.000012).toFixed(4)}`}
-        ctxLabel={`${t("context")} ${Math.min(99, Math.round(engine.tokens / 240))}% · ${kTokens}k ${t("tokens")}`}
+        usageLabel={`Est. usage: $${(engine.tokens * 0.000012).toFixed(4)}`}
+        ctxLabel={`context ${Math.min(99, Math.round(engine.tokens / 240))}% · ${kTokens}k tokens`}
         modeLabel={LOCALE_LABEL[locale]}
         modeColor="var(--accent)"
-        modeHint={t("langHint")}
+        modeHint={content.ui.modeHint}
         onMode={switchLocale}
         onHelp={() => submit("/help")}
       />

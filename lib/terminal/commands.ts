@@ -1,21 +1,13 @@
 import { diff, lines, say, select, think, tool } from "./blocks";
-import {
-  CMDS,
-  CONTACT_ROWS,
-  EDUCATION,
-  EXP,
-  NOW_ROWS,
-  PROJECTS,
-  RATES_ROWS,
-  SOFT_SKILLS,
-  STACK_GROUPS,
-} from "./content";
 import { L, box, pad } from "./format";
 
+import type { ShellContent } from "./cms";
 import type { BlockSpec, Line, SelectItem, Theme, Voice } from "./types";
 
 /** Everything the command layer needs from the shell, so routing stays pure. */
 export interface CommandContext {
+  /** Everything the shell says, for the active locale, straight from the CMS. */
+  content: ShellContent;
   theme: Theme;
   voice: Voice;
   photoGap: number;
@@ -68,14 +60,14 @@ function cHelp(ctx: CommandContext): BlockSpec[] {
       ),
     ),
     lines(
-      CMDS.map((c) => L("  " + c[1], "var(--dim)", pad(c[0], 15), "var(--accent)")),
+      ctx.content.commands.map((c) => L("  " + c[1], "var(--dim)", pad(c[0], 15), "var(--accent)")),
     ),
   ];
 }
 
 function cProjects(ctx: CommandContext): BlockSpec[] {
-  const items: SelectItem[] = Object.keys(PROJECTS).map((k) => {
-    const p = PROJECTS[k];
+  const items: SelectItem[] = Object.keys(ctx.content.projects).map((k) => {
+    const p = ctx.content.projects[k];
     return {
       key: k,
       cmd: "/project " + k,
@@ -89,8 +81,8 @@ function cProjects(ctx: CommandContext): BlockSpec[] {
     tool(
       "Read",
       "(work/projects.json)",
-      Object.keys(PROJECTS).length + " records · 312 tokens",
-      [L(Object.keys(PROJECTS).join(", "), "var(--faint)")],
+      Object.keys(ctx.content.projects).length + " records · 312 tokens",
+      [L(Object.keys(ctx.content.projects).join(", "), "var(--faint)")],
       600,
     ),
     say(
@@ -111,12 +103,12 @@ function cProjects(ctx: CommandContext): BlockSpec[] {
   ];
 }
 
-function cProject(name: string): BlockSpec[] {
-  const keys = Object.keys(PROJECTS);
+function cProject(name: string, ctx: CommandContext): BlockSpec[] {
+  const keys = Object.keys(ctx.content.projects);
   const key = keys.filter((k) => k.indexOf((name || "").toLowerCase()) === 0)[0];
   if (!key)
     return [say("No project by that name. Known: " + keys.join(", ") + ".")];
-  const p = PROJECTS[key];
+  const p = ctx.content.projects[key];
 
   const meta: Line[] = [
     L(p.what, "var(--fg)"),
@@ -143,7 +135,7 @@ function cProject(name: string): BlockSpec[] {
       rows: 14,
       meta,
       paragraphs: [...p.detail],
-      slides: p.images.map((src, i) => ({
+      slides: p.images.map((src: string, i: number) => ({
         key: src,
         label: i === 0 ? "thumbnail" : "screen " + i,
         kind: "shot" as const,
@@ -162,8 +154,8 @@ function cProject(name: string): BlockSpec[] {
   ];
 }
 
-function cExperience(): BlockSpec[] {
-  const items: SelectItem[] = EXP.map((e) => ({
+function cExperience(ctx: CommandContext): BlockSpec[] {
+  const items: SelectItem[] = ctx.content.roles.map((e) => ({
     key: e.key,
     cmd: "/role " + e.key,
     k: pad(e.when, 14),
@@ -172,7 +164,7 @@ function cExperience(): BlockSpec[] {
     color: "var(--fg)",
   }));
   return [
-    tool("Read", "(cv/experience.md)", EXP.length + " entries · 208 tokens", [], 480),
+    tool("Read", "(cv/experience.md)", ctx.content.roles.length + " entries · 208 tokens", [], 480),
     select(
       "role",
       pad("WHEN", 14) + pad("ROLE", 34) + "WHERE",
@@ -183,13 +175,13 @@ function cExperience(): BlockSpec[] {
   ];
 }
 
-function cRole(key: string): BlockSpec[] {
-  const e = EXP.filter((x) => x.key.indexOf((key || "").toLowerCase()) === 0)[0];
+function cRole(key: string, ctx: CommandContext): BlockSpec[] {
+  const e = ctx.content.roles.filter((x) => x.key.indexOf((key || "").toLowerCase()) === 0)[0];
   if (!e)
     return [
       say(
         "No role by that name. Known: " +
-          EXP.map((x) => x.key).join(", ") +
+          ctx.content.roles.map((x) => x.key).join(", ") +
           ".",
       ),
     ];
@@ -246,7 +238,7 @@ function cSkills(ctx: CommandContext): BlockSpec[] {
     ),
     {
       kind: "chips",
-      groups: SOFT_SKILLS.map(
+      groups: ctx.content.softSkills.map(
         (g, i) =>
           [g[0], [...g[1]], ["var(--accent)", "var(--accent2)", "var(--warn)"][i % 3]] as [
             string,
@@ -273,18 +265,18 @@ function cStack(ctx: CommandContext): BlockSpec[] {
     ),
     {
       kind: "chips",
-      groups: STACK_GROUPS.map(
+      groups: ctx.content.stack.map(
         (g) => [g[0], [...g[2]], g[1]] as [string, string[], string?],
       ),
     },
   ];
 }
 
-function cEducation(): BlockSpec[] {
+function cEducation(ctx: CommandContext): BlockSpec[] {
   return [
     tool("Read", "(cv/education.md)", "3 entries", [], 380),
     lines(
-      EDUCATION.flatMap((e) => [
+      ctx.content.education.flatMap((e) => [
         L(e.what, "var(--fg)", pad(e.when, 14), "var(--accent)"),
         L(pad("", 14) + e.where, "var(--dim)"),
       ]),
@@ -297,7 +289,7 @@ function cNow(ctx: CommandContext): BlockSpec[] {
     diff(
       "work/status.md",
       "Added 9 lines, removed 4 lines",
-      NOW_ROWS,
+      ctx.content.nowRows,
       "Ran 1 shell command · git log --since=1.month",
     ),
     say(
@@ -313,7 +305,7 @@ function cNow(ctx: CommandContext): BlockSpec[] {
 
 function cRates(ctx: CommandContext): BlockSpec[] {
   return [
-    lines(box(RATES_ROWS, 62)),
+    lines(box(ctx.content.rates.map(([l, v]) => pad(l, 14) + v), 62)),
     say(
       v(
         ctx,
@@ -410,8 +402,8 @@ function cComponents(ctx: CommandContext): BlockSpec[] {
     L("scroll view", "var(--fg)", "", ""),
     L("a fixed window over a long run of lines.", "var(--dim)"),
     L(""),
-    ...Object.keys(PROJECTS).flatMap((k) => {
-      const pr = PROJECTS[k];
+    ...Object.keys(ctx.content.projects).flatMap((k) => {
+      const pr = ctx.content.projects[k];
       return [
         L(pr.what, "var(--fg)", pad(k, 17), "var(--accent)"),
         L(pad("", 17) + pr.stack + "  ·  " + pr.year, "var(--dim)"),
@@ -454,10 +446,10 @@ function cComponents(ctx: CommandContext): BlockSpec[] {
             266,
           ),
         },
-        ...Object.keys(PROJECTS)
+        ...Object.keys(ctx.content.projects)
           .slice(0, 3)
           .map((k) => {
-            const pr = PROJECTS[k];
+            const pr = ctx.content.projects[k];
             return {
               key: k,
               label: "project slide",
@@ -500,7 +492,16 @@ function cComponents(ctx: CommandContext): BlockSpec[] {
 
 function cContact(ctx: CommandContext): BlockSpec[] {
   return [
-    lines(box(CONTACT_ROWS, 62)),
+    lines(
+      box(
+        [
+          ...ctx.content.contact.map(([l, v]) => pad(l, 12) + v),
+          "",
+          ctx.content.contactFooter,
+        ],
+        62,
+      ),
+    ),
     say(
       v(
         ctx,
@@ -578,11 +579,11 @@ function freeform(q: string, ctx: CommandContext): BlockSpec[] {
     return pre.concat(cRates(ctx));
   if (has("nareli") || has("ooof") || has("technis") || has("alpha8") || has("pasquier") || has("triskalia")) {
     const k = ["nareli", "technis", "alpha8", "pasquier", "triskalia"].filter((n) => has(n))[0];
-    return pre.concat(cRole(k === undefined ? "nareli" : k));
+    return pre.concat(cRole(k === undefined ? "nareli" : k, ctx));
   }
   if (has("portfolio") || has("vscode") || has("twitch") || has("chariteam") || has("counter") || has("betting")) {
-    const k = Object.keys(PROJECTS).filter((n) => has(n.split("-")[0]))[0];
-    return pre.concat(cProject(k));
+    const k = Object.keys(ctx.content.projects).filter((n) => has(n.split("-")[0]))[0];
+    return pre.concat(cProject(k, ctx));
   }
   if (has("react") || has("next") || has("node") || has("stack") || has("postgres") || has("typescript") || has("tech") || has(" ai"))
     return pre.concat(cStack(ctx));
@@ -591,9 +592,9 @@ function freeform(q: string, ctx: CommandContext): BlockSpec[] {
   if (has("ship") || has("project") || has("work") || has("built"))
     return pre.concat(cProjects(ctx));
   if (has("experience") || has("worked") || has("job") || has("year"))
-    return pre.concat(cExperience());
+    return pre.concat(cExperience(ctx));
   if (has("stud") || has("school") || has("degree") || has("diplom") || has("education"))
-    return pre.concat(cEducation());
+    return pre.concat(cEducation(ctx));
   if (has("who") || has("about") || has("yourself")) return pre.concat(cAbout(ctx));
   if (has("contact") || has("email") || has("reach") || has("call"))
     return pre.concat(cContact(ctx));
@@ -635,10 +636,10 @@ export function route(
     const map: Record<string, () => BlockSpec[]> = {
       help: () => cHelp(ctx),
       projects: () => cProjects(ctx),
-      project: () => cProject(arg),
-      roles: () => cExperience(),
-      education: () => cEducation(),
-      role: () => cRole(arg),
+      project: () => cProject(arg, ctx),
+      roles: () => cExperience(ctx),
+      education: () => cEducation(ctx),
+      role: () => cRole(arg, ctx),
       about: () => cAbout(ctx),
       skills: () => cSkills(ctx),
       email: () => cEmail(),
@@ -682,9 +683,12 @@ export function intro(ctx: CommandContext): BlockSpec[] {
   ];
 }
 
-/** Command-palette matches for the current input. */
-export function matches(vInput: string): ReadonlyArray<readonly [string, string]> {
+/** Command-palette matches for the current input, from the CMS command list. */
+export function matches(
+  vInput: string,
+  commands: ReadonlyArray<readonly [string, string]>,
+): ReadonlyArray<readonly [string, string]> {
   if (!vInput || vInput[0] !== "/" || vInput.indexOf(" ") >= 0) return [];
   const t = vInput.slice(1).toLowerCase();
-  return CMDS.filter((c) => c[0].slice(1).indexOf(t) === 0);
+  return commands.filter((c) => c[0].slice(1).indexOf(t) === 0);
 }

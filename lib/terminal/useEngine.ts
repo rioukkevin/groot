@@ -20,6 +20,8 @@ export interface Engine {
   lastInteractiveId: number;
   run: (items: BlockSpec[]) => void;
   push: (spec: BlockSpec) => number;
+  /** Amends an already-pushed block, e.g. to resolve a running request. */
+  patch: (id: number, fields: Partial<Block>) => void;
   halt: (note?: string) => void;
   reset: () => void;
 }
@@ -189,6 +191,7 @@ export function useEngine(streamSpeed: number): Engine {
     spin,
     lastInteractiveId,
     run,
+    patch,
     push,
     halt,
     reset,

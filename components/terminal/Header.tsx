@@ -1,6 +1,6 @@
 import { Buddy } from "./Buddy";
 
-import type { UiKey } from "@/lib/terminal/dictionary";
+import type { ShellContent } from "@/lib/terminal/cms";
 
 import type { BuddyMood } from "./Buddy";
 
@@ -20,10 +20,10 @@ const MOOD_NOTE: Record<BuddyMood, string> = {
  */
 export function Header({
   mood,
-  t,
+  content,
 }: {
   mood: BuddyMood;
-  t: (key: UiKey) => string;
+  content: ShellContent;
 }) {
   return (
     <>
@@ -42,7 +42,7 @@ export function Header({
               <span style={{ color: "var(--faint)" }}>{MOOD_NOTE[mood]}</span>
             </div>
             <div style={{ color: "var(--dim)" }}>
-              {t("tagline")}
+              {`portfolio shell · ${content.name} · ${content.tagline}`}
             </div>
             <div style={{ color: "var(--dim)" }}>~/work/kevin-riou</div>
           </div>
@@ -56,8 +56,8 @@ export function Header({
         className="mb-3 mt-2 whitespace-pre-wrap"
         style={{ color: "var(--warn)" }}
       >
-        {"▲ " + t("banner")}{" "}
-        <span style={{ color: "var(--dim)" }}>{t("bannerRun")}</span>
+        {"▲ " + content.ui.banner}{" "}
+        <span style={{ color: "var(--dim)" }}>{"· /now"}</span>
       </div>
     </>
   );

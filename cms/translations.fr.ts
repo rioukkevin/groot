@@ -132,7 +132,7 @@ export const FR_ROLES: Record<
   { when: string; what: string; where: string; detail: [string, string][] }
 > = {
   nareli: {
-    when: "2024 — aujourd'hui",
+    when: "2024 — auj.",
     what: "CEO · Nareli",
     where: "Paris / à distance",
     detail: [

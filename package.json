@@ -9,7 +9,7 @@
     "lint": "eslint",
     "db:up": "docker compose up -d postgres",
     "db:down": "docker compose down",
-    "cms:types": "bun run --env-file=.env.local node_modules/payload/dist/bin/index.js generate:types",
+    "cms:types": "bun run --env-file=.env.local cms/gen-types.ts",
     "cms:seed": "bun run --env-file=.env.local cms/seed.ts",
     "content:export": "bun run cms/export-content.ts"
   },
@@ -26,6 +26,7 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "resend": "^6.25.0",
+    "server-only": "^0.0.1",
     "sharp": "^0.35.4"
   },
   "devDependencies": {

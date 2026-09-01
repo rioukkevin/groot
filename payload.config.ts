@@ -4,6 +4,8 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import path from "path";
 import { buildConfig } from "payload";
+
+import type { Config } from "./cms/payload-types";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
 
@@ -16,6 +18,15 @@ import { SiteContent } from "./cms/globals/SiteContent";
 import { UiText } from "./cms/globals/UiText";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
+
+/**
+ * Types the local API against the generated types, so `payload.find` returns
+ * real documents rather than `unknown` rows.
+ */
+declare module "payload" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  export interface GeneratedTypes extends Config {}
+}
 
 /**
  * Blob storage only exists on Vercel. Locally the Media collection falls back
