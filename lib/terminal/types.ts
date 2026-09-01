@@ -87,6 +87,7 @@ export type BlockSpec =
   | { kind: "demo"; panel: "primitives" }
   | { kind: "contact" }
   | { kind: "chips"; groups: [string, string[]][] }
+  | { kind: "voice"; current: Voice; onSelect: (v: Voice) => void }
   | {
       kind: "picker";
       title: string;
@@ -120,6 +121,7 @@ export const INTERACTIVE_KINDS = [
   "contact",
   "project",
   "picker",
+  "voice",
 ] as const;
 
 export type InteractiveBlock = Extract<
@@ -142,7 +144,7 @@ export type Theme =
   | "paper"
   | "white"
   | "linen";
-export type Voice = "warm" | "terse";
+export type Voice = "warm" | "brief" | "terse";
 
 /** [label, colour] pairs cycled with shift+tab. */
 export const MODES: ReadonlyArray<readonly [string, string]> = [

@@ -36,6 +36,7 @@ import { Carousel } from "./ui/Carousel";
 import { ContactForm } from "./ui/ContactForm";
 import { Picker } from "./ui/Picker";
 import { ProjectView } from "./ui/ProjectView";
+import { TONES, VoicePicker } from "./ui/VoicePicker";
 import { ScrollView } from "./ui/ScrollView";
 
 import type { CommandContext } from "@/lib/terminal/commands";
@@ -380,6 +381,22 @@ export function Terminal() {
         }
       }
 
+      // The voice list is vertical, so it takes only ↑↓.
+      if (act?.kind === "voice") {
+        if (k === "Enter") {
+          e.preventDefault();
+          const tone = TONES[Math.min(selIdx, TONES.length - 1)];
+          if (tone) act.onSelect(tone.value);
+          return;
+        }
+        if (k === "ArrowUp" || k === "ArrowDown") {
+          e.preventDefault();
+          const d = k === "ArrowUp" ? -1 : 1;
+          moveSel((selIdx + d + TONES.length) % TONES.length);
+          return;
+        }
+      }
+
       // A picker applies the moment you confirm, and takes both axes.
       if (act?.kind === "picker") {
         if (k === "Enter") {
@@ -569,6 +586,18 @@ export function Terminal() {
             )}
             {b.kind === "demo" && <DemoBlock />}
             {b.kind === "chips" && <ChipsBlock groups={b.groups} />}
+            {b.kind === "voice" && (
+              <VoicePicker
+                current={b.current}
+                index={b.id === activeId ? selIdx : 0}
+                live={b.id === activeId}
+                onPick={(n) => {
+                  moveSel(n);
+                  b.onSelect(TONES[n].value);
+                }}
+                onClaim={() => b.id !== activeId && claim(b.id)}
+              />
+            )}
             {b.kind === "picker" && (
               <Picker
                 title={b.title}

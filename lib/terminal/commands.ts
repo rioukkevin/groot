@@ -49,9 +49,13 @@ const THEME_CARDS: ReadonlyArray<
   ["linen", "linen", "warm white, rust ink", "oklch(0.52 0.14 45)", "#faf7f2"],
 ];
 
-/** Pick the phrasing for the active voice. */
-const v = (ctx: CommandContext, warm: string, terse: string) =>
-  ctx.voice === "terse" ? terse : warm;
+/** Pick the phrasing for the active voice: three registers, long to short. */
+const v = (
+  ctx: CommandContext,
+  warm: string,
+  brief: string,
+  terse: string,
+) => (ctx.voice === "terse" ? terse : ctx.voice === "brief" ? brief : warm);
 
 function cHelp(ctx: CommandContext): BlockSpec[] {
   return [
@@ -59,6 +63,7 @@ function cHelp(ctx: CommandContext): BlockSpec[] {
       v(
         ctx,
         'Everything I can pull up is below. Plain questions work too — try "are you free in November?" or "what do you charge?".',
+        "Everything I can pull up is below. Plain questions route too — try \"are you free in September?\".",
         "Commands below. Plain questions also route.",
       ),
     ),
@@ -91,8 +96,9 @@ function cProjects(ctx: CommandContext): BlockSpec[] {
     say(
       v(
         ctx,
-        "Side projects, mostly. The client work lives under /experience — this is what gets built when nobody is asking.",
-        "Side projects. Client work is under /experience.",
+        "Side projects, mostly. The client work lives under /roles — this is what gets built when nobody is asking.",
+        "Side projects. The client work is under /roles — this is what gets built when nobody is asking.",
+        "Side projects. Client work is under /roles.",
       ),
     ),
     select(
@@ -210,6 +216,7 @@ function cAbout(ctx: CommandContext): BlockSpec[] {
       v(
         ctx,
         "I'm Kévin — fullstack web and mobile developer, freelance, based in Paris.\n\nI run Nareli, in partnership with @StartAndBrand, and before that traded as ooof.dev. Nine years in, across a cooperative, a food manufacturer, a SaaS and a Swiss sensor company, the pattern is the same: small teams that need one person to own the architecture, the interface, the deploy, and the phone call when it breaks.\n\nI've led teams and projects end to end, and I still prefer writing the thing. Off the clock: side projects since 2016 — bots, tools, and nine versions of this portfolio.",
+        "Kévin — fullstack web and mobile developer, freelance, in Paris.\n\nI run Nareli, in partnership with @StartAndBrand, and traded as ooof.dev before that. Nine years across a cooperative, a manufacturer, a SaaS and a sensor company: small teams that need one person to own the whole thing.",
         "Kévin Riou. Fullstack web and mobile, freelance, Paris.\nNareli, ex ooof.dev. Nine years, whole stack.\nArchitecture to support call.",
       ),
     ),
@@ -234,6 +241,7 @@ function cSkills(ctx: CommandContext): BlockSpec[] {
       v(
         ctx,
         "The part of the job that isn't typing. Nine years across a cooperative, a manufacturer, a SaaS and a sensor company taught me more about people than about frameworks.",
+        "The part of the job that isn't typing. Nine years taught me more about people than about frameworks.",
         "Soft skills. The part that isn't typing.",
       ),
     ),
@@ -270,6 +278,7 @@ function cNow(ctx: CommandContext): BlockSpec[] {
       v(
         ctx,
         "Short version: I'm free from mid-September, and the work right now is Nareli — fullstack and mobile builds for small teams.",
+        "Free from mid-September. The work right now is Nareli — fullstack and mobile builds for small teams.",
         "Free from mid-September. Current work: Nareli client builds.",
       ),
     ),
@@ -283,6 +292,7 @@ function cRates(ctx: CommandContext): BlockSpec[] {
       v(
         ctx,
         "Three rates because they are three different jobs. I'd rather quote fixed price where the scope is clear — it means we both thought about it before starting.",
+        "Three rates because they are three different jobs. Fixed price where the scope is clear enough to be honest.",
         "Three rates, three jobs. Fixed price where scope allows.",
       ),
     ),
@@ -308,6 +318,7 @@ function cPhotos(ctx: CommandContext): BlockSpec[] {
       v(
         ctx,
         "Each block is one terminal cursor, same size as the one blinking below the prompt. Colours come straight off the image. Hover and the blocks dissolve into the photograph.",
+        "One cursor-sized block per cell, colours straight off the image. Hover and the blocks dissolve into the photograph.",
         "One cursor-sized block per cell, original colours. Hover shows the photo.",
       ),
     ),
@@ -390,6 +401,7 @@ function cComponents(ctx: CommandContext): BlockSpec[] {
       v(
         ctx,
         "Seven components, all built on the character grid. Each one below is live — the scroll view and the carousel take the arrow keys the same way the lists do, and esc hands them back.",
+        "Seven components, all on the character grid and all live. Arrows drive them, esc hands them back.",
         "Seven components. Arrow keys drive them; esc releases.",
       ),
     ),
@@ -453,6 +465,7 @@ function cComponents(ctx: CommandContext): BlockSpec[] {
       v(
         ctx,
         "The images above and in /photos open full screen on click — the spotlight morphs the photo out of its slot, drops the shader so you see the original, and lets you zoom and pan.",
+        "Images open full screen on click — the shader drops away, so you get the original, with zoom and pan.",
         "Click any image: spotlight, original resolution, zoom and pan.",
       ),
     ),
@@ -466,6 +479,7 @@ function cContact(ctx: CommandContext): BlockSpec[] {
       v(
         ctx,
         "Email works if you'd rather. Otherwise answer the four questions below and it lands in my inbox — arrows to choose, ↵ to confirm.",
+        "Email works if you'd rather. Otherwise answer the four below — arrows to choose, ↵ to confirm.",
         "Email, or answer below. ↑↓ choose, ↵ confirm.",
       ),
     ),
@@ -513,41 +527,16 @@ function cTheme(arg: string, ctx: CommandContext): BlockSpec[] {
 }
 
 function cVoice(arg: string, ctx: CommandContext): BlockSpec[] {
-  if (arg === "warm" || arg === "terse") {
-    ctx.setVoice(arg);
-    return [
-      say(
-        arg === "terse"
-          ? "Voice: terse. Fewer words from here."
-          : "Voice: warm. Back to full sentences.",
-      ),
-    ];
+  const VOICES: readonly Voice[] = ["warm", "brief", "terse"];
+  if (VOICES.includes(arg as Voice)) {
+    ctx.setVoice(arg as Voice);
+    return [say("Voice: " + arg + ".")];
   }
   return [
     {
-      kind: "picker",
-      title: "VOICE · the shape of the answer",
-      perRow: 2,
+      kind: "voice",
       current: ctx.voice,
-      onSelect: (v) => ctx.setVoice(v as Voice),
-      options: [
-        {
-          value: "warm",
-          label: "warm",
-          hint: "warm, in full sentences",
-          // Rolling amplitude: long phrases, few stops.
-          icon: "▂▃▅▆▇█▇▆▅▄▃▂▃▅▆▇▆▅▃▂▁▂▃▄",
-          iconColor: "var(--accent)",
-        },
-        {
-          value: "terse",
-          label: "terse",
-          hint: "clipped, sysadmin energy",
-          // Clipped and gappy: short bursts, hard stops.
-          icon: "█▁▁█▁█▁▁▁█▁▁█▁▁█▁▁▁█▁▁█▁",
-          iconColor: "var(--accent2)",
-        },
-      ],
+      onSelect: (v) => ctx.setVoice(v),
     },
   ];
 }
@@ -590,6 +579,7 @@ function freeform(q: string, ctx: CommandContext): BlockSpec[] {
       v(
         ctx,
         "No canned answer for that one — email me and you'll get a real one. Meanwhile, here's what I do have:",
+        "No canned answer for that one — email me and you'll get a real one. Meanwhile:",
         "No match. Available:",
       ),
     ),
@@ -651,7 +641,8 @@ export function intro(ctx: CommandContext): BlockSpec[] {
     say(
       v(
         ctx,
-        "Hey — I'm Kévin. This is my portfolio, but it runs like a shell, so you drive it.\n\nType a command or just ask a question in plain words. /experience is the usual first stop; /now tells you whether I'm free.",
+        "Hey — I'm Kévin. This is my portfolio, but it runs like a shell, so you drive it.\n\nType a command or just ask a question in plain words. /roles is the usual first stop; /now tells you whether I'm free.",
+        "Hey — I'm Kévin. A portfolio that runs like a shell, so you drive it.\n\nType a command or ask a question in plain words. /roles is the usual first stop; /now says whether I'm free.",
         "Kévin Riou. Fullstack web and mobile developer, freelance.\nType a command or a question. /help lists everything.",
       ),
     ),
