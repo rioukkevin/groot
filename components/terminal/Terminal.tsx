@@ -318,20 +318,49 @@ export function Terminal() {
         if (k === "Enter") {
           e.preventDefault();
           if (isReview(contact)) send();
-          else if (step?.kind === "choice") advance(step.options[contact.choice]);
+          else if (step?.kind === "choice")
+            advance(step.options[contact.choice].value);
           else advance(input);
           return;
         }
-        if (k === "ArrowLeft" && !input) {
+        // Backspace is the wizard's back key everywhere: on a card step ← is
+        // spent moving between cards, so it cannot also mean "previous step".
+        if (k === "Backspace" && !input) {
           e.preventDefault();
           goBack();
           return;
         }
-        if ((k === "ArrowUp" || k === "ArrowDown") && step?.kind === "choice") {
-          e.preventDefault();
-          const d = k === "ArrowUp" ? -1 : 1;
+        // The cards are a grid, so ←→ step one card and ↑↓ step a whole row.
+        // Both wrap, and ↑↓ clamps to the last card rather than falling off a
+        // short final row.
+        if (step?.kind === "choice") {
           const n = step.options.length;
-          setContact((c) => ({ ...c, choice: (c.choice + d + n) % n }));
+          const per = step.perRow;
+          if (k === "ArrowLeft" || k === "ArrowRight") {
+            e.preventDefault();
+            const d = k === "ArrowLeft" ? -1 : 1;
+            setContact((c) => ({ ...c, choice: (c.choice + d + n) % n }));
+            return;
+          }
+          if (k === "ArrowUp" || k === "ArrowDown") {
+            e.preventDefault();
+            setContact((c) => {
+              const lastRow = Math.floor((n - 1) / per);
+              const row = Math.floor(c.choice / per);
+              if (k === "ArrowUp") {
+                return row === 0 ? c : { ...c, choice: c.choice - per };
+              }
+              // Dropping into a short final row lands on its last card rather
+              // than falling off the end and refusing to move.
+              if (row === lastRow) return c;
+              return { ...c, choice: Math.min(n - 1, c.choice + per) };
+            });
+            return;
+          }
+        }
+        if (k === "ArrowLeft" && !input) {
+          e.preventDefault();
+          goBack();
           return;
         }
       }
@@ -504,7 +533,7 @@ export function Terminal() {
                 live={b.id === activeId}
                 onPick={(i) => {
                   const step = currentStep(contact);
-                  if (step?.kind === "choice") advance(step.options[i]);
+                  if (step?.kind === "choice") advance(step.options[i].value);
                 }}
                 onClaim={() => b.id !== activeId && claim(b.id)}
               />

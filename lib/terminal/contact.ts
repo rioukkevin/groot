@@ -4,13 +4,24 @@
  * means adding one entry here.
  */
 
+/** One card in a choice grid: a sigil, a title, and a muted second line. */
+export interface ChoiceOption {
+  /** Stored and emailed; the card title plus its hint when there is one. */
+  value: string;
+  label: string;
+  hint?: string;
+  icon: string;
+}
+
 export type ContactStep =
   | {
       key: ContactKey;
       group: string;
       kind: "choice";
       question: string;
-      options: readonly string[];
+      options: readonly ChoiceOption[];
+      /** Cards per row, so arrow navigation and layout agree. */
+      perRow: number;
     }
   | {
       key: ContactKey;
@@ -49,12 +60,13 @@ export const CONTACT_STEPS: readonly ContactStep[] = [
     group: "Project",
     kind: "choice",
     question: "What kind of project do you have in mind?",
+    perRow: 3,
     options: [
-      "Web application",
-      "Mobile application",
-      "Architecture & consulting",
-      "Team lead / management",
-      "Something else",
+      { value: "Web application", label: "Web application", hint: "fullstack, front to deploy", icon: "</>" },
+      { value: "Mobile application", label: "Mobile app", hint: "React Native · Expo", icon: "[·]" },
+      { value: "Architecture & consulting", label: "Architecture", hint: "consulting · direction", icon: "◈" },
+      { value: "Team lead / management", label: "Team lead", hint: "leading a team or project", icon: "▲" },
+      { value: "Something else", label: "Something else", hint: "tell me below", icon: "*" },
     ],
   },
   {
@@ -62,12 +74,13 @@ export const CONTACT_STEPS: readonly ContactStep[] = [
     group: "Budget",
     kind: "choice",
     question: "What budget range are you working with?",
+    perRow: 3,
     options: [
-      "Under €6K · around 10 days",
-      "€6K – €15K · around a month",
-      "€15K – €40K · two to three months",
-      "€40K+ · a longer engagement",
-      "Not sure yet",
+      { value: "Under €6K", label: "Under €6K", hint: "around 10 days", icon: "▪" },
+      { value: "€6K – €15K", label: "€6K – €15K", hint: "around a month", icon: "▪▪" },
+      { value: "€15K – €40K", label: "€15K – €40K", hint: "two to three months", icon: "▪▪▪" },
+      { value: "€40K+", label: "€40K+", hint: "a longer engagement", icon: "▪▪▪▪" },
+      { value: "Not sure yet", label: "Not sure yet", hint: "we can scope it together", icon: "?" },
     ],
   },
   {
@@ -75,11 +88,12 @@ export const CONTACT_STEPS: readonly ContactStep[] = [
     group: "Timeline",
     kind: "choice",
     question: "When do you need it?",
+    perRow: 2,
     options: [
-      "As soon as possible",
-      "1–2 months",
-      "3–6 months",
-      "Flexible",
+      { value: "As soon as possible", label: "As soon as possible", hint: "free from mid-September", icon: "⚡" },
+      { value: "1–2 months", label: "1–2 months", hint: "starting soon", icon: "▶" },
+      { value: "3–6 months", label: "3–6 months", hint: "planning ahead", icon: "▷" },
+      { value: "Flexible", label: "Flexible", hint: "no fixed date", icon: "~" },
     ],
   },
   {
