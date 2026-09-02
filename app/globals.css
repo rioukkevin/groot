@@ -150,6 +150,10 @@ body {
   padding: 0;
   background: var(--bg);
   color: var(--fg);
+  /* No elastic bounce past the edges. The shell fills the viewport exactly,
+     so any give reveals blank space under the prompt. Left off `overflow`
+     because the admin shares this stylesheet and does need to scroll. */
+  overscroll-behavior: none;
 }
 
 body {

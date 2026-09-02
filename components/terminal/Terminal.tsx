@@ -803,13 +803,17 @@ export function Terminal({
 
   return (
     <div
-      className="flex h-screen flex-col overflow-hidden"
-      style={{ background: "var(--bg)", color: "var(--fg)" }}
+      /* fixed rather than h-screen: the shell is a viewport-sized app, and
+         taking it out of flow means the page has nothing to scroll and macOS
+         cannot rubber-band the content away from under the prompt. dvh so a
+         mobile browser's collapsing toolbar does not cut the input off. */
+      className="fixed inset-0 flex flex-col overflow-hidden"
+      style={{ height: "100dvh", background: "var(--bg)", color: "var(--fg)" }}
       onClick={() => inputRef.current?.focus()}
     >
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto overflow-x-hidden px-4 pb-1"
+        className="flex-1 overflow-y-auto overflow-x-hidden overscroll-contain px-4 pb-1"
         onScroll={onScroll}
       >
         <Header mood={mood} content={content} />
