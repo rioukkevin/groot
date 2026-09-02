@@ -338,7 +338,10 @@ const seed = async () => {
         { key: "spotlight.close", text: "close" },
         { key: "spotlight.controls", text: "wheel zoom · drag pan · dbl-click toggle" },
         { key: "ask.fromContent", text: "from the site's content" },
-        { key: "ask.noMatch", text: "no match in the site's content" }
+        { key: "ask.noMatch", text: "no match in the site's content" },
+        { key: "ask.unknown", text: "I didn't understand that — try /help for what I can answer." },
+        { key: "ask.unsure", text: "I'm not sure what you're asking — try /help for what I can answer." },
+        { key: "ask.routed", text: "matched to a command" }
       ],
       introHints: [
         { key: "try", label: "try", text: "/roles" },
@@ -565,7 +568,10 @@ const seed = async () => {
         { key: "spotlight.close", text: "fermer" },
         { key: "spotlight.controls", text: "molette zoom · glisser déplacer · double-clic basculer" },
         { key: "ask.fromContent", text: "depuis le contenu du site" },
-        { key: "ask.noMatch", text: "aucune correspondance dans le contenu du site" }
+        { key: "ask.noMatch", text: "aucune correspondance dans le contenu du site" },
+        { key: "ask.unknown", text: "Je n'ai pas compris — essayez /help pour voir ce que je sais répondre." },
+        { key: "ask.unsure", text: "Je ne suis pas sûr de la question — essayez /help pour voir ce que je sais répondre." },
+        { key: "ask.routed", text: "correspond à une commande" }
       ],
       introHints: [
         { key: "try", label: "essayez", text: "/roles" },

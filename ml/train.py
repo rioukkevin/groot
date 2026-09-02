@@ -28,7 +28,7 @@ from pathlib import Path
 
 import data
 
-BUCKETS = 8192  # 2^13 — small enough to quantise into ~80 KB per language
+BUCKETS = 10240  # sized to land near 200 KB per language, under the 256 KB budget
 NGRAM_MIN, NGRAM_MAX = 3, 5
 EPOCHS = 2200
 LR = 3.0

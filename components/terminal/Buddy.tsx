@@ -1,6 +1,8 @@
 "use client";
 
 import { gaze } from "blobatar/gaze";
+
+import { BuddyShader } from "./BuddyShader";
 import { Blobatar } from "blobatar/react";
 import { useEffect, useRef, useState } from "react";
 
@@ -87,20 +89,6 @@ const TRACK_TRAVEL = "5px";
  */
 const TRAITS = { "eye.ratio": 0.92, "eye.stretch": 0.85 };
 
-/**
- * A grid of holes punched through the buddy, so the live SVG reads as cells
- * the way the photos do. Two repeating gradients intersected: opaque for the
- * cell, transparent for the gutter. The animation runs underneath it, which a
- * rasterising shader could not allow.
- */
-const CELL = 5;
-const GUTTER = 1;
-const squareMask = {
-  WebkitMaskImage: `repeating-linear-gradient(to right, #000 0 ${CELL}px, transparent ${CELL}px ${CELL + GUTTER}px), repeating-linear-gradient(to bottom, #000 0 ${CELL}px, transparent ${CELL}px ${CELL + GUTTER}px)`,
-  maskImage: `repeating-linear-gradient(to right, #000 0 ${CELL}px, transparent ${CELL}px ${CELL + GUTTER}px), repeating-linear-gradient(to bottom, #000 0 ${CELL}px, transparent ${CELL}px ${CELL + GUTTER}px)`,
-  WebkitMaskComposite: "source-in",
-  maskComposite: "intersect",
-} as const;
 
 export function Buddy({ name = "kevin-riou", mood, size = 56 }: BuddyProps) {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -140,12 +128,11 @@ export function Buddy({ name = "kevin-riou", mood, size = 56 }: BuddyProps) {
   return (
     <div
       ref={hostRef}
-      className="flex-none"
+      className="relative flex-none"
       style={{
         width: size,
         height: size,
         ["--mo-track-travel" as string]: TRACK_TRAVEL,
-        ...squareMask,
       }}
     >
       <Blobatar
@@ -157,8 +144,9 @@ export function Buddy({ name = "kevin-riou", mood, size = 56 }: BuddyProps) {
         palette={{ head: ink.head, eye: ink.eye }}
         traits={TRAITS}
         title={`${name}, ${mood}`}
-        style={{ display: "block" }}
+        style={{ display: "block", opacity: 0 }}
       />
+      <BuddyShader source={hostRef} size={size} />
     </div>
   );
 }

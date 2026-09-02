@@ -14,10 +14,18 @@ interface EdgePhotoProps {
   label?: string;
 }
 
-/** Cells of scatter allowed outside the image on each side. */
-const PAD = 3;
-/** How far in from the edge the blocks reach, in cells. */
-const BAND = 2.2;
+/**
+ * One cell of scatter outside the frame, and one cell of fray inside it.
+ *
+ * The first version reached three cells out and two in, which put a thick
+ * dissolving band around every photo and read as a frame rather than a fray.
+ * A single ring, sparsely populated, does the job: the picture is the subject
+ * and the cells are a note in the margin.
+ */
+const PAD = 1;
+const BAND = 1;
+/** Fraction of eligible cells that actually get drawn. */
+const DENSITY = 0.18;
 
 /** Deterministic per-cell noise, so a photo's fray is the same every render. */
 function noise(x: number, y: number): number {
@@ -51,8 +59,9 @@ export function EdgePhoto({
   const rows = Math.max(4, Math.round(height / cellH));
   const innerW = cols * cellW;
   const innerH = rows * cellH;
+  // Padding is one square fray cell on each side.
   const totalW = innerW + PAD * 2 * cellW;
-  const totalH = innerH + PAD * 2 * cellH;
+  const totalH = innerH + PAD * 2 * cellW;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -74,7 +83,7 @@ export function EdgePhoto({
       if (!alive) return;
       g.clearRect(0, 0, totalW, totalH);
       const ox = PAD * cellW;
-      const oy = PAD * cellH;
+      const oy = PAD * cellW;
 
       if (!img) {
         g.fillStyle = "rgba(128,128,128,0.25)";
@@ -118,38 +127,37 @@ export function EdgePhoto({
         return `rgb(${data[k]},${data[k + 1]},${data[k + 2]})`;
       };
 
-      // Walk every cell of the padded field, including the ring outside.
-      for (let cy = -PAD; cy < rows + PAD; cy++) {
-        for (let cx = -PAD; cx < cols + PAD; cx++) {
-          const inside = cx >= 0 && cx < cols && cy >= 0 && cy < rows;
-          // Distance to the frame: negative outside, positive within.
-          const d = inside
-            ? Math.min(cx, cy, cols - 1 - cx, rows - 1 - cy)
-            : -Math.max(
-                cx < 0 ? -cx : cx >= cols ? cx - cols + 1 : 0,
-                cy < 0 ? -cy : cy >= rows ? cy - rows + 1 : 0,
-              );
+      // The fray is drawn in SQUARE cells of its own, not the photo's tall
+      // terminal cell: an 8x19 mark reads as a tick, and what is wanted here
+      // is a stray pixel. One ring only, sparsely populated.
+      const fray = cellW;
+      const fcols = Math.round(innerW / fray);
+      const frows = Math.round(innerH / fray);
 
-          if (inside && d > BAND) continue; // clean image, no cell
+      for (let cy = -PAD; cy < frows + PAD; cy++) {
+        for (let cx = -PAD; cx < fcols + PAD; cx++) {
+          const inside = cx >= 0 && cx < fcols && cy >= 0 && cy < frows;
+          const depth = inside
+            ? Math.min(cx, cy, fcols - 1 - cx, frows - 1 - cy)
+            : 0;
+          // Only the outermost ring inside, and the single ring outside.
+          if (inside && depth >= BAND) continue;
+          if (noise(cx, cy) > DENSITY) continue;
 
-          const n = noise(cx, cy);
-          // Solid at the frame, thinning both inward and outward.
-          const density = inside
-            ? 1 - d / (BAND + 1)
-            : Math.max(0, 1 + d / (PAD + 1));
-          if (n > density) continue;
+          // Jitter by up to half a cell so the ring is not a tidy rectangle.
+          const jx = (noise(cx + 31, cy) - 0.5) * fray * 0.9;
+          const jy = (noise(cx, cy + 17) - 0.5) * fray * 0.9;
 
-          // A little jitter so the ring is not a tidy rectangle.
-          const jx = (noise(cx + 31, cy) - 0.5) * gap * 2;
-          const jy = (noise(cx, cy + 17) - 0.5) * gap * 2;
+          const sx = Math.min(cols - 1, Math.max(0, Math.round((cx / fcols) * cols)));
+          const sy = Math.min(rows - 1, Math.max(0, Math.round((cy / frows) * rows)));
 
-          g.globalAlpha = inside ? 1 : 0.35 + 0.55 * density;
-          g.fillStyle = px(cx, cy);
+          g.globalAlpha = inside ? 1 : 0.75;
+          g.fillStyle = px(sx, sy);
           g.fillRect(
-            Math.round(ox + cx * cellW + gap / 2 + jx),
-            Math.round(oy + cy * cellH + gap / 2 + jy),
-            Math.ceil(cellW - gap),
-            Math.ceil(cellH - gap),
+            Math.round(ox + cx * fray + jx),
+            Math.round(oy + cy * fray + jy),
+            fray - 1,
+            fray - 1,
           );
         }
       }

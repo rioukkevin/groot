@@ -4,6 +4,13 @@
  * slightly wrong — so it is checked rather than assumed.
  */
 import { execFileSync } from "node:child_process";
+import { readFileSync } from "node:fs";
+
+// Read the geometry from the trained model rather than repeating it, so a
+// change to BUCKETS in the trainer cannot make this test disagree with both
+// implementations at once.
+const model = JSON.parse(readFileSync("public/models/intent-en.json", "utf8"));
+const { buckets, ngram } = model;
 
 const CASES = [
   "are you free in September?", "quels sont vos tarifs ?", "Qu'avez-vous fait chez Technis",
@@ -38,11 +45,11 @@ print(json.dumps([sorted((int(k), round(v, 9)) for k, v in features(c).items()) 
 
 let bad = 0;
 CASES.forEach((c, i) => {
-  const js = [...features(c, 8192, 3, 5)].map(([k,v])=>[k,Math.round(v*1e9)/1e9]).sort((a,b)=>a[0]-b[0]);
+  const js = [...features(c, buckets, ngram[0], ngram[1])].map(([k,v])=>[k,Math.round(v*1e9)/1e9]).sort((a,b)=>a[0]-b[0]);
   const same = JSON.stringify(js) === JSON.stringify(py[i]);
   if (!same) { bad++; console.log(`  MISMATCH ${JSON.stringify(c)}: js=${js.length} py=${py[i].length}`); }
 });
 console.log(bad === 0
-  ? `parity OK — ${CASES.length} cases, identical buckets and weights`
+  ? `parity OK — ${CASES.length} cases at ${buckets} buckets, identical`
   : `${bad} MISMATCHES`);
 process.exit(bad ? 1 : 0);

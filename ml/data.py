@@ -154,3 +154,77 @@ SLOTS_FR = {
     "project": ["britch", "diagevol", "ooof", "outrans counter", "l'extension vscode",
                 "le bot twitch", "les overlays", "portfolio v6", "chariteam"],
 }
+
+
+# ── the ninth class ────────────────────────────────────────────────────────
+# Without it the model must pick one of eight, so "sefsef" lands on whichever
+# intent it least dislikes and arrives with enough confidence to look certain.
+# A model that can say "I don't know" needs to have been shown what not
+# knowing looks like.
+
+OUT_OF_SCOPE_EN = [
+    "what is the weather", "what time is it", "who is the president",
+    "write me a poem", "what is 2 + 2", "how do I cook pasta",
+    "tell me a joke", "what is the capital of france", "translate this",
+    "book me a flight", "what is the meaning of life", "play some music",
+    "how tall is everest", "who won the world cup", "summarise this article",
+    "what is bitcoin worth", "recommend a restaurant", "how do I fix my car",
+    "what should I have for dinner", "is it going to rain",
+    "who are you talking about", "explain quantum physics", "sing a song",
+    "what is the news", "give me directions", "set an alarm",
+    "how do I lose weight", "what is your opinion on politics",
+    "buy me something", "call my mother", "what happened yesterday",
+    "help", "hello", "hi", "thanks", "ok", "yes", "no", "why", "sure",
+    "test", "testing", "asdf", "hmm", "wait", "stop",
+]
+
+OUT_OF_SCOPE_FR = [
+    "quel temps fait-il", "quelle heure est-il", "qui est le president",
+    "ecris moi un poeme", "combien font 2 + 2", "comment cuire des pates",
+    "raconte une blague", "quelle est la capitale de la france", "traduis ceci",
+    "reserve moi un vol", "quel est le sens de la vie", "mets de la musique",
+    "quelle est la hauteur de l everest", "qui a gagne la coupe du monde",
+    "resume cet article", "combien vaut le bitcoin", "conseille un restaurant",
+    "comment reparer ma voiture", "quoi manger ce soir", "va-t-il pleuvoir",
+    "de qui parlez-vous", "explique la physique quantique", "chante une chanson",
+    "quelles sont les nouvelles", "donne moi l itineraire", "mets un reveil",
+    "comment maigrir", "ton avis sur la politique", "achete moi quelque chose",
+    "appelle ma mere", "il s est passe quoi hier",
+    "aide", "bonjour", "salut", "merci", "ok", "oui", "non", "pourquoi",
+    "test", "essai", "azerty", "hein", "attends", "stop",
+]
+
+
+def gibberish(seed: int, count: int) -> list:
+    """Keyboard mashing and nonsense words.
+
+    Generated rather than hand-written so there is enough of it, and seeded so
+    the training set is reproducible. The shapes matter more than the strings:
+    repeated syllables ("sefsef"), home-row runs ("asdfgh"), and short
+    consonant clusters are what people actually type when testing a box.
+    """
+    import random
+
+    rng = random.Random(seed)
+    rows = []
+    cons = "bcdfghjklmnpqrstvwxz"
+    vows = "aeiou"
+    rows_of = [
+        "asdf", "qwerty", "azerty", "sefsef", "hjkl", "zxcv", "wxcv",
+        "aaaa", "test123", "qqq", "lorem ipsum", "foo bar", "xyz",
+        "abcabc", "dfgdfg", "poiuy", "mlkj", "123456", "aze", "qsd",
+    ]
+    rows.extend(rows_of)
+    for _ in range(count - len(rows_of)):
+        n = rng.randint(2, 4)
+        syl = "".join(rng.choice(cons) + rng.choice(vows) for _ in range(n))
+        if rng.random() < 0.35:
+            syl += syl[: rng.randint(2, 4)]  # "sefsef" shape
+        if rng.random() < 0.2:
+            syl = syl + " " + "".join(rng.choice(cons) for _ in range(rng.randint(2, 5)))
+        rows.append(syl)
+    return rows
+
+
+EN["unknown"] = OUT_OF_SCOPE_EN + gibberish(11, 90)
+FR["unknown"] = OUT_OF_SCOPE_FR + gibberish(22, 90)

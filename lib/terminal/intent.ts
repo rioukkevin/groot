@@ -88,6 +88,9 @@ export interface Prediction {
   intent: string;
   /** Softmax probability of the winner — the caller decides what to trust. */
   confidence: number;
+  /** Probability of the second-placed intent, for a margin check. A narrow
+   *  margin means two intents fit equally, which is its own kind of wrong. */
+  runnerUp: number;
 }
 
 /**
@@ -113,10 +116,14 @@ export async function classify(
   const top = Math.max(...scores);
   const exps = scores.map((s) => Math.exp(s - top));
   const total = exps.reduce((a, b) => a + b, 0);
-  let best = 0;
-  for (let i = 1; i < scores.length; i++) if (scores[i] > scores[best]) best = i;
+  const probs = exps.map((e) => e / total);
 
-  return { intent: model.labels[best], confidence: exps[best] / total };
+  let best = 0;
+  for (let i = 1; i < probs.length; i++) if (probs[i] > probs[best]) best = i;
+  const rest = probs.filter((_, i) => i !== best);
+  const runnerUp = rest.length ? Math.max(...rest) : 0;
+
+  return { intent: model.labels[best], confidence: probs[best], runnerUp };
 }
 
 /** Warms the model so the first question does not pay for the fetch. */

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ask, llmStatus } from "@/lib/terminal/browser-llm";
 import { preloadIntent } from "@/lib/terminal/intent";
-import { retrieve } from "@/lib/terminal/retrieval";
+import { routeQuestion } from "@/lib/terminal/retrieval";
 import { CLEAR, intro, matches, route } from "@/lib/terminal/commands";
 import { L } from "@/lib/terminal/format";
 import { maxWrappedLines } from "@/lib/terminal/format";
@@ -339,28 +339,54 @@ export function Terminal({
    * on-device model, and correct by construction — it selects content rather
    * than composing prose about it.
    */
+  /**
+   * Answers a plain question by running the command that answers it.
+   *
+   * The reply is the real command output — the project list with its keyboard
+   * handling, the rates box, the contact wizard — rather than a paraphrase of
+   * it. When the classifier does not recognise the question it says so, which
+   * is the whole reason it was taught a ninth class.
+   */
   const answerFromData = useCallback(
     async (question: string) => {
       const c = contentRef.current;
-      const found = await retrieve(question, c, c.locale);
-      const how =
-        found.via === "model"
-          ? `${found.tool} · ${Math.round(found.confidence * 100)}%`
-          : found.tool;
-      run([
-        {
-          kind: "tool",
-          name: "Look up",
-          arg: `(${how})`,
-          meta: found.empty
-            ? c.s("ask.noMatch", "no match in the site's content")
-            : c.s("ask.fromContent", "from the site's content"),
-          out: found.lines.map((l) => L(l, "var(--dim)")),
-          dur: 260,
-        },
-      ]);
+      const routed = await routeQuestion(question, c, c.locale);
+
+      if (routed.command === null) {
+        run([
+          {
+            kind: "think",
+            text:
+              routed.reason === "unknown"
+                ? c.s(
+                    "ask.unknown",
+                    "I didn't understand that — try /help for what I can answer.",
+                  )
+                : c.s(
+                    "ask.unsure",
+                    "I'm not sure what you're asking — try /help for what I can answer.",
+                  ),
+          },
+        ]);
+        return;
+      }
+
+      // Show which command was chosen, so the routing is legible rather than
+      // magic, then run it exactly as if it had been typed.
+      push({
+        kind: "tool",
+        name: "Route",
+        arg: `(${routed.command} · ${Math.round(routed.confidence * 100)}%)`,
+        meta: c.s("ask.routed", "matched to a command"),
+        out: [],
+        dur: 0,
+        done: true,
+      });
+
+      const out = route(routed.command, ctxRef.current);
+      if (out !== CLEAR && out.length) run(out);
     },
-    [run],
+    [push, run],
   );
 
   const submit = useCallback(
