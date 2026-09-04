@@ -17,7 +17,10 @@
     "ml:train:chat": "uv run --python 3.12 --with numpy python ml/train_chat.py",
     "ml:parity:chat": "bun ml/parity_chat.mts",
     "ml:eval:chat": "bun ml/eval_chat.mts",
-    "test": "bun test"
+    "test": "bun test",
+    "vercel-build": "bun run cms/migrate.ts run && next build",
+    "migrate:create": "bun run --env-file=.env.local cms/migrate.ts create",
+    "migrate": "bun run --env-file=.env.local cms/migrate.ts run"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.88.0",

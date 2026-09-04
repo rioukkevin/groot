@@ -34,6 +34,20 @@ declare module "payload" {
  */
 const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
 
+/**
+ * `DATABASE_URL` is what the Neon integration injects on Vercel;
+ * `POSTGRES_URL` is the local Docker one from .env.example. An empty string
+ * would make `pg` dial localhost:5432 and fail late, mid-prerender, with a
+ * connection error that points nowhere — so a missing value fails here, by name.
+ */
+const connectionString =
+  process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.DATABASE_URI || "";
+if (!connectionString && process.env.NODE_ENV === "production") {
+  throw new Error(
+    "No Postgres connection string: set DATABASE_URL (Neon on Vercel) or POSTGRES_URL (local).",
+  );
+}
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -62,9 +76,10 @@ export default buildConfig({
   typescript: { outputFile: path.resolve(dirname, "cms/payload-types.ts") },
 
   db: postgresAdapter({
-    pool: {
-      connectionString: process.env.POSTGRES_URL || process.env.DATABASE_URI || "",
-    },
+    pool: { connectionString },
+    // Production never pushes the schema; it runs these. `vercel-build` in
+    // package.json applies them before Next prerenders the pages.
+    migrationDir: path.resolve(dirname, "cms/migrations"),
   }),
 
   sharp,

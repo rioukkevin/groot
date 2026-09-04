@@ -20,10 +20,40 @@ the admin exists.
 
 ## Production
 
-Vercel Postgres (Neon) for data, Vercel Blob for media. Set `POSTGRES_URL`,
-`PAYLOAD_SECRET`, `NEXT_PUBLIC_SERVER_URL` and `BLOB_READ_WRITE_TOKEN`. With no
-blob token the plugin stays off and uploads fall back to `public/uploads`,
+Neon Postgres for data, Vercel Blob (public) for media. The Neon integration
+injects `DATABASE_URL`; the Blob store injects `BLOB_READ_WRITE_TOKEN`. Set
+`PAYLOAD_SECRET`, `NEXT_PUBLIC_SERVER_URL` and `RESEND_API_KEY` by hand. With
+no blob token the plugin stays off and uploads fall back to `public/uploads`,
 which is the right behaviour locally and the wrong one in production — set it.
+The blob store must be public: the plugin only supports public access, and the
+shell draws the images onto canvases, which needs the CORS headers a public
+store sends.
+
+### Migrations
+
+Development pushes the schema straight to Postgres; production never does, it
+runs `cms/migrations/`. Vercel picks up the `vercel-build` script, which
+applies pending migrations and then builds, so the tables exist when `/en`
+and `/fr` prerender. After a schema change:
+
+```bash
+bun run migrate:create <name>   # diff against the last snapshot → cms/migrations/
+```
+
+Commit the generated `.ts` and `.json`. `bun run migrate` applies them to a
+database that was created by migrations; do not run it against the local dev
+database, which was pushed.
+
+### First deploy
+
+Once the build is green, seed the live database from your machine:
+
+```bash
+vercel env pull .env.production.local
+bun run --env-file=.env.production.local cms/seed.ts
+```
+
+then delete `SEED_ADMIN_*` from that file.
 
 ## Filling content
 
