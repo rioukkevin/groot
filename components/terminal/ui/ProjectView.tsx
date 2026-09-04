@@ -30,8 +30,9 @@ interface ProjectViewProps {
   openSignal?: number;
 }
 
-/** Carousel column width. Fixed, so the write-up gets everything else. */
-const SHOT_W = 320;
+/** Carousel column width: the 520 px shot plus the arrows and padding around
+ *  it. Fixed, so the write-up gets everything else. */
+const SHOT_W = 580;
 /** Narrowest the prose is allowed to get before it stops being readable. */
 const MIN_COLS = 34;
 
@@ -111,7 +112,7 @@ export function ProjectView({
     <div className="mb-3" onClick={onClaim}>
       <div className="flex flex-col gap-x-6 gap-y-2 lg:flex-row lg:items-start">
         {hasShots && (
-          <div className="flex-none" style={{ width: SHOT_W }}>
+          <div className="w-full lg:flex-none" style={{ maxWidth: SHOT_W }}>
             <Carousel
               title={title}
               slides={slides}

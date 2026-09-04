@@ -60,7 +60,7 @@ const DISPLAY: Record<string, string[]> = {
   "/rates": ["lines"],
   "/contact": ["lines", "contact"],
   "/email": ["lines"],
-  "/about": ["say", "photos"],
+  "/about": ["say"],
   "/roles": ["tool", "select"],
   "/role": ["tool", "lines"],
   "/projects": ["tool", "say", "select"],

@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 interface EdgePhotoProps {
   src: string;
-  /** Box the image is fitted into, before the block margin is added. */
+  /** Box the image is fitted into; whole cells, so it sits on the text grid. */
   width: number;
   height: number;
   cellW: number;
@@ -15,32 +15,14 @@ interface EdgePhotoProps {
 }
 
 /**
- * One cell of scatter outside the frame, and one cell of fray inside it.
+ * The photo as itself, fitted inside its box.
  *
- * The first version reached three cells out and two in, which put a thick
- * dissolving band around every photo and read as a frame rather than a fray.
- * A single ring, sparsely populated, does the job: the picture is the subject
- * and the cells are a note in the margin.
- */
-const PAD = 1;
-const BAND = 1;
-/** Fraction of eligible cells that actually get drawn. */
-const DENSITY = 0.18;
-
-/** Deterministic per-cell noise, so a photo's fray is the same every render. */
-function noise(x: number, y: number): number {
-  const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
-  return n - Math.floor(n);
-}
-
-/**
- * The photo as itself, with a frayed border of cells.
- *
- * The grid treatment is spent entirely on the edge: the image proper is drawn
- * clean once it has loaded, and a band of cells a couple deep dissolves it into
- * the page, some of them landing outside the frame. Cells take their colour
- * from the pixels underneath, so the fray belongs to the picture rather than
- * sitting on top of it.
+ * Contain, not cover: a portrait screenshot stands centred between two empty
+ * margins, a landscape one sits centred between top and bottom, and nothing
+ * is cropped away — a screenshot's edges are where its information is. The
+ * earlier fray of cells around the frame is gone; the picture is the subject
+ * and needs no border. The canvas keeps its aspect and shrinks with the pane,
+ * so a wide carousel still fits a phone.
  */
 export function EdgePhoto({
   src,
@@ -48,30 +30,26 @@ export function EdgePhoto({
   height,
   cellW,
   cellH,
-  gap,
   caption,
   label = "image",
 }: EdgePhotoProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Whole cells, so the fray lands on the same grid as the text.
   const cols = Math.max(6, Math.round(width / cellW));
   const rows = Math.max(4, Math.round(height / cellH));
-  const innerW = cols * cellW;
-  const innerH = rows * cellH;
-  // Padding is one square fray cell on each side.
-  const totalW = innerW + PAD * 2 * cellW;
-  const totalH = innerH + PAD * 2 * cellW;
+  const boxW = cols * cellW;
+  const boxH = rows * cellH;
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const dpr = Math.min(2, window.devicePixelRatio || 1);
-    canvas.width = Math.round(totalW * dpr);
-    canvas.height = Math.round(totalH * dpr);
-    canvas.style.width = `${totalW}px`;
-    canvas.style.height = `${totalH}px`;
+    canvas.width = Math.round(boxW * dpr);
+    canvas.height = Math.round(boxH * dpr);
+    canvas.style.width = `min(100%, ${boxW}px)`;
+    canvas.style.height = "auto";
+    canvas.style.aspectRatio = `${boxW} / ${boxH}`;
 
     const g = canvas.getContext("2d");
     if (!g) return;
@@ -81,87 +59,19 @@ export function EdgePhoto({
 
     const draw = (img: HTMLImageElement | null) => {
       if (!alive) return;
-      g.clearRect(0, 0, totalW, totalH);
-      const ox = PAD * cellW;
-      const oy = PAD * cellW;
-
+      g.clearRect(0, 0, boxW, boxH);
       if (!img) {
         g.fillStyle = "rgba(128,128,128,0.25)";
-        g.fillRect(ox, oy, innerW, innerH);
+        g.fillRect(0, 0, boxW, boxH);
         return;
       }
-
-      // Cover-fit the image into the inner box.
-      const s = Math.max(innerW / img.width, innerH / img.height);
-      const dw = img.width * s;
-      const dh = img.height * s;
-      g.save();
-      g.beginPath();
-      g.rect(ox, oy, innerW, innerH);
-      g.clip();
+      // Contain-fit: the smaller ratio wins, and the slack is split evenly.
+      const s = Math.min(boxW / img.width, boxH / img.height);
+      const dw = Math.round(img.width * s);
+      const dh = Math.round(img.height * s);
       g.imageSmoothingEnabled = true;
       g.imageSmoothingQuality = "high";
-      g.drawImage(img, ox + (innerW - dw) / 2, oy + (innerH - dh) / 2, dw, dh);
-      g.restore();
-
-      // Sample the image small, to colour each cell from what is under it.
-      const low = document.createElement("canvas");
-      low.width = cols;
-      low.height = rows;
-      const lg = low.getContext("2d");
-      if (!lg) return;
-      lg.imageSmoothingEnabled = true;
-      lg.drawImage(img, 0, 0, cols, rows);
-      let data: Uint8ClampedArray | null = null;
-      try {
-        data = lg.getImageData(0, 0, cols, rows).data;
-      } catch {
-        data = null;
-      }
-
-      const px = (cx: number, cy: number) => {
-        if (!data) return "rgba(160,160,160,1)";
-        const x = Math.min(cols - 1, Math.max(0, cx));
-        const y = Math.min(rows - 1, Math.max(0, cy));
-        const k = (y * cols + x) * 4;
-        return `rgb(${data[k]},${data[k + 1]},${data[k + 2]})`;
-      };
-
-      // The fray is drawn in SQUARE cells of its own, not the photo's tall
-      // terminal cell: an 8x19 mark reads as a tick, and what is wanted here
-      // is a stray pixel. One ring only, sparsely populated.
-      const fray = cellW;
-      const fcols = Math.round(innerW / fray);
-      const frows = Math.round(innerH / fray);
-
-      for (let cy = -PAD; cy < frows + PAD; cy++) {
-        for (let cx = -PAD; cx < fcols + PAD; cx++) {
-          const inside = cx >= 0 && cx < fcols && cy >= 0 && cy < frows;
-          const depth = inside
-            ? Math.min(cx, cy, fcols - 1 - cx, frows - 1 - cy)
-            : 0;
-          // Only the outermost ring inside, and the single ring outside.
-          if (inside && depth >= BAND) continue;
-          if (noise(cx, cy) > DENSITY) continue;
-
-          // Jitter by up to half a cell so the ring is not a tidy rectangle.
-          const jx = (noise(cx + 31, cy) - 0.5) * fray * 0.9;
-          const jy = (noise(cx, cy + 17) - 0.5) * fray * 0.9;
-
-          const sx = Math.min(cols - 1, Math.max(0, Math.round((cx / fcols) * cols)));
-          const sy = Math.min(rows - 1, Math.max(0, Math.round((cy / frows) * rows)));
-
-          g.globalAlpha = inside ? 1 : 0.75;
-          g.fillStyle = px(sx, sy);
-          g.fillRect(
-            Math.round(ox + cx * fray + jx),
-            Math.round(oy + cy * fray + jy),
-            fray - 1,
-            fray - 1,
-          );
-        }
-      }
-      g.globalAlpha = 1;
+      g.drawImage(img, Math.round((boxW - dw) / 2), Math.round((boxH - dh) / 2), dw, dh);
     };
 
     const img = new Image();
@@ -178,10 +88,10 @@ export function EdgePhoto({
     return () => {
       alive = false;
     };
-  }, [src, cols, rows, cellW, cellH, gap, innerW, innerH, totalW, totalH]);
+  }, [src, boxW, boxH]);
 
   return (
-    <div className="inline-block">
+    <div className="inline-block max-w-full">
       <canvas
         ref={canvasRef}
         className="block cursor-zoom-in"

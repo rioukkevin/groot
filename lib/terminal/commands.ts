@@ -145,8 +145,8 @@ function cProject(name: string, ctx: CommandContext): BlockSpec[] {
         label: i === 0 ? "thumbnail" : "screen " + i,
         kind: "shot" as const,
         shot: {
-          w: 300,
-          h: 220,
+          w: 520,
+          h: 360,
           cellW: 5,
           cellH: 9,
           gap: 1,
@@ -208,24 +208,9 @@ function cRole(key: string, ctx: CommandContext): BlockSpec[] {
   ];
 }
 
+/** Words only: the portrait that used to follow them is gone by choice. */
 function cAbout(ctx: CommandContext): BlockSpec[] {
-  return [
-    say(
-      v(ctx, "about"),
-    ),
-    {
-      kind: "photos",
-      items: [
-        {
-          w: 246,
-          h: 188,
-          cols: 46,
-          label: ctx.content.s("photo.portrait", "portrait"),
-          caption: ctx.content.s("photo.portraitCaption", "portrait · hover to resolve"),
-        },
-      ],
-    },
-  ];
+  return [say(v(ctx, "about"))];
 }
 
 function cSkills(ctx: CommandContext): BlockSpec[] {
