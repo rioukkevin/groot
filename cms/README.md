@@ -57,11 +57,34 @@ bun run --env-file=.env.production.local cms/seed.ts
 
 then delete `SEED_ADMIN_*` from that file.
 
-## Filling content
+## Filling content over MCP
 
-`@payloadcms/plugin-mcp` exposes the collections and both globals to an MCP
-client. Media is create/read/update but **not** delete over MCP: an accidental
-delete takes the blob with it.
+`@payloadcms/plugin-mcp` serves the CMS to an MCP client at `/api/mcp`,
+behind a bearer API key. Mint one in the admin under **MCP → API keys** and
+tick, per collection and global, what that key may do. Media is
+create/read/update but **not** delete over MCP: an accidental delete takes the
+blob with it.
+
+```bash
+claude mcp add --transport http groot-cms https://<your-domain>/api/mcp \
+  --header "Authorization: Bearer <api key>"
+```
+
+Locally the same with `http://localhost:3001/api/mcp`. Every collection and
+global carries a description in `payload.config.ts` so a client knows what
+each one holds without opening it.
+
+The site's own MCP server — the read-only tools that describe Kévin to anyone,
+no key — is a different thing at `/api/portfolio-mcp`, advertised by
+`/.well-known/mcp.json` and `/llms.txt`.
+
+## Content pack
+
+`bun run content:pack` exports everything the CMS holds, both languages, as a
+folder a person can read: one folder per project with its write-up and its
+screenshots, then roles, education, skills, the site profile and the UI text,
+plus a zip of it all — `content-export/pack/` and
+`content-export/content-pack.zip`, both ignored by git.
 
 ## Where content lives today
 

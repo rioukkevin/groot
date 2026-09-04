@@ -13,7 +13,7 @@ export function GET() {
         "Read-only tools describing Kévin Riou, freelance fullstack web and mobile developer, Paris.",
       version: "1.0.0",
       protocolVersion: "2024-11-05",
-      endpoints: { jsonrpc: `${SITE_URL}/api/mcp` },
+      endpoints: { jsonrpc: `${SITE_URL}/api/portfolio-mcp` },
       documentation: `${SITE_URL}/llms.txt`,
       languages: ["en", "fr"],
       readOnly: true,

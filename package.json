@@ -20,7 +20,8 @@
     "test": "bun test",
     "vercel-build": "bun run cms/migrate.ts run && next build",
     "migrate:create": "bun run --env-file=.env.local cms/migrate.ts create",
-    "migrate": "bun run --env-file=.env.local cms/migrate.ts run"
+    "migrate": "bun run --env-file=.env.local cms/migrate.ts run",
+    "content:pack": "bun run --env-file=.env.local cms/export-pack.ts && cd content-export && rm -f content-pack.zip && zip -qr content-pack.zip pack && echo '→ content-export/content-pack.zip'"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.88.0",

@@ -105,20 +105,39 @@ export default buildConfig({
   plugins: [
     // Lets an MCP client read and write the content directly, which is how the
     // collections get filled rather than by hand in the admin.
+    // Served at /api/mcp with a bearer API key minted in the admin (MCP → API
+    // keys). The site's public, read-only server lives at /api/portfolio-mcp
+    // so the two cannot shadow each other.
     mcpPlugin({
       collections: {
-        [Projects.slug]: { enabled: true },
-        [Roles.slug]: { enabled: true },
-        [Education.slug]: { enabled: true },
+        [Projects.slug]: {
+          enabled: true,
+          description: "Side projects: key, name, stack, year, status, summary, write-up paragraphs, screenshots, links. Localised en/fr.",
+        },
+        [Roles.slug]: {
+          enabled: true,
+          description: "Work history, newest first: key, when, role title, where, labelled detail lines. Localised en/fr.",
+        },
+        [Education.slug]: {
+          enabled: true,
+          description: "Degrees: when, what, where. Localised en/fr.",
+        },
         // Media is readable and writable but not deletable over MCP: an
         // accidental delete takes the blob with it.
         [Media.slug]: {
           enabled: { create: true, find: true, update: true, delete: false },
+          description: "Uploaded images with alt text and caption. Deleting is admin-only.",
         },
       },
       globals: {
-        [SiteContent.slug]: { enabled: true },
-        [UiText.slug]: { enabled: true },
+        [SiteContent.slug]: {
+          enabled: true,
+          description: "What the site says about Kévin: name, tagline, about, availability, the /now diff, rates, contact, stack and soft-skill chips, the plain-text CV.",
+        },
+        [UiText.slug]: {
+          enabled: true,
+          description: "What the interface says about itself: command list, voiced lines in three registers, intro hints, contact wizard, theme and voice hints, keyed interface strings.",
+        },
       },
     }),
     ...(blobToken

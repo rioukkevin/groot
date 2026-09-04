@@ -64,7 +64,7 @@ export function llmsTxt(c: ShellContentData, locale: Locale, full: boolean) {
   }
 
   out.push("## Machine access", "",
-    `- MCP endpoint: ${SITE_URL}/api/mcp (read-only tools for this content)`,
+    `- MCP endpoint: ${SITE_URL}/api/portfolio-mcp (read-only tools for this content)`,
     `- Discovery: ${SITE_URL}/.well-known/mcp.json`,
     `- Full text: ${SITE_URL}/llms-full.txt`,
     "");

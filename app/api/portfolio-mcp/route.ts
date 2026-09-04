@@ -11,8 +11,9 @@ import type { Locale } from "@/lib/terminal/locale";
  * without a session. Read-only by construction: `TOOLS` has no mutating entry,
  * so there is nothing to authorise and no state to protect.
  *
- * This is separate from Payload's MCP plugin, which exposes the CMS itself and
- * requires an admin. This one answers questions about Kévin to anyone asking.
+ * This is separate from Payload's MCP plugin at /api/mcp, which exposes the
+ * CMS itself behind an API key. This one answers questions about Kévin to
+ * anyone asking, and lives at /api/portfolio-mcp so the two never collide.
  */
 
 const VERSION = "2024-11-05";
