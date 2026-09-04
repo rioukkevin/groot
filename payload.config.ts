@@ -1,4 +1,5 @@
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { resendAdapter } from "@payloadcms/email-resend";
 import { mcpPlugin } from "@payloadcms/plugin-mcp";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
@@ -48,7 +49,24 @@ if (!connectionString && process.env.NODE_ENV === "production") {
   );
 }
 
+/**
+ * Payload's own mail — admin password resets, verification — goes through the
+ * same Resend account and sender as the contact form. Without the key it
+ * falls back to logging, which is fine on a laptop and what the warning at
+ * startup is about.
+ */
+const resendKey = process.env.RESEND_API_KEY;
+
 export default buildConfig({
+  ...(resendKey
+    ? {
+        email: resendAdapter({
+          apiKey: resendKey,
+          defaultFromAddress: "contact@nare.li",
+          defaultFromName: "kr admin",
+        }),
+      }
+    : {}),
   admin: {
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },

@@ -22,7 +22,9 @@ the admin exists.
 
 Neon Postgres for data, Vercel Blob (public) for media. The Neon integration
 injects `DATABASE_URL`; the Blob store injects `BLOB_READ_WRITE_TOKEN`. Set
-`PAYLOAD_SECRET`, `NEXT_PUBLIC_SERVER_URL` and `RESEND_API_KEY` by hand. With
+`PAYLOAD_SECRET`, `NEXT_PUBLIC_SERVER_URL` and `RESEND_API_KEY` by hand; the
+Resend key also carries Payload's own mail (admin password resets) from
+`contact@nare.li`. With
 no blob token the plugin stays off and uploads fall back to `public/uploads`,
 which is the right behaviour locally and the wrong one in production — set it.
 The blob store must be public: the plugin only supports public access, and the
