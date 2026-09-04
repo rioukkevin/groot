@@ -136,7 +136,7 @@ export const FR_ROLES: Record<
     what: "CEO · Nareli",
     where: "Paris / à distance",
     detail: [
-      ["Périmètre", "Fondation de Nareli, en partenariat avec @StartAndBrand. Toute l'activité freelance fullstack passe par elle — cadrage, architecture, livraison, et l'appel de support qui suit."],
+      ["Périmètre", "Fondation de Nareli. Toute l'activité freelance fullstack passe par elle — cadrage, architecture, livraison, et l'appel de support qui suit."],
       ["Historique", "Sous le nom ooof.dev depuis août 2024 ; l'activité est devenue Nareli en octobre 2025. Le même travail, un seul nom."],
       ["Au quotidien", "Des développements fullstack et mobile pour des équipes qui ont besoin d'une personne pour porter l'ensemble."],
     ],
@@ -217,7 +217,7 @@ export const FR_SITE = {
   tagline: "fullstack web & mobile, freelance",
   location: "Paris, France",
   about:
-    "Développeur web et mobile fullstack, freelance, basé à Paris. Je dirige Nareli, en partenariat avec @StartAndBrand.",
+    "Développeur web et mobile fullstack, freelance, basé à Paris. Je dirige Nareli.",
   headline: "Disponible à partir de mi-septembre 2026.",
   contactFooter: "Paris, France · CET · français, anglais",
   nowRows: [
@@ -229,7 +229,7 @@ export const FR_SITE = {
     "J'accepte de nouvelles missions — les appels de cadrage sont gratuits.",
     "",
     "## En ce moment",
-    "Je dirige Nareli, en partenariat avec @StartAndBrand.",
+    "Je dirige Nareli.",
     "Développements fullstack et mobile pour de petites équipes.",
     "",
     "## En cours",
@@ -397,7 +397,7 @@ export const FR_VOICED: Record<string, { warm: string; brief: string; terse: str
     terse: "Kévin Riou. Développeur web et mobile fullstack, freelance.\nUne commande ou une question. /help liste tout.",
   },
   about: {
-    warm: "Je m'appelle Kévin — développeur web et mobile fullstack, freelance, basé à Paris.\n\nJe dirige Nareli, en partenariat avec @StartAndBrand, après avoir exercé sous le nom ooof.dev. Neuf ans plus tard, entre une coopérative, un industriel, un SaaS et une société de capteurs, le motif est le même : de petites équipes qui ont besoin d'une personne pour porter l'ensemble — la base de données, l'interface, le déploiement, et l'appel quand ça casse.\n\nJ'ai dirigé des équipes et des projets de bout en bout, et je préfère toujours écrire la chose. En dehors : des projets personnels depuis 2016 — des bots, des outils, et neuf versions de ce portfolio.",
+    warm: "Je m'appelle Kévin — développeur web et mobile fullstack, freelance, basé à Paris.\n\nJe dirige Nareli, après avoir exercé sous le nom ooof.dev. Neuf ans plus tard, entre une coopérative, un industriel, un SaaS et une société de capteurs, le motif est le même : de petites équipes qui ont besoin d'une personne pour porter l'ensemble — la base de données, l'interface, le déploiement, et l'appel quand ça casse.\n\nJ'ai dirigé des équipes et des projets de bout en bout, et je préfère toujours écrire la chose. En dehors : des projets personnels depuis 2016 — des bots, des outils, et neuf versions de ce portfolio.",
     brief: "Kévin — développeur web et mobile fullstack, freelance, à Paris.\n\nJe dirige Nareli, après ooof.dev. Neuf ans entre une coopérative, un industriel, un SaaS et une société de capteurs : de petites équipes qui ont besoin d'une personne pour porter l'ensemble.",
     terse: "Kévin Riou. Fullstack web et mobile, freelance, Paris.\nNareli, ex ooof.dev. Neuf ans, toute la stack.\nDe l'architecture à l'appel de support.",
   },

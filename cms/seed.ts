@@ -234,7 +234,7 @@ const seed = async () => {
       tagline: "fullstack web & mobile, freelance",
       location: "Paris, France",
       about:
-        "Fullstack web and mobile developer, freelance, based in Paris. Runs Nareli, in partnership with @StartAndBrand.",
+        "Fullstack web and mobile developer, freelance, based in Paris. Runs Nareli.",
       headline: data.nowHeadline,
       nowRows: data.now.map((r) => ({
         num: r.num,

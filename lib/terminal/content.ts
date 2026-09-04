@@ -229,7 +229,7 @@ export const EXP: readonly Experience[] = [
     what: "CEO · Nareli",
     where: "Paris / remote",
     detail: [
-      "Scope     Founded Nareli, in partnership with @StartAndBrand. All",
+      "Scope     Founded Nareli. All",
       "          freelance fullstack work runs through it — scoping,",
       "          architecture, delivery, and the support call after.",
       "History   Traded as ooof.dev from August 2024; the practice became",
@@ -429,7 +429,7 @@ export const NOW_ROWS: readonly DiffRow[] = [
   { num: 22, sign: "+", text: "Taking new work now — scoping calls are free." },
   { num: 23, sign: "+", text: "" },
   { num: 24, sign: "+", text: "## Now" },
-  { num: 25, sign: "+", text: "Running Nareli, in partnership with @StartAndBrand." },
+  { num: 25, sign: "+", text: "Running Nareli." },
   { num: 26, sign: "+", text: "Fullstack and mobile work for small teams." },
   { num: 27, sign: " ", text: "" },
   { num: 28, sign: " ", text: "## Shipping" },

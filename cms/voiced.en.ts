@@ -18,8 +18,8 @@ export const EN_VOICED: Record<string, Voiced> = {
     terse: "Side projects. Client work is under /roles.",
   },
   about: {
-    warm: "I'm Kévin — fullstack web and mobile developer, freelance, based in Paris.\n\nI run Nareli, in partnership with @StartAndBrand, and before that traded as ooof.dev. Nine years in, across a cooperative, a food manufacturer, a SaaS and a Swiss sensor company, the pattern is the same: small teams that need one person to own the architecture, the interface, the deploy, and the phone call when it breaks.\n\nI've led teams and projects end to end, and I still prefer writing the thing. Off the clock: side projects since 2016 — bots, tools, and nine versions of this portfolio.",
-    brief: "Kévin — fullstack web and mobile developer, freelance, in Paris.\n\nI run Nareli, in partnership with @StartAndBrand, and traded as ooof.dev before that. Nine years across a cooperative, a manufacturer, a SaaS and a sensor company: small teams that need one person to own the whole thing.",
+    warm: "I'm Kévin — fullstack web and mobile developer, freelance, based in Paris.\n\nI run Nareli, and before that traded as ooof.dev. Nine years in, across a cooperative, a food manufacturer, a SaaS and a Swiss sensor company, the pattern is the same: small teams that need one person to own the architecture, the interface, the deploy, and the phone call when it breaks.\n\nI've led teams and projects end to end, and I still prefer writing the thing. Off the clock: side projects since 2016 — bots, tools, and nine versions of this portfolio.",
+    brief: "Kévin — fullstack web and mobile developer, freelance, in Paris.\n\nI run Nareli, and traded as ooof.dev before that. Nine years across a cooperative, a manufacturer, a SaaS and a sensor company: small teams that need one person to own the whole thing.",
     terse: "Kévin Riou. Fullstack web and mobile, freelance, Paris.\nNareli, ex ooof.dev. Nine years, whole stack.\nArchitecture to support call.",
   },
   skills: {
