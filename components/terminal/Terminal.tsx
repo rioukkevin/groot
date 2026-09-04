@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { answerQuestion } from "@/lib/terminal/answer";
 import { ask, llmStatus } from "@/lib/terminal/browser-llm";
 import { preloadIntent } from "@/lib/terminal/intent";
-import { routeQuestion } from "@/lib/terminal/retrieval";
+import { upgradeWhenIdle } from "@/lib/terminal/model-tiers";
 import { CLEAR, intro, matches, route } from "@/lib/terminal/commands";
 import { L } from "@/lib/terminal/format";
 import { maxWrappedLines } from "@/lib/terminal/format";
@@ -26,6 +27,7 @@ import { useEngine } from "@/lib/terminal/useEngine";
 
 import { useBuddyMood } from "./Buddy";
 import { Header } from "./Header";
+import { NeuralProgress } from "./NeuralProgress";
 import { Palette } from "./Palette";
 import { Prompt } from "./Prompt";
 import { Shortcuts } from "./Shortcuts";
@@ -166,6 +168,26 @@ export function Terminal({
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const stick = useRef(true);
+  /** The last command whose output is on screen, so "tell me more" has a topic. */
+  const lastCommand = useRef<string | null>(null);
+  /**
+   * Stamps each submission. An answer that resolves after a newer submission
+   * checks this and steps aside, so a slow classify or a slow browser model
+   * can never overwrite what the visitor asked for next.
+   */
+  const seq = useRef(0);
+  /** A pending language switch from "parlez-vous français", cancellable. */
+  const switchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelSwitch = useCallback(() => {
+    if (switchTimer.current) clearTimeout(switchTimer.current);
+    switchTimer.current = null;
+  }, []);
+  useEffect(() => cancelSwitch, [cancelSwitch]);
+  /** Empties the transcript and forgets the topic, so "more" has nothing stale to point at. */
+  const clear = useCallback(() => {
+    lastCommand.current = null;
+    reset();
+  }, [reset]);
 
   const ctx = useMemo<CommandContext>(
     () => ({
@@ -290,14 +312,16 @@ export function Terminal({
   );
 
   /**
-   * Answers a plain question with the on-device model, when the browser has
-   * one. It calls the same tools the MCP endpoint exposes, so it answers from
-   * the CMS rather than from the model's own memory. Returns false when there
-   * is no model, and the keyword router handles it as before.
+   * Answers a plain question with the browser's own model, when it has one
+   * (Chrome's Prompt API). It calls the same tools the MCP endpoint exposes,
+   * so it answers from the CMS rather than from its memory. Returns false when
+   * there is no such model. Only consulted for questions the classifier could
+   * not place — on everything else the tool loop below is faster and richer.
    */
   const askLocally = useCallback(
-    async (question: string): Promise<boolean> => {
+    async (question: string, token: number): Promise<boolean> => {
       if ((await llmStatus()) !== "ready") return false;
+      if (token !== seq.current) return true;
 
       const id = push({
         kind: "tool",
@@ -313,6 +337,11 @@ export function Terminal({
       const result = await ask(question, c, c.locale, (tool) =>
         patch(id, { meta: `${tool}…` }),
       );
+      if (token !== seq.current) {
+        // Superseded while it thought: close its line quietly, say nothing.
+        patch(id, { done: true, meta: "superseded", out: [] });
+        return true;
+      }
       if (!result) {
         patch(id, { done: true, meta: "unavailable", out: [] });
         return false;
@@ -332,61 +361,46 @@ export function Terminal({
   );
 
   /**
-   * Answers from the site's data without a model.
+   * Answers a plain question the way an agent would, in the open.
    *
-   * Every browser can do this, and it costs nothing: it picks the tool the
-   * question is asking for and quotes what that tool returned. Plainer than the
-   * on-device model, and correct by construction — it selects content rather
-   * than composing prose about it.
+   * Whichever model is on duty classifies it; the answer layer then calls the
+   * site's tools until it holds the fact, and the transcript shows each call
+   * — roles, then the one role; projects, then the one project. It states the
+   * fact in a sentence with the fact lit, and runs the command that shows it
+   * in full, with the same fact lit there. A question the classifier cannot
+   * place is offered to the browser's own model, if there is one, and
+   * otherwise said to be not understood — never guessed at.
    */
-  /**
-   * Answers a plain question by running the command that answers it.
-   *
-   * The reply is the real command output — the project list with its keyboard
-   * handling, the rates box, the contact wizard — rather than a paraphrase of
-   * it. When the classifier does not recognise the question it says so, which
-   * is the whole reason it was taught a ninth class.
-   */
-  const answerFromData = useCallback(
-    async (question: string) => {
-      const c = contentRef.current;
-      const routed = await routeQuestion(question, c, c.locale);
+  const answer = useCallback(
+    async (question: string, token: number) => {
+      const a = await answerQuestion(question, ctxRef.current, lastCommand.current);
+      if (token !== seq.current) return;
 
-      if (routed.command === null) {
-        run([
-          {
-            kind: "think",
-            text:
-              routed.reason === "unknown"
-                ? c.s(
-                    "ask.unknown",
-                    "I didn't understand that — try /help for what I can answer.",
-                  )
-                : c.s(
-                    "ask.unsure",
-                    "I'm not sure what you're asking — try /help for what I can answer.",
-                  ),
-          },
-        ]);
+      if (a.effect === "clear") {
+        clear();
         return;
       }
 
-      // Show which command was chosen, so the routing is legible rather than
-      // magic, then run it exactly as if it had been typed.
-      push({
-        kind: "tool",
-        name: "Route",
-        arg: `(${routed.command} · ${Math.round(routed.confidence * 100)}%)`,
-        meta: c.s("ask.routed", "matched to a command"),
-        out: [],
-        dur: 0,
-        done: true,
-      });
+      if (a.unresolved && (await llmStatus()) === "ready") {
+        if (token !== seq.current) return;
+        for (const b of a.intro) push({ ...b, ...(b.kind === "tool" ? { done: true } : {}) });
+        if (await askLocally(question, token)) return;
+        run(a.blocks);
+        return;
+      }
 
-      const out = route(routed.command, ctxRef.current);
-      if (out !== CLEAR && out.length) run(out);
+      // A routed /contact starts the wizard afresh, as a typed one does.
+      if (a.command?.toLowerCase().startsWith("/contact")) setContact(initialContact());
+      if (a.command) lastCommand.current = a.command;
+      run([...a.intro, ...a.blocks]);
+
+      if (a.effect === "switch-locale") {
+        // Let the sentence land before the whole shell changes language.
+        cancelSwitch();
+        switchTimer.current = setTimeout(switchLocale, 1400);
+      }
     },
-    [push, run],
+    [askLocally, cancelSwitch, clear, push, run, switchLocale],
   );
 
   const submit = useCallback(
@@ -394,6 +408,8 @@ export function Terminal({
       const q = (raw === undefined ? input : raw).trim();
       if (!q) return;
       if (busy) halt();
+      cancelSwitch();
+      const token = ++seq.current;
 
       stick.current = true;
       setPulse((n) => n + 1);
@@ -406,26 +422,21 @@ export function Terminal({
 
       if (q.trim().toLowerCase().startsWith("/contact")) setContact(initialContact());
 
-      // A plain question goes to the on-device model first; commands and
-      // anything it cannot answer fall through to the keyword router.
+      // A plain question goes through the classifier and the tool loop.
       if (!q.startsWith("/")) {
-        void askLocally(q).then((handled) => {
-          if (handled) return;
-          // No on-device model here: answer from the data instead of routing
-          // the question to whichever command a keyword happened to match.
-          void answerFromData(q);
-        });
+        void answer(q, token);
         return;
       }
 
       const out = route(q, ctxRef.current);
       if (out === CLEAR) {
-        reset();
+        clear();
         return;
       }
+      lastCommand.current = q;
       if (out.length) run(out);
     },
-    [answerFromData, askLocally, busy, halt, input, push, reset, run],
+    [answer, busy, cancelSwitch, clear, halt, input, push, run],
   );
 
   // Intro transcript. Clearing first makes this idempotent: StrictMode's
@@ -435,10 +446,13 @@ export function Terminal({
   useEffect(() => {
     inputRef.current?.focus();
     preloadIntent(locale);
-    reset();
+    // The full model is fetched once the page has loaded and gone quiet, and
+    // replaces the light one without a word; the corner tells the story.
+    upgradeWhenIdle(locale);
+    clear();
     push({ kind: "echo", text: "/intro" });
     run(intro(ctxRef.current));
-  }, [locale, push, reset, run]);
+  }, [locale, push, clear, run]);
 
   // The design pinned the transcript to the bottom on every update, which
   // yanks the view away while you are reading back. Follow the output only
@@ -479,16 +493,30 @@ export function Terminal({
 
   const palAll = matches(input, content.commands);
 
-  /** The claimed block, else the newest one, unless esc has released it. */
+  /**
+   * Where the current turn starts: the newest echo is the latest thing the
+   * visitor sent, and everything above it is an earlier answer. Those are
+   * read-only — no arrows, no clicks — so the keyboard always drives what
+   * was just asked for, and the transcript reads as a record.
+   */
+  const turnStart = useMemo(() => {
+    let id = -1;
+    for (const b of blocks) if (b.kind === "echo") id = b.id;
+    return id;
+  }, [blocks]);
+  const isPast = useCallback((id: number) => id < turnStart, [turnStart]);
+
+  /** The claimed block, else the newest one, unless esc has released it.
+   *  Only blocks of the current turn qualify. */
   const active = useMemo(() => {
     if (selOff) return null;
-    const xs = blocks.filter(isInteractive);
+    const xs = blocks.filter(isInteractive).filter((b) => !isPast(b.id));
     if (claimId != null) {
       const claimed = xs.find((b) => b.id === claimId);
       if (claimed) return claimed;
     }
     return xs.length ? xs[xs.length - 1] : null;
-  }, [blocks, selOff, claimId]);
+  }, [blocks, selOff, claimId, isPast]);
 
   const activeSelect = active?.kind === "select" ? active : null;
   // A slash typed into an answer should not raise the command palette.
@@ -769,6 +797,7 @@ export function Terminal({
           );
         else if (act.kind === "carousel") moveSel(act.slides.length - 1);
       } else if (k === "Escape") {
+        cancelSwitch();
         if (busy) halt(content.s("err.interrupted", "interrupted by user"));
         else if (act) {
           releaseSel();
@@ -782,7 +811,7 @@ export function Terminal({
         setShortcutsOpen((s) => !s);
       } else if ((k === "l" || k === "L") && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
-        reset();
+        clear();
       } else if (k === "c" && e.ctrlKey) {
         e.preventDefault();
         setInput("");
@@ -808,7 +837,8 @@ export function Terminal({
       selIdx2,
       palIdx,
       releaseSel,
-      reset,
+      cancelSwitch,
+      clear,
       selIdx,
       submit,
     ],
@@ -842,10 +872,19 @@ export function Terminal({
         className="flex-1 overflow-y-auto overflow-x-hidden overscroll-contain px-4 pb-1"
         onScroll={onScroll}
       >
-        <Header mood={mood} content={content} />
+        <Header
+          mood={mood}
+          content={content}
+          aside={<NeuralProgress locale={locale} content={content} />}
+        />
 
         {blocks.map((b) => (
-          <div key={b.id}>
+          <div
+            key={b.id}
+            // An earlier turn's answer cannot be clicked into; its hint says so.
+            style={isPast(b.id) && isInteractive(b) ? { pointerEvents: "none" } : undefined}
+            aria-disabled={isPast(b.id) && isInteractive(b) ? true : undefined}
+          >
             {b.kind === "echo" && <EchoBlock text={b.text} />}
             {b.kind === "think" && <ThinkBlock text={b.text} />}
             {b.kind === "say" && <SayBlock full={b.full} n={b.n ?? 0} />}
@@ -876,6 +915,7 @@ export function Terminal({
                 hint={b.hint}
                 items={b.items}
                 live={b.id === activeId}
+                frozen={isPast(b.id)}
                 selIdx={selIdx}
                 onHover={(i) => {
                   if (b.id === activeId) moveSel(i);
@@ -888,13 +928,14 @@ export function Terminal({
               />
             )}
             {b.kind === "demo" && <DemoBlock />}
-            {b.kind === "chips" && <ChipsBlock groups={b.groups} />}
+            {b.kind === "chips" && <ChipsBlock groups={b.groups} hl={b.hl} />}
             {b.kind === "voice" && (
               <VoicePicker
                 content={content}
                 current={b.current}
                 index={b.id === activeId ? selIdx : 0}
                 live={b.id === activeId}
+                frozen={isPast(b.id)}
                 onPick={(n) => {
                   moveSel(n);
                   b.onSelect(TONES[n].value);
@@ -911,6 +952,7 @@ export function Terminal({
                 current={b.current}
                 index={b.id === activeId ? selIdx : 0}
                 live={b.id === activeId}
+                frozen={isPast(b.id)}
                 onPick={(i) => {
                   moveSel(i);
                   b.onSelect(b.options[i].value);
@@ -927,6 +969,7 @@ export function Terminal({
                 paragraphs={b.paragraphs}
                 rows={b.rows}
                 live={b.id === activeId}
+                frozen={isPast(b.id)}
                 slide={b.id === activeId ? selIdx : 0}
                 offset={b.id === activeId ? selIdx2 : 0}
                 onSlide={moveSel}
@@ -941,6 +984,7 @@ export function Terminal({
                 content={content}
                 state={contact}
                 live={b.id === activeId}
+                frozen={isPast(b.id)}
                 onPick={(i) => {
                   const step = wizardSteps[Math.min(contact.step, wizardSteps.length - 1)];
                   if (step?.kind === "choice") advance(step.options[i].value);
@@ -955,6 +999,7 @@ export function Terminal({
                 lines={b.lines}
                 rows={b.rows}
                 live={b.id === activeId}
+                frozen={isPast(b.id)}
                 offset={b.id === activeId ? selIdx : 0}
                 onOffsetChange={moveSel}
                 onClaim={() => b.id !== activeId && claim(b.id)}
@@ -966,6 +1011,7 @@ export function Terminal({
                 title={b.title}
                 slides={b.slides}
                 live={b.id === activeId}
+                frozen={isPast(b.id)}
                 index={b.id === activeId ? selIdx : 0}
                 onIndexChange={moveSel}
                 onClaim={() => b.id !== activeId && claim(b.id)}

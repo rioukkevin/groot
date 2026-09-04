@@ -3,6 +3,7 @@ import { Buddy } from "./Buddy";
 import type { ShellContent } from "@/lib/terminal/shell-content";
 
 import type { BuddyMood } from "./Buddy";
+import type { ReactNode } from "react";
 
 /** Key into the CMS string map, with the English default beside it. */
 const MOOD_NOTE: Record<BuddyMood, [string, string] | null> = {
@@ -22,9 +23,12 @@ const MOOD_NOTE: Record<BuddyMood, [string, string] | null> = {
 export function Header({
   mood,
   content,
+  aside,
 }: {
   mood: BuddyMood;
   content: ShellContent;
+  /** The top-right corner: where the model loader tells its story. */
+  aside?: ReactNode;
 }) {
   return (
     <>
@@ -47,6 +51,7 @@ export function Header({
             </div>
             <div style={{ color: "var(--dim)" }}>~/work/kevin-riou</div>
           </div>
+          {aside && <div className="ml-auto hidden flex-none pl-3 sm:block">{aside}</div>}
         </div>
         <div
           className="h-px w-full"

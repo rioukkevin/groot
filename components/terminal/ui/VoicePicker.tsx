@@ -6,6 +6,8 @@ import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { Voice } from "@/lib/terminal/types";
 
 interface VoicePickerProps {
+  /** An answer from an earlier turn: read-only, its hint says so. */
+  frozen?: boolean;
   current: Voice;
   index: number;
   live: boolean;
@@ -88,6 +90,7 @@ export function VoicePicker({
   current,
   index,
   live,
+  frozen = false,
   onPick,
   onClaim,
   content,
@@ -200,7 +203,9 @@ export function VoicePicker({
       <div className="whitespace-pre pt-1" style={{ color: "var(--faint)" }}>
         {live
           ? content.s("hint.voice", "↑↓ move · ↵ apply · esc release")
-          : content.s("hint.released", "released · click to take the keyboard back")}
+          : frozen
+            ? content.s("hint.past", "earlier answer · read-only")
+            : content.s("hint.released", "released · click to take the keyboard back")}
       </div>
     </div>
   );

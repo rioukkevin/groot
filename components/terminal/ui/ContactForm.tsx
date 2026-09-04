@@ -8,6 +8,8 @@ import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { ContactState, ContactStep } from "@/lib/terminal/contact";
 
 interface ContactFormProps {
+  /** An answer from an earlier turn: read-only, its hint says so. */
+  frozen?: boolean;
   /** Steps with the CMS copy already applied, for the active locale. */
   steps: readonly ContactStep[];
   content: ShellContent;
@@ -214,6 +216,7 @@ export function ContactForm({
   content,
   state,
   live,
+  frozen = false,
   onPick,
   onClaim,
 }: ContactFormProps) {
@@ -284,7 +287,9 @@ export function ContactForm({
           ? step?.kind === "choice"
             ? content.s("hint.cards", "←→ ↑↓ choose · ↵ confirm · ⌫ back · esc release")
             : content.s("hint.text", "↵ confirm · ⌫ back · esc release")
-          : content.s("hint.released", "released · click to take the keyboard back")}
+          : frozen
+            ? content.s("hint.past", "earlier answer · read-only")
+            : content.s("hint.released", "released · click to take the keyboard back")}
       </div>
     </div>
   );

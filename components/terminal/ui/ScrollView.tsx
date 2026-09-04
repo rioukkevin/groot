@@ -2,10 +2,14 @@
 
 import { useEffect, useRef } from "react";
 
+import { HL_STYLE } from "@/lib/terminal/highlight";
+
 import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { Line } from "@/lib/terminal/types";
 
 interface ScrollViewProps {
+  /** An answer from an earlier turn: read-only, its hint says so. */
+  frozen?: boolean;
   title: string;
   lines: Line[];
   /** Height of the viewport, in character rows. */
@@ -33,6 +37,7 @@ export function ScrollView({
   lines,
   rows,
   live,
+  frozen = false,
   offset,
   onOffsetChange,
   onClaim,
@@ -76,8 +81,12 @@ export function ScrollView({
           style={{ color: live ? "var(--fg)" : "var(--dim)" }}
         >
           {visible.map((l, i) => (
-            <div key={clamped + i} className="min-h-[1.5em]" style={{ color: l.color }}>
-              <span style={{ color: l.kcolor }}>{l.k}</span>
+            <div
+              key={clamped + i}
+              className="min-h-[1.5em]"
+              style={l.hl ? HL_STYLE : { color: l.color }}
+            >
+              <span style={{ color: l.hl ? "var(--accent)" : l.kcolor }}>{l.k}</span>
               {l.text}
             </div>
           ))}
@@ -106,7 +115,7 @@ export function ScrollView({
       <div className="whitespace-pre pt-1" style={{ color: "var(--faint)" }}>
         {live
           ? `  ${content.s("hint.scroll", "↑↓ scroll · pgup/pgdn page")} · ${pct}% · ${content.s("word.escRelease", "esc release")}`
-          : `  ${content.s("hint.scrollReleased", "↑↓ released · click to take the arrows")} · ${pct}%`}
+          : `  ${frozen ? content.s("hint.past", "earlier answer · read-only") : content.s("hint.scrollReleased", "↑↓ released · click to take the arrows")} · ${pct}%`}
       </div>
     </div>
   );

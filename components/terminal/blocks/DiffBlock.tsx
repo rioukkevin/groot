@@ -1,3 +1,5 @@
+import { HL_STYLE } from "@/lib/terminal/highlight";
+
 import type { DiffRow } from "@/lib/terminal/types";
 
 interface DiffBlockProps {
@@ -40,18 +42,22 @@ export function DiffBlock({ path, summary, rows, footer }: DiffBlockProps) {
             <div
               key={i}
               className="flex whitespace-pre pl-5 pr-4"
-              style={{
-                background: add
-                  ? "color-mix(in oklab, var(--add) 40%, var(--bg))"
-                  : del
-                    ? "color-mix(in oklab, var(--del) 40%, var(--bg))"
-                    : "transparent",
-                color: add
-                  ? "color-mix(in oklab, var(--add) 78%, var(--fg))"
-                  : del
-                    ? "color-mix(in oklab, var(--del) 78%, var(--fg))"
-                    : "var(--dim)",
-              }}
+              style={
+                r.hl
+                  ? HL_STYLE
+                  : {
+                      background: add
+                        ? "color-mix(in oklab, var(--add) 40%, var(--bg))"
+                        : del
+                          ? "color-mix(in oklab, var(--del) 40%, var(--bg))"
+                          : "transparent",
+                      color: add
+                        ? "color-mix(in oklab, var(--add) 78%, var(--fg))"
+                        : del
+                          ? "color-mix(in oklab, var(--del) 78%, var(--fg))"
+                          : "var(--dim)",
+                    }
+              }
             >
               <span
                 className="w-[38px] flex-none text-right"

@@ -1,3 +1,5 @@
+import { HL_STYLE } from "@/lib/terminal/highlight";
+
 import type { Line } from "@/lib/terminal/types";
 
 export function LinesBlock({ lines }: { lines: Line[] }) {
@@ -7,9 +9,9 @@ export function LinesBlock({ lines }: { lines: Line[] }) {
         <div
           key={i}
           className="min-h-[1.5em] whitespace-pre"
-          style={{ color: l.color }}
+          style={l.hl ? { ...HL_STYLE } : { color: l.color }}
         >
-          <span style={{ color: l.kcolor }}>{l.k}</span>
+          <span style={{ color: l.hl ? "var(--accent)" : l.kcolor }}>{l.k}</span>
           {l.text}
         </div>
       ))}

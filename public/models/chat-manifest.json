@@ -1,0 +1,20 @@
+{
+  "en": {
+    "buckets": 418051,
+    "bytes": 6699820,
+    "dim": 16,
+    "file": "/models/chat-en.61d33132fa.bin",
+    "hidden": 48,
+    "labels": 29,
+    "trainedAt": "2026-09-04"
+  },
+  "fr": {
+    "buckets": 418051,
+    "bytes": 6699820,
+    "dim": 16,
+    "file": "/models/chat-fr.c3881378da.bin",
+    "hidden": 48,
+    "labels": 29,
+    "trainedAt": "2026-09-04"
+  }
+}

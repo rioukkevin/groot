@@ -11,6 +11,8 @@ import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { CarouselSlide, Line } from "@/lib/terminal/types";
 
 interface ProjectViewProps {
+  /** An answer from an earlier turn: read-only, its hint says so. */
+  frozen?: boolean;
   title: string;
   slides: CarouselSlide[];
   meta: Line[];
@@ -51,6 +53,7 @@ export function ProjectView({
   paragraphs,
   rows,
   live,
+  frozen = false,
   slide,
   offset,
   onSlide,
@@ -111,6 +114,7 @@ export function ProjectView({
               title={title}
               slides={slides}
               live={live}
+              frozen={frozen}
               index={slide}
               onIndexChange={onSlide}
               onClaim={onClaim}
@@ -125,6 +129,7 @@ export function ProjectView({
             lines={lines}
             rows={rows}
             live={live}
+            frozen={frozen}
             offset={offset}
             onOffsetChange={onOffset}
             onClaim={onClaim}
@@ -136,7 +141,7 @@ export function ProjectView({
         <div className="whitespace-pre pl-5" style={{ color: "var(--faint)" }}>
           {live
             ? "  " + content.s("hint.project", "←→ screenshots · ↑↓ write-up · ↵ open full screen")
-            : "  " + content.s("hint.released", "released · click to take the keyboard back")}
+            : "  " + (frozen ? content.s("hint.past", "earlier answer · read-only") : content.s("hint.released", "released · click to take the keyboard back"))}
         </div>
       )}
     </div>

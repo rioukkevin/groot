@@ -1,0 +1,552 @@
+[
+ {
+  "q": "tu peux passer en mode sombre ?",
+  "intent": "set_theme",
+  "slot": "green"
+ },
+ {
+  "q": "mode clair s'il vous plaît",
+  "intent": "set_theme",
+  "slot": "paper"
+ },
+ {
+  "q": "change les couleur du terminal",
+  "intent": "set_theme"
+ },
+ {
+  "q": "quels thèmes tu proposes ?",
+  "intent": "set_theme"
+ },
+ {
+  "q": "mets le thème ember",
+  "intent": "set_theme",
+  "slot": "ember"
+ },
+ {
+  "q": "j'aimerais essayer la palette plum",
+  "intent": "set_theme",
+  "slot": "plum"
+ },
+ {
+  "q": "active le thème ice",
+  "intent": "set_theme",
+  "slot": "ice"
+ },
+ {
+  "q": "passe en mono",
+  "intent": "set_theme",
+  "slot": "mono"
+ },
+ {
+  "q": "bonsoir, il est tard et ce fond me brûle les yeux, t'as un mode nuit ?",
+  "intent": "set_theme"
+ },
+ {
+  "q": "theme linen stp",
+  "intent": "set_theme",
+  "slot": "linen"
+ },
+ {
+  "q": "fond blanc svp",
+  "intent": "set_theme",
+  "slot": "white"
+ },
+ {
+  "q": "je préfère quelque chose de plus doux pour les yeux, tu peux changer la palette ?",
+  "intent": "set_theme"
+ },
+ {
+  "q": "dark mode",
+  "intent": "set_theme",
+  "slot": "green"
+ },
+ {
+  "q": "t'as pas un autre theme ?",
+  "intent": "set_theme"
+ },
+ {
+  "q": "on peut changer l'apparence ? j'ai du mal à lire ces couleurs",
+  "intent": "set_theme"
+ },
+ {
+  "q": "mets un fond papier",
+  "intent": "set_theme"
+ },
+ {
+  "q": "je bosse en plein soleil en terrasse, passe en clair",
+  "intent": "set_theme",
+  "slot": "paper"
+ },
+ {
+  "q": "remets le green par défaut",
+  "intent": "set_theme",
+  "slot": "green"
+ },
+ {
+  "q": "montre-moi les palettes disponibles",
+  "intent": "set_theme"
+ },
+ {
+  "q": "un thème orange, ça existe ?",
+  "intent": "set_theme"
+ },
+ {
+  "q": "trop lumineux ici, mets moi du noir",
+  "intent": "set_theme",
+  "slot": "green"
+ },
+ {
+  "q": "hello, super site ! par contre c'est possible d'avoir quelque chose de plus clair ?",
+  "intent": "set_theme",
+  "slot": "paper"
+ },
+ {
+  "q": "en white plutôt",
+  "intent": "set_theme",
+  "slot": "white"
+ },
+ {
+  "q": "je veux changer de thème",
+  "intent": "set_theme"
+ },
+ {
+  "q": "peut on avoir un fond plus foncé ?",
+  "intent": "set_theme"
+ },
+ {
+  "q": "sois plus concis",
+  "intent": "set_voice",
+  "slot": "brief"
+ },
+ {
+  "q": "réponds plus court",
+  "intent": "set_voice",
+  "slot": "terse"
+ },
+ {
+  "q": "tu parles trop",
+  "intent": "set_voice"
+ },
+ {
+  "q": "des réponses plus chaleureuses stp",
+  "intent": "set_voice",
+  "slot": "warm"
+ },
+ {
+  "q": "moins de blabla",
+  "intent": "set_voice",
+  "slot": "brief"
+ },
+ {
+  "q": "mode terse",
+  "intent": "set_voice",
+  "slot": "terse"
+ },
+ {
+  "q": "tu peu etre plus bref ?",
+  "intent": "set_voice",
+  "slot": "brief"
+ },
+ {
+  "q": "développe davantage tes réponses",
+  "intent": "set_voice"
+ },
+ {
+  "q": "j'aime bien quand c'est détaillé, tu peux répondre plus longuement ?",
+  "intent": "set_voice",
+  "slot": "warm"
+ },
+ {
+  "q": "abrège",
+  "intent": "set_voice"
+ },
+ {
+  "q": "va droit au but",
+  "intent": "set_voice"
+ },
+ {
+  "q": "tutoie-moi",
+  "intent": "set_voice"
+ },
+ {
+  "q": "vouvoyez-moi s'il vous plaît",
+  "intent": "set_voice"
+ },
+ {
+  "q": "fais court stp",
+  "intent": "set_voice",
+  "slot": "terse"
+ },
+ {
+  "q": "tu peux être plus chaleureux dans tes réponses ?",
+  "intent": "set_voice",
+  "slot": "warm"
+ },
+ {
+  "q": "moins de détails",
+  "intent": "set_voice",
+  "slot": "brief"
+ },
+ {
+  "q": "hey, j'ai pas trop le temps, réponds en mode minimal",
+  "intent": "set_voice",
+  "slot": "terse"
+ },
+ {
+  "q": "change de ton, sois formel",
+  "intent": "set_voice"
+ },
+ {
+  "q": "parle moi de manière décontractée",
+  "intent": "set_voice"
+ },
+ {
+  "q": "je préfère les réponses plus longues et détaillées",
+  "intent": "set_voice",
+  "slot": "warm"
+ },
+ {
+  "q": "plus bref stp",
+  "intent": "set_voice",
+  "slot": "brief"
+ },
+ {
+  "q": "trop de texte à chaque fois, sois concis",
+  "intent": "set_voice",
+  "slot": "brief"
+ },
+ {
+  "q": "moins bavard stp",
+  "intent": "set_voice",
+  "slot": "brief"
+ },
+ {
+  "q": "tu pourrais donner plus de détails dans tes réponses en général ?",
+  "intent": "set_voice",
+  "slot": "warm"
+ },
+ {
+  "q": "réponds de manière télégraphique",
+  "intent": "set_voice"
+ },
+ {
+  "q": "aide",
+  "intent": "help"
+ },
+ {
+  "q": "tu peux faire quoi exactement ?",
+  "intent": "help"
+ },
+ {
+  "q": "quelles commandes je peux taper ?",
+  "intent": "help"
+ },
+ {
+  "q": "je suis complètement perdu",
+  "intent": "help"
+ },
+ {
+  "q": "bonjour ! je suis recruteuse, je découvre le site, par où je commence ?",
+  "intent": "help"
+ },
+ {
+  "q": "c'est quoi les commandes dispo",
+  "intent": "help"
+ },
+ {
+  "q": "y a une liste des commandes quelque part ?",
+  "intent": "help"
+ },
+ {
+  "q": "comment on se sert de ce terminal ?",
+  "intent": "help"
+ },
+ {
+  "q": "qu'est-ce que je peux te demander ?",
+  "intent": "help"
+ },
+ {
+  "q": "j'ai tapé un truc et rien ne se passe, comment ça fonctionne ?",
+  "intent": "help"
+ },
+ {
+  "q": "help stp",
+  "intent": "help"
+ },
+ {
+  "q": "montre moi ce que tu sais faire",
+  "intent": "help"
+ },
+ {
+  "q": "quels sujets tu peux couvrir ?",
+  "intent": "help"
+ },
+ {
+  "q": "je sais pas quoi ecrire",
+  "intent": "help"
+ },
+ {
+  "q": "donne-moi des exemples de questions à poser",
+  "intent": "help"
+ },
+ {
+  "q": "un petit mode d'emploi ?",
+  "intent": "help"
+ },
+ {
+  "q": "les commandes commencent par un slash ?",
+  "intent": "help"
+ },
+ {
+  "q": "comment je navigue dans les listes ?",
+  "intent": "help"
+ },
+ {
+  "q": "c'est quoi les raccourcis clavier ?",
+  "intent": "help"
+ },
+ {
+  "q": "je ne comprends pas comment ça marche",
+  "intent": "help"
+ },
+ {
+  "q": "au secours",
+  "intent": "help"
+ },
+ {
+  "q": "dis-moi ce que je peux faire ici",
+  "intent": "help"
+ },
+ {
+  "q": "hello, cto d'une boîte à nantes, je cherche des infos mais je sais pas comment m'y prendre ici",
+  "intent": "help"
+ },
+ {
+  "q": "la liste des commandes stp",
+  "intent": "help"
+ },
+ {
+  "q": "ok et maintenant je fais quoi ?",
+  "intent": "help"
+ },
+ {
+  "q": "tu réponds à quelles questions ?",
+  "intent": "help"
+ },
+ {
+  "q": "un coup de main ? je suis paumé",
+  "intent": "help"
+ },
+ {
+  "q": "c'est quoi les options",
+  "intent": "help"
+ },
+ {
+  "q": "comment on tape une commande",
+  "intent": "help"
+ },
+ {
+  "q": "tu peux m'expliquer comment utiliser ce site ?",
+  "intent": "help"
+ },
+ {
+  "q": "efface l'écran",
+  "intent": "clear"
+ },
+ {
+  "q": "clear",
+  "intent": "clear"
+ },
+ {
+  "q": "on repart de zéro",
+  "intent": "clear"
+ },
+ {
+  "q": "vide tout ça stp",
+  "intent": "clear"
+ },
+ {
+  "q": "nettoie le terminal",
+  "intent": "clear"
+ },
+ {
+  "q": "reset",
+  "intent": "clear"
+ },
+ {
+  "q": "c'est le bazar, tu peux tout éffacer ?",
+  "intent": "clear"
+ },
+ {
+  "q": "remets à zéro",
+  "intent": "clear"
+ },
+ {
+  "q": "supprime l'historique de la conversation",
+  "intent": "clear"
+ },
+ {
+  "q": "cls",
+  "intent": "clear"
+ },
+ {
+  "q": "page blanche svp",
+  "intent": "clear"
+ },
+ {
+  "q": "écran propre",
+  "intent": "clear"
+ },
+ {
+  "q": "efface tout ce qu'on s'est dit",
+  "intent": "clear"
+ },
+ {
+  "q": "je veux recommencer depuis le début, vide l'écran",
+  "intent": "clear"
+ },
+ {
+  "q": "trop de texte, fais le ménage",
+  "intent": "clear"
+ },
+ {
+  "q": "réinitialise",
+  "intent": "clear"
+ },
+ {
+  "q": "on efface tout et on reprend",
+  "intent": "clear"
+ },
+ {
+  "q": "vide la console",
+  "intent": "clear"
+ },
+ {
+  "q": "nettoyer l'ecran",
+  "intent": "clear"
+ },
+ {
+  "q": "tu peux effacer la conversation ? j'aimerais repartir sur du propre",
+  "intent": "clear"
+ },
+ {
+  "q": "je peux télécharger ton cv ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "t'as un cv en pdf ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "envoie moi ton CV",
+  "intent": "get_resume"
+ },
+ {
+  "q": "cv",
+  "intent": "get_resume"
+ },
+ {
+  "q": "où est-ce que je peux récupérer votre CV ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "bonjour, je suis chargée de recrutement chez un cabinet parisien, pourriez-vous me transmettre votre CV au format pdf ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "le cv en fichier stp",
+  "intent": "get_resume"
+ },
+ {
+  "q": "y a un lien pour download le cv ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "j'aimerais une version imprimable de ton cv",
+  "intent": "get_resume"
+ },
+ {
+  "q": "resume à télécharger, c'est possible ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "donne moi ton cv",
+  "intent": "get_resume"
+ },
+ {
+  "q": "je veux le cv complet en un seul fichier",
+  "intent": "get_resume"
+ },
+ {
+  "q": "vous avez un CV à jour que je peux télécharger ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "fais péter le cv",
+  "intent": "get_resume"
+ },
+ {
+  "q": "ton curriculum vitae, je peux l'avoir ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "CV téléchargeable ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "cv pdf svp",
+  "intent": "get_resume"
+ },
+ {
+  "q": "c'est possible d'exporter tout ça en cv ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "j'ai besoin de ton cv pour le transmettre à mon client",
+  "intent": "get_resume"
+ },
+ {
+  "q": "telecharger cv",
+  "intent": "get_resume"
+ },
+ {
+  "q": "tu peux m'envoyer ton cv en pièce jointe ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "je peux avoir le cv en version texte ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "le lien vers ton cv stp",
+  "intent": "get_resume"
+ },
+ {
+  "q": "un CV classique existe ? je dois le mettre dans notre ATS",
+  "intent": "get_resume"
+ },
+ {
+  "q": "comment je recupere ton cv ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "salut, je monte une équipe pour un client dans la fintech, tu peux me faire parvenir ton cv ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "ton cv est dispo en téléchargement ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "CV en pdf ou word ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "je voudrais garder une trace écrite, où est le cv à télécharger ?",
+  "intent": "get_resume"
+ },
+ {
+  "q": "mon boss veut voir un vrai cv, pas un terminal, t'as ça ?",
+  "intent": "get_resume"
+ }
+]

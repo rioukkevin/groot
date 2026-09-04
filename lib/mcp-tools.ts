@@ -24,6 +24,9 @@ export interface ToolDef {
 }
 
 const str = (v: unknown) => (typeof v === "string" ? v.toLowerCase() : "");
+/** Lowercase without diacritics, so a search matches in either spelling. */
+const fold = (s: string) => s.toLowerCase().normalize("NFD").replace(/\p{Mn}/gu, "");
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 export const TOOLS: ToolDef[] = [
   {
@@ -106,6 +109,27 @@ export const TOOLS: ToolDef[] = [
       })),
   },
   {
+    name: "get_role",
+    description: "One role in full, by company key or name: when, where, and what it involved.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        key: { type: "string", description: "Role key or company name, e.g. technis" },
+      },
+      required: ["key"],
+    },
+    run: (a, c) => {
+      const q = str(a.key);
+      const r =
+        c.roles.find((x) => x.key.toLowerCase() === q) ??
+        c.roles.find(
+          (x) => x.key.toLowerCase().includes(q) || x.where.toLowerCase().includes(q),
+        );
+      if (!r) return { error: "No such role.", known: c.roles.map((x) => x.key) };
+      return { key: r.key, when: r.when, role: r.what, where: r.where, detail: r.detail };
+    },
+  },
+  {
     name: "get_skills",
     description:
       "Technical stack and soft skills, grouped. Use this before claiming Kévin does or does not know a technology.",
@@ -142,9 +166,12 @@ export const TOOLS: ToolDef[] = [
       required: ["query"],
     },
     run: (a, c) => {
-      const q = str(a.query);
+      const q = fold(str(a.query)).trim();
       if (!q) return { matches: [] };
-      const hit = (s: string) => s.toLowerCase().includes(q);
+      // Whole words, accent-blind on both sides: "java" must not match
+      // "javascript", and "développeur" must be findable as "developpeur".
+      const re = new RegExp(`(^|[^\\p{L}\\p{N}])${escapeRe(q)}(?![\\p{L}\\p{N}])`, "iu");
+      const hit = (s: string) => re.test(fold(s));
       return {
         projects: Object.values(c.projects)
           .filter(

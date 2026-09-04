@@ -6,6 +6,8 @@ import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { ChoiceOption } from "@/lib/terminal/contact";
 
 interface PickerProps {
+  /** An answer from an earlier turn: read-only, its hint says so. */
+  frozen?: boolean;
   title: string;
   options: ChoiceOption[];
   perRow: number;
@@ -29,6 +31,7 @@ export function Picker({
   current,
   index,
   live,
+  frozen = false,
   onPick,
   onClaim,
   content,
@@ -51,7 +54,9 @@ export function Picker({
         {(active >= 0 ? `${content.s("label.inUse", "in use")}: ${options[active].label}   ` : "") +
           (live
             ? content.s("hint.picker", "←→ ↑↓ move · ↵ apply · esc release")
-            : content.s("hint.released", "released · click to take the keyboard back"))}
+            : frozen
+              ? content.s("hint.past", "earlier answer · read-only")
+              : content.s("hint.released", "released · click to take the keyboard back"))}
       </div>
     </div>
   );

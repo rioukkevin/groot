@@ -7,6 +7,8 @@ export interface Line {
   color: string;
   k: string;
   kcolor: string;
+  /** Set when this row carries the fact an answer just claimed. */
+  hl?: boolean;
 }
 
 export interface SelectItem {
@@ -16,12 +18,14 @@ export interface SelectItem {
   kcolor: string;
   text: string;
   color: string;
+  hl?: boolean;
 }
 
 export interface DiffRow {
   num: number;
   sign: string;
   text: string;
+  hl?: boolean;
 }
 
 export interface PhotoItem {
@@ -86,7 +90,12 @@ export type BlockSpec =
   | { kind: "carousel"; title: string; slides: CarouselSlide[] }
   | { kind: "demo"; panel: "primitives" }
   | { kind: "contact" }
-  | { kind: "chips"; groups: [string, string[], string?][] }
+  | {
+      kind: "chips";
+      groups: [string, string[], string?][];
+      /** Chip labels to light up, when an answer pointed at them. */
+      hl?: string[];
+    }
   | { kind: "voice"; current: Voice; onSelect: (v: Voice) => void }
   | {
       kind: "picker";

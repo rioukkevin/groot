@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
+import { HL_STYLE } from "@/lib/terminal/highlight";
+
 import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { SelectItem } from "@/lib/terminal/types";
 
@@ -12,6 +14,8 @@ interface SelectBlockProps {
   items: SelectItem[];
   /** Only the newest select block responds to the arrow keys. */
   live: boolean;
+  /** An answer from an earlier turn: read-only, no claim, no hint to click. */
+  frozen?: boolean;
   selIdx: number;
   onHover: (i: number) => void;
   onPick: (i: number, cmd: string) => void;
@@ -26,6 +30,7 @@ export function SelectBlock({
   hint,
   items,
   live,
+  frozen = false,
   selIdx,
   onHover,
   onPick,
@@ -61,12 +66,16 @@ export function SelectBlock({
               role="option"
               aria-selected={on}
               className="block whitespace-pre"
-              style={{
-                background: on
-                  ? "color-mix(in oklab, var(--accent) 15%, transparent)"
-                  : "transparent",
-                color: it.color,
-              }}
+              style={
+                it.hl && !on
+                  ? HL_STYLE
+                  : {
+                      background: on
+                        ? "color-mix(in oklab, var(--accent) 15%, transparent)"
+                        : "transparent",
+                      color: it.color,
+                    }
+              }
               onClick={() => onPick(i, it.cmd)}
               onMouseEnter={() => onHover(i)}
             >
@@ -81,7 +90,9 @@ export function SelectBlock({
         className="whitespace-pre pt-1"
         style={{ color: "var(--faint)" }}
       >
-        {live ? hint : "  " + content.s("hint.listReleased", "↑↓ released · click a row to open")}
+        {live
+          ? hint
+          : "  " + (frozen ? content.s("hint.past", "earlier answer · read-only") : content.s("hint.listReleased", "↑↓ released · click a row to open"))}
       </div>
     </div>
   );

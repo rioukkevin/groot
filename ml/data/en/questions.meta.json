@@ -1,0 +1,536 @@
+[
+  {
+    "q": "wait, is this an actual terminal or just a web page styled like one?",
+    "intent": "about_site"
+  },
+  {
+    "q": "what am I looking at here",
+    "intent": "about_site"
+  },
+  {
+    "q": "did u build this site yourself or is it a template",
+    "intent": "about_site"
+  },
+  {
+    "q": "am I talking to a bot right now",
+    "intent": "about_site"
+  },
+  {
+    "q": "is there an llm behind this thing",
+    "intent": "about_site"
+  },
+  {
+    "q": "does what I type here get sent to a server somewhere?",
+    "intent": "about_site"
+  },
+  {
+    "q": "quick privacy question: are my messages stored anywhere",
+    "intent": "about_site"
+  },
+  {
+    "q": "what model powers this chat, gpt or something else",
+    "intent": "about_site"
+  },
+  {
+    "q": "is the code for this portfolio on github",
+    "intent": "about_site"
+  },
+  {
+    "q": "how does this site work under the hood",
+    "intent": "about_site"
+  },
+  {
+    "q": "everything runs in my browser, right? no backend?",
+    "intent": "about_site"
+  },
+  {
+    "q": "so am I chatting with a real person or a script",
+    "intent": "about_site"
+  },
+  {
+    "q": "which framework did you use for this site",
+    "intent": "about_site"
+  },
+  {
+    "q": "how did you make the terminal effect",
+    "intent": "about_site"
+  },
+  {
+    "q": "Is this website open-source? I'd love to fork it",
+    "intent": "about_site"
+  },
+  {
+    "q": "are you a human or an AI kevin",
+    "intent": "about_site"
+  },
+  {
+    "q": "how long did it take you to build this site",
+    "intent": "about_site"
+  },
+  {
+    "q": "chatgpt wrapper or something custom?",
+    "intent": "about_site"
+  },
+  {
+    "q": "who made this webiste",
+    "intent": "about_site"
+  },
+  {
+    "q": "does this thing understand what I type or is it just keyword matching",
+    "intent": "about_site"
+  },
+  {
+    "q": "whats this site built on, next.js?",
+    "intent": "about_site"
+  },
+  {
+    "q": "why a terminal for a portfolio?",
+    "intent": "about_site"
+  },
+  {
+    "q": "does my question leave the page when I hit enter",
+    "intent": "about_site"
+  },
+  {
+    "q": "can I see the source of this page",
+    "intent": "about_site"
+  },
+  {
+    "q": "so this is an ai chatbot?",
+    "intent": "about_site"
+  },
+  {
+    "q": "the classifier here, does it run on-device?",
+    "intent": "about_site"
+  },
+  {
+    "q": "where does the stuff I type actually go",
+    "intent": "about_site"
+  },
+  {
+    "q": "hey, curious dev here — what's the tech behind this shell?",
+    "intent": "about_site"
+  },
+  {
+    "q": "was this site made with an ai or by hand",
+    "intent": "about_site"
+  },
+  {
+    "q": "wich model is running here, something small and local?",
+    "intent": "about_site"
+  },
+  {
+    "q": "tell me more about that",
+    "intent": "more",
+    "last": "/about"
+  },
+  {
+    "q": "and? there must be more to it",
+    "intent": "more",
+    "last": "/now"
+  },
+  {
+    "q": "can you break that down a bit",
+    "intent": "more",
+    "last": "/rates"
+  },
+  {
+    "q": "anything else I should know?",
+    "intent": "more",
+    "last": "/contact"
+  },
+  {
+    "q": "ok, what else",
+    "intent": "more",
+    "last": "/stack"
+  },
+  {
+    "q": "go deeper please",
+    "intent": "more",
+    "last": "/skills"
+  },
+  {
+    "q": "is that the whole story?",
+    "intent": "more",
+    "last": "/education"
+  },
+  {
+    "q": "show me the rest",
+    "intent": "more",
+    "last": "/projects"
+  },
+  {
+    "q": "keep going, I'm listening",
+    "intent": "more",
+    "last": "/roles"
+  },
+  {
+    "q": "more on this one",
+    "intent": "more",
+    "last": "/project britch"
+  },
+  {
+    "q": "anything besides that?",
+    "intent": "more",
+    "last": "/help"
+  },
+  {
+    "q": "got more of those?",
+    "intent": "more",
+    "last": "/photos"
+  },
+  {
+    "q": "more details pls",
+    "intent": "more",
+    "last": "/resume"
+  },
+  {
+    "q": "any other ones?",
+    "intent": "more",
+    "last": "/theme"
+  },
+  {
+    "q": "and the others?",
+    "intent": "more",
+    "last": "/voice"
+  },
+  {
+    "q": "elaborate",
+    "intent": "more",
+    "last": "/about"
+  },
+  {
+    "q": "hmm, expand on that",
+    "intent": "more",
+    "last": "/rates"
+  },
+  {
+    "q": "is there more?",
+    "intent": "more",
+    "last": "/projects"
+  },
+  {
+    "q": "give me the long version",
+    "intent": "more",
+    "last": "/roles"
+  },
+  {
+    "q": "continue",
+    "intent": "more",
+    "last": "/education"
+  },
+  {
+    "q": "say more",
+    "intent": "more",
+    "last": "/skills"
+  },
+  {
+    "q": "could you be a bit more specfic",
+    "intent": "more",
+    "last": "/now"
+  },
+  {
+    "q": "more plz",
+    "intent": "more",
+    "last": "/stack"
+  },
+  {
+    "q": "that's it? nothing else?",
+    "intent": "more",
+    "last": "/contact"
+  },
+  {
+    "q": "unpack that for me",
+    "intent": "more",
+    "last": "/project britch"
+  },
+  {
+    "q": "do you speak french?",
+    "intent": "language",
+    "slot": "fr"
+  },
+  {
+    "q": "can we switch to english",
+    "intent": "language",
+    "slot": "en"
+  },
+  {
+    "q": "en français svp",
+    "intent": "language",
+    "slot": "fr"
+  },
+  {
+    "q": "is there a french version of this site",
+    "intent": "language",
+    "slot": "fr"
+  },
+  {
+    "q": "parlez-vous français ?",
+    "intent": "language",
+    "slot": "fr"
+  },
+  {
+    "q": "english please",
+    "intent": "language",
+    "slot": "en"
+  },
+  {
+    "q": "can you answer in french from now on",
+    "intent": "language",
+    "slot": "fr"
+  },
+  {
+    "q": "do you understand english or only french",
+    "intent": "language",
+    "slot": "en"
+  },
+  {
+    "q": "can I get this in french",
+    "intent": "language",
+    "slot": "fr"
+  },
+  {
+    "q": "je préfère le français",
+    "intent": "language",
+    "slot": "fr"
+  },
+  {
+    "q": "is english ok with you?",
+    "intent": "language",
+    "slot": "en"
+  },
+  {
+    "q": "switch language to english pls",
+    "intent": "language",
+    "slot": "en"
+  },
+  {
+    "q": "you speak english right?",
+    "intent": "language",
+    "slot": "en"
+  },
+  {
+    "q": "would you mind continuing in french",
+    "intent": "language",
+    "slot": "fr"
+  },
+  {
+    "q": "could you reply in english, my french is rusty",
+    "intent": "language",
+    "slot": "en"
+  },
+  {
+    "q": "french version?",
+    "intent": "language",
+    "slot": "fr"
+  },
+  {
+    "q": "does this shell work in english too",
+    "intent": "language",
+    "slot": "en"
+  },
+  {
+    "q": "hey, I'm from Montreal, can we do this en français",
+    "intent": "language",
+    "slot": "fr"
+  },
+  {
+    "q": "sorry, english only here — is that a problem",
+    "intent": "language",
+    "slot": "en"
+  },
+  {
+    "q": "francais possible?",
+    "intent": "language",
+    "slot": "fr"
+  },
+  {
+    "q": "do u speak frnech",
+    "intent": "language",
+    "slot": "fr"
+  },
+  {
+    "q": "so, who's kevin?",
+    "intent": "get_profile"
+  },
+  {
+    "q": "give me your elevator pitch",
+    "intent": "get_profile"
+  },
+  {
+    "q": "what do you do exactly",
+    "intent": "get_profile"
+  },
+  {
+    "q": "where are you loacted",
+    "intent": "get_profile"
+  },
+  {
+    "q": "are you freelance or part of an agency",
+    "intent": "get_profile"
+  },
+  {
+    "q": "hi! I'm a recruiter in London, could you introduce yourself briefly?",
+    "intent": "get_profile"
+  },
+  {
+    "q": "whats your job title",
+    "intent": "get_profile"
+  },
+  {
+    "q": "tell me about yourself",
+    "intent": "get_profile"
+  },
+  {
+    "q": "which city are you in",
+    "intent": "get_profile"
+  },
+  {
+    "q": "are you a frontend or backend person",
+    "intent": "get_profile"
+  },
+  {
+    "q": "do you work alone or with a team",
+    "intent": "get_profile"
+  },
+  {
+    "q": "quick intro pls",
+    "intent": "get_profile"
+  },
+  {
+    "q": "are you based in france",
+    "intent": "get_profile"
+  },
+  {
+    "q": "fullstack dev, right? web or mobile?",
+    "intent": "get_profile"
+  },
+  {
+    "q": "what should I know about you before we talk",
+    "intent": "get_profile"
+  },
+  {
+    "q": "what timezone are you in",
+    "intent": "get_profile"
+  },
+  {
+    "q": "so what's your deal, what do you actually do",
+    "intent": "get_profile"
+  },
+  {
+    "q": "describe yourself in one sentence",
+    "intent": "get_profile"
+  },
+  {
+    "q": "are you employed somewhere or independent",
+    "intent": "get_profile"
+  },
+  {
+    "q": "who is kévin riou",
+    "intent": "get_profile"
+  },
+  {
+    "q": "what kind of work do u do",
+    "intent": "get_profile"
+  },
+  {
+    "q": "what's your name",
+    "intent": "get_profile"
+  },
+  {
+    "q": "who am I dealing with here, a dev or a designer?",
+    "intent": "get_profile"
+  },
+  {
+    "q": "hey kevin, a friend of mine gave me your link, what do you do for work?",
+    "intent": "get_profile"
+  },
+  {
+    "q": "in a nutshell, who are you and what do you offer",
+    "intent": "get_profile"
+  },
+  {
+    "q": "one-man show or a full company?",
+    "intent": "get_profile"
+  },
+  {
+    "q": "where do you live",
+    "intent": "get_profile"
+  },
+  {
+    "q": "your profile in 3 lines",
+    "intent": "get_profile"
+  },
+  {
+    "q": "about you",
+    "intent": "get_profile"
+  },
+  {
+    "q": "tell me a bit about who you are",
+    "intent": "get_profile"
+  },
+  {
+    "q": "developer, engineer, consultant — what do you call yourself?",
+    "intent": "get_profile"
+  },
+  {
+    "q": "I need a short bio for our vendor file, can you give me one",
+    "intent": "get_profile"
+  },
+  {
+    "q": "so you're a web developper?",
+    "intent": "get_profile"
+  },
+  {
+    "q": "u a freelancer?",
+    "intent": "get_profile"
+  },
+  {
+    "q": "is paris where you work from",
+    "intent": "get_profile"
+  },
+  {
+    "q": "do you do design too or just code",
+    "intent": "get_profile"
+  },
+  {
+    "q": "intro?",
+    "intent": "get_profile"
+  },
+  {
+    "q": "what type of developer are you, mobile, web, both?",
+    "intent": "get_profile"
+  },
+  {
+    "q": "where r u based",
+    "intent": "get_profile"
+  },
+  {
+    "q": "can you sum yourself up quickly",
+    "intent": "get_profile"
+  },
+  {
+    "q": "dev shop or individual?",
+    "intent": "get_profile"
+  },
+  {
+    "q": "how would you describe what you do",
+    "intent": "get_profile"
+  },
+  {
+    "q": "who r u",
+    "intent": "get_profile"
+  },
+  {
+    "q": "whats your profession",
+    "intent": "get_profile"
+  },
+  {
+    "q": "do you work for yourself",
+    "intent": "get_profile"
+  },
+  {
+    "q": "hello, we're a small startup in Berlin looking for a dev — first, who are you?",
+    "intent": "get_profile"
+  }
+]

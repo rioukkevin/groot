@@ -7,6 +7,8 @@ import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { CarouselSlide } from "@/lib/terminal/types";
 
 interface CarouselProps {
+  /** An answer from an earlier turn: read-only, its hint says so. */
+  frozen?: boolean;
   title: string;
   slides: CarouselSlide[];
   /** True when this carousel owns the arrow keys. */
@@ -29,6 +31,7 @@ export function Carousel({
   title,
   slides,
   live,
+  frozen = false,
   index,
   onIndexChange,
   onClaim,
@@ -121,7 +124,11 @@ export function Carousel({
           className="max-w-full truncate text-center"
           style={{ color: "var(--faint)" }}
         >
-          {live ? content.s("hint.carousel", "←→ move · ↵ open full screen · esc release") : content.s("hint.released", "released · click to take the keyboard back")}
+          {live
+            ? content.s("hint.carousel", "←→ move · ↵ open full screen · esc release")
+            : frozen
+              ? content.s("hint.past", "earlier answer · read-only")
+              : content.s("hint.released", "released · click to take the keyboard back")}
         </div>
       </div>
     </div>

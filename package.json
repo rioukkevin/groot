@@ -13,7 +13,11 @@
     "cms:seed": "bun run --env-file=.env.local cms/seed.ts",
     "content:export": "bun run cms/export-content.ts",
     "ml:train": "python3 ml/train.py",
-    "ml:parity": "node ml/parity.mjs"
+    "ml:parity": "node ml/parity.mjs",
+    "ml:train:chat": "uv run --python 3.12 --with numpy python ml/train_chat.py",
+    "ml:parity:chat": "bun ml/parity_chat.mts",
+    "ml:eval:chat": "bun ml/eval_chat.mts",
+    "test": "bun test"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.88.0",
@@ -33,6 +37,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/bun": "^1.4.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

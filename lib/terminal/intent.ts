@@ -1,12 +1,20 @@
+import { predictChat } from "./chat-model";
+import { fullModel } from "./model-tiers";
+
 import type { Locale } from "./locale";
 
 /**
- * Runs the intent classifier trained by `ml/train.py`.
+ * Runs the intent classifier — whichever tier is on duty.
  *
- * One model per language, 144 KB each, fetched once and cached. It classifies
- * a question into one of the tools; it does not write anything. That division
- * is the point: at this size a model can decide reliably and cannot compose
- * fluently, so the deciding is its job and the words stay the site's.
+ * The light model here is the one trained by `ml/train.py`: 200 KB per
+ * language, fetched with the page, nine intents. Once `model-tiers.ts` has the
+ * full model in memory, `classify()` uses that instead; the caller sees the
+ * same shape either way, plus which tier answered so the transcript can say.
+ *
+ * Both models classify a question into an intent; neither writes anything.
+ * That division is the point: at these sizes a model can decide reliably and
+ * cannot compose fluently, so the deciding is its job and the words stay the
+ * site's.
  *
  * The feature extraction below must match `features()` in the trainer exactly —
  * same normalisation, same n-gram range, same FNV-1a hash, same L2 norm. The
@@ -84,6 +92,8 @@ export function features(
   return counts;
 }
 
+export type Tier = "light" | "full";
+
 export interface Prediction {
   intent: string;
   /** Softmax probability of the winner — the caller decides what to trust. */
@@ -91,20 +101,11 @@ export interface Prediction {
   /** Probability of the second-placed intent, for a margin check. A narrow
    *  margin means two intents fit equally, which is its own kind of wrong. */
   runnerUp: number;
+  /** Which model decided, so the transcript can say so. */
+  tier: Tier;
 }
 
-/**
- * Classifies a question, or returns null when there is no model for the
- * locale. A low confidence is not an error: the caller falls back to search,
- * which is the honest response to a question the classifier has not seen.
- */
-export async function classify(
-  question: string,
-  locale: Locale,
-): Promise<Prediction | null> {
-  const model = await load(locale);
-  if (!model) return null;
-
+function classifyLight(question: string, model: IntentModel): Prediction {
   const x = features(question, model.buckets, model.ngram[0], model.ngram[1]);
   const scores = model.labels.map((_, c) => {
     let s = model.bias[c];
@@ -123,10 +124,29 @@ export async function classify(
   const rest = probs.filter((_, i) => i !== best);
   const runnerUp = rest.length ? Math.max(...rest) : 0;
 
-  return { intent: model.labels[best], confidence: probs[best], runnerUp };
+  return { intent: model.labels[best], confidence: probs[best], runnerUp, tier: "light" };
 }
 
-/** Warms the model so the first question does not pay for the fetch. */
+/**
+ * Classifies a question, or returns null when there is no model for the
+ * locale. A low confidence is not an error: the caller falls back to search,
+ * which is the honest response to a question the classifier has not seen.
+ */
+export async function classify(
+  question: string,
+  locale: Locale,
+): Promise<Prediction | null> {
+  const full = fullModel(locale);
+  if (full) {
+    const p = predictChat(full, question);
+    return { intent: p.intent, confidence: p.confidence, runnerUp: p.runnerUp, tier: "full" };
+  }
+  const model = await load(locale);
+  if (!model) return null;
+  return classifyLight(question, model);
+}
+
+/** Warms the light model so the first question does not pay for the fetch. */
 export function preloadIntent(locale: Locale): void {
   void load(locale);
 }
