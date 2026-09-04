@@ -15,6 +15,13 @@ export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
 }
 
+/**
+ * Prerendered at build, then regenerated in the background at most every
+ * five minutes: an edit in the CMS reaches the page without a redeploy, and
+ * a visitor still gets a static page.
+ */
+export const revalidate = 300;
+
 /** Per-locale metadata, with each language pointing at the other. */
 export async function generateMetadata({
   params,

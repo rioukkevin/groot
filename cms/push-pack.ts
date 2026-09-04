@@ -77,12 +77,22 @@ async function call<T = unknown>(tool: string, args: Record<string, unknown>): P
   const msg = JSON.parse(data) as { result?: { content?: { type: string; text: string }[]; isError?: boolean }; error?: { message: string } };
   if (msg.error) throw new Error(`${tool}: ${msg.error.message}`);
   const text = msg.result?.content?.map((c) => c.text).join("\n") ?? "";
-  if (msg.result?.isError) throw new Error(`${tool}: ${text.slice(0, 500)}`);
-  try {
-    return JSON.parse(text) as T;
-  } catch {
-    return text as unknown as T;
-  }
+  if (msg.result?.isError || /^(Error|❌)/.test(text.trim())) throw new Error(`${tool}: ${text.slice(0, 500)}`);
+  return extract(text) as T;
+}
+
+/**
+ * The plugin answers in prose with the JSON after it: a list comes as one
+ * fenced block per document under a "Total: N documents" line, a single
+ * document as the object after the first blank line.
+ */
+function extract(text: string): { docs: unknown[]; doc: unknown } {
+  const fenced = [...text.matchAll(/```json\n([\s\S]*?)\n```/g)].map((m) => JSON.parse(m[1]) as unknown);
+  if (fenced.length || /Total: \d+ documents/.test(text)) return { docs: fenced, doc: fenced[0] ?? null };
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  const doc = start >= 0 && end > start ? (JSON.parse(text.slice(start, end + 1)) as unknown) : null;
+  return { docs: doc ? [doc] : [], doc };
 }
 
 // ── the pack, parsed ───────────────────────────────────────────────────────
@@ -204,6 +214,22 @@ function parseProfile(md: string): Profile {
   };
 }
 
+interface RoleDoc { key: string; when: string; what: string; where: string; detail: { label?: string; text: string }[] }
+
+/** The role markdown: title is the role, meta lines, then "**Label** — text" lines. */
+function parseRole(md: string): RoleDoc {
+  const lines = md.split("\n");
+  const what = lines[0].replace(/^#\s*/, "").trim();
+  const meta = (k: string) => md.match(new RegExp(`^- \\*\\*${k}:\\*\\*\\s*(.*)$`, "m"))?.[1].trim() ?? "";
+  const detail = lines
+    .filter((l) => l.trim() && !l.startsWith("#") && !l.startsWith("- **"))
+    .map((l) => {
+      const m = l.match(/^\*\*(.+?)\*\*\s+—\s+(.*)$/);
+      return m ? { label: m[1].trim(), text: m[2].trim() } : { text: l.trim() };
+    });
+  return { key: meta("key"), when: meta("when"), what, where: meta("where"), detail };
+}
+
 function parseEducation(md: string): { when: string; what: string; where: string }[] {
   return md
     .split("\n")
@@ -227,6 +253,10 @@ const resume = { en: read("site/resume.en.txt").trimEnd(), fr: read("site/resume
 const stack = { en: parseChips(read("skills/stack.en.md")), fr: parseChips(read("skills/stack.fr.md")) };
 const soft = { en: parseChips(read("skills/soft-skills.en.md")), fr: parseChips(read("skills/soft-skills.fr.md")) };
 const education = { en: parseEducation(read("education/education.en.md")), fr: parseEducation(read("education/education.fr.md")) };
+const ROLE_ORDER = ["nareli", "technis", "freelance", "alpha8", "pasquier", "triskalia", "cdg29"];
+const roles: Record<Locale, Record<string, RoleDoc>> = { en: {}, fr: {} };
+for (const k of ROLE_ORDER) for (const l of LOCALES) roles[l][k] = parseRole(read(`roles/${k}/role.${l}.md`));
+const uiText = { en: JSON.parse(read("ui-text/ui-text.en.json")) as Record<string, unknown>, fr: JSON.parse(read("ui-text/ui-text.fr.json")) as Record<string, unknown> };
 
 const projectBody = (p: ProjectDoc, dir: string, locale: Locale, order: number) => ({
   ...(locale === "en"
@@ -284,7 +314,7 @@ if (!APPLY) process.exit(0);
 
 // ── apply ──────────────────────────────────────────────────────────────────
 
-interface Found<T> { docs: T[]; totalDocs?: number }
+interface Found<T> { docs: T[]; doc: T | null }
 const existing = await call<Found<{ id: number; key: string }>>("findProjects", { limit: 100, locale: "en" });
 const byKey = new Map(existing.docs.map((d) => [d.key, d.id]));
 console.log(`\nproduction has ${existing.docs.length} projects: ${existing.docs.map((d) => d.key).join(", ")}`);
@@ -296,8 +326,9 @@ for (const [i, dir] of ORDER.entries()) {
     await call("updateProjects", { id, locale: "en", ...en });
     console.log(`· updated ${dir} (en)`);
   } else {
-    const created = await call<{ id: number } | { doc: { id: number } }>("createProjects", { locale: "en", ...en });
-    id = "doc" in created ? created.doc.id : created.id;
+    const created = await call<Found<{ id: number }>>("createProjects", { locale: "en", ...en });
+    id = created.doc?.id;
+    if (!id) throw new Error(`createProjects(${dir}) returned no id`);
     console.log(`· created ${dir} (en) → #${id}`);
   }
   await call("updateProjects", { id, locale: "fr", ...projectBody(projects.fr[dir], dir, "fr", i) });
@@ -316,21 +347,75 @@ for (const locale of LOCALES) {
   console.log(`· site content (${locale})`);
 }
 
-const edu = await call<Found<{ id: number; order?: number }>>("findEducation", { limit: 100, locale: "en", sort: "order" });
-const rows = edu.docs.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+// Education is recreated rather than updated: its "where" field (the school)
+// collides with the update tool's own "where" clause parameter. Three rows,
+// ids nobody links to — cheap to replace. The French skips "where": the
+// school names are the same in both languages and fall back to English.
+const edu = await call<Found<{ id: number }>>("findEducation", { limit: 100, locale: "en" });
+for (const old of edu.docs) await call("deleteEducation", { id: old.id });
 for (const [i, e] of education.en.entries()) {
-  const target = rows[i];
-  if (target) {
-    await call("updateEducation", { id: target.id, locale: "en", order: i, ...e });
-    await call("updateEducation", { id: target.id, locale: "fr", ...education.fr[i] });
-  } else {
-    const created = await call<{ id: number } | { doc: { id: number } }>("createEducation", { locale: "en", order: i, ...e });
-    const id = "doc" in created ? created.doc.id : created.id;
-    await call("updateEducation", { id, locale: "fr", ...education.fr[i] });
+  const created = await call<Found<{ id: number }>>("createEducation", { locale: "en", order: i, ...e });
+  const id = created.doc?.id;
+  if (!id) throw new Error("createEducation returned no id");
+  const fr = education.fr[i];
+  await call("updateEducation", { id, locale: "fr", when: fr.when, what: fr.what });
+}
+console.log(`· education (${education.en.length} rows, en + fr)`);
+
+// UI text: the export of the local CMS, both locales. Payload's row ids come
+// out with the export and are refused on the way back in, so they go; the
+// voiced groups are top-level fields of the global, not one object.
+const stripIds = (v: unknown): unknown =>
+  Array.isArray(v)
+    ? v.map(stripIds)
+    : v && typeof v === "object"
+      ? Object.fromEntries(Object.entries(v as Record<string, unknown>).filter(([k]) => k !== "id").map(([k, x]) => [k, stripIds(x)]))
+      : v;
+/**
+ * The interface strings the code ships with live in cms/seed.ts; the pack's
+ * UI text may predate the newest keys. Read the seed's two `strings: [...]`
+ * tables so a push never leaves production behind the code.
+ */
+function seedStrings(locale: Locale): Record<string, string> {
+  const src = readFileSync(path.join(ROOT, "cms", "seed.ts"), "utf8");
+  const blocks = [...src.matchAll(/strings: \[\n([\s\S]*?)\n\s*\],/g)].map((m) => m[1]);
+  const block = blocks[locale === "en" ? 0 : 1] ?? "";
+  const out: Record<string, string> = {};
+  for (const m of block.matchAll(/\{ key: "([^"]+)", text: ("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*') \}/g)) {
+    out[m[1]] = JSON.parse(m[2].startsWith("'") ? JSON.stringify(m[2].slice(1, -1).replace(/\\'/g, "'")) : m[2]) as string;
+  }
+  return out;
+}
+
+for (const locale of LOCALES) {
+  const { voiced, strings: stringMap, ...rest } = uiText[locale];
+  const merged = { ...((stringMap as Record<string, string>) ?? {}), ...seedStrings(locale) };
+  const strings = Object.entries(merged).map(([key, text]) => ({ key, text }));
+  const voicedGroups = Object.fromEntries(Object.entries((voiced as Record<string, unknown>) ?? {}).filter(([, g]) => g));
+  await call("updateUiText", { locale, ...(stripIds({ ...rest, ...voicedGroups }) as Record<string, unknown>), strings });
+  console.log(`· ui text (${locale}) · ${strings.length} strings`);
+}
+
+// Roles: same "where" collision as education, same answer — recreate, and
+// let the French "where" fall back to English (only Nareli's differs:
+// "Paris / remote" vs "Paris / à distance"; fix that one in the admin).
+const existingRoles = await call<Found<{ id: number }>>("findRoles", { limit: 100, locale: "en" });
+for (const old of existingRoles.docs) await call("deleteRoles", { id: old.id });
+for (const [i, k] of ROLE_ORDER.entries()) {
+  const en = roles.en[k];
+  const created = await call<Found<{ id: number }>>("createRoles", { locale: "en", key: en.key, order: i, when: en.when, what: en.what, where: en.where, detail: en.detail });
+  const id = created.doc?.id;
+  if (!id) throw new Error(`createRoles(${k}) returned no id`);
+  const fr = roles.fr[k];
+  try {
+    await call("updateRoles", { id, locale: "fr", when: fr.when, what: fr.what, detail: fr.detail });
+  } catch (e) {
+    // Until the schema making "where" optional is deployed, the French
+    // update is refused; the English row stands and the run goes on.
+    console.log(`  ! ${k} (fr) not updated: ${(e as Error).message.split("\n")[0].slice(0, 120)}`);
   }
 }
-for (const extra of rows.slice(education.en.length)) await call("deleteEducation", { id: extra.id });
-console.log(`· education (${education.en.length} rows, en + fr)`);
+console.log(`· roles (${ROLE_ORDER.length} rows, en + fr)`);
 
 const check = await call<Found<{ key: string; name: string; status: string }>>("findProjects", { limit: 100, locale: "fr", sort: "order" });
 console.log(`\nproduction now (fr): ${check.docs.map((d) => `${d.key} "${d.name}" · ${d.status}`).join("\n                     ")}`);

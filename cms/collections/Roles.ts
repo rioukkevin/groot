@@ -22,7 +22,10 @@ export const Roles: CollectionConfig = {
       admin: { description: "e.g. 2024 — now. Localised: 'now' translates." },
     },
     { name: "what", type: "text", required: true, localized: true },
-    { name: "where", type: "text", required: true, localized: true },
+    // Not required: the MCP update tool reads an argument named "where" as a
+    // query clause, so a client cannot set this field per locale. Left empty
+    // in French it falls back to English, and city names rarely differ.
+    { name: "where", type: "text", localized: true },
     {
       name: "detail",
       type: "array",
