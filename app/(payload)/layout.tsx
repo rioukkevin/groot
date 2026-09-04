@@ -1,5 +1,6 @@
-/* Payload's admin runs in its own route group with its own root layout, so the
-   terminal's global stylesheet and monospace font never reach it. */
+/* Payload's admin runs in its own route group with its own root layout — the
+   site's lives in app/(site) — so the terminal's global stylesheet and
+   monospace font never reach it. */
 import { RootLayout, handleServerFunctions } from "@payloadcms/next/layouts";
 import React from "react";
 

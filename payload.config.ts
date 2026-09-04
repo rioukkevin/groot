@@ -140,14 +140,15 @@ export default buildConfig({
         },
       },
     }),
-    ...(blobToken
-      ? [
-          vercelBlobStorage({
-            enabled: true,
-            collections: { [Media.slug]: true },
-            token: blobToken,
-          }),
-        ]
-      : []),
+    // Always in the list, even with no token. Disabled, the plugin leaves
+    // uploads on disk but still registers its client component, so the import
+    // map generated on a laptop matches the one production needs. Left out
+    // locally, every `next dev` rewrote the map without the component and the
+    // production admin could not find it.
+    vercelBlobStorage({
+      enabled: Boolean(blobToken),
+      collections: { [Media.slug]: true },
+      token: blobToken,
+    }),
   ],
 });

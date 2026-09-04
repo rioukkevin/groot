@@ -41,9 +41,9 @@ custom component:
 bun run cms:importmap
 ```
 
-The generator forces the Blob plugin on while it runs: locally the plugin is
-off for want of a token, and a map generated without it lacks the client
-upload handler the production admin needs.
+The Blob plugin stays in the config even with no token — disabled, uploads go
+to disk — so the map generated on a laptop carries the same client upload
+handler production needs. `next dev` regenerates the map on start too.
 
 ### Migrations
 

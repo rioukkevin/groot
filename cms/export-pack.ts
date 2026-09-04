@@ -20,7 +20,6 @@ import config from "@payload-config";
 const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT = path.join(ROOT, "content-export", "pack");
 const LOCALES = ["en", "fr"] as const;
-type Locale = (typeof LOCALES)[number];
 
 const str = (v: unknown, fallback = ""): string => (typeof v === "string" && v.length ? v : fallback);
 const arr = <T,>(v: T[] | null | undefined): T[] => v ?? [];
