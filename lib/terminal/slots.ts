@@ -179,9 +179,11 @@ export function findRole(question: string, c: ShellContentData, allowGeneric = f
 
 /** Alias → the label as it appears in the stack, in every locale's spelling
  *  when they differ; `lookup()` tries each. */
-const LLM = ["LLM APIs", "API de LLM"];
-const AGENTS = ["Agents & MCP"];
-const ASSISTED = ["AI-assisted delivery", "Développement assisté par IA"];
+// Every spelling a label has had, in either language: the stack is edited in
+// the CMS and the aliases must keep finding it.
+const LLM = ["LLM APIs", "API de LLM", "AI-assisted", "Développement assisté par IA"];
+const AGENTS = ["Agents & MCP", "Automations", "Automatisations IA"];
+const ASSISTED = ["AI-assisted delivery", "Développement assisté par IA", "AI-assisted"];
 const TECH_ALIAS: Record<string, string | string[]> = {
   next: "Next.js",
   nextjs: "Next.js",
@@ -246,6 +248,8 @@ const TECH_ALIAS: Record<string, string | string[]> = {
   playwright: "Playwright",
   jest: "Jest",
   vitest: "Vitest",
+  bun: ["Bun Tests", "Tests Bun"],
+  redis: "Redis",
   prisma: "Prisma",
   firebase: "Firebase",
   supabase: "Supabase",
@@ -275,7 +279,7 @@ const OTHER_TECH = [
   "rust", "golang", "java", "kotlin", "swift", "flutter", "dart", "angular",
   "svelte", "solid", "astro", "remix", "laravel", "symfony", "django", "flask",
   "rails", "ruby", "python", "wordpress", "shopify", "drupal", "magento",
-  "prestashop", "webflow", "aws", "gcp", "azure", "terraform", "ansible", "redis",
+  "prestashop", "webflow", "aws", "gcp", "azure", "terraform", "ansible",
   "mysql", "sqlite", "elasticsearch", "kafka", "rabbitmq", "unity", "unreal",
   "c++", "scala", "elixir", "haskell", "clojure", "cypress", "storybook",
   "figma", "ionic", "capacitor", "electron", "tauri", "deno", "bun", "webpack",

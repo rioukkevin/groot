@@ -97,10 +97,12 @@ export function ProjectView({
     };
   }, []);
 
+  // A paragraph keeps its own line breaks — a bullet list stays a list — and
+  // each of its lines is wrapped to the pane; one blank line closes it.
   const lines: Line[] = [
     ...meta,
     ...paragraphs.flatMap((para) => [
-      ...wrap(para, cols).map((l) => L(l, "var(--dim)")),
+      ...para.split("\n").flatMap((line) => (line.trim() ? wrap(line, cols) : [""])).map((l) => L(l, "var(--dim)")),
       L(""),
     ]),
   ];

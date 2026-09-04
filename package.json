@@ -22,7 +22,8 @@
     "migrate:create": "bun run --env-file=.env.local cms/migrate.ts create",
     "migrate": "bun run --env-file=.env.local cms/migrate.ts run",
     "content:pack": "bun run --env-file=.env.local cms/export-pack.ts && cd content-export && rm -f content-pack.zip && zip -qr content-pack.zip pack && echo '→ content-export/content-pack.zip'",
-    "cms:importmap": "bun run --env-file=.env.local cms/gen-importmap.ts"
+    "cms:importmap": "bun run --env-file=.env.local cms/gen-importmap.ts",
+    "content:push": "bun run cms/push-pack.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.88.0",
