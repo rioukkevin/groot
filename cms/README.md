@@ -31,6 +31,20 @@ The blob store must be public: the plugin only supports public access, and the
 shell draws the images onto canvases, which needs the CORS headers a public
 store sends.
 
+### Import map
+
+The admin loads plugin components through `app/(payload)/admin/importMap.js`,
+which is generated, not written. Regenerate it after adding a plugin or a
+custom component:
+
+```bash
+bun run cms:importmap
+```
+
+The generator forces the Blob plugin on while it runs: locally the plugin is
+off for want of a token, and a map generated without it lacks the client
+upload handler the production admin needs.
+
 ### Migrations
 
 Development pushes the schema straight to Postgres; production never does, it
