@@ -18,9 +18,9 @@ export const EN_VOICED: Record<string, Voiced> = {
     terse: "Side projects. Client work is under /roles.",
   },
   about: {
-    warm: "I'm Kévin — fullstack web and mobile developer, freelance, based in Paris.\n\nI run Nareli, and before that traded as ooof.dev. Nine years in, across a cooperative, a food manufacturer, a SaaS and a Swiss sensor company, the pattern is the same: small teams that need one person to own the architecture, the interface, the deploy, and the phone call when it breaks.\n\nI've led teams and projects end to end, and I still prefer writing the thing. Off the clock: side projects since 2016 — bots, tools, and nine versions of this portfolio.",
-    brief: "Kévin — fullstack web and mobile developer, freelance, in Paris.\n\nI run Nareli, and traded as ooof.dev before that. Nine years across a cooperative, a manufacturer, a SaaS and a sensor company: small teams that need one person to own the whole thing.",
-    terse: "Kévin Riou. Fullstack web and mobile, freelance, Paris.\nNareli, ex ooof.dev. Nine years, whole stack.\nArchitecture to support call.",
+    warm: "I'm Kévin — fullstack web and mobile developer, freelance, in Paris. I run Nareli.\n\nNine years in — a cooperative, a food manufacturer, a SaaS, a Swiss sensor company, and now the teams that hire Nareli — the job has stayed the same: be the one person who owns the architecture, the interface, the deploy, and the call when it breaks. Lately that meant rebuilding Muscintime's Shopify store for its new brand, and shipping tools of my own: Gantt MCP, which plans a project from a conversation, and Localhost Aliases, which gives every dev server a name.\n\nI work with AI the way I'd work with a strong junior: it writes a lot, I review everything, and I stay accountable for what ships.",
+    brief: "Kévin — fullstack web and mobile, freelance, Paris. I run Nareli. Nine years of being the one person who owns the whole thing, architecture to support call; lately Muscintime's Shopify rebuild, Gantt MCP and Localhost Aliases. AI-assisted, human-reviewed.",
+    terse: "Kévin Riou. Fullstack web & mobile, freelance, Paris. Nareli. Nine years, whole stack. Ships with AI, reviews everything.",
   },
   skills: {
     warm: "The part of the job that isn't typing. Nine years across a cooperative, a manufacturer, a SaaS and a sensor company taught me more about people than about frameworks.",
