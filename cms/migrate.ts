@@ -8,6 +8,12 @@
  * `vercel-build` runs the second form before `next build`, so the tables
  * exist when the pages prerender.
  */
+// Evaluated first on purpose: Bun 1.3 trips over the lexical ↔ @lexical/react
+// import cycle when @lexical/react happens to load first ("Cannot access 't'
+// before initialization"). Settling `lexical` here puts the cycle in the
+// order Node would have used.
+import "lexical";
+
 import { getPayload } from "payload";
 
 import config from "@payload-config";
