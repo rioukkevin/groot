@@ -17,6 +17,7 @@ export interface CmsProject {
   what: string;
   detail: string[];
   images: string[];
+  /** Markdown links, `[label](url)`; a bare label when there is no URL yet. */
   links: string[];
 }
 

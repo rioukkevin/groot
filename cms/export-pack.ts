@@ -79,7 +79,7 @@ for (const locale of LOCALES) {
           ["stack", str(p.stack)],
           ["year", str(p.year, "—")],
           ["status", str(p.status)],
-          ["links", arr(p.links).map((l) => str(l.label)).join(" · ") || undefined],
+          ["links", arr(p.links).map((l) => (l.url ? `[${str(l.label)}](${str(l.url)})` : str(l.label))).join(" · ") || undefined],
           ["images", images.join(", ") || undefined],
         ]),
         "",

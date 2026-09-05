@@ -881,7 +881,9 @@ export function Terminal({
         {blocks.map((b) => (
           <div
             key={b.id}
-            // An earlier turn's answer cannot be clicked into; its hint says so.
+            // An earlier turn's answer cannot be clicked into; its hint says
+            // so. Its links still open — a link is a way out, not a control.
+            className={isPast(b.id) && isInteractive(b) ? "past" : undefined}
             style={isPast(b.id) && isInteractive(b) ? { pointerEvents: "none" } : undefined}
             aria-disabled={isPast(b.id) && isInteractive(b) ? true : undefined}
           >

@@ -194,6 +194,11 @@ button {
   text-align: left;
 }
 
+/* An earlier answer is read-only, but its links still work. */
+.past a {
+  pointer-events: auto;
+}
+
 ::selection {
   background: color-mix(in oklab, var(--accent) 30%, transparent);
 }

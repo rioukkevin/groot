@@ -72,7 +72,9 @@ export async function getShellContent(
             : str(i.path),
         )
         .filter(Boolean),
-      links: arr(p.links).map((l) => str(l.label)),
+      // Carried as markdown, `[label](url)`, so every consumer — the shell,
+      // llms.txt, the MCP tools — gets a real link in one string.
+      links: arr(p.links).map((l) => (l.url ? `[${str(l.label)}](${str(l.url)})` : str(l.label))),
     };
   }
 
