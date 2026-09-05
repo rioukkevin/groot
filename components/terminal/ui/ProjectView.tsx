@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { L, wrap } from "@/lib/terminal/format";
+import { toLines } from "@/lib/terminal/markdown";
 
 import { Carousel } from "./Carousel";
 import { ScrollView } from "./ScrollView";
@@ -98,15 +98,9 @@ export function ProjectView({
     };
   }, []);
 
-  // A paragraph keeps its own line breaks — a bullet list stays a list — and
-  // each of its lines is wrapped to the pane; one blank line closes it.
-  const lines: Line[] = [
-    ...meta,
-    ...paragraphs.flatMap((para) => [
-      ...para.split("\n").flatMap((line) => (line.trim() ? wrap(line, cols) : [""])).map((l) => L(l, "var(--dim)")),
-      L(""),
-    ]),
-  ];
+  // Each paragraph is a markdown document in its own right — headings,
+  // lists, quotes, inline marks — laid out as lines wrapped to the pane.
+  const lines: Line[] = [...meta, ...paragraphs.flatMap((para) => toLines(para, cols))];
 
   return (
     <div className="mb-3" onClick={onClaim}>

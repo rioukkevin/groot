@@ -1,53 +1,20 @@
-import { HL_CLOSE, HL_OPEN } from "@/lib/terminal/highlight";
-
 import { GlyphRain } from "../GlyphRain";
+import { Markdown } from "../markdown/Markdown";
 
 import type { GlyphAside } from "@/lib/terminal/types";
 
 /**
- * The claimed fact inside an answer is wrapped in ⟦ ⟧ by the answer layer;
- * here it becomes a lit span. The markers are never shown.
+ * What the shell says, streamed. The text is markdown — the answer layer's
+ * ⟦fact⟧ marks included — and is rendered as it arrives: an opener with no
+ * closer yet applies to the end, so nothing flickers between raw and styled.
  */
-function segments(shown: string): { text: string; hl: boolean }[] {
-  const out: { text: string; hl: boolean }[] = [];
-  let hl = false;
-  let buf = "";
-  for (const ch of shown) {
-    if (ch === HL_OPEN || ch === HL_CLOSE) {
-      if (buf) out.push({ text: buf, hl });
-      buf = "";
-      hl = ch === HL_OPEN;
-      continue;
-    }
-    buf += ch;
-  }
-  if (buf) out.push({ text: buf, hl });
-  return out;
-}
-
 export function SayBlock({ full, n, aside }: { full: string; n: number; aside?: GlyphAside }) {
   const shown = full.slice(0, n);
   const caret = n < full.length ? "▏" : "";
   const text = (
-    <span className="min-w-0 flex-1 whitespace-pre-wrap">
-        {segments(shown).map((s, i) =>
-          s.hl ? (
-            <mark
-              key={i}
-              style={{
-                background: "color-mix(in oklab, var(--accent) 22%, transparent)",
-                color: "var(--fg)",
-                fontWeight: 500,
-                padding: "0 2px",
-              }}
-            >
-              {s.text}
-            </mark>
-          ) : (
-            <span key={i}>{s.text}</span>
-          ),
-        )}
-        <span style={{ color: "var(--accent)" }}>{caret}</span>
+    <span className="min-w-0 flex-1 [&>div>:last-child]:mb-0">
+      <Markdown text={shown} />
+      <span style={{ color: "var(--accent)" }}>{caret}</span>
     </span>
   );
   return (

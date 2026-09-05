@@ -9,6 +9,10 @@ export interface Line {
   kcolor: string;
   /** Set when this row carries the fact an answer just claimed. */
   hl?: boolean;
+  /** The text is inline markdown, to be rendered rather than shown raw. */
+  md?: boolean;
+  /** Block-level look for the few kinds that need one. */
+  style?: "h1" | "h2" | "h3" | "quote" | "rule";
 }
 
 export interface SelectItem {

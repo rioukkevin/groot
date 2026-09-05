@@ -116,12 +116,12 @@ function cProject(name: string, ctx: CommandContext): BlockSpec[] {
   const p = ctx.content.projects[key];
 
   const meta: Line[] = [
-    L(p.what, "var(--fg)"),
+    { ...L(p.what, "var(--fg)"), md: true },
     L(""),
     L(pad(ctx.content.s("meta.stack", "stack"), 10) + p.stack, "var(--dim)"),
     L(pad(ctx.content.s("meta.year", "year"), 10) + p.year + "   ● " + p.status, p.statusColor),
     ...(p.links.length
-      ? [L(pad(ctx.content.s("meta.links", "links"), 10) + p.links.join(" · "), "var(--dim)")]
+      ? [{ ...L(pad(ctx.content.s("meta.links", "links"), 10) + p.links.join(" · "), "var(--dim)"), md: true }]
       : []),
     L(""),
   ];

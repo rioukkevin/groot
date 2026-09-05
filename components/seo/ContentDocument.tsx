@@ -1,3 +1,4 @@
+import { Markdown } from "@/components/terminal/markdown/Markdown";
 import type { ShellContentData } from "@/lib/terminal/shell-content";
 
 /**
@@ -35,7 +36,7 @@ export function ContentDocument({
         <h1>
           {content.name} — {content.tagline}
         </h1>
-        <p>{content.about}</p>
+        <Markdown text={content.about} />
         <p>{content.location}</p>
         {content.nowHeadline && (
           <p>
@@ -69,12 +70,12 @@ export function ContentDocument({
             {projects.map((p) => (
               <li key={p.key}>
                 <h3>{p.name}</h3>
-                <p>{p.what}</p>
+                <Markdown text={p.what} />
                 <p>
                   {p.stack} · {p.year} · {p.status}
                 </p>
                 {p.detail.map((d, i) => (
-                  <p key={i}>{d}</p>
+                  <Markdown key={i} text={d} />
                 ))}
               </li>
             ))}
