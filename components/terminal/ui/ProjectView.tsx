@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { toLines } from "@/lib/terminal/markdown";
+import { toLines, wrapInline } from "@/lib/terminal/markdown";
 
 import { Carousel } from "./Carousel";
 import { ScrollView } from "./ScrollView";
@@ -98,9 +98,14 @@ export function ProjectView({
     };
   }, []);
 
-  // Each paragraph is a markdown document in its own right — headings,
-  // lists, quotes, inline marks — laid out as lines wrapped to the pane.
-  const lines: Line[] = [...meta, ...paragraphs.flatMap((para) => toLines(para, cols))];
+  // Head matter keeps its columns, except the markdown lines (the summary,
+  // the links), which wrap to the pane like prose. Each paragraph is a
+  // markdown document in its own right — headings, lists, quotes, inline
+  // marks — laid out as lines wrapped to the pane.
+  const head: Line[] = meta.flatMap((l) =>
+    l.md ? wrapInline(l.text, Math.max(8, cols - l.k.length)).map((t, i) => ({ ...l, text: t, k: i === 0 ? l.k : " ".repeat(l.k.length) })) : [l],
+  );
+  const lines: Line[] = [...head, ...paragraphs.flatMap((para) => toLines(para, cols))];
 
   return (
     <div className="mb-3" onClick={onClaim}>
