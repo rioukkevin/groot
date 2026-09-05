@@ -101,10 +101,9 @@ export async function getShellContent(
       when: str(r.when),
       what: str(r.what),
       where: str(r.where),
-      // The label/text split is rejoined into the shell's column format.
-      detail: arr(r.detail).map((d) =>
-        d.label ? `${d.label.padEnd(10)}${str(d.text)}` : str(d.text),
-      ),
+      // Label and text travel as one string, two spaces apart; the role
+      // view splits them back and lays the label out as a hanging column.
+      detail: arr(r.detail).map((d) => (d.label ? `${d.label}  ${str(d.text)}` : str(d.text))),
     })),
     education: education.docs.map((e) => ({
       when: str(e.when),

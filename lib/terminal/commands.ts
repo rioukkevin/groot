@@ -2,6 +2,7 @@ import { diff, lines, say, select, think, tool } from "./blocks";
 import { EN_VOICED } from "../../cms/voiced.en";
 
 import { L, box, pad } from "./format";
+import { wrapInline } from "./markdown";
 
 import type { Voiced } from "../../cms/voiced.en";
 import type { ShellContent } from "./shell-content";
@@ -192,21 +193,28 @@ function cRole(key: string, ctx: CommandContext): BlockSpec[] {
           .join(", ")}.`,
       ),
     ];
+  // Each detail row is "Label     text" from the CMS; the label becomes a
+  // hanging column and the text wraps under itself, so the content holds
+  // no line breaks of its own and reads at any width.
+  const rows = e.detail.map((d) => {
+    const m = /^(\S[^ ]*(?: [^ ]+)*?)\s{2,}(.*)$/.exec(d);
+    return m ? { label: m[1], text: m[2] } : { label: "", text: d.trim() };
+  });
+  const col = Math.max(10, ...rows.map((r) => r.label.length + 2));
+  const body: Line[] = rows.flatMap((r) =>
+    wrapInline(r.text, ROLE_COLS - col).map((t, i) => ({
+      ...L(t, "var(--fg)", i === 0 ? pad(r.label, col) : " ".repeat(col), "var(--dim)"),
+      md: true,
+    })),
+  );
   return [
-    tool("Read", "(cv/roles/" + e.key + ".md)", e.detail.length + " lines", [], 420),
-    lines(
-      [
-        L(e.what, "var(--fg)", e.when + "   ", "var(--accent)"),
-        L(e.where, "var(--dim)"),
-        L(""),
-      ].concat(
-        e.detail.map((d) =>
-          L(d, d.indexOf("  ") === 0 ? "var(--dim)" : "var(--fg)"),
-        ),
-      ),
-    ),
+    tool("Read", "(cv/roles/" + e.key + ".md)", rows.length + " lines", [], 420),
+    lines([L(e.what, "var(--fg)", e.when + "   ", "var(--accent)"), L(e.where, "var(--dim)"), L(""), ...body]),
   ];
 }
+
+/** Width of a role's write-up, the same 62 columns the boxes use. */
+const ROLE_COLS = 62;
 
 /**
  * The portrait beside the words, rained in as Braille. The parameters are
