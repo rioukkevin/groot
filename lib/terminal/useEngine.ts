@@ -125,7 +125,7 @@ export function useEngine(streamSpeed: number): Engine {
 
       if (next.kind === "say") {
         const rate = Math.max(4, speed.current);
-        const id = push({ kind: "say", full: next.full, n: 0 });
+        const id = push({ ...next, n: 0 });
         setBusyLabel("Composing…");
         let n = 0;
         if (typer.current) clearInterval(typer.current);

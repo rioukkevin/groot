@@ -208,9 +208,33 @@ function cRole(key: string, ctx: CommandContext): BlockSpec[] {
   ];
 }
 
-/** Words only: the portrait that used to follow them is gone by choice. */
+/**
+ * The portrait beside the words, rained in as Braille. The parameters are
+ * GlyphRain's; change them here, they are content, not layout.
+ */
+const PORTRAIT = {
+  kind: "glyph" as const,
+  src: "/about/head.png",
+  width: 240,
+  height: 300,
+  mode: "braille" as const,
+  cell: 6,
+  saturation: 115,
+  brightness: 150,
+  contrast: 115,
+  twinkle: 50,
+  speed: 110,
+  loop: 0,
+};
+
 function cAbout(ctx: CommandContext): BlockSpec[] {
-  return [say(v(ctx, "about"))];
+  return [
+    {
+      kind: "say",
+      full: v(ctx, "about"),
+      aside: { ...PORTRAIT, alt: ctx.content.s("photo.portrait", "portrait") },
+    },
+  ];
 }
 
 function cSkills(ctx: CommandContext): BlockSpec[] {

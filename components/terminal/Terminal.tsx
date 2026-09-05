@@ -887,7 +887,7 @@ export function Terminal({
           >
             {b.kind === "echo" && <EchoBlock text={b.text} />}
             {b.kind === "think" && <ThinkBlock text={b.text} />}
-            {b.kind === "say" && <SayBlock full={b.full} n={b.n ?? 0} />}
+            {b.kind === "say" && <SayBlock full={b.full} n={b.n ?? 0} aside={b.aside} />}
             {b.kind === "tool" && (
               <ToolBlock
                 name={b.name}

@@ -54,10 +54,30 @@ export type CarouselSlide =
   | { key: string; label: string; kind: "shot"; shot: ShotItem }
   | { key: string; label: string; kind: "lines"; lines: Line[] };
 
+/**
+ * A picture rained in as glyphs beside a spoken block — right of the text on
+ * a wide screen, above it on a phone. Parameters mirror GlyphRain's props.
+ */
+export interface GlyphAside {
+  kind: "glyph";
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  mode?: "ascii" | "braille";
+  cell?: number;
+  saturation?: number;
+  brightness?: number;
+  contrast?: number;
+  twinkle?: number;
+  speed?: number;
+  loop?: number;
+}
+
 export type BlockSpec =
   | { kind: "echo"; text: string }
   | { kind: "think"; text: string }
-  | { kind: "say"; full: string; n?: number }
+  | { kind: "say"; full: string; n?: number; aside?: GlyphAside }
   | {
       kind: "tool";
       name: string;
