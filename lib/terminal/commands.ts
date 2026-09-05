@@ -218,12 +218,12 @@ const PORTRAIT = {
   width: 240,
   height: 300,
   mode: "braille" as const,
-  cell: 6,
-  saturation: 115,
-  brightness: 150,
-  contrast: 115,
+  cell: 5,
+  saturation: 100,
+  brightness: 145,
+  contrast: 100,
   twinkle: 50,
-  speed: 110,
+  speed: 100,
   loop: 0,
 };
 
