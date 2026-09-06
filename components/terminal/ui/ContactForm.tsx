@@ -16,12 +16,16 @@ interface ContactFormProps {
   state: ContactState;
   /** True when this block owns the keyboard. */
   live: boolean;
+  /** Character columns the pane shows; the bar, the cards and the envelope fit it. */
+  cols: number;
   onPick: (index: number) => void;
   onClaim: () => void;
 }
 
 /** Width of one segment of the horizontal progress bar, in characters. */
 const SEG = 14;
+/** Under this many columns the form folds to one card per row. */
+const NARROW = 60;
 
 /**
  * Horizontal coloured progress, used while the three choice steps run: one
@@ -30,9 +34,12 @@ const SEG = 14;
 function HorizontalProgress({
   reached,
   groups,
+  seg,
 }: {
   reached: number;
   groups: string[];
+  /** Characters per segment. */
+  seg: number;
 }) {
   return (
     <div className="pb-1">
@@ -49,7 +56,7 @@ function HorizontalProgress({
                     : "var(--hair)",
             }}
           >
-            {(i < reached ? "█" : i === reached ? "▓" : "░").repeat(SEG)}
+            {(i < reached ? "█" : i === reached ? "▓" : "░").repeat(seg)}
             {i < groups.length - 1 ? " " : ""}
           </span>
         ))}
@@ -67,7 +74,7 @@ function HorizontalProgress({
                     : "var(--faint)",
             }}
           >
-            {(g + " ".repeat(SEG)).slice(0, SEG)}
+            {(g + " ".repeat(seg)).slice(0, seg)}
             {i < groups.length - 1 ? " " : ""}
           </span>
         ))}
@@ -174,11 +181,13 @@ function VerticalSummary({
 function SentEnvelope({
   email,
   content,
+  cols,
 }: {
   email: string;
   content: ShellContent;
+  cols: number;
 }) {
-  const W = 46;
+  const W = Math.max(24, Math.min(46, cols - 4));
   const dash = "╌".repeat(W);
   const line = (content: string) => (
     <div className="whitespace-pre">
@@ -216,6 +225,7 @@ export function ContactForm({
   content,
   state,
   live,
+  cols,
   frozen = false,
   onPick,
   onClaim,
@@ -227,7 +237,7 @@ export function ContactForm({
   if (state.status === "sent") {
     return (
       <div className="mb-3 pl-5">
-        <SentEnvelope email={state.answers.email ?? ""} content={content} />
+        <SentEnvelope email={state.answers.email ?? ""} content={content} cols={cols} />
       </div>
     );
   }
@@ -238,7 +248,7 @@ export function ContactForm({
 
   return (
     <div className="mb-3 pl-5" onClick={onClaim}>
-      <HorizontalProgress reached={reached} groups={groups} />
+      <HorizontalProgress reached={reached} groups={groups} seg={cols < NARROW ? 8 : SEG} />
 
       <div className="whitespace-pre pt-1" style={{ color: "var(--fg)" }}>
         {step ? step.question : content.s("wizard.review", "Ready to send?")}
@@ -248,7 +258,7 @@ export function ContactForm({
         <>
           <CardGrid
             options={step.options}
-            perRow={step.perRow}
+            perRow={cols < NARROW ? 1 : step.perRow}
             index={state.choice}
             live={live}
             onPick={onPick}
@@ -282,7 +292,7 @@ export function ContactForm({
         <VerticalSummary state={state} steps={steps} content={content} />
       )}
 
-      <div className="whitespace-pre pt-2" style={{ color: "var(--faint)" }}>
+      <div className="whitespace-pre-wrap pt-2" style={{ color: "var(--faint)" }}>
         {live
           ? step?.kind === "choice"
             ? content.s("hint.cards", "←→ ↑↓ choose · ↵ confirm · ⌫ back · esc release")

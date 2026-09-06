@@ -64,6 +64,11 @@ export const litRows = (a: Answer): string[] =>
     switch (b.kind) {
       case "lines":
         return b.lines.filter((l) => l.hl).map((l) => l.k + l.text);
+      case "cards":
+        return [
+          ...b.cards.filter((c) => c.hl).map((c) => `${c.title} · ${c.value}`),
+          ...b.notes.filter((n) => n.hl).map((n) => `${n.title} · ${n.text}`),
+        ];
       case "select":
         return b.items.filter((i) => i.hl).map((i) => i.key);
       case "diff":

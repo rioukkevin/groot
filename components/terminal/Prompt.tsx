@@ -63,7 +63,7 @@ export function Prompt({
 
   return (
     <div
-      className="flex flex-none items-center gap-2 border-b border-t px-4 py-[5px]"
+      className="prompt-row flex flex-none items-center gap-2 border-b border-t px-4 py-[5px]"
       style={{ borderTopColor: "var(--hair)", borderBottomColor: "var(--hair)" }}
     >
       <span className="flex-none" style={{ color: "var(--accent)" }}>

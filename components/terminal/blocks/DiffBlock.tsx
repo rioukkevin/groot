@@ -41,7 +41,7 @@ export function DiffBlock({ path, summary, rows, footer }: DiffBlockProps) {
           return (
             <div
               key={i}
-              className="flex whitespace-pre pl-5 pr-4"
+              className="flex whitespace-pre-wrap pl-5 pr-4"
               style={
                 r.hl
                   ? HL_STYLE

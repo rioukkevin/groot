@@ -80,7 +80,34 @@ export function ScrollView({
       onOffsetChange(Math.min(maxOffset, Math.max(0, clamped + step)));
     };
     el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
+    // A finger drags the lines instead of the page: each line height of
+    // travel moves one line, and the leftover carries to the next move.
+    let touchY: number | null = null;
+    const lineH = () => el.querySelector(".min-h-\\[1\\.5em\\]")?.getBoundingClientRect().height || 20;
+    const onTouchStart = (e: TouchEvent) => {
+      touchY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (touchY === null || maxOffset === 0) return;
+      const dy = touchY - e.touches[0].clientY;
+      const lines = Math.trunc(dy / lineH());
+      if (!lines) return;
+      e.preventDefault();
+      touchY = e.touches[0].clientY;
+      onOffsetChange(Math.min(maxOffset, Math.max(0, clamped + lines)));
+    };
+    const onTouchEnd = () => {
+      touchY = null;
+    };
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd);
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
   }, [live, clamped, maxOffset, onOffsetChange]);
 
   // Scrollbar thumb: at least one cell, positioned proportionally.
@@ -97,7 +124,7 @@ export function ScrollView({
       </div>
       <div ref={boxRef} className="flex gap-2">
         <div
-          className="whitespace-pre"
+          className="min-w-0 flex-1 whitespace-pre-wrap"
           style={{ color: live ? "var(--fg)" : "var(--dim)" }}
         >
           {visible.map((l, i) => (
@@ -132,7 +159,7 @@ export function ScrollView({
           })}
         </div>
       </div>
-      <div className="whitespace-pre pt-1" style={{ color: "var(--faint)" }}>
+      <div className="whitespace-pre-wrap pt-1" style={{ color: "var(--faint)" }}>
         {live
           ? `  ${content.s("hint.scroll", "↑↓ scroll · pgup/pgdn page")} · ${pct}% · ${content.s("word.escRelease", "esc release")}`
           : `  ${frozen ? content.s("hint.past", "earlier answer · read-only") : content.s("hint.scrollReleased", "↑↓ released · click to take the arrows")} · ${pct}%`}

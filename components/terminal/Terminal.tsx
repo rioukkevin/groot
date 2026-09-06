@@ -37,6 +37,7 @@ import { ChipsBlock } from "./blocks/ChipsBlock";
 import { DemoBlock } from "./blocks/DemoBlock";
 import { DiffBlock } from "./blocks/DiffBlock";
 import { EchoBlock } from "./blocks/EchoBlock";
+import { CardsBlock } from "./blocks/CardsBlock";
 import { LinesBlock } from "./blocks/LinesBlock";
 import { PhotosBlock } from "./blocks/PhotosBlock";
 import { SayBlock } from "./blocks/SayBlock";
@@ -64,6 +65,8 @@ const STREAM_SPEED = 12;
 const PHOTO_GAP = 3;
 /** Distance from the bottom that still counts as "following the output". */
 const STICK_PX = 48;
+/** The blocks' left gutter (pl-5), taken off the pane width when counting columns. */
+const GUTTER_PX = 20;
 /**
  * Below this, a request is not worth a line in the transcript. Above it, the
  * wait is visible to a person, so the shell says what it is waiting on.
@@ -85,6 +88,8 @@ export function Terminal({
   initialLocale: Locale;
   content: Record<Locale, ShellContentData>;
 }) {
+  /** Characters per transcript line, measured; a desktop default until then. */
+  const [cols, setCols] = useState(96);
   const [locale, setLocale] = useState<Locale>(initialLocale);
   // The lookup is attached here: the server sent data, not functions.
   const content = useMemo(() => hydrate(byLocale[locale]), [byLocale, locale]);
@@ -192,6 +197,7 @@ export function Terminal({
   const ctx = useMemo<CommandContext>(
     () => ({
       content,
+      cols,
       theme,
       voice,
       photoGap: PHOTO_GAP,
@@ -199,7 +205,7 @@ export function Terminal({
       setTheme,
       setVoice,
     }),
-    [content, theme, voice],
+    [content, cols, theme, voice],
   );
   const ctxRef = useRef(ctx);
   useEffect(() => {
@@ -481,6 +487,41 @@ export function Terminal({
     return () => {
       ro.disconnect();
       mo.disconnect();
+    };
+  }, []);
+
+  // How many characters fit on one transcript line. The pane's padding and
+  // the blocks' gutter come off the width; the glyph width comes from the
+  // font itself, so a zoomed page or a fallback font measures right too.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const measure = () => {
+      const cs = getComputedStyle(el);
+      const cv = document.createElement("canvas").getContext("2d");
+      let glyph = 7.2;
+      if (cv) {
+        cv.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+        glyph = cv.measureText("M".repeat(40)).width / 40 || glyph;
+      }
+      // Tracking widens every cell past what the canvas reports, and the
+      // last column is kept free so a rounding slip cannot spill a line.
+      glyph += parseFloat(cs.letterSpacing) || 0;
+      const pad = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + GUTTER_PX;
+      const next = Math.max(30, Math.floor((el.clientWidth - pad) / glyph) - 1);
+      setCols((c) => (c === next ? c : next));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    // The web font lands after the first paint and is wider than the
+    // fallback it replaces, so the count is taken again once it is in.
+    const fonts = document.fonts;
+    fonts?.ready.then(measure);
+    fonts?.addEventListener("loadingdone", measure);
+    return () => {
+      ro.disconnect();
+      fonts?.removeEventListener("loadingdone", measure);
     };
   }, []);
 
@@ -901,6 +942,7 @@ export function Terminal({
               />
             )}
             {b.kind === "lines" && <LinesBlock lines={b.lines} />}
+            {b.kind === "cards" && <CardsBlock cards={b.cards} notes={b.notes} width={b.width} />}
             {b.kind === "diff" && (
               <DiffBlock
                 path={b.path}
@@ -934,6 +976,7 @@ export function Terminal({
             {b.kind === "voice" && (
               <VoicePicker
                 content={content}
+                narrow={cols < 60}
                 current={b.current}
                 index={b.id === activeId ? selIdx : 0}
                 live={b.id === activeId}
@@ -986,6 +1029,7 @@ export function Terminal({
                 content={content}
                 state={contact}
                 live={b.id === activeId}
+                cols={cols}
                 frozen={isPast(b.id)}
                 onPick={(i) => {
                   const step = wizardSteps[Math.min(contact.step, wizardSteps.length - 1)];

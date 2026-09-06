@@ -194,6 +194,33 @@ button {
   text-align: left;
 }
 
+/* On a touch screen: rows and controls tall enough to hit, and a prompt
+   that iOS will not zoom into (it zooms any input under 16px). */
+@media (pointer: coarse) {
+  [role="option"].row {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  input[aria-label="terminal input"] {
+    font-size: 16px;
+  }
+  .prompt-row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .tap-y {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .tap {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 /* An earlier answer is read-only, but its links still work. */
 .past a {
   pointer-events: auto;

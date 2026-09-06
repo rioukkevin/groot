@@ -102,8 +102,9 @@ export function ShaderPhoto({
     const resizeCanvas = () => {
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
+      canvas.style.width = `min(100%, ${w}px)`;
+      canvas.style.height = "auto";
+      canvas.style.aspectRatio = `${w} / ${h}`;
     };
     resizeCanvas();
 

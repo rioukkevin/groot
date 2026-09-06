@@ -21,8 +21,19 @@ export function highlightBlocks(blocks: BlockSpec[], terms: string[]): BlockSpec
     switch (b.kind) {
       case "lines":
         return { ...b, lines: b.lines.map((l) => (hit(l.k + l.text, ts) ? { ...l, hl: true } : l)) };
+      case "cards":
+        return {
+          ...b,
+          cards: b.cards.map((c) => (hit(`${c.title} · ${c.value} · ${c.text}`, ts) ? { ...c, hl: true } : c)),
+          notes: b.notes.map((n) => (hit(`${n.title} · ${n.text}`, ts) ? { ...n, hl: true } : n)),
+        };
       case "select":
-        return { ...b, items: b.items.map((it) => (hit(it.key + " " + it.k + it.text, ts) ? { ...it, hl: true } : it)) };
+        return {
+          ...b,
+          items: b.items.map((it) =>
+            hit(`${it.key} ${it.k}${it.text} ${it.sub ?? ""}`, ts) ? { ...it, hl: true } : it,
+          ),
+        };
       case "diff":
         return { ...b, rows: b.rows.map((r) => (hit(r.text, ts) ? { ...r, hl: true } : r)) };
       case "chips": {

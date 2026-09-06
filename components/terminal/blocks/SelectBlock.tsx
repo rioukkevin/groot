@@ -45,7 +45,7 @@ export function SelectBlock({
   // selection that is already visible never jolts the transcript.
   useEffect(() => {
     if (!live) return;
-    activeRow.current?.scrollIntoView({ block: "nearest" });
+    activeRow.current?.scrollIntoView({ block: "nearest", inline: "nearest" });
   }, [live, idx]);
 
   return (
@@ -65,7 +65,7 @@ export function SelectBlock({
               ref={on ? activeRow : null}
               role="option"
               aria-selected={on}
-              className="block whitespace-pre"
+              className="row block whitespace-pre"
               style={
                 it.hl && !on
                   ? HL_STYLE
@@ -82,12 +82,17 @@ export function SelectBlock({
               <span style={{ color: "var(--accent)" }}>{on ? "❯ " : "  "}</span>
               <span style={{ color: it.kcolor }}>{it.k}</span>
               {it.text}
+              {it.sub && (
+                <span className="block whitespace-pre-wrap pl-[2ch]" style={{ color: "var(--dim)" }}>
+                  {"  " + it.sub}
+                </span>
+              )}
             </button>
           );
         })}
       </div>
       <div
-        className="whitespace-pre pt-1"
+        className="whitespace-pre-wrap pt-1"
         style={{ color: "var(--faint)" }}
       >
         {live

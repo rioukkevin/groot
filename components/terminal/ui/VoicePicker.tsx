@@ -6,6 +6,8 @@ import type { ShellContent } from "@/lib/terminal/shell-content";
 import type { Voice } from "@/lib/terminal/types";
 
 interface VoicePickerProps {
+  /** A phone-width pane: the hint drops under the label instead of beside it. */
+  narrow?: boolean;
   /** An answer from an earlier turn: read-only, its hint says so. */
   frozen?: boolean;
   current: Voice;
@@ -87,6 +89,7 @@ function targetShape(tone: Tone, phase: number): number[] {
  * than cutting, so moving the cursor reads as the voice changing.
  */
 export function VoicePicker({
+  narrow = false,
   current,
   index,
   live,
@@ -180,12 +183,19 @@ export function VoicePicker({
                 >
                   {(t.label + "        ").slice(0, 8)}
                 </span>
-                <span style={{ color: "var(--faint)" }}>
-                  {(hint + " ".repeat(30)).slice(0, 30)}
-                </span>
+                {!narrow && (
+                  <span style={{ color: "var(--faint)" }}>
+                    {(hint + " ".repeat(30)).slice(0, 30)}
+                  </span>
+                )}
                 <span style={{ color: "var(--accent2)" }}>
                   {inUse ? " ● " + content.s("label.inUse", "in use") : "         "}
                 </span>
+                {narrow && (
+                  <span className="block whitespace-pre-wrap pl-[2ch]" style={{ color: "var(--faint)" }}>
+                    {"  " + hint}
+                  </span>
+                )}
               </button>
             );
           })}
@@ -200,7 +210,7 @@ export function VoicePicker({
         </div>
       </div>
 
-      <div className="whitespace-pre pt-1" style={{ color: "var(--faint)" }}>
+      <div className="whitespace-pre-wrap pt-1" style={{ color: "var(--faint)" }}>
         {live
           ? content.s("hint.voice", "↑↓ move · ↵ apply · esc release")
           : frozen

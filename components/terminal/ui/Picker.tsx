@@ -50,7 +50,7 @@ export function Picker({
         live={live}
         onPick={onPick}
       />
-      <div className="whitespace-pre pt-1" style={{ color: "var(--faint)" }}>
+      <div className="whitespace-pre-wrap pt-1" style={{ color: "var(--faint)" }}>
         {(active >= 0 ? `${content.s("label.inUse", "in use")}: ${options[active].label}   ` : "") +
           (live
             ? content.s("hint.picker", "←→ ↑↓ move · ↵ apply · esc release")

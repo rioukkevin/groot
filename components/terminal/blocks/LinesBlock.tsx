@@ -28,7 +28,7 @@ export function LinesBlock({ lines }: { lines: Line[] }) {
       {lines.map((l, i) => (
         <div
           key={i}
-          className="min-h-[1.5em] whitespace-pre"
+          className="min-h-[1.5em] whitespace-pre-wrap"
           style={l.hl ? { ...HL_STYLE } : lineStyle(l)}
         >
           <span style={{ color: l.hl ? "var(--accent)" : l.kcolor, fontWeight: 400, fontStyle: "normal" }}>{l.k}</span>

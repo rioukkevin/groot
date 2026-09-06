@@ -57,7 +57,7 @@ interface Expected {
  *  has replaced its preamble. */
 const DISPLAY: Record<string, string[]> = {
   "/now": ["diff"],
-  "/rates": ["lines"],
+  "/rates": ["cards"],
   "/contact": ["lines", "contact"],
   "/email": ["lines"],
   "/about": ["say"],
@@ -77,7 +77,7 @@ const DISPLAY: Record<string, string[]> = {
 /** The same commands when reached by "tell me more", preamble kept. */
 const DISPLAY_DEEPER: Record<string, string[]> = {
   ...DISPLAY,
-  "/rates": ["lines", "say"],
+  "/rates": ["cards", "say"],
   "/contact": ["lines", "say", "contact"],
   "/stack": ["say", "chips"],
   "/skills": ["say", "chips", "lines"],
@@ -97,7 +97,7 @@ function expected(row: Row, c: ShellContent): Expected {
     case "get_rates": {
       // Without a slot any rate row may be lit; the picker's choice is not what is under test.
       const label = s ? { development: "development", management: "management", consulting: "consulting", fixed: "fixed price" }[s] : undefined;
-      return { tools: ["get_rates"], command: "/rates", display: DISPLAY["/rates"], lit: label ?? "│" };
+      return { tools: ["get_rates"], command: "/rates", display: DISPLAY["/rates"], lit: label ?? " · " };
     }
     case "get_contact": {
       const value = s === "github" ? "github.com" : s === "linkedin" ? "in/kevinatooof" : "kevin@nare.li";

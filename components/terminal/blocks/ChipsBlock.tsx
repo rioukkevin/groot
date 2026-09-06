@@ -16,7 +16,7 @@ export function ChipsBlock({
         const solid = `color-mix(in oklab, ${ink} 85%, var(--bg))`;
         return (
         <div key={label} className="pb-2">
-          <div className="whitespace-pre" style={{ color: ink }}>
+          <div className="whitespace-pre-wrap" style={{ color: ink }}>
             {label}
           </div>
           <div className="flex flex-wrap items-center gap-x-2">

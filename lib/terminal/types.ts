@@ -23,6 +23,24 @@ export interface SelectItem {
   text: string;
   color: string;
   hl?: boolean;
+  /** A second, dimmer line under the row — where a narrow screen puts the
+   *  columns that no longer fit beside the name. */
+  sub?: string;
+}
+
+/** A rate as a card: what it is called, the price line, what it covers. */
+export interface RateCard {
+  title: string;
+  value: string;
+  text: string;
+  hl?: boolean;
+}
+
+/** A rate with no price line — a sentence under the cards. */
+export interface RateNote {
+  title: string;
+  text: string;
+  hl?: boolean;
 }
 
 export interface DiffRow {
@@ -92,6 +110,7 @@ export type BlockSpec =
       done?: boolean;
     }
   | { kind: "lines"; lines: Line[] }
+  | { kind: "cards"; cards: RateCard[]; notes: RateNote[]; width: number }
   | {
       kind: "diff";
       path: string;

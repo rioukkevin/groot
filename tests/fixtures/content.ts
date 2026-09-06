@@ -74,7 +74,8 @@ export function contentFor(locale: Locale): ShellContent {
 export function contextFor(locale: Locale): CommandContext {
   return {
     content: contentFor(locale),
-    theme: "green",
+    cols: 100,
+  theme: "green",
     voice: "warm",
     photoGap: 3,
     download: () => {},

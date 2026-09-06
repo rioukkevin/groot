@@ -6,12 +6,15 @@ import { wrapInline } from "./markdown";
 
 import type { Voiced } from "../../cms/voiced.en";
 import type { ShellContent } from "./shell-content";
-import type { BlockSpec, Line, SelectItem, Theme, Voice } from "./types";
+import type { BlockSpec, Line, RateCard, RateNote, SelectItem, Theme, Voice } from "./types";
 
 /** Everything the command layer needs from the shell, so routing stays pure. */
 export interface CommandContext {
   /** Everything the shell says, for the active locale, straight from the CMS. */
   content: ShellContent;
+  /** Character columns the transcript can show on one line, measured. A
+   *  phone gives about 45; the tables, boxes and grids lay out against it. */
+  cols: number;
   theme: Theme;
   voice: Voice;
   photoGap: number;
@@ -62,28 +65,44 @@ const v = (ctx: CommandContext, key: string): string => {
   return pick(ctx.content.voiced[key]) || pick(EN_VOICED[key]);
 };
 
+/** Under this many columns the two-column layouts fold to one. */
+const NARROW = 60;
+const narrow = (ctx: CommandContext) => ctx.cols < NARROW;
+/** The boxes' width: their designed 62, or what fits. */
+const boxCols = (ctx: CommandContext, wide = 62) => Math.max(24, Math.min(wide, ctx.cols));
+
 function cHelp(ctx: CommandContext): BlockSpec[] {
-  return [
-    say(
-      v(ctx, "help"),
-    ),
-    lines(
-      ctx.content.commands.map((c) => L("  " + c[1], "var(--dim)", pad(c[0], 15), "var(--accent)")),
-    ),
-  ];
+  const rows = narrow(ctx)
+    ? ctx.content.commands.flatMap((c) => [
+        L("", "var(--dim)", c[0], "var(--accent)"),
+        ...wrapInline(c[1], Math.max(20, ctx.cols - 4)).map((t) => L(t, "var(--dim)", "    ", "")),
+      ])
+    : ctx.content.commands.map((c) => L("  " + c[1], "var(--dim)", pad(c[0], 15), "var(--accent)"));
+  return [say(v(ctx, "help")), lines(rows)];
 }
 
 function cProjects(ctx: CommandContext): BlockSpec[] {
+  const fold = narrow(ctx);
   const items: SelectItem[] = Object.keys(ctx.content.projects).map((k) => {
     const p = ctx.content.projects[k];
-    return {
-      key: k,
-      cmd: "/project " + k,
-      k: pad(k, 17),
-      kcolor: "var(--fg)",
-      text: pad(p.stack, 41) + pad(p.year, 7) + "● " + p.status,
-      color: p.statusColor,
-    };
+    return fold
+      ? {
+          key: k,
+          cmd: "/project " + k,
+          k: pad(k, 17),
+          kcolor: "var(--fg)",
+          text: "● " + p.status,
+          color: p.statusColor,
+          sub: p.stack + (p.year && p.year !== "—" ? " · " + p.year : ""),
+        }
+      : {
+          key: k,
+          cmd: "/project " + k,
+          k: pad(k, 17),
+          kcolor: "var(--fg)",
+          text: pad(p.stack, 41) + pad(p.year, 7) + "● " + p.status,
+          color: p.statusColor,
+        };
   });
   return [
     tool(
@@ -98,11 +117,13 @@ function cProjects(ctx: CommandContext): BlockSpec[] {
     ),
     select(
       "project",
-      pad(ctx.content.s("col.name", "NAME"), 17) +
-        pad(ctx.content.s("col.stack", "STACK"), 41) +
-        pad(ctx.content.s("col.year", "YEAR"), 7) +
-        ctx.content.s("col.status", "STATUS"),
-      76,
+      fold
+        ? pad(ctx.content.s("col.name", "NAME"), 17) + ctx.content.s("col.status", "STATUS")
+        : pad(ctx.content.s("col.name", "NAME"), 17) +
+            pad(ctx.content.s("col.stack", "STACK"), 41) +
+            pad(ctx.content.s("col.year", "YEAR"), 7) +
+            ctx.content.s("col.status", "STATUS"),
+      fold ? boxCols(ctx, 76) - 2 : 76,
       items,
       ctx.content.s("hint.selectProject", "↑↓ select · ↵ open case study · esc release"),
     ),
@@ -161,22 +182,37 @@ function cProject(name: string, ctx: CommandContext): BlockSpec[] {
 }
 
 function cExperience(ctx: CommandContext): BlockSpec[] {
-  const items: SelectItem[] = ctx.content.roles.map((e) => ({
-    key: e.key,
-    cmd: "/role " + e.key,
-    k: pad(e.when, 14),
-    kcolor: "var(--accent)",
-    text: pad(e.what, 34) + e.where,
-    color: "var(--fg)",
-  }));
+  const fold = narrow(ctx);
+  const items: SelectItem[] = ctx.content.roles.map((e) =>
+    fold
+      ? {
+          key: e.key,
+          cmd: "/role " + e.key,
+          k: "",
+          kcolor: "var(--accent)",
+          text: e.what,
+          color: "var(--fg)",
+          sub: e.when + " · " + e.where,
+        }
+      : {
+          key: e.key,
+          cmd: "/role " + e.key,
+          k: pad(e.when, 14),
+          kcolor: "var(--accent)",
+          text: pad(e.what, 34) + e.where,
+          color: "var(--fg)",
+        },
+  );
   return [
     tool("Read", "(cv/experience.md)", ctx.content.roles.length + " entries · 208 tokens", [], 480),
     select(
       "role",
-      pad(ctx.content.s("col.when", "WHEN"), 14) +
-        pad(ctx.content.s("col.role", "ROLE"), 34) +
-        ctx.content.s("col.where", "WHERE"),
-      62,
+      fold
+        ? ctx.content.s("col.role", "ROLE")
+        : pad(ctx.content.s("col.when", "WHEN"), 14) +
+            pad(ctx.content.s("col.role", "ROLE"), 34) +
+            ctx.content.s("col.where", "WHERE"),
+      fold ? boxCols(ctx) - 2 : 62,
       items,
       ctx.content.s("hint.selectRole", "↑↓ select · ↵ open role · esc release"),
     ),
@@ -202,19 +238,21 @@ function cRole(key: string, ctx: CommandContext): BlockSpec[] {
   });
   const col = Math.max(10, ...rows.map((r) => r.label.length + 2));
   const body: Line[] = rows.flatMap((r) =>
-    wrapInline(r.text, ROLE_COLS - col).map((t, i) => ({
+    wrapInline(r.text.replace(/\s*\n\s*/g, " "), boxCols(ctx) - col).map((t, i) => ({
       ...L(t, "var(--fg)", i === 0 ? pad(r.label, col) : " ".repeat(col), "var(--dim)"),
       md: true,
     })),
   );
   return [
     tool("Read", "(cv/roles/" + e.key + ".md)", rows.length + " lines", [], 420),
-    lines([L(e.what, "var(--fg)", e.when + "   ", "var(--accent)"), L(e.where, "var(--dim)"), L(""), ...body]),
+    lines(
+      narrow(ctx)
+        ? [L(e.what, "var(--fg)"), L(e.when + " · " + e.where, "var(--dim)"), L(""), ...body]
+        : [L(e.what, "var(--fg)", e.when + "   ", "var(--accent)"), L(e.where, "var(--dim)"), L(""), ...body],
+    ),
   ];
 }
 
-/** Width of a role's write-up, the same 62 columns the boxes use. */
-const ROLE_COLS = 62;
 
 /**
  * The portrait beside the words, rained in as Braille. The parameters are
@@ -281,7 +319,9 @@ function cEducation(ctx: CommandContext): BlockSpec[] {
     tool("Read", "(cv/education.md)", ctx.content.education.length + " " + ctx.content.s("meta.entries", "entries"), [], 380),
     lines(
       ctx.content.education.flatMap((e) => [
-        L(e.what, "var(--fg)", pad(e.when, 14), "var(--accent)"),
+        ...wrapInline(e.what, Math.max(20, ctx.cols - 14)).map((t, i) =>
+          L(t, "var(--fg)", i === 0 ? pad(e.when, 14) : pad("", 14), "var(--accent)"),
+        ),
         L(pad("", 14) + e.where, "var(--dim)"),
       ]),
     ),
@@ -302,13 +342,26 @@ function cNow(ctx: CommandContext): BlockSpec[] {
   ];
 }
 
+/** Narrowest card worth drawing three abreast, in characters. */
+const CARD_MIN = 24;
+const CARD_MAX = 30;
+
 function cRates(ctx: CommandContext): BlockSpec[] {
-  return [
-    lines(box(ctx.content.rates.map(([l, v]) => pad(l, 14) + v), 62)),
-    say(
-      v(ctx, "rates"),
-    ),
-  ];
+  // "€600 / day · fullstack, web and mobile" is a card: price, then what it
+  // covers. A rate with no price line, like a fixed price, is a note under.
+  const cards: RateCard[] = [];
+  const notes: RateNote[] = [];
+  for (const [title, value] of ctx.content.rates) {
+    const [head, ...rest] = value.split("·").map((s) => s.trim());
+    if (rest.length) cards.push({ title, value: head, text: rest.join(" · ") });
+    else notes.push({ title, text: value });
+  }
+  const abreast = Math.max(1, cards.length);
+  const three = ctx.cols >= abreast * CARD_MIN + (abreast - 1);
+  const width = three
+    ? Math.min(CARD_MAX, Math.floor((ctx.cols - (abreast - 1)) / abreast))
+    : Math.max(20, Math.min(46, ctx.cols));
+  return [{ kind: "cards", cards, notes, width }, say(v(ctx, "rates"))];
 }
 
 function cPhotos(ctx: CommandContext): BlockSpec[] {
@@ -478,7 +531,7 @@ function cContact(ctx: CommandContext): BlockSpec[] {
           "",
           ctx.content.contactFooter,
         ],
-        62,
+        boxCols(ctx),
       ),
     ),
     say(
@@ -514,7 +567,7 @@ function cTheme(arg: string, ctx: CommandContext): BlockSpec[] {
     {
       kind: "picker",
       title: ctx.content.s("label.theme", "THEME · 5 dark · 3 light"),
-      perRow: 4,
+      perRow: narrow(ctx) ? 1 : 4,
       current: ctx.theme,
       onSelect: (v) => ctx.setTheme(v as Theme),
       options: THEME_CARDS.map(([value, label, ink, ground]) => ({

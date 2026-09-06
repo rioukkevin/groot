@@ -140,7 +140,7 @@ export function ProjectView({
         </div>
       </div>
       {hasShots && (
-        <div className="whitespace-pre pl-5" style={{ color: "var(--faint)" }}>
+        <div className="whitespace-pre-wrap pl-5" style={{ color: "var(--faint)" }}>
           {live
             ? "  " + content.s("hint.project", "←→ screenshots · ↑↓ write-up · ↵ open full screen")
             : "  " + (frozen ? content.s("hint.past", "earlier answer · read-only") : content.s("hint.released", "released · click to take the keyboard back"))}

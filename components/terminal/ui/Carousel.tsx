@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef } from "react";
+
 import { EdgePhoto } from "./EdgePhoto";
 import { ImageSpotlight, spotlightStrings } from "./ImageSpotlight";
 
@@ -38,6 +40,8 @@ export function Carousel({
   openSignal = 0,
   content,
 }: CarouselProps) {
+  // A swipe steps the carousel: the start is remembered, the end decides.
+  const touch = useRef<{ x: number; y: number } | null>(null);
   if (!slides.length) return null;
   const i = Math.min(Math.max(0, index), slides.length - 1);
   const slide = slides[i];
@@ -45,7 +49,21 @@ export function Carousel({
     onIndexChange((i + d + slides.length) % slides.length);
 
   return (
-    <div className="mb-3 pl-5" onClick={onClaim}>
+    <div
+      className="mb-3 pl-5"
+      onClick={onClaim}
+      onTouchStart={(e) => {
+        touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }}
+      onTouchEnd={(e) => {
+        const from = touch.current;
+        touch.current = null;
+        if (!from) return;
+        const dx = e.changedTouches[0].clientX - from.x;
+        const dy = e.changedTouches[0].clientY - from.y;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+      }}
+    >
       <div className="whitespace-pre" style={{ color: "var(--faint)" }}>
         {`  ${title}`}
       </div>
@@ -53,7 +71,7 @@ export function Carousel({
       <div className="flex items-center gap-3">
         <button
           aria-label="previous slide"
-          className="flex-none px-1"
+          className="tap flex-none px-1"
           style={{ color: live ? "var(--accent)" : "var(--faint)" }}
           onClick={() => step(-1)}
         >
@@ -96,7 +114,7 @@ export function Carousel({
 
         <button
           aria-label="next slide"
-          className="flex-none px-1"
+          className="tap flex-none px-1"
           style={{ color: live ? "var(--accent)" : "var(--faint)" }}
           onClick={() => step(1)}
         >
