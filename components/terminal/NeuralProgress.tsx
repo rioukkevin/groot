@@ -16,6 +16,8 @@ import type { Locale } from "@/lib/terminal/locale";
 /** How long the final line stays before the widget steps out of the way. */
 const LINGER_MS = 7000;
 const BAR_CELLS = 12;
+/** "réseau de neurones en ligne · 6,7 Mo" is 37 characters. */
+const MIN_WIDTH_CH = 38;
 
 /**
  * The story told while the full model arrives, from the top-right corner.
@@ -85,7 +87,13 @@ export function NeuralProgress({
   else line = content.s("nn.failed", "staying on the light model");
 
   return (
-    <div className="flex flex-col items-end whitespace-pre text-right" style={{ color: tone }}>
+    <div
+      className="flex flex-col items-end whitespace-pre text-right"
+      // Wide enough for the longest line in either language, so the corner
+      // keeps one footprint while the story changes and nothing in the header
+      // row shifts under the visitor.
+      style={{ color: tone, minWidth: `${MIN_WIDTH_CH}ch` }}
+    >
       {/* Only the story line is announced; the bar changes every few
           milliseconds and would drown a screen reader. */}
       <span role="status">{line}</span>

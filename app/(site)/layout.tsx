@@ -9,12 +9,16 @@ import "../globals.css";
  * omits box drawing (U+2500–257F) and block elements (U+2580–259F), so every
  * frame, meter bar and separator in the transcript fell back to a font with a
  * different advance width and broke the monospace grid.
+ *
+ * Subset to the glyphs the shell draws (scripts/subset-fonts.sh, sources in
+ * fonts/full): the four faces together weigh about what one full face did,
+ * and all four are preloaded on the first visit. Light is not shipped —
+ * nothing renders at weight 300.
  */
 const jetbrainsMono = localFont({
   variable: "--font-jetbrains-mono",
   display: "swap",
   src: [
-    { path: "../fonts/JetBrainsMono-Light.woff2", weight: "300", style: "normal" },
     { path: "../fonts/JetBrainsMono-Regular.woff2", weight: "400", style: "normal" },
     { path: "../fonts/JetBrainsMono-Italic.woff2", weight: "400", style: "italic" },
     { path: "../fonts/JetBrainsMono-Medium.woff2", weight: "500", style: "normal" },

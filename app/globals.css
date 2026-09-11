@@ -2,6 +2,11 @@
 
 /* Palette ported from the design, then extended to seven.
 
+   --faint is the quietest text that is still text (hints, the help link, the
+   idle meter). Every theme's value sits just past 4.5:1 against its --bg, the
+   WCAG AA floor for 13px type, so a hint is dim but never illegible; --dim
+   stays a step above it.
+
    --cursor is defined once as var(--accent): a custom property resolves where
    it is used, and every theme block below redefines --accent on the same
    element, so the caret follows the theme without each palette restating it. */
@@ -9,7 +14,7 @@
   --bg: #0c0c0c;
   --fg: #cfcdc7;
   --dim: #8a8880;
-  --faint: #565550;
+  --faint: #7c7b77;
   --hair: #242422;
   --echo: rgba(150, 150, 145, 0.15);
   --accent: oklch(0.8 0.115 152);
@@ -27,7 +32,7 @@
   --bg: #0d0b0a;
   --fg: #d6cfc4;
   --dim: #8d8374;
-  --faint: #575046;
+  --faint: #7f7a72;
   --hair: #26221e;
   --echo: rgba(160, 140, 120, 0.15);
   --accent: oklch(0.8 0.115 42);
@@ -42,7 +47,7 @@
   --bg: #0a0c0e;
   --fg: #c7cfd6;
   --dim: #7d8a94;
-  --faint: #4e585f;
+  --faint: #747c81;
   --hair: #1e2428;
   --echo: rgba(140, 160, 175, 0.15);
   --accent: oklch(0.82 0.1 220);
@@ -57,7 +62,7 @@
   --bg: #0d0a0e;
   --fg: #d2c9d6;
   --dim: #8f8296;
-  --faint: #59505f;
+  --faint: #7f7884;
   --hair: #251f29;
   --echo: rgba(165, 140, 180, 0.15);
   --accent: oklch(0.78 0.13 310);
@@ -73,7 +78,7 @@
   --bg: #0b0b0b;
   --fg: #d4d4d4;
   --dim: #8a8a8a;
-  --faint: #555555;
+  --faint: #7a7a7a;
   --hair: #232323;
   --echo: rgba(150, 150, 150, 0.15);
   --accent: oklch(0.88 0 0);
@@ -90,7 +95,7 @@
   --bg: #f4f2ed;
   --fg: #26241f;
   --dim: #6a675e;
-  --faint: #a8a49a;
+  --faint: #706d66;
   --hair: #dedad1;
   --echo: rgba(40, 36, 28, 0.09);
   --accent: oklch(0.5 0.12 152);
@@ -105,7 +110,7 @@
   --bg: #ffffff;
   --fg: #1a1d21;
   --dim: #5b6570;
-  --faint: #9aa4ae;
+  --faint: #6e757c;
   --hair: #e4e8ec;
   --echo: rgba(20, 30, 40, 0.07);
   --accent: oklch(0.55 0.15 252);
@@ -120,7 +125,7 @@
   --bg: #faf7f2;
   --fg: #2b2723;
   --dim: #6e675f;
-  --faint: #a9a29a;
+  --faint: #75706a;
   --hair: #e8e2d9;
   --echo: rgba(60, 45, 30, 0.07);
   --accent: oklch(0.52 0.14 45);
