@@ -69,7 +69,7 @@ const DISPLAY: Record<string, string[]> = {
   "/skills": ["chips", "lines"],
   "/education": ["tool", "lines"],
   "/photos": ["tool", "shots"],
-  "/resume": ["tool", "action"],
+  "/resume": ["tool", "action", "action"],
   "/theme": ["picker"],
   "/voice": ["voice"],
   "/help": ["lines"],
