@@ -78,7 +78,6 @@ export function contextFor(locale: Locale): CommandContext {
   theme: "green",
     voice: "warm",
     photoGap: 3,
-    download: () => {},
     setTheme: () => {},
     setVoice: () => {},
   };

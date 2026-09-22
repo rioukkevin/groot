@@ -1,4 +1,6 @@
 import { Markdown } from "@/components/terminal/markdown/Markdown";
+import { LANG_LABEL, resumesFor } from "@/lib/terminal/resume";
+
 import type { ShellContentData } from "@/lib/terminal/shell-content";
 
 /**
@@ -135,6 +137,13 @@ export function ContentDocument({
                 ) : (
                   value
                 )}
+              </li>
+            ))}
+            {resumesFor(content.locale).map((f) => (
+              <li key={f.lang}>
+                <a href={f.href} hrefLang={f.lang} download>
+                  {t("seo.resume", "CV (PDF)")} · {LANG_LABEL[f.lang]}
+                </a>
               </li>
             ))}
           </ul>

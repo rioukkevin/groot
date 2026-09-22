@@ -1,4 +1,5 @@
 import { SITE_URL } from "./seo";
+import { LANG_LABEL, resumesFor } from "./terminal/resume";
 
 import type { ShellContentData } from "./terminal/shell-content";
 import type { Locale } from "./terminal/locale";
@@ -25,6 +26,7 @@ export function llmsTxt(c: ShellContentData, locale: Locale, full: boolean) {
 
   out.push("## Contact", "");
   for (const [label, value] of c.contact) out.push(`- ${label}: ${value}`);
+  for (const f of resumesFor(locale)) out.push(`- CV (PDF, ${LANG_LABEL[f.lang]}): ${SITE_URL}${f.href}`);
   if (c.contactFooter) out.push("", c.contactFooter);
   out.push("");
 

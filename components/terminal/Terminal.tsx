@@ -73,14 +73,6 @@ const GUTTER_PX = 20;
  */
 const SLOW_MS = 35;
 
-function downloadResume(text: string) {
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([text], { type: "text/plain" }));
-  a.download = "kevin-riou.txt";
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-
 export function Terminal({
   initialLocale,
   content: byLocale,
@@ -201,7 +193,6 @@ export function Terminal({
       theme,
       voice,
       photoGap: PHOTO_GAP,
-      download: () => downloadResume(content.resume),
       setTheme,
       setVoice,
     }),
@@ -1067,7 +1058,7 @@ export function Terminal({
             {b.kind === "photos" && <PhotosBlock items={b.items} />}
             {b.kind === "shots" && <ShotsBlock items={b.items} content={content} />}
             {b.kind === "action" && (
-              <ActionBlock actionLabel={b.actionLabel} act={b.act} />
+              <ActionBlock actionLabel={b.actionLabel} href={b.href} act={b.act} />
             )}
           </div>
         ))}

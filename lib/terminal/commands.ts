@@ -2,6 +2,7 @@ import { diff, lines, say, select, think, tool } from "./blocks";
 import { EN_VOICED } from "../../cms/voiced.en";
 
 import { L, box, pad } from "./format";
+import { LANG_LABEL, resumesFor } from "./resume";
 import { wrapInline } from "./markdown";
 
 import type { Voiced } from "../../cms/voiced.en";
@@ -18,7 +19,6 @@ export interface CommandContext {
   theme: Theme;
   voice: Voice;
   photoGap: number;
-  download: () => void;
   setTheme: (t: Theme) => void;
   setVoice: (v: Voice) => void;
 }
@@ -548,13 +548,16 @@ function cEmail(ctx: CommandContext): BlockSpec[] {
 }
 
 function cResume(ctx: CommandContext): BlockSpec[] {
+  const files = resumesFor(ctx.content.locale);
   return [
-    tool("Write", "(dist/kevin-riou.txt)", "1 file · 4.1 kB", [], 620),
-    {
-      kind: "action",
-      actionLabel: "↓ download kevin-riou.txt",
-      act: ctx.download,
-    },
+    tool("Read", "(public/cv/)", `${files.length} files · PDF`, [], 300),
+    ...files.map(
+      (f): BlockSpec => ({
+        kind: "action",
+        actionLabel: `↓ ${f.name} · ${LANG_LABEL[f.lang]}`,
+        href: f.href,
+      }),
+    ),
   ];
 }
 

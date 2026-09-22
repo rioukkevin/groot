@@ -638,7 +638,7 @@ function plan(intent: string, q: string, ctx: CommandContext, lastCommand: strin
     case "get_photos":
       return { calls: [], answer: c.s("ans.photos", "Every block is one terminal cursor — hover to resolve the photo:"), command: "/photos", terms: [] };
     case "get_resume":
-      return { calls: [], answer: c.s("ans.resume", "A plain-text CV, one file:"), command: "/resume", terms: [] };
+      return { calls: [], answer: c.s("ans.resume", "The CV, as a PDF:"), command: "/resume", terms: [] };
     case "set_theme": {
       const t = findTheme(q);
       return t

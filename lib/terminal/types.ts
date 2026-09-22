@@ -128,7 +128,13 @@ export type BlockSpec =
     }
   | { kind: "photos"; items: PhotoItem[] }
   | { kind: "shots"; items: ShotItem[] }
-  | { kind: "action"; actionLabel: string; act: () => void }
+  | {
+      kind: "action";
+      actionLabel: string;
+      /** A link — downloaded, since it is a file — rather than a callback. */
+      href?: string;
+      act?: () => void;
+    }
   | { kind: "scroll"; title: string; lines: Line[]; rows: number }
   | { kind: "carousel"; title: string; slides: CarouselSlide[] }
   | { kind: "demo"; panel: "primitives" }

@@ -303,7 +303,7 @@ export const FR_COMMANDS: Record<string, string> = {
   "/photos": "travaux, écrans, logos",
   "/rates": "tarifs journaliers et comment je chiffre",
   "/contact": "email, github, linkedin",
-  "/resume": "télécharger un CV en texte brut",
+  "/resume": "télécharger le CV (PDF)",
   "/theme": "huit palettes, cinq sombres et trois claires",
   "/voice": "chaleureux · bref · sec",
   "/clear": "effacer la transcription",
